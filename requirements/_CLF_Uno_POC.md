@@ -1,8 +1,8 @@
 ### Notes on the Uno POC
 
-Steve T, October 2020, for discussion (v3)
+Steve T, October 2020, for discussion (v4)
 
-**** TODO : improve the structure, reorganise some sections.
+**** STILL TODO : improve the structure, reorganise some sections.
 
 The proof-of-concept project demonstrates an interactive 'Viewer' component for Intensity Map images.
 
@@ -14,22 +14,28 @@ If time allows, and if the WinUI-3 preview looks to be stable enough, we will co
 
 The 'pan-and-zoom' features described here are aspirations, not necessarily 'requirements', and the precise details of the UI gestures will be guided by what's convenient and 'natural' to do in Uno. We'll design the software to support Pan/Zoom, and implement as much as is feasible within the POC timeframe.
 
-Questions outstanding :
-- Numeric display of the max intensity in the current image ? Or graphical bar display ? Could see this from the Normalisation controls but only if you're in Auto mode.
-- Display of current timestamp ? Not necessary, this would flick past too rapidly.
-- Display of current frames-per-sec ; as acquired, and as displayed ?
-
 Challenges ?
-- Most of the UI is straightforward
-- However we'll be converting the 2-D datasets (typically 640x480 pixels but possibly up to 2048x2048) into false-coloured images presented in a viewing panel of a different size, together with cross-section graphs, while preserving the aspect ratio, and supporting pan/zoom. An update rate of 30fps should be feasible provided we can use the built-in 'media' transformations to map between coordinate spaces and perform the necessary resampling of the image ; if these operations have to be done in C# code, performance may be an issue at 2048x2048.
+- Most of the UI is straightforward.
+- The most complicated aspect is the support for panning and zooming, which is highly desirable but could conceivably be left out of the POC if it's troublesome.
+- We'll be converting the 2-D datasets (typically 640x480 pixels but possibly up to 2048x2048) into false-coloured images presented in a viewing panel of a different size, together with cross-section graphs, while preserving the aspect ratio, and ideally supporting pan/zoom. An update rate of 30fps should be feasible provided we can use the highly optimised built-in 'media' transformations to map between the 'dataset' and 'image' coordinate spaces and perform the necessary resampling. If these operations have to be done in our own C# code, performance may be an issue with 2048x2048 datasets.
 
-#### Overall structure : Viewer Component and two 'Apps'
+#### Viewer Component and two 'Apps'
 
 The project will develop a reusable component, the 'IntensityMapViewer', and two Apps that demonstrate its use.
 
 The Viewer component will be packaged as an Assembly (ie a DLL) that is referenced by the two demo Apps.
 
+By having two apps that use the same Viewer component, we'll be demonstrating that we've mastered the techniques necessary to encapsulate the code and resources for a particular UI in a distinct Assembly.
+
+The apps won't be in communication with 'real' data sources such as cameras and motors - everything will be simulated. The idea here is to exercise the IntensityMapViewer from the point of view of (A) functionality and appearance, and (B) performance.
+
 The two Apps look roughly like this :
+
+##### App #1, a useful Intensity Map Viewer
+
+Runs on Windows/UWP and Linux, and in a slightly stripped down form on a Android tablet and as web page.
+
+The app window has two sections : the Viewer itself, and a Navigation control that selects the source of the data that's being displayed by the Viewer.
 
     +-----------------------------------------------+---+---+
     | Intensity Map Viewer                          | - | x |
@@ -49,6 +55,8 @@ The two Apps look roughly like this :
     +-------------------------------------------------------+
     | Status bar ?                                          |
     +-------------------------------------------------------+
+
+#### App #2 - a Test Harness for the Viewer and other UI controls
 
     +-----------------------------------------------+---+---+
     | Test Harness App                              | - | x |
@@ -70,31 +78,11 @@ The two Apps look roughly like this :
     | Status bar ?                                          |
     +-------------------------------------------------------+
 
-The 'viewer' app is just that, a viewer. It has two sections : the Viewer itself, and a Navigation control that selects the source of the data that's being displayed by the Viewer.
+This app has a Navigation panel at the left, where the selection made determines the content shown in the Main panel. 
 
-The 'test harness' app has a Navigation panel at the left. The selection made here determines the content shown in the Main panel. For the demo there will be just two choices : (A) a panel that shows the same content as the Viewer app, and (B) a panel that shows textual debug messages generated by the Viewer. In future versions we'll add further panels that exercise other UI controls that we develop at CLF, for example controls that render a Synoptic, a Motor Control panel, and a Dependency Network. 
+For the demo there will be just two choices : (1) a panel that shows the same content as the Viewer app, and (2) a panel that shows textual debug messages generated by the Viewer. In future versions we'll add further panels that exercise other UI controls that we develop at CLF, for example controls that render a Synoptic, a Motor Control panel, and a Dependency Network. 
 
-By having two apps that use the same Viewer component, we'll be demonstrating that we've mastered the techniques necessary to encapsulate the code and resources for a particular UI in a distinct Assembly.
-
-The apps won't be in communication with 'real' data sources such as cameras and motors - everything will be simulated. The idea here is to exercise the IntensityMapViewer from the point of view of (A) functionality and appearance, and (B) performance.
-
-#### View Models
-
-The UI for the Viewer will be backed by ViewModel classes coded in C#, for which CLF will provide an initial implementation. We'll use the MVVM library from the Community Toolkit.
-
-Where we're simulating 'live' data such as streams of camera images, an internal timer will trigger the ViewModels to cycle through a baked-in sequence of snapshots loaded from resource files, at a rate of up to 30fps.
-
-Rather than have the entire UI defined in a single 'flat' ViewModel, we'll structure things so that there are distinct ViewModel classes for distinct aspects of the overall Viewer control. This will make it easier for us to develop variants of the Viewer in future, for example one that displays several Intensity Map images side by side in a grid.
-
-Provisionally, we'll define ViewModels for
-- Viewer (top level VM, composed of other VM's plus some simple flags and Commands)
-- ImageDisplay, with optional 'corss sectional profile' graphs and Pan/Zoom functionality
-- SourceSettings (to control gain, exposure etc in the simulated camera)
-- PresentationSettings (false-colour selection, enabling profile graphs etc)
-
-Probably each of these VM's will be associated with a UserControl that provides the visuals. The 'main' UserControl for the Viewer will contain instances of the other UserControls, mirroring the composition structure of the ViewModel classes.
-
-*Just ideas, we'll take advice on this !!*
+*In a future WinUI-3 version the 'debug messages' panel would be a distinct Window that can be dragged onto second monitor. This is painful to achieve in UWP because of threading issues (but would be a good 'nice-to-have').*
 
 #### IntensityMap visuals
 
@@ -116,11 +104,12 @@ Let's briefly mention
 - Intensity Map
 - Data Set
 - Image
-- Profiles
+- Profile graphs ('cross sections')
 - Laser Scientist
 - Administrator
+- Preference
 
-The raw data captured by a camera is always in 'grey-scale' format ; typically 640x480 pixels with 8 bit pixels that represent an intensity ('brightness') from 0 (black) to 255 (bright white). Typically, the pixel values in a captured dataset don't cover the entire range of values - in many cases we'll see values between zero and about 20, which makes for a very dim image if these are shown as greyscale pixels on the display. The data range can be improved by adjusting the camera settings (gain and/or exposure time) but as a convenience we provide a facility for stretching the data in the Viewer itself, by a process we call 'Normalisation'.
+The intensity data captured by a camera is always in 'grey-scale' format ; typically 640x480 pixels with 8 bit pixels that represent an intensity (rightness') from 0 (black) to 255 (bright white). Typically, the pixels in a captured dataset don't cover the entire range of values - in many cases we'll see values between zero and about 20, which makes for a very dim image if these are shown as greyscale pixels on the display. The visual representation can be improved by adjusting the camera settings (gain and/or exposure time) but as a convenience we provide a facility for stretching the data in the Viewer itself, by a process we call 'Normalisation'.
 
 When an image is displayed on screen, a mapping formula is applied which typically (A) normalises the pixel values to a specified maximum value, and (B) maps the normalised values into false colours via a palette.
 
@@ -160,7 +149,7 @@ Then look at low level signals, that can cause problems :
 - Pan/zoom in to the region around the laser spot in the image.
 - Check the image and cross-sections for smoothness. Are there any sudden variations in intensity ? We don't want images and profiles to be too 'spiky'.
 
-#### Detailed description of the required functionality
+#### Details of the required functionality
 
 Referring to the Balsamiq wireframes, we explain here *exactly* how you interact with the UI.
 
@@ -173,7 +162,7 @@ Referring to the Balsamiq wireframes, we explain here *exactly* how you interact
 - Saving to a file
 - Simulating errors such as loss-of-comms (tbd, maybe have a check box on the status bar ?)
 - Resizing the window (image display changes size to make use of available space).
-- Closing and re-starting, settings are preserved (?)
+- Closing and re-starting, settings are preserved
 - Selecting a different Theme (? colours adjusted for use when wearing goggles ?)
 
 Here's a sketch to identify the regions we'll be talking about :
@@ -202,6 +191,9 @@ Here's a sketch to identify the regions we'll be talking about :
     | |      #################################  | +---------------------+ |
     | |                                         | | Save Image ...      | |
     | +-----------------------------------------+ +---------------------+ |
+    | +-----------------------------------------------------------------+ |
+    | | Other Miscellaneous UI elements here                            | |
+    | +-----------------------------------------------------------------+ |
     +---------------------------------------------------------------------+
 
 The 'Source-Selector' is an independent UserControl that might contain a combo box or a tree view as discussed earlier. It is not part of the 'Intensity-Map-Panel', but it determines which 'Source' is displayed in that Panel.
@@ -212,19 +204,20 @@ The Intensity-Map-Panel is a UserControl that is composed of several other UserC
 - A 'Profile-Graph-Settings' panel that configures the graph displays below and to the left of the image.
 - A button to bring up a panel that configures the settings of the current Source, including the camera's gain and exposure time.
 - A button to bring up a modal dialog that lets you save the current image as a disk file.
+- Miscellaneous elements, such as a display of the current fps, whether we're in Pause/Play mode, maximum intensity value.
 
 Generally speaking, when you hover over something a useful tooltip pops up.
 - When you hover over the image, the tooltip shows the X-Y position (in terms of Source pixel indeces) and the un-normalised intensity value.
 - When you hover over a button, the tooltip provides a brief explanation of what will happen if you click.
 - When you hover over a UI element that is disabled (greyed-out) the tooltip explains why that feature is not available. For example if the Source Settings button is greyed out because that Panel is already active, the tooltip will mention that.
 
-Tooltip details tbd.
+Tooltip details tbd. 
 
 Of course, if there's no mouse (as would be the case when the Viewer is running on a Tablet) we presumably can't have tooltips. *Hmm, would there be a way of dragging a little 'puck' over the UI, on a topmost 'adorner layer', which would bring up a tooltip-like visual when you hover over something ? Seems like that should be possible, although I've never seen it done.*
 
-Keyboard shortuts will be provided for common actions, tbd. 
+Keyboard shortuts will be provided for common actions, tbd. For example, zoom-out-completely ; play/pause.
 
-We might also make use of the mouse wheel for making certain adjustments, possibly in conjunction with the Shift and Ctrl keys. Details tbd, but the scroll wheel will be very handly for zooming in and out of the image, and also might provide a very convenient way to tweak the 'max intensity value' that we'll describe later.
+We might also make use of the mouse wheel for making certain adjustments, possibly in conjunction with the Shift and Ctrl keys. Details tbd, but the scroll wheel will be very handly for zooming in and out of the image, and also might provide a very convenient way to tweak the 'max intensity value' for image normalisation that we'll describe later.
 
 We'll now describe the details of how this works.
 
@@ -232,7 +225,7 @@ We'll now describe the details of how this works.
 
 This is the most interesting and important element in the UI. It shows a greyscale or false-colour image that represents the 2D map of the beam intensity as acquired by the selected Source. 
 
-Alongside the image are graphs that show cross-sections through the data at particular X and Y coordinates, which we refer to as the 'cross-section coordinates'. 
+Alongside the image are graphs that show cross-sections through the dataset at particular X and Y coordinates, which we refer to as the 'cross-section coordinates'. 
 - The left hand graph shows the intensity values along a vertical slice passing through the specified point - that is, values which all have the same X coordinate. 
 - The graph at the bottom shows values along a horizontal slice - that is, values which all have the same Y coordinate.
 
@@ -245,32 +238,42 @@ You can adjust the 'cross-section coordinates' (the X-Y positions of the 'cross-
 
 The cross section coordinates are constrained to lie at valid pixel indeces, eg 0-639 for the X coordinate with a 640-width image.
 
+The displayed coordinates and values always pertain to the underlying dataset, not to the coordinates in the displayed image or the RGB values.
+
 ##### Panning and zooming
 
 You can pan and zoom the image, to zero in on interesting features. Panning and zooming will be controlled by mouse gestures or touch gestures, and possibly via keyboard shortcuts (tbd).
 
 With a mouse :
 - Panning is achieved by holding the mouse left button down over the image, and dragging. When you drag, the image follows the mouse position.
-- Zooming is achieved by rolling the mouse wheel while the pointer is over the image. A forward roll 'zooms in', a backward roll 'zooms out', keeping the same piece of the image 'under' the mouse pointer at all times.
+- Zooming is achieved by rolling the mouse wheel while the pointer is over the image, with 'ctrl' held down. A forward roll 'zooms in', a backward roll 'zooms out', keeping the same piece of the image 'under' the mouse pointer at all times.
 - You can pan and zoom at the same time.
 
-Nice if we could select a rectangular region via click-and-drag, with that becoming the zoomed-in area when you release ?
+Nice if we could select a rectangular 'rubber-band' region via click-and-drag, with that becoming the zoomed-in area when you terminate the gesture.
 
 On a touch screen, panning and zooming are achieved with 'pinch' gestures.
 
-The idiom we have in mind here is that of an 'infinite canvas' where the dataset is rendered with its top left corner at the canvas origin, and zooming/panning adjust the position and size of the viewport through which you look at the canvas. You can zoom in and out indefinitely, and pan to anywhere you want, with no constraints. Constraints might seem useful (eg limiting the zoom out factor to x10), but as soon as you add constraints, strange and non-intuitive behaviours ensue when you encounter edge cases.
+Some mice don't have a scroll wheel, so we'll provide alternative ways of zooming in and out, eg keyboard shortcuts and right-click menu options. Another possibility would be to make a double-click 'zoom-in' by 2x, and a shift-double-click 'zoom-out'.
+
+There are two possible idioms here :
+1. Constrained panning and zooming, where you can't zoom out further than an amount that would make the image fill the available space either vertically or horizontally, and you can't zoom in by more than a factor of say 10x. You can't pan by an amount that would make the entire image go outside of the viewport - a thin strip will always be visible.
+1. Unconstrained panning and zooming, with an 'infinite canvas' where the dataset is rendered with the top left corner at the canvas origin, and zooming/panning adjust the position and size of the viewport through which you look at the canvas. You can zoom in and out indefinitely, and pan to anywhere you want, with no constraints. Constraints might seem useful (eg limiting the zoom out factor to x10), but with constraints, strange and non-intuitive behaviours ensue when you encounter edge cases. In particular, it's not possible to keep the same part of the image 'under' the mouse pointer at all times.
+
+We'll either support just #1, the 'constrained' option, or we'll make a choice available via a Preferences setting.
 
 *Hmm, on UWP and WinUI, and Android, do we have any say in how this works, or is the behavior baked into the framework ? I'm basing this on how mouse based zooming and dragging is done in WPF.*
 
-*In some pan/zoom designs, scroll bars appear at the right and bottom when you're zoomed in. I don't think this is necessary or useful.*
+*In some pan/zoom designs, scroll bars appear at the right and bottom when you're zoomed in. This is not deemed necessary or useful.*
 
 As you pan and zoom, the lines representing the 'cross-section coordinates' move along with the underlying image.
 
 It is essential that the proper aspect ratio is preserved in the image display that is generated from the dataset. So depending on how the user has panned and zoomed, the area assigned for the display might need to show 'blank' areas that lie outside the bounds of the IntensityMap. 
 
+According to a Preferences setting, when the Source selection is changed the Pan/Zoom settings are either restored, or reset to 'fully-zoomed-out'.
+
 Typical scenarios are illustrated below.
 
-    Scenario 1
+ Scenario 1
 
         +---------------------------------+
     ##  |::::::::|:::::::::::::::::::     |     The image area is wider than is necessary
@@ -286,7 +289,7 @@ Typical scenarios are illustrated below.
          ############################
          ############################
 
-    Scenario 2
+Scenario 2
 
         +---------------------------------+
         |                                 |     We've zoomed out a long way, so the dataset 
@@ -302,7 +305,7 @@ Typical scenarios are illustrated below.
             #########################
             #########################
 
-    Scenario 3
+Scenario 3
 
         +---------------------------------+
     ##  |::::::::|::::::::::::::::::::::::|     We've zoomed in a long way, so we're showing 
@@ -318,7 +321,7 @@ Typical scenarios are illustrated below.
          #################################
          #################################
     
-    Scenario 4
+Scenario 4
 
         +---------------------------------+
     ##  |:::::::::::::::::::::::::::::::::|     We're zoomed in a long way, and we've panned 
@@ -334,7 +337,7 @@ Typical scenarios are illustrated below.
          #################################
          #################################
 
-    Scenario 5
+Scenario 5 - explicitly NOT SUPPORTED IN CONSTRAINED MODE
 
         +---------------------------------+
         |            *                    |     Zoomed out a very long way.
@@ -352,25 +355,25 @@ Typical scenarios are illustrated below.
 
 
 
-The logic to present the appropriate segments of the dataset to the View layer, according to the requested Pan and Zoom parameters, will be implemented in the ViewModel layer and the associated helper functions. This will allow us to keep the View itself as straightforward and 'dumb' as possible, it will just see an Image that needs to be painted in the assigned area. 
+*The logic to present the appropriate segments of the dataset to the View layer, according to the requested Pan and Zoom parameters, will be implemented in the ViewModel layer and the associated helper functions. This will allow us to keep the View itself as straightforward and 'dumb' as possible ; the View it will just see an Image that needs to be painted in the assigned area.*
 
-The cross-section graphs will also be exposed to the View as Images. 
+*The cross-section graphs will also be exposed to the View as Images.*
 
-The graphs will probably be created using the Skia pixel-oriented API's to write onto bitmaps, as part of the process that builds the coloured 'image' bitmap from the active area of the dataset. 
+*The graphs will probably be created using the Skia pixel-oriented API's to write onto bitmaps, as part of the process that builds the coloured 'image' bitmap from the active area of the dataset.*
 
 https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/graphics/skiasharp/basics/pixels
 
-The graphs could be created as separate Images, which would reside in a distinct area of the View, or the two graphs and the intensit-map itself could be drawn onto a single bitmap painted into a single area. Need to explore the tradeoffs. 
+*The graphs could be created as separate Images, which would reside in a distinct area of the View, or the two graphs and the intensity-map itself could be drawn onto a single bitmap painted into a single area. Need to explore the tradeoffs.* 
 
 ##### Intensity graphs
 
 The graphs indicate the intensity along a particular slice of the intensity map, as determined by the X-Y position. 
 
-*Does the graph draw straight lines between adjacent points, or does it draw vertical lines or bars to indicate the value at each point ? Maybe a 'Preferences' choice.*
+*Does the graph draw straight lines between adjacent points, or does it draw vertical lines or bars to indicate the value at each point ? Maybe a 'Preferences' choice. If we're short of time, lines between adjacent points is all we need.*
 
-It might be useful to show tick marks and numeric labels, but this is not essential as the information can be obtained via tooltips.
+It would be nice to show tick marks and numeric labels, but this is not essential as the information can be obtained via tooltips.
 
-*We would prefer that the graphs for the POC are implemented using custom code in SkiaSharp, as this will give us an excuse to see how to do graphics in Skia. Also our requirements don't align particularly well with the features in standard Graph packages.*
+*We would prefer that the graphs for the POC are implemented using custom code in SkiaSharp, as this will give us an excuse to see how to do graphics in Skia. Also our particular requirements don't align particularly well with the features in standard Graph packages.*
 
 The graphs keep in sync as you change the X-Y position and pan/zoom the image.
 
@@ -399,7 +402,9 @@ If a source goes offline while it's selected as the active one, the display will
 
 ##### Configuring the 'source' settings
 
-Clicking on the 'Source Settings' button brings up a modal dialog (see Balsamiq wireframe) that controls how the image is acquired by the camera associated with the currently active Source. Image acquisition continues, and image updates continue to happen, but interaction with the main panel is disabled while the dialog is active. So for example you can't change which Source is selected, or modify the Normalisation. *Is 'modal' behaviour OK ? Or should this be a 'modeless' window which floats above the main panel, and doesn't prevent you from interacting with it ? In which case it would change appropriately if you were to select a different source.*
+Clicking on the 'Source Settings' button brings up a modal dialog (see Balsamiq wireframe) that controls how the image is acquired by the camera associated with the currently active Source. Image acquisition continues, and image updates continue to happen, but interaction with the main panel is disabled while the dialog is active. So for example you can't change which Source is selected, or modify the Normalisation. 
+
+*Is 'modal' behaviour OK ? Or should this be a 'modeless' window which floats above the main panel, and doesn't prevent you from interacting with it ? In which case it would change appropriately if you were to select a different source. If time allows, we'll support both options, selected via Preferences.*
 
 While the dialog is active you can adjust the Gain and the Exposure time. Changes in these values are reflected immediately in the image display ; increasing the Gain or exposure time will make the intensity of the next acquired image brighter.
 
@@ -411,18 +416,18 @@ Exposure times can be be between 2uS and 100uS, selected either via the slider o
 
 The 'Trigger' option offers two choices :
 
-- Internal trigger, where the source provides images at full speed, 30fps
-- External trigger, where the source provides images at full speed, 10fps
+- Internal trigger, where the source provides images at full speed, 30fps.
+- External trigger, where the source provides images at full speed, 10fps.
 
 It is not necessary to provide a 'Binning' option.
 
-An option to 'invert' the data might be useful, but is not required here and would be very easy to add.
+An option to 'invert' the data might be useful, but is not required here and would be easy to add.
 
 ##### Operations applied to the IntensityMap acquired from the Source
 
-In the POC, a 'typical' image for each Source will be loaded from a disk file, with values in the range 0-255, and Gain/Exposure scaling will be applied to simuate the data being acquired from a camera.
+In the POC, a 'typical' image for each Source will be loaded from a disk file, with values in the range 0-255. Gain/Exposure scaling will be applied to simulate the data being acquired from a camera, and random noise will be added so as to make successive datasets slightly different and give the illusion that we're actually capturing live images.
 
-For the avoidance of doubt, here's a picture of the pipeline of operations that are applied in the POC to the Intensity Map datasets that we load from a disk file that represents a 'Source'. We want to simulate the acquisition of a stream of datasets that are not all identical, so we cleverly add a small amount of noise.
+For the avoidance of doubt, here's a picture of the pipeline of operations that are applied in the POC to the Intensity Map datasets that we load from a disk file that represents a 'Source'. 
 
 All the relevant maths happens either in the ViewModels or in the helper function we'll provide for mapping the 8-bit values to RGB.
 
@@ -472,7 +477,7 @@ The final output from this pipeline is what gets displayed as an RGB image in th
 
 It's important that the original aspect ratio is preserved when the image is displayed. Under no circumstances will the image be 'stretched' to fill the available space - if necessary a blank area will be left at the side of the image or above and/or below it. 
 
-The pixel dimensions of the displayed image will almost certainly not match the pixel dimensions of the dataset, so some kind of resampling will need to be performed. Best if we do this via the UWP media API's rather than in our code, as that will be more efficient.
+The pixel dimensions of the displayed image will almost certainly not match the pixel dimensions of the dataset, so some kind of resampling will need to be performed. Best if we do this via the UWP media API's rather than in our code, as that will be more efficient. Ideally the stretching will be performed by duplicating pixel values rather than a technique such as bilinear interpolation, as this will make 'dead' pixels more clearly obvious ; however this may not be an option in the Image API's.
 
 ##### Choosing how the intensity map data is presented 
 
@@ -487,6 +492,8 @@ The maximum intensity value can be set via a sider or via text entry. In 'auto' 
 
 *It might be useful to be able to also adjust the 'manual' value using the mouse's scroll wheel. Perhaps while the mouse is hovering over the image with 'shift' held down, or while the mouse is hovering over the 'Presentation' panel.*
 
+In a future version we might provide improved methods of adjusting the contrast and brightness, eg as in tools such as ImageJ.
+
 The 'colour map' chooser is a combo box that offers a choice of three options :
 - Greyscale
 - The 'JET' colour scheme
@@ -500,25 +507,17 @@ Binary mode is a nice-to-have, not essential. It would be implemented entirely i
 
 ##### Enabling/disabling the Profile graphs
 
-If you disable the displaying of the graphs, the Image expands to fill the available space - preserving the aspect ratio of the image.
+If you disable the displaying of the graphs, the Image expands to fill the available space - preserving the aspect ratio so that square pixels stay square, and a circular beam profile stays circular.
 
 ##### Configuring the 'height' of the Profile graphs
 
-Nice if we could adjust the 'height' that is available to display the Intensity value, independently on the Horizontal and Vertical graphs. Using something ike a Grid Splitter ?
-
-##### Choosing the X/Y coordinates for the Profile graphs
-
-Mouse double-click on the image, dragging a slider, numeric entry, dragging the lines drawn onto the image. ALREADY DESCRIBED ABOVE.
-
-##### Pan and zoom
-
-ALREADY DESCRIBED ABOVE.
+Nice if we could adjust the 'height' that is available to display the Intensity value, independently on the Horizontal and Vertical graphs. Using a Grid Splitter ?
 
 ##### Pausing and resuming acquisition
 
 The default is to refresh the displayed image and graphs as every new frame of data is acquired. However it will be useful to be able to 'freeze' the display to show the most recent dataset, in order to examine the image in detail without it changing.
 
-A switch labelled 'Play/Pause' will be provided (exact label tbd).
+A switch labelled 'Play/Pause' will be provided (exact label tbd). The current mode will be indicated in the UI. When we're paused, it might be useful to display the timestamp of the image that's being displayed (not relevant for the POC as the images are synthetic).
 
 ##### Saving to a file
 
@@ -528,11 +527,13 @@ Saving is enabled on when acquisition is paused.
 
 You can save either just the main image (in which case the horizontal and vertical lines identifying the cross section coordinates are not included), or you can save the image and also the graphs.
 
+In a future version that works with actual live images we'll provide an option to save the acquired dataset, eg as a '.pgm' file (Portable Greymap).
+
 ##### Simulating errors such as loss-of-comms
 
 Tbd, maybe have a check box on the status bar ?
 
-Status bar: frame rate, timestamp (for eventual app not necessarily for POC)
+This lets us demonstrate how loss-of-comms is indicated in the UI.
 
 ##### Resizing the window 
 
@@ -577,6 +578,58 @@ The choice here could be a Preferences setting.
 The default is (A), we restore the Source when the Viewer is restarted.
 
 If we run out of time for the POC, (B) will be fine.
+
+### Technical notes
+
+Ideas for the internals and the implementation, for discussion.
+
+#### View Models
+
+The UI for the Viewer will be backed by ViewModel classes coded in C#, for which CLF will provide an initial implementation. We'll use the MVVM library from the Community Toolkit.
+
+Where we're simulating 'live' data such as streams of camera images, an internal timer will trigger the ViewModels to cycle through a baked-in sequence of snapshots loaded from resource files, at a rate of up to 30fps.
+
+Rather than have the entire UI defined in a single 'flat' ViewModel, we'll structure things so that there are distinct ViewModel classes for distinct aspects of the overall Viewer control. This will make it easier for us to develop variants of the Viewer in future, for example one that displays several Intensity Map images side by side in a grid.
+
+Provisionally, we'll define ViewModels for
+- Viewer (top level VM is composed of other VM's plus some simple flags and Commands)
+- ImageDisplay, with optional 'cross sectional profile' graphs and Pan/Zoom functionality
+- SourceSettings (to control gain, exposure etc in the simulated camera)
+- PresentationSettings (false-colour selection, enabling profile graphs etc)
+- ViewerPreferences
+- AppPreferences
+
+Probably each of these VM's will be associated with a UserControl that provides the visuals. The 'main' UserControl for the Viewer will contain instances of the other UserControls, mirroring the composition structure of the ViewModel classes.
+
+*Just ideas, we'll take advice on this !!*
+
+ViewModel interactions - use the Messenger that comes with the Toolkit MVVM ?
+
+#### ViewModel sketches
+
+Initially just 'interface' definitions, for discussion.
+
+#### Pan/Zoom
+
+The pan/zoom settings would be coordinated via a helper class.
+
+#### Exception handling
+
+Nothing should cause a crash, any uncaught exceptions should be caught at the top level and logged somewhere useful.
+
+#### Async
+
+Nice if we can have some async commands with a proper bulletproof implementation behind them, illustrating best practice.
+
+Also, good patterns for initialising class instances from async calls that are forbidden in the constructor.
+
+#### Image resampling
+
+Several methods to choose from :
+- Bilinear, as implemented in the Media API' ?
+- Binning, NxN as required by the zoom factor
+- Duplication, so we get crisp squares rather than fuzzily smoothed pixels
+- Bresenhams, to select particular lines/columns and ignore the rest
 
 
 
