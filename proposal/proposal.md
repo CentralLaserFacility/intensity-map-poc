@@ -229,8 +229,6 @@ Binary mode is a nice-to-have, not essential. It would be implemented entirely i
 
 ### Panning and zooming
 
-The 'pan-and-zoom' features described here are aspirations, not necessarily requirements. The precise details of the UI gestures will be guided by what's convenient and natural to do in Uno. We'll design the software to support Pan/Zoom, and implement as much as is feasible within the POC timeframe.
-
 You can pan and zoom the image, to zero in on interesting features. Panning and zooming will be controlled by mouse gestures or touch gestures, and possibly via keyboard shortcuts (tbd). In large part, we would like to replicate standard (Windows Photos app) behaviour.
 
 With a mouse :
