@@ -113,7 +113,7 @@ Here's a sketch to identify the regions we'll be talking about :
     +-----------------------------------------------+
     | Source-Selector                               |
     +-----------------------------------------------+
-
+    
     Intensity-Map-Panel
     +---------------------------------------------------------------------+
     | +-----------------------------------------+ +---------------------+ |
@@ -193,6 +193,8 @@ If the chosen source goes offline, the display will continue to show the most re
 
 Clicking on the 'Source Settings' button brings up a modal dialog (see right-hand panel of first wireframe) that controls how the parameters of the active Source. Intensity map acquisition continues, and image updates continue to happen. The Settings button on the main panel is disabled while this dialog is open to prevent multiple dialogs being spawned. The source selector combobox is also disabled while this panel is open. The rest of the control on the main panel should function as normal. 
 
+The source settings dialog can be a simple flyout/ popup control, where as soon as the user click on something outside this control, the flyout will disappear, thus there will be less need to maintain checks for enabling and disabling controls as suggested above. 
+
 While the dialog is active you can adjust the Gain and the Exposure time. Changes in these values are reflected immediately in the image display ; increasing the Gain or Exposure time will make the intensity of the next acquired intensity map brighter.
 
 Adjustments can be made either via sliders or by text entry. Text entries are validated, and changes are applied when focus leaves the text box or when you press 'ENTER'.
@@ -219,6 +221,8 @@ The maximum intensity value can be set via a sider or via text entry. In 'auto' 
 
 As an optional extra, it might be useful to be able to also adjust the 'manual' value using the mouse's scroll wheel. Perhaps while the mouse is hovering over the image with 'shift' held down, or while the mouse is hovering over the 'Presentation' panel.
 
+Probably a replication of how default windows controls work is a good way to start, where when the slider control is selected, the scrolling of mouse wheel change the slider's value.
+
 The 'colour map' chooser is a combo box that offers a choice of three options :
 - Greyscale
 - The 'JET' colour scheme
@@ -242,6 +246,8 @@ On a touch screen, panning and zooming are achieved with 'pinch' gestures.
 
 An alternative will be needed for mice that don't have scroll wheels, eg keyboard shortcuts and right-click menu options. Another possibility would be to make a double-click 'zoom-in' by 2x, and a shift-double-click 'zoom-out', or buttons for zoom in/out/reset.
 
+Horizontal and vertical scroll bars can also be added, it will allow to keep the track of how much zoomed the image is and which region of the image is currently displayed under the image area with respect to the whole image. In preference settings, user can show/hide the scroll bars as per the need and personal preference.
+
 Constraints on pan and zoom are as for Windows Photos:
 - Maximum zoom is constrained to some amount (e.g. 10x)
 - User can only zoom out to the point that the full image fits into available space
@@ -260,6 +266,8 @@ When zoomed in to a subsection of the image, the cross-section graphs should onl
 Typical scenarios are illustrated below.
 
  Scenario 1
+
+Only showing the 'valid' portion of horizontal graph, may create confusion for the user, one suggestion is that we can always keep our horizontal and vertical graphs of same size as the image area for 1-1 mapping and where there is a blank area it will just show no values in the profile graphs. So there is no confusion of having image within an image.
 
         +---------------------------------+
     ##  |::::::::|:::::::::::::::::::     |     The image area is wider than is necessary
@@ -291,7 +299,7 @@ Scenario 2
         +---------------------------------+
          #################################
          #################################
-    
+
 
 Scenario 3
 
@@ -308,7 +316,6 @@ Scenario 3
         +---------------------------------+
          #################################
          #################################
-
 
 ### Enabling/disabling the cross-section graphs
 
