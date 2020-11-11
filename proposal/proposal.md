@@ -246,8 +246,6 @@ On a touch screen, panning and zooming are achieved with 'pinch' gestures.
 
 An alternative will be needed for mice that don't have scroll wheels, eg keyboard shortcuts and right-click menu options. Another possibility would be to make a double-click 'zoom-in' by 2x, and a shift-double-click 'zoom-out', or buttons for zoom in/out/reset.
 
-Horizontal and vertical scroll bars can also be added, it will allow to keep the track of how much zoomed the image is and which region of the image is currently displayed under the image area with respect to the whole image. In preference settings, user can show/hide the scroll bars as per the need and personal preference.
-
 Constraints on pan and zoom are as for Windows Photos:
 - Maximum zoom is constrained to some amount (e.g. 10x)
 - User can only zoom out to the point that the full image fits into available space
@@ -641,4 +639,8 @@ In a future version that works with actual live images we'll provide an option t
 ### Preferences
 
 Long term we might want to distinguish between 'App Preferences' and 'IntensityMapViewer Preferences' and persist them in separate files. App preferences would pertain to all the various UI's we might build, and accommodate settings such as the Theme and Font Scaling. IntensityMapViewer preferences would pertain just to the Viewer, and represent the X-Y indicator settings.
+
+### Scrollbar
+
+Horizontal and vertical scroll bars can also be added, it will allow to keep the track of how much zoomed the image is and which region of the image is currently displayed under the image area with respect to the whole image. In preference settings, user can show/hide the scroll bars as per the need and personal preference.
 
