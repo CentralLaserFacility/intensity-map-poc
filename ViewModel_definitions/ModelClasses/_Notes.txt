@@ -1,0 +1,7 @@
+﻿//
+// _Notes.txt
+//
+
+This project defines concrete Model classes.
+
+

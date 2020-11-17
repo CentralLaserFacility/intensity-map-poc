@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "BuLTM945kBpOpqRnkH0aYg++2I3KQKqpWwZc+2m0Nb6eUUXigAWJn3NQgdFqq5WNhIFhQ/LDzoFy+YJSLknbDA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jqg93617\\OneDrive - Science and Technology Facilities Council\\Documents\\UNO\\IntensityMapViewer\\ViewModels\\ViewModels.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jqg93617\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.0.0-preview3\\microsoft.toolkit.mvvm.7.0.0-preview3.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.3\\system.runtime.compilerservices.unsafe.4.5.3.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
+  "logs": []
+}

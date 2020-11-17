@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="IntensityMapViewer.IIntensityMapDisplayPanel">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgEAGAAAAACAACAAAAAAABAAAAACEAAgAAAAgA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapDisplayPanel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IIntensityMapImagePresentationSettings">
+    <Position X="8.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapImagePresentationSettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IIntensityMapProfileDisplaySettings">
+    <Position X="8.25" Y="2.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAIAAEAAAAAAAAAAABAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapProfileDisplaySettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IIntensityMapSourceDescriptor">
+    <Position X="12.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAgAIAAAAAEAAEABQAAAAAAAAAAAAAwAAABAA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapSourceDescriptor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IIntensityMapSourceChoices">
+    <Position X="4.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapSourceChoices.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IIntensityMapSourceSettings">
+    <Position X="4.25" Y="2.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAIAAEAAAAAA=</HashCode>
+      <FileName>ViewModel interfaces\IIntensityMapSourceSettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IntensityMapViewer.IUserPreferences">
+    <Position X="0.5" Y="5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAEhgABAAAAAAAAAAAAAAAAAAiAAAAIAAAAAAAIAAAA=</HashCode>
+      <FileName>ViewModel interfaces\IUserPreferences.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "r5iEz9rCIjSBYPZX970KVXVnzsDwogHPqFc4ymy/mt5rTGRCgNh+2q8i6hg7ZZjOx9wnRMp6H47sLoFTn5LI/w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jqg93617\\OneDrive - Science and Technology Facilities Council\\Documents\\UNO\\IntensityMapViewer\\Common\\Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jqg93617\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\jqg93617\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
