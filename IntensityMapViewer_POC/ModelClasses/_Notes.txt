@@ -1,0 +1,12 @@
+﻿//
+// _Notes.txt
+//
+
+This project defines concrete Model classes.
+
+Potentially we could cache results in an LRU container,
+so as to avoid repeatedly computing the same transformation ?
+
+
+
+

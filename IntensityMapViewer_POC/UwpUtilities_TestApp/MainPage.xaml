@@ -1,0 +1,33 @@
+﻿<Page
+  x:Class="UwpUtilities_TestApp.MainPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:UwpUtilities_TestApp"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  Background="Green"
+>
+  <Grid>
+
+    <StackPanel Orientation="Vertical">
+
+      <TextBlock Text="This is a simple UWP app to exercise the 'UwpUtilities'" FontSize="20" />
+
+      <Button Click="{x:Bind ButtonClicked}">Click to change image</Button>
+
+      <Image 
+        x:Name="m_image" 
+        Source="/Assets/Ivry-Gitlis.jpg"
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Top" 
+        Height="310" 
+        Width="411"
+        Margin="66,86,0,0" 
+        Visibility="Visible"
+      />
+
+    </StackPanel>
+  </Grid>
+
+</Page>

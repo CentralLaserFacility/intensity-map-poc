@@ -1,0 +1,83 @@
+//
+// _Questions.txt
+//
+
+Documentation for WriteableBitmap.PixelBuffer ??
+
+OK to enable C# 9 with 'IsExternalInit' and <LangVersion> ??
+
+Spurious intellisense errors in Visual Studio
+  Happens consistently in Uno projects ...
+  Also in 'ordinary' UWP and WPF projects ... XAML designer ???
+
+After a source code change, and running the app again, 
+sometimes changes haven't been applied ?
+
+Image display, and Profiles
+  All with UWP ?? : WriteableBitmap ; Canvas / Line etc
+  All with Skia ??
+  Mixture ?? eg WriteableBitmap for image, Skia for graphs ??
+
+Skia support in WinUI ??
+  Simple text project had version incompatibilities ...
+
+Syncfusion UWP books in our Teams, or in our private GitHub ?
+
+UWP end-of-life ???
+https://nicksnettravels.builttoroam.com/net5-crossplatform/
+Microsoft hasn't confirmed this (and in much the same way that Silverlight was never discontinued, I doubt anyone will say this) but UWP as it stands today is effectively end-of-life. I doubt it will get NetStandard 2.1 or .NET 5 support.
+
+---------------------
+
+Skeleton : 
+  Dependency Injection
+    Services configured in 'App.Loaded'
+    Working with XUnit tests ; statics ??
+  Writing 'log' messages
+    System.Diagnostics.Debug 
+    Scrolling window in the app ?
+    Enabling categories of messages etc
+  Handling uncaught exceptions
+  Timer at the 'app' level ?
+  Messenger, or MediatR ?
+
+-----------------------------
+
+View Models structure
+
+  Parent-Child nesting, with links back to parent
+
+  DisplayPanel
+    Source
+      SourceSettings
+      ProfileDisplaySettings
+    ImagePresentationSettings
+    UserPreferences
+
+  Events ...
+
+    New image acquired
+    Setting changed
+    Profile Display position changed
+
+    Hmm - centralised dispatch, via a 'hub' ???
+    Or maybe just rely on INotifyPropertyChanged ??
+
+  Timer - created in 'App' ?? or per ViewModel ??
+
+  Handling 'Loaded' and 'Unloaded' events ??
+
+--------------------------
+
+  IDisplayPanelViewModel etc ... worth it ?
+  Interfaces useful when initially thinking things through,
+  but possibly little benefit now if we're building a tree
+  of concrete classes ...
+
+---------------
+
+  IIntensityMap etc - still useful as we'll plug in
+  improved implementations over time ...
+
+
+
