@@ -1,9 +1,0 @@
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\bin\Debug\netstandard2.0\Common.deps.json
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\bin\Debug\netstandard2.0\Common.dll
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\bin\Debug\netstandard2.0\Common.pdb
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.csprojAssemblyReference.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.AssemblyInfoInputs.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.AssemblyInfo.cs
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.csproj.CoreCompileInputs.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.dll
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\Common\obj\Debug\netstandard2.0\Common.pdb

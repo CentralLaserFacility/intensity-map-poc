@@ -1,9 +1,0 @@
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\bin\Debug\netstandard2.0\DomainDefinitions.deps.json
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\bin\Debug\netstandard2.0\DomainDefinitions.dll
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\bin\Debug\netstandard2.0\DomainDefinitions.pdb
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.csprojAssemblyReference.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.AssemblyInfoInputs.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.AssemblyInfo.cs
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.csproj.CoreCompileInputs.cache
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.dll
-C:\Users\jqg93617\OneDrive - Science and Technology Facilities Council\Documents\UNO\IntensityMapViewer\DomainDefinitions\obj\Debug\netstandard2.0\DomainDefinitions.pdb

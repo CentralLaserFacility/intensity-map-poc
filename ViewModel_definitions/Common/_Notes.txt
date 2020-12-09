@@ -1,9 +1,0 @@
-﻿//
-// _Notes.txt
-//
-
-This project defines useful helpers and utilities.
-
-Hmm, need to document these and also implement more tests.
-
-
