@@ -11,8 +11,12 @@ namespace IntensityMapViewer
   // Represets an 'actual' source of IntensityMap data
   //
 
-  public interface ISourceViewModel : ISourceDescriptorViewModel
+  public interface ISourceViewModel : IViewModel
   {
+
+    IDisplayPanelViewModel Parent { get ; }
+
+    ISourceDescriptorViewModel SourceDescriptor { get ; }
 
     // We can adjust the gain, exposure-time and so on
 

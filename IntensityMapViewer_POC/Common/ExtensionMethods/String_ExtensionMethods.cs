@@ -10,8 +10,6 @@ namespace Common.ExtensionMethods
 
     public static string Repeated ( this string s, int nRepeats )
     {
-      // Hmm, surely there's a neater 'functional' way ???
-      // Yes, but it would be much less efficient than this state-based method ...
       var stringBuilder = new System.Text.StringBuilder(s.Length*nRepeats) ;
       nRepeats.Repeat(
         () => stringBuilder.Append(s)

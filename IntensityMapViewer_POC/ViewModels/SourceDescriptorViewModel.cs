@@ -33,6 +33,13 @@ namespace IntensityMapViewer
       nameof(CommsStatus)
     ) ;
 
+    public ISourceViewModel? Parent { get ; } 
+    
+    public SourceDescriptorViewModel ( ISourceViewModel? parent = null )
+    {
+      Parent = parent ;
+    }
+
   }
 
 }

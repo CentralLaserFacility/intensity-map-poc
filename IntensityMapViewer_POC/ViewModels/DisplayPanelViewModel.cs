@@ -5,6 +5,11 @@
 namespace IntensityMapViewer
 {
 
+  //
+  // The 'View' for this will be a UserControl
+  // packaged as a component in it own DLL.
+  //
+
   public class DisplayPanelViewModel 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   , IDisplayPanelViewModel
@@ -26,11 +31,16 @@ namespace IntensityMapViewer
       ) ;
     }
 
+    //
+    // This constructor creates instances of all its 'child'
+    // ViewModels, and those in turn create their own children.
+    //
+
     public DisplayPanelViewModel ( )
     {
       CurrentSource             = new SourceViewModel(this) ;
       ImagePresentationSettings = new ImagePresentationSettingsViewModel(this) ;
-      UserPreferences           = new UserPreferencesViewModel() ;
+      UserPreferences           = new UserPreferencesViewModel(this) ;
     }
 
   }

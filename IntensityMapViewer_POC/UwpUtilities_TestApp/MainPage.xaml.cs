@@ -23,7 +23,9 @@ namespace UwpUtilities_TestApp
 
     private void MainPage_Loaded ( object sender, Windows.UI.Xaml.RoutedEventArgs e )
     {
-      // m_image.Source = UwpUtilities.Helpers.CreateWriteableBitmap_ForTesting_A() ;
+      // Just so we can verify that we can create a VM and all its children,
+      // by setting a breakpoint here and looking with the debugger ...
+      // var mainViewModel = new IntensityMapViewer.DisplayPanelViewModel() ;
     }
 
     private int m_nClicks = 0 ;

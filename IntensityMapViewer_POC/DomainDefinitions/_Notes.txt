@@ -2,21 +2,21 @@
 // _Notes.txt
 //
 
-This project defines interfaces and enumerated types pertaining to the IntensityMapViewer.
+This 'Domain Definitions' project defines interfaces and enumerated types pertaining to the IntensityMapViewer.
 
-There are 'ViewModel' types, and 'Model' types. 
+There are 'ViewModel' interface types, and 'Model' types. 
 
 The ViewModel classes will act as data-binding sources for the corresponding 'View' classes,
 which render the ViewModel properties as visual elements.
 
 In a 'real' application a ViewModel class will often connect to a corresponding 'Model' class,
-but here we're simplifying things and putting all the functionality in the ViewModels.
+but here we're simplifying things and putting pretty much all the functionality in the ViewModels.
 
 Hmm, it might have been better to avoid the term 'ViewModel' in the names, and just
 treat them as 'observable objects' ?? But that could cause confusion further down the line
 when we probably will have distinct 'Model' and 'ViewModel' classes.
 
-We use interfaces for pretty much everything :
+We use interfaces for several reasons :
 
 - so that we can easily swap in different implementations
   when we move from the 'proof-of-concept' demo to a 'real' Viewer
@@ -25,6 +25,8 @@ We use interfaces for pretty much everything :
 - so that we can use 'mocks' in tests.
 
 - so we can avoid the use of 'static' for singletons.
+
+
 
 
 

@@ -12,6 +12,8 @@ namespace IntensityMapViewer
   public interface ISourceSettingsViewModel : IViewModel 
   {
 
+    ISourceViewModel Parent { get ; }
+
     ImageDimensions SourceImageDimensions { get ; set ; } 
 
     ImageUpdateRate UpdateRate { get ; set ; }

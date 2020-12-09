@@ -14,6 +14,8 @@ namespace IntensityMapViewer
   public interface IImagePresentationSettingsViewModel : IViewModel
   {
 
+    IDisplayPanelViewModel Parent { get ; }
+
     ColourMapOption ColourMapOption { get ; set ; }
 
     NormalisationMode NormalisationMode { get ; set ; }

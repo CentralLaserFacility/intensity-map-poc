@@ -18,12 +18,9 @@ namespace Common_UnitTests
     [Fact]
     public void Verified_WorksAsExpected ( )
     {
-      3.Verified(x=>x==3).Should().Be(3) ;
-    }
-
-    [Fact]
-    public void XX_WorksAsExpected ( )
-    {
+      3.Verified(
+        x => x is 3
+      ).Should().Be(3) ;
     }
 
   }

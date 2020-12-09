@@ -53,7 +53,7 @@ namespace Common.ExtensionMethods
       }
       else if ( x_canBeNull is System.Type )
       {
-        return x_canBeNull.GetTypeName() ;
+        return x_canBeNull.GetType().Name ;
       }
       else if ( x_canBeNull is System.Exception exception )
       {

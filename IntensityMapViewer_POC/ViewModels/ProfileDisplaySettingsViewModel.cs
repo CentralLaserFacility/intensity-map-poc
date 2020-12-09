@@ -57,9 +57,9 @@ namespace IntensityMapViewer
       ).ToList() 
     ) ;
 
-    public SourceViewModel Parent { get ; }
+    public ISourceViewModel Parent { get ; }
 
-    public ProfileDisplaySettingsViewModel ( SourceViewModel parent )
+    public ProfileDisplaySettingsViewModel ( ISourceViewModel parent )
     {
       Parent = parent ;
     }

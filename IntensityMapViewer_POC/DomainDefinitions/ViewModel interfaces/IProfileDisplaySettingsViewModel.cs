@@ -8,6 +8,8 @@ namespace IntensityMapViewer
   public interface IProfileDisplaySettingsViewModel : IViewModel
   {
 
+    ISourceViewModel Parent { get ; }
+
     System.Drawing.Point? ProfileGraphsReferencePosition { get ; set ; }
 
     event System.Action? ProfileGraphsReferencePositionChanged ;

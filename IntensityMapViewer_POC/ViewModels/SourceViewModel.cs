@@ -8,9 +8,11 @@ namespace IntensityMapViewer
 {
 
   public class SourceViewModel 
-  : SourceDescriptorViewModel
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   , ISourceViewModel
   {
+
+    public ISourceDescriptorViewModel SourceDescriptor { get ; }
 
     public ISourceSettingsViewModel SourceSettings { get ; } 
 
@@ -35,13 +37,16 @@ namespace IntensityMapViewer
 
     public IProfileDisplaySettingsViewModel ProfileDisplaySettings { get ; }
 
-    public DisplayPanelViewModel Parent { get ; }
+    public IDisplayPanelViewModel Parent { get ; }
 
-    public SourceViewModel ( DisplayPanelViewModel parent )
+    public SourceViewModel ( IDisplayPanelViewModel parent )
     {
       Parent = parent ;
-      SourceSettings = new SourceSettingsViewModel(this) ;
+      // Create the 'child' view models, which are always present
+      SourceDescriptor       = new SourceDescriptorViewModel(this) ;
+      SourceSettings         = new SourceSettingsViewModel(this) ;
       ProfileDisplaySettings = new ProfileDisplaySettingsViewModel(this) ;
+      // Create an initial IntensityMap to be displayed
       m_mostRecentlyAcquiredIntensityMap = IntensityMap.CreateSynthetic_UsingSincFunction() ;
     }
 

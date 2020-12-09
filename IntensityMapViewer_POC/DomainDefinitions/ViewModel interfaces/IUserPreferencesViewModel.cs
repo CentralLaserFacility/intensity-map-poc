@@ -21,6 +21,8 @@ namespace IntensityMapViewer
 
     bool ShowHorizontalAndVerticalScrollBarsOnImagePanel { get ; set ; }
 
+    IDisplayPanelViewModel Parent { get ; }
+
   }
 
 }

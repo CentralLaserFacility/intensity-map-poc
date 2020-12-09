@@ -8,7 +8,7 @@ namespace IntensityMapViewer
   //
   // Nice if this is viewable and editable for the POC,
   // but that's not necessary - fixed settings defined
-  // in code are fine ...
+  // in code are fine, so the 'setters' all throw.
   //
 
   public class UserPreferencesViewModel
@@ -41,8 +41,12 @@ namespace IntensityMapViewer
       set => throw new System.NotImplementedException() ;
     }
 
-    public UserPreferencesViewModel ( )
-    { }
+    public IDisplayPanelViewModel Parent { get ; }
+
+    public UserPreferencesViewModel ( IDisplayPanelViewModel parent )
+    { 
+      Parent = parent ;
+    }
 
   }
 

@@ -52,9 +52,9 @@ namespace IntensityMapViewer
       NormalisationMode is NormalisationMode.Manual_FromUserDefinedValue 
     ) ;
 
-    public DisplayPanelViewModel Parent { get ; }
+    public IDisplayPanelViewModel Parent { get ; }
 
-    public ImagePresentationSettingsViewModel ( DisplayPanelViewModel parent )
+    public ImagePresentationSettingsViewModel ( IDisplayPanelViewModel parent )
     {
       Parent = parent ;
     }

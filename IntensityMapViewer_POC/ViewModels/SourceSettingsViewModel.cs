@@ -60,9 +60,9 @@ namespace IntensityMapViewer
 
     public (double Min, double Max) ValidExposureTimesRange => (0.1,10.0) ;
 
-    public SourceViewModel Parent { get ; }
+    public ISourceViewModel Parent { get ; }
 
-    public SourceSettingsViewModel ( SourceViewModel parent )
+    public SourceSettingsViewModel ( ISourceViewModel parent )
     {
       Parent = parent ;
     }

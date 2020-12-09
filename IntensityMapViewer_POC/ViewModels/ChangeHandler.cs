@@ -8,7 +8,8 @@ namespace IntensityMapViewer
  
   public enum WhatChanged {
     ImagePresentationSetting,
-    NewImageAcquired
+    NewImageAcquired,
+    ProfilePositionCoordinates
   }
 
   //
