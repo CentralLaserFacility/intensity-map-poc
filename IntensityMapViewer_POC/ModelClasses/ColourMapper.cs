@@ -8,6 +8,10 @@ using System.Linq ;
 namespace IntensityMapViewer
 {
 
+  //
+  // Hmm, this is broken, needs sorting out !!!
+  //
+
   public abstract class ColourMapper : IColourMapper 
   {
 
@@ -25,6 +29,13 @@ namespace IntensityMapViewer
     | ( green << 8  ) // G
     | ( blue  << 0  ) // B
     ) ;
+
+    public uint MapByteValueToEncodedARGB ( 
+      byte            byteValue,
+      ColourMapOption colourMapOption 
+    ) {
+      return MapIntensityToJet_EncodedAsARGB(byteValue) ;
+    }
 
     public IReadOnlyList<uint> MapByteValuesToEncodedARGB ( 
       IReadOnlyList<byte> byteValues,

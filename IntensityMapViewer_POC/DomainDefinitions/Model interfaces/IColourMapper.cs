@@ -20,6 +20,11 @@ namespace IntensityMapViewer
       ColourMapOption     colourMapOption 
     ) ;
 
+    uint MapByteValueToEncodedARGB ( 
+      byte            byteValue,
+      ColourMapOption colourMapOption 
+    ) ;
+
   }
 
 }
