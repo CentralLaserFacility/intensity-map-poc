@@ -2,6 +2,8 @@
 // DisplayPanelViewModel.cs
 //
 
+using System.Runtime.CompilerServices;
+
 namespace IntensityMapViewer
 {
 

@@ -27,6 +27,17 @@
         Visibility="Visible"
       />
 
+      <Image 
+        x:Name="m_imageFromViewModel" 
+        Source="{x:Bind ImageSource}" 
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Top" 
+        Height="310" 
+        Width="411"
+        Margin="66,86,0,0" 
+        Visibility="Visible"
+      />
+
     </StackPanel>
   </Grid>
 

@@ -11,14 +11,21 @@ namespace UwpUtilities_TestApp
   public sealed partial class MainPage : Windows.UI.Xaml.Controls.Page
   {
 
+    private IntensityMapViewer.DisplayPanelViewModel ViewModel = new IntensityMapViewer.DisplayPanelViewModel() ;
+
     private Windows.UI.Xaml.DispatcherTimer m_timer = new Windows.UI.Xaml.DispatcherTimer(){
       Interval = System.TimeSpan.FromMilliseconds(200)
     } ;
+
+    public Windows.UI.Xaml.Media.ImageSource ImageSource { get ; private set ; }
 
     public MainPage ( )
     {
       this.InitializeComponent() ;
       this.Loaded += MainPage_Loaded ;
+      ImageSource = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
+        ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap
+      ) ;
     }
 
     private void MainPage_Loaded ( object sender, Windows.UI.Xaml.RoutedEventArgs e )
@@ -76,7 +83,6 @@ namespace UwpUtilities_TestApp
         IntensityMapViewer.IntensityMap.CreateSynthetic_UsingSincFunction_Cyclic() 
       ) ;
       return ;
-
 
     }
 
