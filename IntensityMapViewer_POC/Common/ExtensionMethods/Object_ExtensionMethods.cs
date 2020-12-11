@@ -20,6 +20,24 @@ namespace Common.ExtensionMethods
       return value ;
     }
 
+    [System.Diagnostics.Conditional("DEBUG")]
+    public static void Verify<T> ( this T value, System.Func<T,bool> verify  )
+    {
+      if ( verify(value) == false )
+      {
+        throw new System.Exception("Verification failed") ;
+      }
+    }
+
+    [System.Diagnostics.Conditional("DEBUG")]
+    public static void VerifyTrue ( this bool value  )
+    {
+      if ( value == false )
+      {
+        throw new System.Exception("Verification failed") ;
+      }
+    }
+
     public static string ClassName ( this object x )
     => (
       x?.GetType().GetTypeName() ?? "(null)"

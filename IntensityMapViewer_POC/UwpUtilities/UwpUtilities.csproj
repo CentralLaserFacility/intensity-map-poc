@@ -124,6 +124,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BitmapHelpers.cs" />
+    <Compile Include="BitmapHelpers_ForTesting.cs" />
+    <Compile Include="BitmapHelpers_old_01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\UwpUtilities.rd.xml" />
   </ItemGroup>

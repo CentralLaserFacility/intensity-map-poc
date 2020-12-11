@@ -18,8 +18,7 @@ namespace ModelClasses_UnitTests
       var mappedColours = IntensityMapViewer.ColourMapper.InstanceFor(
         IntensityMapViewer.ColourMapOption.GreyScale
       ).MapByteValuesToEncodedARGB(
-        new byte[]{0x00,0x7f,0xff},
-        IntensityMapViewer.ColourMapOption.GreyScale
+        new byte[]{0x00,0x7f,0xff}
       ) ;
       ( (uint) mappedColours[0] ).Should().Be(0xff000000) ;
       ( (uint) mappedColours[1] ).Should().Be(0xff7f7f7f) ;

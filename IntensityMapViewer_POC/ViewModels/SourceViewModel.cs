@@ -47,7 +47,7 @@ namespace IntensityMapViewer
       SourceSettings         = new SourceSettingsViewModel(this) ;
       ProfileDisplaySettings = new ProfileDisplaySettingsViewModel(this) ;
       // Create an initial IntensityMap to be displayed
-      m_mostRecentlyAcquiredIntensityMap = IntensityMap.CreateSynthetic_UsingSincFunction() ;
+      m_mostRecentlyAcquiredIntensityMap = IntensityMapHelpers.CreateSynthetic_UsingSincFunction() ;
     }
 
   }
