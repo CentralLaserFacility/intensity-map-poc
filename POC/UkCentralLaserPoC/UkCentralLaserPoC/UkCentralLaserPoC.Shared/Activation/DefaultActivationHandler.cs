@@ -12,8 +12,7 @@ namespace UkCentralLaserPoC.Activation
     {
         private readonly string _navElement;
 
-        //public NavigationServiceEx NavigationService => ViewModelLocator.Current.NavigationService;
-        public NavigationServiceEx NavigationService => new NavigationServiceEx();
+        public NavigationServiceEx NavigationService => ViewModelLocator.Current.NavigationService;
 
         public DefaultActivationHandler(Type navElement)
         {

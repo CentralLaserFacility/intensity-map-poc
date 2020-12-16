@@ -17,8 +17,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-using WinUI = Microsoft.UI.Xaml.Controls;
-
 namespace UkCentralLaserPoC.ViewModels
 {
     public class ShellViewModel : ObservableObject
@@ -28,8 +26,8 @@ namespace UkCentralLaserPoC.ViewModels
 
         private bool _isBackEnabled;
         private IList<KeyboardAccelerator> _keyboardAccelerators;
-        private WinUI.NavigationView _navigationView;
-        private WinUI.NavigationViewItem _selected;
+        private NavigationView _navigationView;
+        private NavigationViewItem _selected;
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
 
@@ -39,10 +37,9 @@ namespace UkCentralLaserPoC.ViewModels
             set { SetProperty(ref _isBackEnabled, value); }
         }
 
-        //public static NavigationServiceEx NavigationService => ViewModelLocator.Current.NavigationService;
-        public static NavigationServiceEx NavigationService => new NavigationServiceEx();
+        public static NavigationServiceEx NavigationService { get; set; }
 
-        public WinUI.NavigationViewItem Selected
+        public NavigationViewItem Selected
         {
             get { return _selected; }
             set { SetProperty(ref _selected, value); }
@@ -50,14 +47,14 @@ namespace UkCentralLaserPoC.ViewModels
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
-        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
-        public ShellViewModel()
+        public ShellViewModel(NavigationServiceEx navigationService)
         {
-            
+            NavigationService = navigationService;
         }
 
-        public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
+        public void Initialize(Frame frame, NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
             _navigationView = navigationView;
             _keyboardAccelerators = keyboardAccelerators;
@@ -76,20 +73,20 @@ namespace UkCentralLaserPoC.ViewModels
             await Task.CompletedTask;
         }
 
-        private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
+        private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)
             {
                 NavigationService.Navigate(typeof(SettingsViewModel).FullName, null, args.RecommendedNavigationTransitionInfo);
             }
-            else if (args.InvokedItemContainer is WinUI.NavigationViewItem selectedItem)
+            else if (args.InvokedItemContainer is NavigationViewItem selectedItem)
             {
                 var pageKey = selectedItem.GetValue(NavHelper.NavigateToProperty) as string;
                 NavigationService.Navigate(pageKey, null, args.RecommendedNavigationTransitionInfo);
             }
         }
 
-        private void OnBackRequested(WinUI.NavigationView sender, WinUI.NavigationViewBackRequestedEventArgs args)
+        private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.GoBack();
         }
@@ -105,7 +102,7 @@ namespace UkCentralLaserPoC.ViewModels
             if (e.SourcePageType == typeof(SettingsPage))
             {
                 
-                Selected = _navigationView.SettingsItem as WinUI.NavigationViewItem;
+                Selected = _navigationView.SettingsItem as NavigationViewItem;
                 return;
             }
 
@@ -116,26 +113,27 @@ namespace UkCentralLaserPoC.ViewModels
             }
         }
 
-        private WinUI.NavigationViewItem GetSelectedItem(IEnumerable<object> menuItems, Type pageType)
+        private NavigationViewItem GetSelectedItem(IEnumerable<object> menuItems, Type pageType)
         {
-            foreach (var item in menuItems.OfType<WinUI.NavigationViewItem>())
+            foreach (var item in menuItems.OfType<NavigationViewItem>())
             {
                 if (IsMenuItemForPageType(item, pageType))
                 {
                     return item;
                 }
 
-                var selectedChild = GetSelectedItem(item.MenuItems, pageType);
-                if (selectedChild != null)
-                {
-                    return selectedChild;
-                }
+                //var selectedChild = GetSelectedItem(item.MenuItems, pageType);
+                
+                //if (selectedChild != null)
+                //{
+                //    return selectedChild;
+                //}
             }
 
             return null;
         }
 
-        private bool IsMenuItemForPageType(WinUI.NavigationViewItem menuItem, Type sourcePageType)
+        private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
         {
             var navigatedPageKey = NavigationService.GetNameOfRegisteredPage(sourcePageType);
             var pageKey = menuItem.GetValue(NavHelper.NavigateToProperty) as string;
