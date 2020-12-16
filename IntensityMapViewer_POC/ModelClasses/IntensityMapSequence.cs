@@ -13,6 +13,8 @@ namespace IntensityMapViewer
 
     private IReadOnlyList<IntensityMap> m_intensityMaps ;
 
+    public IEnumerable<IIntensityMap> IntensityMaps => m_intensityMaps ;
+
     private int m_currentIndex = 0 ;
 
     public IntensityMap GetCurrent_MoveNext ( ) 
@@ -20,8 +22,13 @@ namespace IntensityMapViewer
       m_currentIndex++
     % m_intensityMaps.Count
     ] ;
+
+    private IntensityMapSequence ( IEnumerable<IntensityMap> intensityMaps )
+    {
+      m_intensityMaps = intensityMaps.ToList() ;
+    }
     
-    public IntensityMapSequence ( 
+    public static IntensityMapSequence CreateInstance_WithProgressivelyIncreasingSincFactor ( 
       int                                          nIntensityMaps,
       (double minSincFactor,double maxSincFactor)? sincFactorRange = null,
       System.Drawing.Size?                         dimensions      = null
@@ -32,41 +39,72 @@ namespace IntensityMapViewer
         sincFactorRange.Value.maxSincFactor
       - sincFactorRange.Value.minSincFactor
       ) / ( nIntensityMaps - 1 ) ;
-      m_intensityMaps = Enumerable.Range(
-        0,
-        nIntensityMaps
-      ).Select(
-        i => IntensityMapHelpers.CreateSynthetic_UsingSincFunction(
-          dimensions.Value.Width,
-          dimensions.Value.Height,
-          (
-            sincFactorRange.Value.minSincFactor 
-          + i * sincFactorDelta
+      return new IntensityMapSequence(
+        Enumerable.Range(
+          0,
+          nIntensityMaps
+        ).Select(
+          i => new IntensityMap.CreatedFromSincFunction(
+            dimensions.Value.Width,
+            dimensions.Value.Height,
+            (
+              sincFactorRange.Value.minSincFactor 
+            + i * sincFactorDelta
+            )
           )
         )
-      ).ToList() ;
+      ) ;
     }
 
-    public IntensityMapSequence ( 
+    public static IntensityMapSequence CreateInstance_WithNoiseAdded ( 
       int                  nIntensityMaps,
       double               sincFactor,
       byte                 noiseAmplitude,
       System.Drawing.Size? dimensions = null
     ) {
       dimensions ??= new System.Drawing.Size(320,240) ;
-      var masterInstance = IntensityMapHelpers.CreateSynthetic_UsingSincFunction(
+      var masterInstance = new IntensityMap.CreatedFromSincFunction(
         dimensions.Value.Width,
         dimensions.Value.Height,
         sincFactor : sincFactor
       ) ;
-      m_intensityMaps = Enumerable.Range(
-        0,
-        nIntensityMaps
-      ).Select(
-        i => masterInstance.CreateCloneWithAddedRandomNoise(
-          noiseAmplitude
+      return new IntensityMapSequence(
+          Enumerable.Range(
+          0,
+          nIntensityMaps
+        ).Select(
+          i => masterInstance.CreateCloneWithAddedRandomNoise(
+            noiseAmplitude
+          )
         )
-      ).ToList() ;
+      ) ;
+    }
+
+    public static IntensityMapSequence CreateInstance_RotatingAroundCircle ( 
+      int                  nIntensityMaps,
+      double               sincFactor,
+      double               fractionalRadialOffsetFromCentre,
+      System.Drawing.Size? dimensions      = null
+    ) {
+      dimensions ??= new System.Drawing.Size(320,240) ;
+      double fractionalRotationPerStepOfOffsettedCentrePoint = (
+        1.0 
+      / nIntensityMaps
+      ) ;
+      return new IntensityMapSequence(
+        Enumerable.Range(
+          0,
+          nIntensityMaps
+        ).Select(
+          i => new IntensityMap.CreatedFromSincFunction(
+            dimensions.Value.Width,
+            dimensions.Value.Height,
+            sincFactor,
+            fractionalRadialOffsetFromCentre : fractionalRadialOffsetFromCentre,
+            fractionalRotationOfOffsettedCentrePoint : i * fractionalRotationPerStepOfOffsettedCentrePoint
+          )
+        )
+      ) ;
     }
 
   }

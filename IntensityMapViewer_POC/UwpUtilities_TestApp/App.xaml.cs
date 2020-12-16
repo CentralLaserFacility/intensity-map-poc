@@ -85,7 +85,11 @@ namespace UwpUtilities_TestApp
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(
+                      // typeof(MainPage), 
+                      typeof(IntensityMapTestPage), 
+                      e.Arguments
+                    );
 
                     // ADDED
                     // var navigationService = _serviceProvider.GetService<INavigationService>();

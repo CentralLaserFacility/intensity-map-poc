@@ -23,7 +23,7 @@ namespace UwpUtilities_TestApp
     {
       this.InitializeComponent() ;
       this.Loaded += MainPage_Loaded ;
-      ImageSource = UwpUtilities.BitmapHelpers_old_01.CreateWriteableBitmap(
+      ImageSource = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
         ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap
       ) ;
     }
@@ -61,15 +61,24 @@ namespace UwpUtilities_TestApp
 
     private int m_nClicks = -1 ;
 
-    private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_A = new(
+    private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_A = 
+    IntensityMapViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
       60,
       (5.0,10.0)
     ) ;
 
-    private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_B = new(
+    private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_B = 
+    IntensityMapViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
       60,
       sincFactor     : 10.0,
       noiseAmplitude : 64
+    ) ;
+
+    private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_C = 
+    IntensityMapViewer.IntensityMapSequence.CreateInstance_RotatingAroundCircle(
+      60,
+      sincFactor                       : 10.0,
+      fractionalRadialOffsetFromCentre : 0.2
     ) ;
 
     private void DynamicImageButtonClicked ( )
@@ -81,7 +90,7 @@ namespace UwpUtilities_TestApp
           m_dynamicImage.Source = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
             // IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction_Cyclic() 
             ref m_writeableBitmap,
-            m_intensityMapSequence_B.GetCurrent_MoveNext()
+            m_intensityMapSequence_C.GetCurrent_MoveNext()
           ) ; 
         } ;
       }
@@ -141,7 +150,7 @@ namespace UwpUtilities_TestApp
              ).CurrentSource.MostRecentlyAcquiredIntensityMap
            ),
       8 => UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-        IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction(
+        new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
           sincFactor : 5
         )
       ),
@@ -149,10 +158,10 @@ namespace UwpUtilities_TestApp
       } ;
       return ;
     
-      m_image.Source = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-        IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction_Cyclic() 
-      ) ;
-      return ;
+      // m_image.Source = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
+      //   IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction_Cyclic() 
+      // ) ;
+      // return ;
     
     }
 

@@ -2,12 +2,25 @@
 // ColourMapper.cs
 //
 
-using Common.ExtensionMethods ;
-using System.Collections.Generic ;
-using System.Linq ;
+using Common.ExtensionMethods;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IntensityMapViewer
 {
+
+  //
+  // Colour mapping involves invoking a particular function
+  // to get from an 8-bit intensity value to a 32-bit colour. 
+  // 
+  // Having a 'class' to do this lets us implement caching.
+  //
+  // An alternative would be to have a static lookup table associated with 
+  // each of the low level pixel-mapping functions, which would be
+  // initialised in a static constructor ??
+  //
+  // Then we'd return a System.Func<byte,uint> here instead of an IColourMapper.
+  //
 
   public abstract class ColourMapper : IColourMapper 
   {
@@ -15,15 +28,18 @@ namespace IntensityMapViewer
     public static IColourMapper InstanceFor ( ColourMapOption option ) 
     => option switch 
     {
-    ColourMapOption.GreyScale  => ColourMapper_GreyScale.Instance,
-    ColourMapOption.JetColours => ColourMapper_JetColours.Instance,
-    _                          => throw new System.ApplicationException()
+    ColourMapOption.GreyScale     => ColourMapper_GreyScale  .Instance,
+    ColourMapOption.JetColours    => ColourMapper_JetColours .Instance,
+    ColourMapOption.ShadesOfRed   => ColourMapper_Red        .Instance,
+    ColourMapOption.ShadesOfGreen => ColourMapper_Green      .Instance,
+    ColourMapOption.ShadesOfBlue  => ColourMapper_Blue       .Instance,
+    _ => throw new System.ApplicationException()
     } ;
 
     //
-    // Rather than invoking a complex pixel-mapping function every time
-    // a 'mapping' function is invoked, we pre-compute the result for each
-    // possible input value and save it in a lookup table.
+    // Rather than invoking a potentially complex algorithm every time
+    // a 'pixel-mapping' function is invoked, we pre-compute the result
+    // for each possible input value and save it in a lookup table.
     //
 
     private readonly uint[] m_mappedResultsLookupTable ;

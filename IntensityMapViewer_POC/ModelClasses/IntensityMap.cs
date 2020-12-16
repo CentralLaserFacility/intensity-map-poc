@@ -14,7 +14,7 @@ namespace IntensityMapViewer
 
     public System.Drawing.Size Dimensions { get ; }
 
-    public IReadOnlyList<byte> IntensityValues { get ; }
+    public IReadOnlyList<byte> IntensityValues { get ; protected set ; }
 
     public byte GetIntensityValueAt ( int xAcross, int yDown ) 
     => IntensityValues[
@@ -98,6 +98,13 @@ namespace IntensityMapViewer
     ) {
       Dimensions = dimensions ;
       IntensityValues = intensityValues.ToList() ;
+    }
+
+    protected IntensityMap ( 
+      System.Drawing.Size dimensions
+    ) {
+      Dimensions = dimensions ;
+      IntensityValues = null! ;
     }
 
     // Create a 'noisy' version of an existing instance,

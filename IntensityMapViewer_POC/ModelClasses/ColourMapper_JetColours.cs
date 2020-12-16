@@ -12,7 +12,7 @@ namespace IntensityMapViewer
 
     public ColourMapper_JetColours ( ) :
     base(
-      Common.GraphicsHelpers.MapIntensityToJet_EncodedAsARGB
+      ColourMappingHelpers.MapIntensityToJet_EncodedAsARGB
     ) {
     }
 

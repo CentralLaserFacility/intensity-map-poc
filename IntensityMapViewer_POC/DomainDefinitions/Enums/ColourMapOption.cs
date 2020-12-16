@@ -18,7 +18,14 @@ namespace IntensityMapViewer
   public enum ColourMapOption {
     GreyScale,
     JetColours,
-    Binary // As in LabView ; hmm, more like 'cyclic' ??
+    // Useful for testing. By mapping a byte value
+    // to a shade of red/blue/green we can confirm
+    // visually that our encoding of RGB is correct.
+    ShadesOfRed,
+    ShadesOfGreen,
+    ShadesOfBlue,
+    // As in LabView ; hmm, more like 'cyclic' ??
+    Binary 
   }
 
 }

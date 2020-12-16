@@ -12,7 +12,7 @@ namespace IntensityMapViewer
 
     public ColourMapper_GreyScale ( ) :
     base(
-      Common.GraphicsHelpers.EncodeARGB
+      ColourMappingHelpers.EncodeARGB_Grey
     ) {
     }
 

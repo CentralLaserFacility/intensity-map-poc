@@ -40,6 +40,8 @@ namespace IntensityMapViewer
 
     public DisplayPanelViewModel ( )
     {
+      // Hmm, should use Dependency Injection here !
+      // But this hard-wired approach seems appropriate for the POC.
       CurrentSource             = new SourceViewModel(this) ;
       ImagePresentationSettings = new ImagePresentationSettingsViewModel(this) ;
       UserPreferences           = new UserPreferencesViewModel(this) ;
