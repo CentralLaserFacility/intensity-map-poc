@@ -15,7 +15,7 @@
                 Place your content here.
             -->
 
-            <intensityMap:IntensityMapControl />
+            <intensityMap:IntensityMapTestPage />
         </Grid>
     </Grid>
 </Page>

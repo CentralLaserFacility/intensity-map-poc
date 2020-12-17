@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-
-
 using UkCentralLaserPoC.Services;
 using UkCentralLaserPoC.Views;
 
@@ -23,9 +20,6 @@ namespace UkCentralLaserPoC.ViewModels
 
         public static ViewModelLocator Current => _current ?? (_current = new ViewModelLocator());
 
-        public ShellViewModel ShellViewModel => container.GetService<ShellViewModel>();
-
-        public NavigationServiceEx NavigationService => container.GetService<NavigationServiceEx>();
 
         private void ConfigureServices()
         {
@@ -40,6 +34,15 @@ namespace UkCentralLaserPoC.ViewModels
         {
             NavigationService.Configure(typeof(VM).FullName, typeof(V));
         }
+
+
+        public ShellViewModel ShellViewModel => container.GetService<ShellViewModel>();
+
+        public NavigationServiceEx NavigationService => container.GetService<NavigationServiceEx>();
+
+        public SettingsViewModel SettingsViewModel => container.GetService<SettingsViewModel>();
+
+        public MainViewModel MainViewModel => container.GetService<MainViewModel>();
 
     }
 }

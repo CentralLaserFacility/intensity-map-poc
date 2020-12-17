@@ -48,6 +48,7 @@
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj" />
     <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj" />
   </ItemGroup>
   <Import Project="..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" Condition="Exists('..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems')" />

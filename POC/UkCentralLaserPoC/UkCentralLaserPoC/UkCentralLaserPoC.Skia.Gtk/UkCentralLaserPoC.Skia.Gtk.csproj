@@ -24,6 +24,7 @@
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.3.0" Condition="'$(Configuration)'=='Debug'" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj" />
     <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj" />
   </ItemGroup>
   <Import Project="..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" />

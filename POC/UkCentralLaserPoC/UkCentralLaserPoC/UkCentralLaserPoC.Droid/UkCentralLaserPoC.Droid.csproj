@@ -98,6 +98,10 @@
     <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
+      <Project>{f975e651-e91e-4cf6-a7f0-20b34837500c}</Project>
+      <Name>UkCentralLaserPoC.IntensityMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj">
       <Project>{4cb0d0aa-25ce-41d4-a0ae-9e3c424c2a37}</Project>
       <Name>UkCentralLaserPoC.Library</Name>

@@ -66,13 +66,13 @@ namespace UkCentralLaserPoC.Behaviors
         {
             base.OnAttached();
             _current = this;
-            //ViewModelLocator.Current.NavigationService.Navigated += OnNavigated;
+            ViewModelLocator.Current.NavigationService.Navigated += OnNavigated;
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            //ViewModelLocator.Current.NavigationService.Navigated -= OnNavigated;
+            ViewModelLocator.Current.NavigationService.Navigated -= OnNavigated;
         }
 
         private void OnNavigated(object sender, NavigationEventArgs e)
