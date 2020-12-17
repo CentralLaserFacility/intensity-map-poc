@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Uno.Core" Version="2.0.0" />
+    <PackageReference Include="Uno.Core" Version="2.1.0" />
     <PackageReference Include="Uno.UI" Version="3.3.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
@@ -139,6 +139,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
+      <Project>{f975e651-e91e-4cf6-a7f0-20b34837500c}</Project>
+      <Name>UkCentralLaserPoC.IntensityMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj">
       <Project>{4cb0d0aa-25ce-41d4-a0ae-9e3c424c2a37}</Project>
       <Name>UkCentralLaserPoC.Library</Name>

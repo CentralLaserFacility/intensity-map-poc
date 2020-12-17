@@ -121,13 +121,6 @@ namespace UkCentralLaserPoC.ViewModels
                 {
                     return item;
                 }
-
-                //var selectedChild = GetSelectedItem(item.MenuItems, pageType);
-                
-                //if (selectedChild != null)
-                //{
-                //    return selectedChild;
-                //}
             }
 
             return null;
