@@ -76,7 +76,7 @@
 
           <TextBlock x:Name="m_dynamicImageLabel" Text="Dynamic image" />
           <TextBlock Text="{x:Bind ViewModel.BitmapLoadTimes, Mode=OneWay}" />
-          <TextBlock Text="{x:Bind ViewModel.TickWakeupIntervals, Mode=OneWay}" />
+          <TextBlock Text="{x:Bind ViewModel.ActualTimerWakeupIntervals, Mode=OneWay}" />
           <Image 
             x:Name="m_dynamicImage" 
             Source="{x:Bind ViewModel.DynamicImageSource, Mode=OneWay}"

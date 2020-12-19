@@ -83,7 +83,7 @@ namespace UkCentralLaserPoC.IntensityMap
     public double FramesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
     public double FramesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps
 
-    public string TimerPeriod_AsString => $"Updates every {TimerPeriodInMillisecs:F0}mS" ;
+    public string TimerPeriod_AsString => $"Update requested every {TimerPeriodInMillisecs:F0}mS" ;
 
     public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
 
@@ -147,29 +147,32 @@ namespace UkCentralLaserPoC.IntensityMap
       }
     ) ;
 
+    private bool m_performDynamicImageUpdates = false ;
+
     public IntensityMapTestViewModel ( )
     {
       m_timerPeriodInMillisecs = TimerPeriod_Default ;
       m_timer.Interval = System.TimeSpan.FromMilliseconds(100) ;
       m_timer.Tick += TimerTick ;
+      m_timer.Start() ;
       MoveToNextStaticImage = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => (StaticImageSource,StaticImageLabel) = m_staticImagesSelector.GetCurrent_MoveNext()
       ) ;
       StartDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_timer.Start() ;
+          m_performDynamicImageUpdates = true ;
           StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
           StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_timer.IsEnabled is false
+        () => m_performDynamicImageUpdates is false
       ) ;
       StopDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_timer.Stop() ;
+          m_performDynamicImageUpdates = false ;
           StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
           StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_timer.IsEnabled is true
+        () => m_performDynamicImageUpdates is true
       ) ;
       (m_staticImageSource,m_staticImageLabel) = m_staticImagesSelector.GetCurrent_MoveNext() ;
       // UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
@@ -229,17 +232,19 @@ namespace UkCentralLaserPoC.IntensityMap
 
     public string BitmapLoadTimes { get ; private set ; } = "" ;
 
-    public string TickWakeupIntervals { get ; private set ; } = "" ;
+    public string ActualTimerWakeupIntervals { get ; private set ; } = "" ;
 
-    private List<long> m_timerTickIntervals = new () ;
+    private List<long> m_actualTimerWakeupIntervals = new () ;
 
     private System.Diagnostics.Stopwatch m_timerTickStopwatch = new() ;
+
+    private System.Diagnostics.Stopwatch m_timerTickReportStopwatch = new() ;
 
     private void TimerTick ( object sender, object e )
     {
       if ( m_timerTickStopwatch.IsRunning )
       {
-        m_timerTickIntervals.Add(
+        m_actualTimerWakeupIntervals.Add(
           m_timerTickStopwatch.ElapsedMilliseconds
         ) ;
         m_timerTickStopwatch.Reset() ;
@@ -247,44 +252,52 @@ namespace UkCentralLaserPoC.IntensityMap
       else
       {
         m_timerTickStopwatch.Start() ;
+        m_timerTickReportStopwatch.Start() ;
       }
-      System.Diagnostics.Stopwatch bitmapLoadingStopwatch = new() ;
-      bitmapLoadingStopwatch.Start() ;
-      this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
-        ref m_writeableBitmap,
-        m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
-      ) ; 
-      m_bitmapLoadTimes.Add(
-        bitmapLoadingStopwatch.ElapsedMilliseconds
-      ) ;
-      if ( m_bitmapLoadTimes.Count == 20 )
+      if ( m_timerTickReportStopwatch.ElapsedMilliseconds > 1000 )
       {
-        BitmapLoadTimes = (
-          "Bitmap load times (mS) (ordered) : "
+        ActualTimerWakeupIntervals = (
+          "Actual wakeup intervals : "
         + string.Join(
             " ",
-            m_bitmapLoadTimes.OrderBy(
+            m_actualTimerWakeupIntervals.OrderBy(
               time => time
             ).Select(
               time => time.ToString("F0")
             )
           )
         ) ;
-        base.OnPropertyChanged(nameof(BitmapLoadTimes)) ;
-        m_bitmapLoadTimes.Clear() ;
-        TickWakeupIntervals = (
-          "Tick wakeup intervals (mS) (ordered) : "
-        + string.Join(
-            " ",
-            m_timerTickIntervals.OrderBy(
-              time => time
-            ).Select(
-              time => time.ToString("F0")
-            )
-          )
+        base.OnPropertyChanged(nameof(ActualTimerWakeupIntervals)) ;
+        m_actualTimerWakeupIntervals.Clear() ;
+        m_timerTickReportStopwatch.Restart() ;
+      }
+      if ( m_performDynamicImageUpdates )
+      {
+        System.Diagnostics.Stopwatch bitmapLoadingStopwatch = new() ;
+        bitmapLoadingStopwatch.Start() ;
+        this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
+          ref m_writeableBitmap,
+          m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
+        ) ; 
+        m_bitmapLoadTimes.Add(
+          bitmapLoadingStopwatch.ElapsedMilliseconds
         ) ;
-        base.OnPropertyChanged(nameof(TickWakeupIntervals)) ;
-        m_timerTickIntervals.Clear() ;
+        if ( m_bitmapLoadTimes.Count == 20 )
+        {
+          BitmapLoadTimes = (
+            "Bitmap load times (mS) (ordered) : "
+          + string.Join(
+              " ",
+              m_bitmapLoadTimes.OrderBy(
+                time => time
+              ).Select(
+                time => time.ToString("F0")
+              )
+            )
+          ) ;
+          base.OnPropertyChanged(nameof(BitmapLoadTimes)) ;
+          m_bitmapLoadTimes.Clear() ;
+        }
       }
       // System.Diagnostics.Debug.WriteLine(
       //   $"LoadOrCreateWriteableBitmap took {elapsedMilliseconds} mS"
