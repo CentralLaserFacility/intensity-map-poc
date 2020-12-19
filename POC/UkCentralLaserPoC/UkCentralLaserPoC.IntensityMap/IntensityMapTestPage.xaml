@@ -68,14 +68,15 @@
               Header="{x:Bind ViewModel.FramesPerSecond_AsString, Mode=OneWay}"
               Width="200" 
               Margin="10,0,0,0"
-              Minimum="0" 
-              Maximum="50" 
+              Minimum="{x:Bind ViewModel.FramesPerSecond_Min, Mode=OneWay}" 
+              Maximum="{x:Bind ViewModel.FramesPerSecond_Max, Mode=OneWay}" 
               Value="{x:Bind ViewModel.FramesPerSecond, Mode=TwoWay}" 
             />
                     </StackPanel>
 
-                    <TextBlock x:Name="m_dynamicImageLabel" Text="Dynamic image" />
-                    <Image 
+          <TextBlock x:Name="m_dynamicImageLabel" Text="Dynamic image" />
+          <TextBlock Text="{x:Bind ViewModel.BitmapLoadTimes, Mode=OneWay}" />
+          <Image 
             x:Name="m_dynamicImage" 
             Source="{x:Bind ViewModel.DynamicImageSource, Mode=OneWay}"
             HorizontalAlignment="Left" 

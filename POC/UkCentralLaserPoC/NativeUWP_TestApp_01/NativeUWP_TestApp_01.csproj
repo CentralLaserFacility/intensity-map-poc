@@ -1,48 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
-      <Version>5.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <!-- 
-			If, in the same solution, you are referencing a project that uses https://github.com/onovotny/MSBuildSdkExtras,
-			you need to make sure that the version provided here matches https://github.com/onovotny/MSBuildSdkExtras/blob/master/Source/MSBuild.Sdk.Extras/DefaultItems/ImplicitPackages.targets#L11.
-			This is not an issue when libraries are referenced through nuget packages. See https://github.com/unoplatform/uno/issues/446 for more details.
-			-->
-      <Version>6.2.11</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.0.0-preview4</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.Core" Version="2.1.0" />
-    <PackageReference Include="Uno.UI" Version="3.4.0-dev.356" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
-  </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{020B00F9-FF69-4971-BFFC-DC71C8A70F64}</ProjectGuid>
+    <ProjectGuid>{8118CD71-3CC1-44E4-A952-AD32F097C4BD}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UkCentralLaserPoC</RootNamespace>
-    <AssemblyName>UkCentralLaserPoC</AssemblyName>
+    <RootNamespace>NativeUWP_TestApp_01</RootNamespace>
+    <AssemblyName>NativeUWP_TestApp_01</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>UkCentralLaserPoC.Uwp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -137,36 +112,74 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
-      <Project>{f975e651-e91e-4cf6-a7f0-20b34837500c}</Project>
-      <Name>UkCentralLaserPoC.IntensityMap</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj">
-      <Project>{4cb0d0aa-25ce-41d4-a0ae-9e3c424c2a37}</Project>
-      <Name>UkCentralLaserPoC.Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="UkCentralLaserPoC.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
-  <Import Project="..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" Condition="Exists('..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems')" />
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.11</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\IntensityMapViewer_POC\Common\Common.csproj">
+      <Project>{bdcf99fc-f783-48f0-b969-a15cef18c8d6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{d871b6e9-dcc5-443b-bdc9-ff327654a410}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj">
+      <Project>{610552e5-6410-45f2-afdd-1a96123f3609}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\IntensityMapViewer_POC\UwpUtilities\UwpUtilities.csproj">
+      <Project>{45106ca8-d1ca-49f6-af00-725785966912}</Project>
+      <Name>UwpUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\IntensityMapViewer_POC\ViewModels\ViewModels.csproj">
+      <Project>{cd9a5b8e-045e-4a02-8732-11c66503e895}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
+      <Project>{f975e651-e91e-4cf6-a7f0-20b34837500c}</Project>
+      <Name>UkCentralLaserPoC.IntensityMap</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

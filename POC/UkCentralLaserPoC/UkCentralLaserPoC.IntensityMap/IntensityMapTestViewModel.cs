@@ -80,6 +80,9 @@ namespace UkCentralLaserPoC.IntensityMap
     public double TimerPeriod_Max     { get ; } = 500.0 ;
     public double TimerPeriod_Default { get ; } = 100.0 ;
 
+    public double FramesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
+    public double FramesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps
+
     public string TimerPeriod_AsString => $"Updates every {TimerPeriodInMillisecs:F0}mS" ;
 
     public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
@@ -87,9 +90,16 @@ namespace UkCentralLaserPoC.IntensityMap
     private Common.CyclicSelector<(Windows.UI.Xaml.Media.ImageSource,string)> m_staticImagesSelector = new(
       (
         UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-          intensityMap : new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
-            sincFactor : 10.0
-          ),
+          intensityMap : 
+          new IntensityMapViewer.IntensityMap.CreatedAsOffsettedCircle(),
+          colourMapOption : IntensityMapViewer.ColourMapOption.GreyScale
+        ),
+        "Synthesised greyscale blob"
+      ),
+      (
+        UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
+          intensityMap : 
+          new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(),
           colourMapOption : IntensityMapViewer.ColourMapOption.JetColours
         ),
         "Synthesised ripple with JET colours"
@@ -123,11 +133,18 @@ namespace UkCentralLaserPoC.IntensityMap
     ) ;
 
     private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-      IntensityMapViewer.IntensityMapSequence.CreateInstance_RotatingAroundCircle(
-        nIntensityMaps                   : 60,
-        sincFactor                       : 10.0,
-        fractionalRadialOffsetFromCentre : 0.2
-      ).IntensityMaps
+      2 switch 
+      {
+      1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+          nIntensityMaps                   : 60,
+          sincFactor                       : 10.0,
+          fractionalRadialOffsetFromCentre : 0.2
+        ).IntensityMaps,
+      2 => IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+          60
+        ).IntensityMaps,
+      _ => throw new System.ApplicationException()
+      }
     ) ;
 
     public IntensityMapTestViewModel ( )
@@ -158,9 +175,10 @@ namespace UkCentralLaserPoC.IntensityMap
       // UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
       //  IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction()
       // ) ;
-      m_dynamicImageSource = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-        new IntensityMapViewer.IntensityMap.CreatedFromSincFunction()
-      ) ;
+      m_dynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
+        ref m_writeableBitmap,
+        m_dynamicIntensityMapsSelector.Current
+      ) ; 
     }
 
     private Windows.UI.Xaml.Media.ImageSource m_staticImageSource ;
@@ -207,12 +225,40 @@ namespace UkCentralLaserPoC.IntensityMap
 
     private Windows.UI.Xaml.Media.Imaging.WriteableBitmap? m_writeableBitmap = null ;
 
+    private List<long> m_bitmapLoadTimes = new () ;
+
+    public string BitmapLoadTimes { get ; private set ; } = "" ;
+
     private void TimerTick ( object sender, object e )
     {
+      System.Diagnostics.Stopwatch stopwatch = new() ;
+      stopwatch.Start() ;
       this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
         ref m_writeableBitmap,
         m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
       ) ; 
+      m_bitmapLoadTimes.Add(
+        stopwatch.ElapsedMilliseconds
+      ) ;
+      if ( m_bitmapLoadTimes.Count == 20 )
+      {
+        BitmapLoadTimes = (
+          "Bitmap load times (mS) (ordered) : "
+        + string.Join(
+            " ",
+            m_bitmapLoadTimes.OrderBy(
+              time => time
+            ).Select(
+              time => time.ToString("F0")
+            )
+          )
+        ) ;
+        base.OnPropertyChanged(nameof(BitmapLoadTimes)) ;
+        m_bitmapLoadTimes.Clear() ;
+      }
+      // System.Diagnostics.Debug.WriteLine(
+      //   $"LoadOrCreateWriteableBitmap took {elapsedMilliseconds} mS"
+      // ) ;
       // If we set this to null, then a fresh PixelBuffer gets allocated for each Image
       // and memory usage increases until GC kicks in (every few seconds).
       // m_writeableBitmap = null ;
