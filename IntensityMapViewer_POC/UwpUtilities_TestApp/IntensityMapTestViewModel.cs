@@ -79,16 +79,26 @@ namespace UwpUtilities_TestApp
     public double TimerPeriod_Max     { get ; } = 500.0 ;
     public double TimerPeriod_Default { get ; } = 100.0 ;
 
-    public string TimerPeriod_AsString => $"Updates every {TimerPeriodInMillisecs:F0}mS" ;
+    public double FramesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
+    public double FramesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps
+
+    public string TimerPeriod_AsString => $"Update requested every {TimerPeriodInMillisecs:F0}mS" ;
 
     public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
 
     private Common.CyclicSelector<(Windows.UI.Xaml.Media.ImageSource,string)> m_staticImagesSelector = new(
       (
         UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-          intensityMap : new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
-            sincFactor : 10.0
-          ),
+          intensityMap : 
+          new IntensityMapViewer.IntensityMap.CreatedAsOffsettedCircle(),
+          colourMapOption : IntensityMapViewer.ColourMapOption.GreyScale
+        ),
+        "Synthesised greyscale blob"
+      ),
+      (
+        UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
+          intensityMap : 
+          new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(),
           colourMapOption : IntensityMapViewer.ColourMapOption.JetColours
         ),
         "Synthesised ripple with JET colours"
@@ -122,44 +132,55 @@ namespace UwpUtilities_TestApp
     ) ;
 
     private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-      IntensityMapViewer.IntensityMapSequence.CreateInstance_RotatingAroundCircle(
-        nIntensityMaps                   : 60,
-        sincFactor                       : 10.0,
-        fractionalRadialOffsetFromCentre : 0.2
-      ).IntensityMaps
+      2 switch 
+      {
+      1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+          nIntensityMaps                   : 60,
+          sincFactor                       : 10.0,
+          fractionalRadialOffsetFromCentre : 0.2
+        ).IntensityMaps,
+      2 => IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+          60
+        ).IntensityMaps,
+      _ => throw new System.ApplicationException()
+      }
     ) ;
+
+    private bool m_performDynamicImageUpdates = false ;
 
     public IntensityMapTestViewModel ( )
     {
       m_timerPeriodInMillisecs = TimerPeriod_Default ;
       m_timer.Interval = System.TimeSpan.FromMilliseconds(100) ;
       m_timer.Tick += TimerTick ;
+      m_timer.Start() ;
       MoveToNextStaticImage = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => (StaticImageSource,StaticImageLabel) = m_staticImagesSelector.GetCurrent_MoveNext()
       ) ;
       StartDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_timer.Start() ;
+          m_performDynamicImageUpdates = true ;
           StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
           StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_timer.IsEnabled is false
+        () => m_performDynamicImageUpdates is false
       ) ;
       StopDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_timer.Stop() ;
+          m_performDynamicImageUpdates = false ;
           StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
           StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_timer.IsEnabled is true
+        () => m_performDynamicImageUpdates is true
       ) ;
       (m_staticImageSource,m_staticImageLabel) = m_staticImagesSelector.GetCurrent_MoveNext() ;
       // UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
       //  IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction()
       // ) ;
-      m_dynamicImageSource = UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-        new IntensityMapViewer.IntensityMap.CreatedFromSincFunction()
-      ) ;
+      m_dynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
+        ref m_writeableBitmap,
+        m_dynamicIntensityMapsSelector.Current
+      ) ; 
     }
 
     private Windows.UI.Xaml.Media.ImageSource m_staticImageSource ;
@@ -206,12 +227,80 @@ namespace UwpUtilities_TestApp
 
     private Windows.UI.Xaml.Media.Imaging.WriteableBitmap? m_writeableBitmap = null ;
 
+    private List<long> m_bitmapLoadTimes = new () ;
+
+    public string BitmapLoadTimes { get ; private set ; } = "" ;
+
+    public string ActualTimerWakeupIntervals { get ; private set ; } = "" ;
+
+    private List<long> m_actualTimerWakeupIntervals = new () ;
+
+    private System.Diagnostics.Stopwatch m_timerTickStopwatch = new() ;
+
+    private System.Diagnostics.Stopwatch m_timerTickReportStopwatch = new() ;
+
     private void TimerTick ( object sender, object e )
     {
-      this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
-        ref m_writeableBitmap,
-        m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
-      ) ; 
+      if ( m_timerTickStopwatch.IsRunning )
+      {
+        m_actualTimerWakeupIntervals.Add(
+          m_timerTickStopwatch.ElapsedMilliseconds
+        ) ;
+        m_timerTickStopwatch.Reset() ;
+      }
+      else
+      {
+        m_timerTickStopwatch.Start() ;
+        m_timerTickReportStopwatch.Start() ;
+      }
+      if ( m_timerTickReportStopwatch.ElapsedMilliseconds > 1000 )
+      {
+        ActualTimerWakeupIntervals = (
+          "Actual wakeup intervals : "
+        + string.Join(
+            " ",
+            m_actualTimerWakeupIntervals.OrderBy(
+              time => time
+            ).Select(
+              time => time.ToString("F0")
+            )
+          )
+        ) ;
+        base.OnPropertyChanged(nameof(ActualTimerWakeupIntervals)) ;
+        m_actualTimerWakeupIntervals.Clear() ;
+        m_timerTickReportStopwatch.Restart() ;
+      }
+      if ( m_performDynamicImageUpdates )
+      {
+        System.Diagnostics.Stopwatch bitmapLoadingStopwatch = new() ;
+        bitmapLoadingStopwatch.Start() ;
+        this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
+          ref m_writeableBitmap,
+          m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
+        ) ; 
+        m_bitmapLoadTimes.Add(
+          bitmapLoadingStopwatch.ElapsedMilliseconds
+        ) ;
+        if ( m_bitmapLoadTimes.Count == 20 )
+        {
+          BitmapLoadTimes = (
+            "Bitmap load times (mS) (ordered) : "
+          + string.Join(
+              " ",
+              m_bitmapLoadTimes.OrderBy(
+                time => time
+              ).Select(
+                time => time.ToString("F0")
+              )
+            )
+          ) ;
+          base.OnPropertyChanged(nameof(BitmapLoadTimes)) ;
+          m_bitmapLoadTimes.Clear() ;
+        }
+      }
+      // System.Diagnostics.Debug.WriteLine(
+      //   $"LoadOrCreateWriteableBitmap took {elapsedMilliseconds} mS"
+      // ) ;
       // If we set this to null, then a fresh PixelBuffer gets allocated for each Image
       // and memory usage increases until GC kicks in (every few seconds).
       // m_writeableBitmap = null ;

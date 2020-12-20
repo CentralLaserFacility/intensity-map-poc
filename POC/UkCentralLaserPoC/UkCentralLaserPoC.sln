@@ -5,19 +5,6 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{27B26358-1334-4C5D-802E-5D137788F8CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UkCentralLaserPoC.Droid", "UkCentralLaserPoC\UkCentralLaserPoC.Droid\UkCentralLaserPoC.Droid.csproj", "{CBC7C186-8160-4372-B1B2-ED8D1AB57D52}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UkCentralLaserPoC.UWP", "UkCentralLaserPoC\UkCentralLaserPoC.UWP\UkCentralLaserPoC.UWP.csproj", "{020B00F9-FF69-4971-BFFC-DC71C8A70F64}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UkCentralLaserPoC.Wasm", "UkCentralLaserPoC\UkCentralLaserPoC.Wasm\UkCentralLaserPoC.Wasm.csproj", "{59270362-1E30-4918-B2CD-683F7EAE8FF7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UkCentralLaserPoC.Skia.Wpf.Host", "UkCentralLaserPoC\UkCentralLaserPoC.Skia.Wpf.Host\UkCentralLaserPoC.Skia.Wpf.Host.csproj", "{BB23CE6F-F2A1-4E05-B329-59D5256A9372}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UkCentralLaserPoC.Skia.Wpf", "UkCentralLaserPoC\UkCentralLaserPoC.Skia.Wpf\UkCentralLaserPoC.Skia.Wpf.csproj", "{AECA7836-F3C7-4293-A462-AFA9F97C4111}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UkCentralLaserPoC.Skia.Gtk", "UkCentralLaserPoC\UkCentralLaserPoC.Skia.Gtk\UkCentralLaserPoC.Skia.Gtk.csproj", "{CD3C92EB-B665-417D-90F6-D4777BACD253}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UkCentralLaserPoC.Shared", "UkCentralLaserPoC\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UkCentralLaserPoC.Library", "UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj", "{4CB0D0AA-25CE-41D4-A0AE-9E3C424C2A37}"
 EndProject

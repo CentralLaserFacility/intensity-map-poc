@@ -12,26 +12,26 @@
 
     <Grid>
 
-    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical">
 
-      <TextBlock Text="IntensityMap visualisation tests" />
+            <TextBlock Text="IntensityMap visualisation tests" />
 
-      <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
 
-        <StackPanel Orientation="Vertical" Margin="20" Background="LightBlue">
+                <StackPanel Orientation="Vertical" Margin="20" Background="LightBlue">
 
-          <Button 
+                    <Button 
             Command="{x:Bind ViewModel.MoveToNextStaticImage}"
             Content="Click to cycle through the options"
           />
 
-          <TextBlock 
+                    <TextBlock 
             x:Name="m_staticImageLabel" 
             Text="{x:Bind ViewModel.StaticImageLabel,Mode=OneWay}" 
           />
 
-          <!-- Source="/Assets/Ivry-Gitlis.jpg" -->
-          <Image 
+                    <!-- Source="/Assets/Ivry-Gitlis.jpg" -->
+                    <Image 
             x:Name="m_image" 
             Source="{x:Bind ViewModel.StaticImageSource, Mode=OneWay}"
             HorizontalAlignment="Left" 
@@ -42,23 +42,23 @@
             Visibility="Visible"
           />
 
-        </StackPanel>
+                </StackPanel>
 
-        <StackPanel Orientation="Vertical" Margin="20" Background="LightBlue">
+                <StackPanel Orientation="Vertical" Margin="20" Background="LightBlue">
 
-          <StackPanel Orientation="Horizontal">
-            <Button 
+                    <StackPanel Orientation="Horizontal">
+                        <Button 
               Command="{x:Bind ViewModel.StartDynamicImageUpdates}"
             >
-              Start
-            </Button>
-            <Button 
+                            Start
+                        </Button>
+                        <Button 
               Command="{x:Bind ViewModel.StopDynamicImageUpdates}" 
               Margin="10,0,10,0"
             >
-              Stop
-            </Button>
-            <Slider 
+                            Stop
+                        </Button>
+                        <Slider 
               x:Name="m_timerPeriodMillisecs" 
               Header="{x:Bind ViewModel.TimerPeriod_AsString, Mode=OneWay}"
               Width="200" 
@@ -66,17 +66,19 @@
               Maximum="{x:Bind ViewModel.TimerPeriod_Max, Mode=OneWay}" 
               Value="{x:Bind ViewModel.TimerPeriodInMillisecs, Mode=TwoWay}" 
             />
-            <Slider 
+                        <Slider 
               Header="{x:Bind ViewModel.FramesPerSecond_AsString, Mode=OneWay}"
               Width="200" 
               Margin="10,0,0,0"
-              Minimum="0" 
-              Maximum="50" 
+              Minimum="{x:Bind ViewModel.FramesPerSecond_Min, Mode=OneWay}" 
+              Maximum="{x:Bind ViewModel.FramesPerSecond_Max, Mode=OneWay}" 
               Value="{x:Bind ViewModel.FramesPerSecond, Mode=TwoWay}" 
             />
-          </StackPanel>
+                    </StackPanel>
 
           <TextBlock x:Name="m_dynamicImageLabel" Text="Dynamic image" />
+          <TextBlock Text="{x:Bind ViewModel.BitmapLoadTimes, Mode=OneWay}" />
+          <TextBlock Text="{x:Bind ViewModel.ActualTimerWakeupIntervals, Mode=OneWay}" />
           <Image 
             x:Name="m_dynamicImage" 
             Source="{x:Bind ViewModel.DynamicImageSource, Mode=OneWay}"
@@ -88,12 +90,12 @@
             Visibility="Visible"
           />
 
+                </StackPanel>
+
+            </StackPanel>
+
         </StackPanel>
 
-      </StackPanel>
-
-    </StackPanel>
-  
-  </Grid>
+    </Grid>
 
 </Page>
