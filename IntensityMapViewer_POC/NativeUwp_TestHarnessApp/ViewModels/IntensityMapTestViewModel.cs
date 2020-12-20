@@ -14,6 +14,9 @@ using System.Linq ;
 // This seems like a bug in WTS ? Surely we should be able to register
 // a ViewModel that's defined in a different Assembly ??
 //
+// It *would* be better if we defined this ViewModel in a platform-independent assembly,
+// rather than baking in the UWP dependencies that we have here.
+// 
 
 // namespace IntensityMapViewer
 namespace NativeUwp_TestHarnessApp.ViewModels
@@ -81,7 +84,7 @@ namespace NativeUwp_TestHarnessApp.ViewModels
       set => TimerPeriodInMillisecs = 1000.0 * ( 1.0 / value ) ;
     }
 
-    // Hmm, pity that the binding engine doesn't understand tuples ...
+    // Hmm, pity that the x:Bind engine doesn't understand tuples ...
     // public (double Min,double Max) TimerPeriodValidRange => (20.0,2000.0) ;
 
     public double TimerPeriod_Min     { get ; } = 20.0 ;

@@ -48,6 +48,8 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             set { Set(ref _selected, value); }
         }
 
+        // This is invoked via the Page.Loaded event, via a Behavour
+
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
