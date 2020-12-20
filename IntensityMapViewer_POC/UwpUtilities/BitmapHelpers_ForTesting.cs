@@ -1,5 +1,5 @@
 ﻿//
-// BitmapHelpers.cs
+// BitmapHelpers_ForTesting.cs
 //
 
 using System.Linq;
@@ -9,6 +9,7 @@ using static System.Runtime.InteropServices.WindowsRuntime.WindowsRuntimeBufferE
 
 namespace UwpUtilities
 {
+
   public static class BitmapHelpers_ForTesting
   {
 
