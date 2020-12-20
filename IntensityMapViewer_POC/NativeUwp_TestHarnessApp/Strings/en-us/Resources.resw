@@ -172,4 +172,7 @@
   <data name="Shell_IntensityMapTest.Content" xml:space="preserve">
     <value>IntensityMap</value>
   </data>
+  <data name="Shell_BitmapLoadTiming.Content" xml:space="preserve">
+    <value>BitmapLoadTiming</value>
+  </data>
 </root>

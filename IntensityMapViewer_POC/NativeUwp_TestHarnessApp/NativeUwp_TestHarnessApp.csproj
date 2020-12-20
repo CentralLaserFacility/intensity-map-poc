@@ -151,6 +151,7 @@
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
+    <Compile Include="ViewModels\BitmapLoadTimingDemoViewModel.cs" />
     <Compile Include="ViewModels\IntensityMapTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -158,6 +159,9 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BitmapLoadTimingTestPage.xaml.cs">
+      <DependentUpon>BitmapLoadTimingTestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IntensityMapTestPage.xaml.cs">
       <DependentUpon>IntensityMapTestPage.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BlankPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BitmapLoadTimingTestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -22,6 +22,7 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             Register<BlankViewModel, BlankPage>();
             Register<SettingsViewModel, SettingsPage>();
             Register<IntensityMapViewer.IntensityMapTestViewModel, IntensityMapViewer.IntensityMapTestPage>();
+            Register<IntensityMapViewer.BitmapLoadTimingDemoViewModel, IntensityMapViewer.BitmapLoadTimingTestPage>();
         }
 
         public SettingsViewModel SettingsViewModel => SimpleIoc.Default.GetInstance<SettingsViewModel>();
@@ -36,6 +37,9 @@ namespace NativeUwp_TestHarnessApp.ViewModels
 
         public IntensityMapViewer.IntensityMapTestViewModel IntensityMapTestViewModel
         => SimpleIoc.Default.GetInstance<IntensityMapViewer.IntensityMapTestViewModel>() ;
+
+        public IntensityMapViewer.BitmapLoadTimingDemoViewModel BitmapLoadTimingDemoViewModel
+        => SimpleIoc.Default.GetInstance<IntensityMapViewer.BitmapLoadTimingDemoViewModel>() ;
 
         public void Register<VM, V>()
             where VM : class
