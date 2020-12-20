@@ -14,12 +14,17 @@ using System.Linq ;
 // This seems like a bug in WTS ? Surely we should be able to register
 // a ViewModel that's defined in a different Assembly ??
 //
+// HAH !! Thankfully it *is* possible to use a different namespace, but after
+// changing it in code and also in the ShellPage.xaml (where the full path is
+// mentioned as a string, with no checking) YOU HAVE TO REBUILD ALL TWICE.
+// Otherwise an 'ExecutionEngineException' gets thrown. Hmm, not helpful.
+//
 // It *would* be better if we defined this ViewModel in a platform-independent assembly,
 // rather than baking in the UWP dependencies that we have here.
 // 
 
-// namespace IntensityMapViewer
-namespace NativeUwp_TestHarnessApp.ViewModels
+namespace IntensityMapViewer
+// namespace NativeUwp_TestHarnessApp.ViewModels
 {
 
   //

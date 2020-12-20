@@ -10,7 +10,7 @@ namespace IntensityMapViewer
 
     // private IntensityMapTestViewModel ViewModel = new() ;
 
-    private NativeUwp_TestHarnessApp.ViewModels.IntensityMapTestViewModel ViewModel
+    private IntensityMapViewer.IntensityMapTestViewModel ViewModel
     => NativeUwp_TestHarnessApp.ViewModels.ViewModelLocator.Current.IntensityMapTestViewModel ; 
 
     public IntensityMapTestPage ( )
