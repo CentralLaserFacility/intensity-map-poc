@@ -22,6 +22,9 @@ namespace NativeUWP_TestApp_02_BitmapLoadingGlitches
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        public IntensityMapTestViewModel ViewModel { get ; } = new IntensityMapTestViewModel() ;
+
         public MainPage()
         {
             this.InitializeComponent();
