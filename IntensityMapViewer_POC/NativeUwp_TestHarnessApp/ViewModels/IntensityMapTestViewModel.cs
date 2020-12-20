@@ -7,7 +7,16 @@ using System.Windows.Input;
 using System.Collections.Generic ;
 using System.Linq ;
 
-namespace IntensityMapViewer
+//
+// Hmm, the namespace has to be 'NativeUwp_TestHarnessApp.ViewModels'
+// otherwise the navigation service fails to locate the ViewModel,
+// despite the fact that we register the specific VM class.
+// This seems like a bug in WTS ? Surely we should be able to register
+// a ViewModel that's defined in a different Assembly ??
+//
+
+// namespace IntensityMapViewer
+namespace NativeUwp_TestHarnessApp.ViewModels
 {
 
   //

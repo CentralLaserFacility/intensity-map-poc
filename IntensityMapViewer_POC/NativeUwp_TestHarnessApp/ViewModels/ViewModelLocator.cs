@@ -21,7 +21,7 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             Register<MainViewModel, MainPage>();
             Register<BlankViewModel, BlankPage>();
             Register<SettingsViewModel, SettingsPage>();
-            Register<IntensityMapViewer.IntensityMapTestViewModel, IntensityMapViewer.IntensityMapTestPage>();
+            Register<IntensityMapTestViewModel, IntensityMapViewer.IntensityMapTestPage>();
         }
 
         public SettingsViewModel SettingsViewModel => SimpleIoc.Default.GetInstance<SettingsViewModel>();
@@ -34,8 +34,8 @@ namespace NativeUwp_TestHarnessApp.ViewModels
 
         public NavigationServiceEx NavigationService => SimpleIoc.Default.GetInstance<NavigationServiceEx>();
 
-        public IntensityMapViewer.IntensityMapTestViewModel IntensityMapTestViewModel
-        => SimpleIoc.Default.GetInstance<IntensityMapViewer.IntensityMapTestViewModel>() ;
+        public IntensityMapTestViewModel IntensityMapTestViewModel
+        => SimpleIoc.Default.GetInstance<IntensityMapTestViewModel>() ;
 
         public void Register<VM, V>()
             where VM : class
