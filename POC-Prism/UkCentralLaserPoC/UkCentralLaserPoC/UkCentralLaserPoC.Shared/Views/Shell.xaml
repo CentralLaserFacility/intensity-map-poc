@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="UkCentralLaserPoC.Shared.Views.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UkCentralLaserPoC.Shared.Views"
+    xmlns:prismMvvm="using:Prism.Mvvm"
+    xmlns:prismRegions="using:Prism.Regions"
+    prismMvvm:ViewModelLocator.AutowireViewModel="True" >
+
+    <NavigationView
+        x:Name="navigationView"
+        IsBackButtonVisible="Visible"
+        IsSettingsVisible="True"
+        ItemInvoked="ItemSelected"
+        Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+        <NavigationView.MenuItems>
+            <!--
+            TODO WTS: Change the symbols for each item as appropriate for your app
+            More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
+            Or t1o use an IconElement instead of a Symbol see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/projectTypes/navigationpane.md
+            Edit String/en-US/Resources.resw: Add a menu item title for each page
+            -->
+            <NavigationViewItem x:Uid="Shell_Main" Icon="Document" Tag="Main" />
+            <NavigationViewItem x:Uid="Shell_IntensityMap" Icon="Globe" Tag="IntensityMap" /> 
+        </NavigationView.MenuItems>
+        
+        <Grid>
+            <ContentControl prismRegions:RegionManager.RegionName="ContentRegion" />
+        </Grid>
+    </NavigationView>
+
+
+</Page>
