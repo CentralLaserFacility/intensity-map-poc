@@ -61,6 +61,9 @@ namespace NativeUwp_TestHarnessApp.Helpers
             return default;
         }
 
+        // STEVET : Protection against this being invoked while the Save is in progress ???
+        // However this is currently never being called ...
+
         public static async Task<StorageFile> SaveFileAsync(this StorageFolder folder, byte[] content, string fileName, CreationCollisionOption options = CreationCollisionOption.ReplaceExisting)
         {
             if (content == null)

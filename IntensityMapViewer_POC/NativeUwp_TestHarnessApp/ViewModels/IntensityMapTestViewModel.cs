@@ -19,8 +19,16 @@ using System.Linq ;
 // mentioned as a string, with no checking) YOU HAVE TO REBUILD ALL TWICE.
 // Otherwise an 'ExecutionEngineException' gets thrown. Hmm, not helpful.
 //
+// NEED TO MOVE THIS TO A DIFFERENT PROJECT SO THAT IT CAN BE RE-USED ...
+//
 // It *would* be better if we defined this ViewModel in a platform-independent assembly,
 // rather than baking in the UWP dependencies that we have here.
+//
+// To do this, move the code that creates 'test-oriented' bitmap patterns into IntensityMap,
+// as a bunch of additional 'creation' functions, and have the ViewModel expose IIntensityMap
+// properties. Then define a helper function that can be invoked via x:Bind in the XAML,
+// to transform the IIntensityMap values into the ImageSource data for an Image, etc.
+// A Skia view of the image would then just use a different x:Bind helper.
 // 
 
 namespace IntensityMapViewer
@@ -104,6 +112,30 @@ namespace IntensityMapViewer
     public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
 
     private Common.CyclicSelector<(Windows.UI.Xaml.Media.ImageSource,string)> m_staticImagesSelector = new(
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0xff,0x00,0x00) // red
+        ), 
+        "Solid red"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0x00,0xff,0x00) // green
+        ), 
+        "Solid green"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0x00,0x00,0xff) // blue
+        ), 
+        "Solid blue"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_B(
+          (x,y) => (0xff,(byte)(x*2),(byte)(y*2))
+        ), 
+        "Snazzy"
+      ),
       (
         UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
           intensityMap : 

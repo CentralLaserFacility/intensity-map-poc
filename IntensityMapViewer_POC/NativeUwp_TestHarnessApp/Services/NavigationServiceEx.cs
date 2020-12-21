@@ -60,10 +60,12 @@ namespace NativeUwp_TestHarnessApp.Services
 
         public void GoForward() => Frame.GoForward();
 
+        // STEVET : The 'pageKey' is the full name of the type of the ViewModel of the target page.
+
         public bool Navigate(string pageKey, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
-            Type page;
-            lock (_pages)
+            Type page; // STEVET : this is the type of the 'Page' we'll navigate to
+            lock (_pages) // STEVET : '_pages' is a dictionary of view-model-type-name to page-type
             {
                 if (string.IsNullOrEmpty(pageKey) || !_pages.TryGetValue(pageKey, out page))
                 {

@@ -48,7 +48,7 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             set { Set(ref _selected, value); }
         }
 
-        // This is invoked via the Page.Loaded event, via a Behavour
+        // STEVET : this is invoked via the Page.Loaded event, via a Behavour
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
@@ -57,6 +57,8 @@ namespace NativeUwp_TestHarnessApp.ViewModels
         public ShellViewModel()
         {
         }
+
+        // STEVET : hmm, this ViewModel has a reference to the View (_navigationView) ...
 
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
@@ -76,6 +78,17 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             _keyboardAccelerators.Add(_backKeyboardAccelerator);
             await Task.CompletedTask;
         }
+
+        // STEVET : An item in the list of available pages has been clicked on.
+        // The 'args' specifies the 'invokedItem' as an object, and in our case,
+        // where the NavigationView.MenuItems collection contains instances of
+        // 'NavigationViewItem', the 'invokedItem' value corresponds to the
+        // 'Content' ; this is the language-dependent string that will have been
+        // obtained by looking up the x:Uid in the string resources.
+        // The target Page that we'll navigate to is specified via the
+        // 'NavigateTo' attached property that was specified in the XAML, which
+        // is a string identifying the full name of the ViewModel pertaining to
+        // that page. That name is used as the 'pageKey' in the Navigate function.
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
@@ -115,6 +128,11 @@ namespace NativeUwp_TestHarnessApp.ViewModels
                 Selected = selectedItem;
             }
         }
+
+        // STEVET : Here's where we intercept a click on a 'menu item' which represents
+        // the page we want to navigate to. The 'NavigationViewItem' from the 'NavigationView.MenuItems' list
+        // specified in the XAM, is returned.
+        // ??? Strange behaviour if you put a debug breakpoint here and step through ...
 
         private WinUI.NavigationViewItem GetSelectedItem(IEnumerable<object> menuItems, Type pageType)
         {

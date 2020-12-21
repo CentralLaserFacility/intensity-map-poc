@@ -88,6 +88,30 @@ namespace UwpUtilities_TestApp
 
     private Common.CyclicSelector<(Windows.UI.Xaml.Media.ImageSource,string)> m_staticImagesSelector = new(
       (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0xff,0x00,0x00) // red
+        ), 
+        "Solid red"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0x00,0xff,0x00) // green
+        ), 
+        "Solid green"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_A_SolidColour(
+          (0x00,0x00,0xff) // blue
+        ), 
+        "Solid blue"
+      ),
+      (
+        UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_B(
+          (x,y) => (0xff,(byte)x,(byte)y)
+        ), 
+        "Snazzy"
+      ),
+      (
         UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
           intensityMap : 
           new IntensityMapViewer.IntensityMap.CreatedAsOffsettedCircle(),
