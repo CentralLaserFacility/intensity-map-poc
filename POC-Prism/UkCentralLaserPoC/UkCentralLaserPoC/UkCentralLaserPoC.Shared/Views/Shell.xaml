@@ -25,7 +25,7 @@
         </NavigationView.MenuItems>
         
         <Grid>
-            <ContentControl prismRegions:RegionManager.RegionName="ContentRegion" />
+           <ContentControl prismRegions:RegionManager.RegionName="ContentRegion" />
         </Grid>
     </NavigationView>
 

@@ -21,6 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IntensityMapStatic.xaml.cs">
+      <DependentUpon>IntensityMapStatic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Services\IThemeSelectorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ThemeSelectorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
@@ -37,6 +40,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)IntensityMapStatic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Styles\Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
