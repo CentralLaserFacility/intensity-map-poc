@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UkCentralLaserPoC.Core.Mvvm;
 
-namespace UkCentralLaserPoC.ViewModels
+namespace UkCentralLaserPoC.IntensityMap
 {
     public class IntensityMapDynamicViewModel: ViewModelBase
     {

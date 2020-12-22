@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
+using UkCentralLaserPoC.IntensityMap;
 using UkCentralLaserPoC.Services;
 using UkCentralLaserPoC.Shared.Views;
 using UkCentralLaserPoC.ViewModels;
@@ -37,22 +38,20 @@ namespace UkCentralLaserPoC
             containerRegistry.RegisterSingleton<IThemeSelectorService, ThemeSelectorService>();
             containerRegistry.RegisterScoped<MainViewModel>();
             containerRegistry.RegisterScoped<SettingsViewModel>();
-            containerRegistry.RegisterScoped<IntensityMapDynamicViewModel>();
 
             containerRegistry.RegisterForNavigation(typeof(SettingsView), "SettingsPage");
             containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");
         }
 
-        //protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
-        //{
-        //    Type intensityMapModule = typeof(IntensityMapModule);
-        //    moduleCatalog.AddModule(new ModuleInfo()
-        //    {
-        //        ModuleName = intensityMapModule.Name,
-        //        ModuleType = intensityMapModule
-        //    });
-
-        //}
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            Type intensityMapModule = typeof(IntensityMapModule);
+            moduleCatalog.AddModule(new ModuleInfo()
+            {
+                ModuleName = intensityMapModule.Name,
+                ModuleType = intensityMapModule
+            });
+        }
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

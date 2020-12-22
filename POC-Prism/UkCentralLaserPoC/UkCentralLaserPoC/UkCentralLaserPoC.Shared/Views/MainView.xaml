@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:UkCentralLaserPoC.Shared.Controls"
+    xmlns:intensityMap="using:UkCentralLaserPoC.IntensityMap"
     xmlns:prismMvvm="using:Prism.Mvvm"
     prismMvvm:ViewModelLocator.AutowireViewModel="True"
     Style="{StaticResource PageStyle}"
@@ -22,7 +22,7 @@
 
             <!--<userControls:IntensityMapStatic Source="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />-->
 
-            <userControls:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />
+            <intensityMap:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />
 
             <Slider 
               Header="{x:Bind ViewModel.IntensityMapDynamicViewModel.FramesPerSecond_AsString, Mode=OneWay}"

@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using IntensityMapViewer.ViewModel_interfaces;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
@@ -12,13 +13,13 @@ namespace UkCentralLaserPoC.IntensityMap
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("ContentRegion", typeof(IntensityMapTestView));
+            regionManager.RegisterViewWithRegion("ContentRegion", typeof(IntensityMapDynamicView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterScoped<IntensityMapTestViewModel>();
-            containerRegistry.RegisterForNavigation<IntensityMapTestView>("IntensityMapTestView");
+            containerRegistry.RegisterScoped<IntensityMapDynamicViewModel>();
+            containerRegistry.RegisterForNavigation<IntensityMapDynamicView>("IntensityMapDynamicView");
         }
     }
 }

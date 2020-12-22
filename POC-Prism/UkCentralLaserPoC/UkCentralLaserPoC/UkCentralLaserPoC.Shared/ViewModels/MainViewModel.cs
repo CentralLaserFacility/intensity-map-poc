@@ -1,15 +1,17 @@
 ﻿using Common;
 
 using UkCentralLaserPoC.Core.Mvvm;
+using UkCentralLaserPoC.IntensityMap;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace UkCentralLaserPoC.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)> _staticImages;
+        private CyclicSelector<(ImageSource, string)> _staticImages;
 
-        public CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)> StaticImages
+        public CyclicSelector<(ImageSource, string)> StaticImages
         {
             get { return _staticImages; }
             set { SetProperty(ref _staticImages, value); }
@@ -25,7 +27,7 @@ namespace UkCentralLaserPoC.ViewModels
 
         public MainViewModel(IntensityMapDynamicViewModel intensityMapDynamicViewModel)
         {
-            StaticImages = new CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)>(
+            StaticImages = new CyclicSelector<(ImageSource, string)>(
               (
                 UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
                   intensityMap: new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
