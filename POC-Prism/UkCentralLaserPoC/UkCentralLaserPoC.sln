@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "..\..\Intensi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnoUtilities", "..\..\POC\UkCentralLaserPoC\UnoUtilities\UnoUtilities.csproj", "{91101C5E-71E9-41ED-8C06-A23ADE8D8307}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDefinitions", "..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj", "{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UkCentralLaserPoC\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems*{201ff7cc-39ab-4f79-9b23-9966bdb04a5e}*SharedItemsImports = 4
@@ -243,6 +245,26 @@ Global
 		{91101C5E-71E9-41ED-8C06-A23ADE8D8307}.Release|x64.Build.0 = Release|Any CPU
 		{91101C5E-71E9-41ED-8C06-A23ADE8D8307}.Release|x86.ActiveCfg = Release|x86
 		{91101C5E-71E9-41ED-8C06-A23ADE8D8307}.Release|x86.Build.0 = Release|x86
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|ARM.Build.0 = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|x64.Build.0 = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Debug|x86.Build.0 = Debug|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|ARM.ActiveCfg = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|ARM.Build.0 = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|ARM64.Build.0 = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|x64.ActiveCfg = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|x64.Build.0 = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|x86.ActiveCfg = Release|Any CPU
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +277,7 @@ Global
 		{1B38F8A0-79B3-4AB1-8D9B-82A828E09B56} = {7F6BBB01-5388-41A4-A5F0-3B9C1F2948CF}
 		{90B85E92-DD00-456D-9E35-0BBF7DC5830F} = {7F6BBB01-5388-41A4-A5F0-3B9C1F2948CF}
 		{91101C5E-71E9-41ED-8C06-A23ADE8D8307} = {7F6BBB01-5388-41A4-A5F0-3B9C1F2948CF}
+		{21F9B087-0FC6-46BC-8F98-31D6F6EFFC88} = {7F6BBB01-5388-41A4-A5F0-3B9C1F2948CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8C9D3BE-A9CA-4B06-9BA4-FD4CF2047D24}

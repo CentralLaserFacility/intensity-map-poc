@@ -158,6 +158,10 @@
       <Project>{6fd32e7a-e605-4819-8059-ed377683da22}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{21f9b087-0fc6-46bc-8f98-31d6f6effc88}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj">
       <Project>{1b38f8a0-79b3-4ab1-8d9b-82a828e09b56}</Project>
       <Name>ModelClasses</Name>
@@ -174,9 +178,6 @@
       <Project>{197FEC90-CD48-4B92-B53B-8C1FBCEB83A1}</Project>
       <Name>UkCentralLaserPoC.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="DomainDefinitions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <Import Project="..\..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" Condition="Exists('..\..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems')" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
