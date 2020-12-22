@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:UkCentralLaserPoC.Shared"
+    xmlns:userControls="using:UkCentralLaserPoC.Shared.Controls"
     xmlns:prismMvvm="using:Prism.Mvvm"
     prismMvvm:ViewModelLocator.AutowireViewModel="True"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
-        <Grid
+        <StackPanel
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
             <!--
                 The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
@@ -20,8 +20,19 @@
             <!--<intensityMap:IntensityMapTestPage />-->
             <!--<TextBlock Text="Hello world" />-->
 
-            <userControls:IntensityMapStatic Source="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />
+            <!--<userControls:IntensityMapStatic Source="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />-->
 
-        </Grid>
+            <userControls:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />
+
+            <Slider 
+              Header="{x:Bind ViewModel.IntensityMapDynamicViewModel.FramesPerSecond_AsString, Mode=OneWay}"
+              Width="200" 
+              Margin="10,0,0,0"
+              Minimum="0" 
+              Maximum="50" 
+              Value="{x:Bind ViewModel.IntensityMapDynamicViewModel.FramesPerSecond, Mode=TwoWay}" 
+            />
+
+        </StackPanel>
     </Grid>
 </Page>

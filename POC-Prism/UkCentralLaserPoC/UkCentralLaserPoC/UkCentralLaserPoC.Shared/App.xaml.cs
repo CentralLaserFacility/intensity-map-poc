@@ -37,6 +37,7 @@ namespace UkCentralLaserPoC
             containerRegistry.RegisterSingleton<IThemeSelectorService, ThemeSelectorService>();
             containerRegistry.RegisterScoped<MainViewModel>();
             containerRegistry.RegisterScoped<SettingsViewModel>();
+            containerRegistry.RegisterScoped<IntensityMapDynamicViewModel>();
 
             containerRegistry.RegisterForNavigation(typeof(SettingsView), "SettingsPage");
             containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");

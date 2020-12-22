@@ -15,7 +15,15 @@ namespace UkCentralLaserPoC.ViewModels
             set { SetProperty(ref _staticImages, value); }
         }
 
-        public MainViewModel()
+        private IntensityMapDynamicViewModel _intensityMapDynamicViewModel;
+
+        public IntensityMapDynamicViewModel IntensityMapDynamicViewModel
+        {
+            get { return _intensityMapDynamicViewModel; }
+            set { SetProperty(ref _intensityMapDynamicViewModel, value); }
+        }
+
+        public MainViewModel(IntensityMapDynamicViewModel intensityMapDynamicViewModel)
         {
             StaticImages = new CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)>(
               (
@@ -54,6 +62,8 @@ namespace UkCentralLaserPoC.ViewModels
                 "Ramping, blue"
               )
             );
+
+            IntensityMapDynamicViewModel = intensityMapDynamicViewModel;
         }
     }
 }

@@ -18,6 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\IntensityMapDynamicView.xaml.cs">
+      <DependentUpon>IntensityMapDynamicView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SettingsStorageExtensions.cs" />
@@ -26,6 +29,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Services\IThemeSelectorService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ThemeSelectorService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IntensityMapDynamicViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShellViewModel.cs" />
@@ -40,6 +44,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\IntensityMapDynamicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)IntensityMapStatic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
