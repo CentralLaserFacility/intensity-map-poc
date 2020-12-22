@@ -12,6 +12,8 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Platforms>AnyCPU;x86</Platforms>
+	  
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0-preview4" />
@@ -19,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <None Remove="IntensityMapStatic.xaml" />
     <None Remove="IntensityMapTestPage.xaml" />
     <ProjectReference Include="..\..\..\IntensityMapViewer_POC\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj" />

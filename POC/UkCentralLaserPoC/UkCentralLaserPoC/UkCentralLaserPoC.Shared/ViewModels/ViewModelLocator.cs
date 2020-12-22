@@ -25,6 +25,8 @@ namespace UkCentralLaserPoC.ViewModels
         {
             ServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<ShellViewModel>();
+            serviceCollection.AddScoped<MainViewModel>();
+            serviceCollection.AddScoped<SettingsViewModel>();
             serviceCollection.AddSingleton<NavigationServiceEx>();
 
             container = serviceCollection.BuildServiceProvider();

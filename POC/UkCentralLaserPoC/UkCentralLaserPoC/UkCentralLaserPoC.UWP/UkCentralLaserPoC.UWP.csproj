@@ -139,6 +139,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\..\..\..\IntensityMapViewer_POC\Common\Common.csproj">
+      <Project>{bdcf99fc-f783-48f0-b969-a15cef18c8d6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{D871B6E9-DCC5-443B-BDC9-FF327654A410}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj">
+      <Project>{610552e5-6410-45f2-afdd-1a96123f3609}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
       <Project>{f975e651-e91e-4cf6-a7f0-20b34837500c}</Project>
       <Name>UkCentralLaserPoC.IntensityMap</Name>
@@ -146,6 +158,10 @@
     <ProjectReference Include="..\..\UkCentralLaserPoC.Library\UkCentralLaserPoC.Library.csproj">
       <Project>{4cb0d0aa-25ce-41d4-a0ae-9e3c424c2a37}</Project>
       <Name>UkCentralLaserPoC.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UnoUtilities\UnoUtilities.csproj">
+      <Project>{33428971-9a50-4f62-9c44-5c3229e02e5b}</Project>
+      <Name>UnoUtilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

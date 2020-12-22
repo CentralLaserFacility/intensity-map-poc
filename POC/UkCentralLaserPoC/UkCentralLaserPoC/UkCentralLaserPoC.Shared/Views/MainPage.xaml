@@ -15,7 +15,7 @@
                 Place your content here.
             -->
 
-            <intensityMap:IntensityMapTestPage />
+            <intensityMap:IntensityMapStatic StaticImagesSource="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />
         </Grid>
     </Grid>
 </Page>

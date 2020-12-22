@@ -12,6 +12,7 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Uno.UI" Version="3.3.0" />
