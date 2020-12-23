@@ -12,13 +12,12 @@ namespace UkCentralLaserPoC.IntensityMap
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("ContentRegion", typeof(IntensityMapTestView));
+            regionManager.RegisterViewWithRegion("IntensityMapRegion", () => containerProvider.Resolve<IntensityMapDynamicView>());
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterScoped<IntensityMapTestViewModel>();
-            containerRegistry.RegisterForNavigation<IntensityMapTestView>("IntensityMapTestView");
+            containerRegistry.RegisterScoped<IntensityMapDynamicViewModel>();
         }
     }
 }

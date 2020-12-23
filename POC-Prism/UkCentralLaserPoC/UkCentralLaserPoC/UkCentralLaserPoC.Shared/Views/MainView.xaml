@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:intensityMap="using:UkCentralLaserPoC.IntensityMap"
     xmlns:prismMvvm="using:Prism.Mvvm"
+    xmlns:prismRegions="using:Prism.Regions"
     prismMvvm:ViewModelLocator.AutowireViewModel="True"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
@@ -17,12 +18,9 @@
                 Place your content here.
             -->
 
-            <!--<intensityMap:IntensityMapTestPage />-->
-            <!--<TextBlock Text="Hello world" />-->
+            <!--<intensityMap:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />-->
 
-            <!--<userControls:IntensityMapStatic Source="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />-->
-
-            <intensityMap:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />
+            <ContentControl prismRegions:RegionManager.RegionName="IntensityMapRegion" />
 
             <Slider 
               Header="{x:Bind ViewModel.IntensityMapDynamicViewModel.FramesPerSecond_AsString, Mode=OneWay}"

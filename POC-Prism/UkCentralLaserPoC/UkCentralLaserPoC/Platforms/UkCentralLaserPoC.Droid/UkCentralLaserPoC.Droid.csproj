@@ -90,6 +90,26 @@
     <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\Common\Common.csproj">
+      <Project>{6fd32e7a-e605-4819-8059-ed377683da22}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{21f9b087-0fc6-46bc-8f98-31d6f6effc88}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj">
+      <Project>{1b38f8a0-79b3-4ab1-8d9b-82a828e09b56}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ViewModels\ViewModels.csproj">
+      <Project>{90b85e92-dd00-456d-9e35-0bbf7dc5830f}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\POC\UkCentralLaserPoC\UnoUtilities\UnoUtilities.csproj">
+      <Project>{91101c5e-71e9-41ed-8c06-a23ade8d8307}</Project>
+      <Name>UnoUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj">
       <Project>{92ab68a0-706f-407f-89d9-cbdf25efffe3}</Project>
       <Name>UkCentralLaserPoC.IntensityMap</Name>

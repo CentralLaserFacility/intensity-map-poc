@@ -1,6 +1,7 @@
 ﻿using Common;
 
 using UkCentralLaserPoC.Core.Mvvm;
+using UkCentralLaserPoC.IntensityMap;
 using Windows.UI.Xaml;
 
 namespace UkCentralLaserPoC.ViewModels
