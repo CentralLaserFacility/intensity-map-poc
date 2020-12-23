@@ -17,11 +17,6 @@
                 Place your content here.
             -->
 
-            <!--<intensityMap:IntensityMapTestPage />-->
-            <!--<TextBlock Text="Hello world" />-->
-
-            <!--<userControls:IntensityMapStatic Source="{x:Bind ViewModel.StaticImages, Mode=OneWay}" />-->
-
             <userControls:IntensityMapDynamicView DataContext="{x:Bind ViewModel.IntensityMapDynamicViewModel}" />
 
             <Slider 

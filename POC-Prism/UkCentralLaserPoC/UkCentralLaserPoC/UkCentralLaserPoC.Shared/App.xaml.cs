@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
+using UkCentralLaserPoC.IntensityMap;
 using UkCentralLaserPoC.Services;
 using UkCentralLaserPoC.Shared.Views;
 using UkCentralLaserPoC.ViewModels;
@@ -43,16 +44,10 @@ namespace UkCentralLaserPoC
             containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");
         }
 
-        //protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
-        //{
-        //    Type intensityMapModule = typeof(IntensityMapModule);
-        //    moduleCatalog.AddModule(new ModuleInfo()
-        //    {
-        //        ModuleName = intensityMapModule.Name,
-        //        ModuleType = intensityMapModule
-        //    });
-
-        //}
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<IntensityMapModule>(InitializationMode.OnDemand);
+        }
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
