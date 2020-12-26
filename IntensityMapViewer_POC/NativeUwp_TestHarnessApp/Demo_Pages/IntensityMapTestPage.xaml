@@ -30,8 +30,8 @@
             Text="{x:Bind ViewModel.StaticImageLabel,Mode=OneWay}" 
           />
 
-                    <!-- Source="/Assets/Ivry-Gitlis.jpg" -->
-                    <Image 
+          <!-- Source="/Assets/Ivry-Gitlis.jpg" -->
+          <Image 
             x:Name="m_image" 
             Source="{x:Bind ViewModel.StaticImageSource, Mode=OneWay}"
             HorizontalAlignment="Left" 

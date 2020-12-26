@@ -61,17 +61,28 @@ namespace UwpUtilities
 
     // RENAME => CreateImageSource_WriteableBitmap
 
+    // public static double Width ( ) => 640 ;
+
+    public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
+      IntensityMapViewer.IIntensityMap intensityMap
+    ) { 
+      return CreateWriteableBitmap(
+        intensityMap,
+        IntensityMapViewer.ColourMapOption.JetColours
+      ) ;
+    }
+
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
       IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption       = IntensityMapViewer.ColourMapOption.JetColours,
-      byte?                              highestIntensityValue = null
+      IntensityMapViewer.ColourMapOption colourMapOption,
+      double?                            gainFactorToApply = null
     ) { 
       Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap = null ;
       return LoadOrCreateWriteableBitmap(
         ref bitmap,
         intensityMap,
         colourMapOption,
-        highestIntensityValue
+        gainFactorToApply
       ) ;
       // OLD VERSION ...
       // var bitmap = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
@@ -98,11 +109,15 @@ namespace UwpUtilities
       // return bitmap ;
     }
 
+    //
+    // Hmm, could save the created bitmap in a cache, keyed to the identity of the intensityMap ?
+    //
+
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap LoadOrCreateWriteableBitmap (
       ref Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap,
       IntensityMapViewer.IIntensityMap                  intensityMap,
-      IntensityMapViewer.ColourMapOption                colourMapOption       = IntensityMapViewer.ColourMapOption.JetColours,
-      byte?                                             highestIntensityValue = null
+      IntensityMapViewer.ColourMapOption                colourMapOption   = IntensityMapViewer.ColourMapOption.JetColours,
+      double?                                           gainFactorToApply = null
     ) { 
       if ( 
          bitmap?.PixelWidth  != intensityMap.Dimensions.Width
@@ -113,17 +128,6 @@ namespace UwpUtilities
       bitmap ??= new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
         intensityMap.Dimensions.Width,
         intensityMap.Dimensions.Height
-      ) ;
-      double? gainFactorToApply = (
-        (
-           highestIntensityValue.HasValue 
-        && intensityMap.MaximumIntensityValue != 0
-        )
-        ? (
-            (double) highestIntensityValue
-          / intensityMap.MaximumIntensityValue
-          )
-        : null
       ) ;
       var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
       var pixelBuffer = bitmap.PixelBuffer ;

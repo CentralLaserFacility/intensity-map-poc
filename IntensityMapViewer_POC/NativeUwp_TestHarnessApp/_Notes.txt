@@ -1,0 +1,42 @@
+﻿//
+// _Notes.txt
+//
+
+This is a 'native' UWP app that holds a number of 'test' pages, each of which serves to demo a particular ViewModel that exercises interesting facets of the IntensityMapViewer.
+
+The app structure was created using Windows Template Studio.
+
+ViewModel classes and UI Pages relating to the overall structure are in the 'ViewModels' and 'Views' directories :
+
+  ShellViewModel / ShellPage
+
+  MainViewModel / MainPage
+
+  BlankViewModel / BlankPage
+
+  SettingsViewModel / SettingsPage
+
+ViewModel classes and UI Pages relating to the IntensityMap 'demos' are in the 'Demo_ViewModels' and 'Demo_Pages' directories.
+
+  The 'demo' view models are contained within the project, and in some cases refer to UWP-specific features.
+  
+
+
+All the demo ViewModel classes and Pages are registered with the ViewModelLocator :
+
+  - We register the association between the ViewModel and the associated Page type.
+  - We expose properties that provide access to the ViewModel instances.
+
+The 'ShellPage.xaml' file is where we list the available Pages, eg
+
+  <winui:NavigationViewItem 
+    x:Uid="Shell_IntensityMapTest" 
+    Icon="Document"
+    helpers:NavHelper.NavigateTo="IntensityMapViewer.IntensityMapTestViewModel" 
+  />
+
+The Uid property defines the string that's displayed on the menu items in the left hand panel.
+The 'NavigateTo' attached property defines the ViewModel type assiciated with the menu item.
+
+================================
+

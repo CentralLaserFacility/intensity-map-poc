@@ -26,9 +26,12 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             Register<BlankViewModel, BlankPage>();
             Register<SettingsViewModel, SettingsPage>();
 
-            // Register the types of our custom Pages and the associated ViewModels.
-            Register<IntensityMapViewer.IntensityMapTestViewModel, IntensityMapViewer.IntensityMapTestPage>();
-            Register<IntensityMapViewer.BitmapLoadTimingDemoViewModel, IntensityMapViewer.BitmapLoadTimingTestPage>();
+            // Register the types of our custom Pages and their associated ViewModels.
+
+            Register< IntensityMapViewer.IntensityMapTestViewModel,     IntensityMapViewer.IntensityMapTestPage     >();
+            Register< IntensityMapViewer.BitmapLoadTimingDemoViewModel, IntensityMapViewer.BitmapLoadTimingTestPage >();
+
+            Register< DemoViewModel_CyclingThroughStaticIntensityMaps,  DemoPage_CyclingThroughStaticIntensityMaps  >();
         }
 
         // STEVET : 'GetInstance' creates an instance if necessary, otherwise returns the singleton instance.
@@ -50,6 +53,9 @@ namespace NativeUwp_TestHarnessApp.ViewModels
 
         public IntensityMapViewer.BitmapLoadTimingDemoViewModel BitmapLoadTimingDemoViewModel
         => SimpleIoc.Default.GetInstance<IntensityMapViewer.BitmapLoadTimingDemoViewModel>() ;
+
+        public DemoViewModel_CyclingThroughStaticIntensityMaps DemoViewModel_CyclingThroughStaticIntensityMaps
+        => SimpleIoc.Default.GetInstance<DemoViewModel_CyclingThroughStaticIntensityMaps>() ;
 
         // STEVET : Here we register a ViewModel type for a Page, and the corresponding View type.
         // The ViewModel type is registered with the IoC container so that we can subsequently

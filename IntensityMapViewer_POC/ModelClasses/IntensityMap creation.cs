@@ -179,6 +179,25 @@ namespace IntensityMapViewer
       }
     }
 
+    public class CreatedAsUniformPixelValue : IntensityMap
+    {
+
+      public CreatedAsUniformPixelValue ( 
+        int   width      = 320,
+        int   height     = 240,
+        byte  pixelValue = 0x7f
+      ) :
+      base(
+        new System.Drawing.Size(width,height)
+      ) {
+        IntensityValues = Common.GraphicsHelpers.ForEachPixel(
+          nX             : width,
+          nY             : height,
+          pixelValueFunc : (x,y) => pixelValue
+        ).ToList() ;
+      }
+    }
+
   }
 
 }

@@ -143,6 +143,10 @@
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
+    <Compile Include="Demo_Pages\DemoPage_CyclingThroughStaticIntensityMaps.xaml.cs">
+      <DependentUpon>DemoPage_CyclingThroughStaticIntensityMaps.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Demo_ViewModels\DemoViewModel_CyclingThroughStaticIntensityMaps.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
@@ -151,8 +155,8 @@
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
-    <Compile Include="ViewModels\BitmapLoadTimingDemoViewModel.cs" />
-    <Compile Include="ViewModels\IntensityMapTestViewModel.cs" />
+    <Compile Include="Demo_ViewModels\BitmapLoadTimingDemoViewModel.cs" />
+    <Compile Include="Demo_ViewModels\IntensityMapTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -160,10 +164,10 @@
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BitmapLoadTimingTestPage.xaml.cs">
+    <Compile Include="Demo_Pages\BitmapLoadTimingTestPage.xaml.cs">
       <DependentUpon>BitmapLoadTimingTestPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IntensityMapTestPage.xaml.cs">
+    <Compile Include="Demo_Pages\IntensityMapTestPage.xaml.cs">
       <DependentUpon>IntensityMapTestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
@@ -183,6 +187,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Demo_Pages\DemoPage_CyclingThroughStaticIntensityMaps.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -207,11 +215,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\BitmapLoadTimingTestPage.xaml">
+    <Page Include="Demo_Pages\BitmapLoadTimingTestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\IntensityMapTestPage.xaml">
+    <Page Include="Demo_Pages\IntensityMapTestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -245,6 +253,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="_Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -277,7 +286,12 @@
       <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
       <Name>ViewModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewModels_ForTesting\ViewModels_ForTesting.csproj">
+      <Project>{ba1aabec-ebf9-478f-828e-def57676a41f}</Project>
+      <Name>ViewModels_ForTesting</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

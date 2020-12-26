@@ -35,6 +35,12 @@
             <winui:NavigationViewItem x:Uid="Shell_Blank"            Icon="Document" helpers:NavHelper.NavigateTo="NativeUwp_TestHarnessApp.ViewModels.BlankViewModel" />
             <winui:NavigationViewItem x:Uid="Shell_IntensityMapTest" Icon="Document" helpers:NavHelper.NavigateTo="IntensityMapViewer.IntensityMapTestViewModel" />
             <winui:NavigationViewItem x:Uid="Shell_BitmapLoadTiming" Icon="Document" helpers:NavHelper.NavigateTo="IntensityMapViewer.BitmapLoadTimingDemoViewModel" />
+
+            <!-- STEVET : We can avoid using x:Uid, but the ViewModel name has to be the FULL name -->
+            <winui:NavigationViewItem Content="Static IntensityMaps" Icon="Document"
+              helpers:NavHelper.NavigateTo="NativeUwp_TestHarnessApp.DemoViewModel_CyclingThroughStaticIntensityMaps"
+            />
+
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior

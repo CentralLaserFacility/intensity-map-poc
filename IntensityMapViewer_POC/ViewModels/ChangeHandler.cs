@@ -25,7 +25,7 @@ namespace IntensityMapViewer
   public class ChangeHandler
   {
     
-    public static ChangeHandler Instance = new ChangeHandler() ;
+    public static ChangeHandler Instance = new() ;
 
     public void HandleChange ( WhatChanged whatChanged, DisplayPanelViewModel host )
     {
