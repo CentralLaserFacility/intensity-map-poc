@@ -29,7 +29,8 @@ namespace NativeUwp_TestHarnessApp.ViewModels
             // Register the types of our custom Pages and their associated ViewModels.
 
             Register< IntensityMapViewer.IntensityMapTestViewModel,     IntensityMapViewer.IntensityMapTestPage     >();
-            Register< IntensityMapViewer.BitmapLoadTimingDemoViewModel, IntensityMapViewer.BitmapLoadTimingTestPage >();
+
+            Register< IntensityMapViewer.BitmapLoadTimingTestViewModel, IntensityMapViewer.BitmapLoadTimingTestPage >();
 
             Register< DemoViewModel_CyclingThroughStaticIntensityMaps,  DemoPage_CyclingThroughStaticIntensityMaps  >();
         }
@@ -51,8 +52,8 @@ namespace NativeUwp_TestHarnessApp.ViewModels
         public IntensityMapViewer.IntensityMapTestViewModel IntensityMapTestViewModel
         => SimpleIoc.Default.GetInstance<IntensityMapViewer.IntensityMapTestViewModel>() ;
 
-        public IntensityMapViewer.BitmapLoadTimingDemoViewModel BitmapLoadTimingDemoViewModel
-        => SimpleIoc.Default.GetInstance<IntensityMapViewer.BitmapLoadTimingDemoViewModel>() ;
+        public IntensityMapViewer.BitmapLoadTimingTestViewModel BitmapLoadTimingTestViewModel
+        => SimpleIoc.Default.GetInstance<IntensityMapViewer.BitmapLoadTimingTestViewModel>() ;
 
         public DemoViewModel_CyclingThroughStaticIntensityMaps DemoViewModel_CyclingThroughStaticIntensityMaps
         => SimpleIoc.Default.GetInstance<DemoViewModel_CyclingThroughStaticIntensityMaps>() ;

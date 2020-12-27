@@ -1,5 +1,5 @@
 ﻿//
-// IntensityMapTestPage.cs
+// BitmapLoadTimingTestPage.cs
 //
 
 namespace IntensityMapViewer
@@ -8,8 +8,8 @@ namespace IntensityMapViewer
   public sealed partial class BitmapLoadTimingTestPage : Windows.UI.Xaml.Controls.Page
   {
 
-    private IntensityMapViewer.BitmapLoadTimingDemoViewModel ViewModel
-    => NativeUwp_TestHarnessApp.ViewModels.ViewModelLocator.Current.BitmapLoadTimingDemoViewModel ; 
+    private IntensityMapViewer.BitmapLoadTimingTestViewModel ViewModel
+    => NativeUwp_TestHarnessApp.ViewModels.ViewModelLocator.Current.BitmapLoadTimingTestViewModel ; 
 
     public BitmapLoadTimingTestPage ( )
     {

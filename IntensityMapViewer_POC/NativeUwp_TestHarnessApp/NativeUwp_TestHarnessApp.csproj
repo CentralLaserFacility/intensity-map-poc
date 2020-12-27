@@ -155,7 +155,7 @@
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
-    <Compile Include="Demo_ViewModels\BitmapLoadTimingDemoViewModel.cs" />
+    <Compile Include="Demo_Pages\BitmapLoadTimingTestViewModel.cs" />
     <Compile Include="Demo_ViewModels\IntensityMapTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

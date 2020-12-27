@@ -11,7 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 namespace IntensityMapViewer
 {
 
-  public class BitmapLoadTimingDemoViewModel : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  public class BitmapLoadTimingTestViewModel : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   {
 
     private Windows.UI.Xaml.DispatcherTimer m_timer = new() ;
@@ -65,7 +65,7 @@ namespace IntensityMapViewer
 
     private bool m_performDynamicImageUpdates = false ;
 
-    public BitmapLoadTimingDemoViewModel ( )
+    public BitmapLoadTimingTestViewModel ( )
     {
       m_timerPeriodInMillisecs = TimerPeriod_Default ;
       m_timer.Interval = System.TimeSpan.FromMilliseconds(100) ;
