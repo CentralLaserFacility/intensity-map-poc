@@ -27,19 +27,24 @@ namespace IntensityMapViewer
 
     private Common.CyclicSelector<(IIntensityMap,ColourMapOption,string)> m_staticImagesSelector = new(
       (
-        new IntensityMap.CreatedAsOffsettedCircle(),
+        new IntensityMap.CreatedAsUniformPixelValue(),
         ColourMapOption.ShadesOfRed,
         "Solid red"
       ),
       (
-        new IntensityMap.CreatedAsOffsettedCircle(),
+        new IntensityMap.CreatedAsUniformPixelValue(),
         ColourMapOption.ShadesOfGreen,
         "Solid green"
       ),
       (
-        new IntensityMap.CreatedAsOffsettedCircle(),
+        new IntensityMap.CreatedAsUniformPixelValue(),
         ColourMapOption.ShadesOfBlue,
         "Solid blue"
+      ),
+      (
+        new IntensityMap.CreatedAsOffsettedCircle(),
+        ColourMapOption.ShadesOfBlue,
+        "Offsetted circle"
       )
       // (
       //   UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_B(
@@ -91,42 +96,6 @@ namespace IntensityMapViewer
       // )
     ) ;
 
-    private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-      2 switch 
-      {
-      1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
-          nIntensityMaps                   : 60,
-          sincFactor                       : 10.0,
-          fractionalRadialOffsetFromCentre : 0.2
-        ).IntensityMaps,
-      2 => IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
-          60
-        ).IntensityMaps,
-      _ => throw new System.ApplicationException()
-      }
-    ) ;
-
-    // private bool m_performDynamicImageUpdates = false ;
-    // 
-    // private IIntensityMap m_intensityMap ;
-    // public IIntensityMap IntensityMap {
-    //   get => m_intensityMap ;
-    //   set => SetProperty(ref m_intensityMap,value) ;
-    // }
-    // 
-    // private ColourMapOption m_colourMapOption ;
-    // public ColourMapOption ColourMapOption {
-    //   get => m_colourMapOption ;
-    //   set => SetProperty(ref m_colourMapOption,value) ;
-    // }
-    // 
-    // private string m_intensityMapLabel ;
-    // public string IntensityMapLabel 
-    // {
-    //   get => m_intensityMapLabel ;
-    //   set => SetProperty(ref m_intensityMapLabel,value) ;
-    // }
-
     public StaticIntensityMapsDemo_ViewModel ( )
     {
       MoveToNextStaticImage = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
@@ -134,36 +103,6 @@ namespace IntensityMapViewer
       ) ;
       MoveToNextStaticImage.Execute(null) ;
     }
-
-    // private Windows.UI.Xaml.Media.ImageSource m_staticImageSource ;
-    // public Windows.UI.Xaml.Media.ImageSource StaticImageSource 
-    // {
-    //   get => m_staticImageSource ;
-    //   set => base.SetProperty(
-    //     ref m_staticImageSource,
-    //     value
-    //   ) ;
-    // }
-
-    private string m_staticImageLabel = "Static image" ;
-    public string StaticImageLabel 
-    {
-      get => m_staticImageLabel ;
-      set => base.SetProperty(
-        ref m_staticImageLabel,
-        value
-      ) ;
-    }
-
-    // private Windows.UI.Xaml.Media.ImageSource m_dynamicImageSource ;
-    // public Windows.UI.Xaml.Media.ImageSource DynamicImageSource 
-    // {
-    //   get => m_dynamicImageSource ;
-    //   set => base.SetProperty(
-    //     ref m_dynamicImageSource,
-    //     value
-    //   ) ;
-    // }
 
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand MoveToNextStaticImage { get ; }
 

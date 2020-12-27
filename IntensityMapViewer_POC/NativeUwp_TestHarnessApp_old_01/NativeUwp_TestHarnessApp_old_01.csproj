@@ -8,7 +8,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{74E6F35C-63B4-4E92-90BD-C303F5B6B91F}</ProjectGuid>
+    <ProjectGuid>{E5965E0E-D00B-453C-A8ED-65CF1DF37222}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NativeUwp_TestHarnessApp</RootNamespace>

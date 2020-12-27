@@ -6,11 +6,13 @@ namespace IntensityMapViewer
 {
 
   //
-  // This drives a UI that lets us exercise the visualisation
-  // of an IntensityMap as a WriteableBitmap.
+  // This drives a UI that lets us exercise the visualisation of an IntensityMap.
+  //
+  // A concrete subclass will set the property values, and a XAML UI will
+  // bind visual elements to them.
   //
 
-  public class IntensityMapsDemo_ViewModel 
+  public abstract class IntensityMapsDemo_ViewModel 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   {
 

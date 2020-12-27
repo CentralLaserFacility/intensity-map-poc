@@ -53,15 +53,11 @@ namespace UwpUtilities
   {
 
     //
-    // This helper converts from the raw image data supplied by an IntensityMap
-    // to a BitmapSource that will serve as the data source for an Image control. 
+    // These helpers can be invoked via x:Bind from a XAML view.
     //
-    // Each byte of the image is mapped to an RGB colour.
+    // Unfortunately x:Bind syntax doesn't support default arguments,
+    // so we have to provide overloads with different signatures.
     //
-
-    // RENAME => CreateImageSource_WriteableBitmap
-
-    // public static double Width ( ) => 640 ;
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
       IntensityMapViewer.IIntensityMap intensityMap
@@ -74,8 +70,19 @@ namespace UwpUtilities
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
       IntensityMapViewer.IIntensityMap   intensityMap,
+      IntensityMapViewer.ColourMapOption colourMapOption
+    ) { 
+      return CreateWriteableBitmap(
+        intensityMap,
+        colourMapOption,
+        null
+      ) ;
+    }
+
+    public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
+      IntensityMapViewer.IIntensityMap   intensityMap,
       IntensityMapViewer.ColourMapOption colourMapOption,
-      double?                            gainFactorToApply = null
+      double?                            gainFactorToApply
     ) { 
       Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap = null ;
       return LoadOrCreateWriteableBitmap(
