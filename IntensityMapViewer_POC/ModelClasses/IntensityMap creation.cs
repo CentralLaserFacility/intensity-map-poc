@@ -198,6 +198,25 @@ namespace IntensityMapViewer
       }
     }
 
+    public class CreatedFromCoordinatesXY : IntensityMap
+    {
+
+      public CreatedFromCoordinatesXY ( 
+        System.Func<int,int,byte> getPixelValueFunc,
+        int                       width      = 320,
+        int                       height     = 240
+      ) :
+      base(
+        new System.Drawing.Size(width,height)
+      ) {
+        IntensityValues = Common.GraphicsHelpers.ForEachPixel(
+          nX             : width,
+          nY             : height,
+          pixelValueFunc : getPixelValueFunc
+        ).ToList() ;
+      }
+    }
+
   }
 
 }

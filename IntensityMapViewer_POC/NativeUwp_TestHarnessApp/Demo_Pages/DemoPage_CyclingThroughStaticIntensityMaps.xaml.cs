@@ -21,8 +21,8 @@ namespace NativeUwp_TestHarnessApp
     public sealed partial class DemoPage_CyclingThroughStaticIntensityMaps : Page
     {
 
-        private DemoViewModel_CyclingThroughStaticIntensityMaps ViewModel
-        => ViewModels.ViewModelLocator.Current.DemoViewModel_CyclingThroughStaticIntensityMaps ; 
+        // private DemoViewModel_CyclingThroughStaticIntensityMaps ViewModel
+        // => ViewModels.ViewModelLocator.Current.DemoViewModel_CyclingThroughStaticIntensityMaps ; 
 
         public DemoPage_CyclingThroughStaticIntensityMaps()
         {

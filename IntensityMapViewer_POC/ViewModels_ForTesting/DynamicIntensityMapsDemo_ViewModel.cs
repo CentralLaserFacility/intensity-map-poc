@@ -17,8 +17,8 @@ namespace IntensityMapViewer
   //    
 
   public class DynamicIntensityMapsDemo_ViewModel 
-  : IntensityMapsDemo_ViewModel,
-  IExpectsTimerWakeupNotifications
+  : IntensityMapsDemo_ViewModel
+  , Common.IExpectsTimerWakeupNotifications
   {
 
     private double m_desiredWakeupPeriodMillisecs ;
@@ -82,6 +82,7 @@ namespace IntensityMapViewer
       StartDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
           m_performDynamicImageUpdates = true ;
+          // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
           StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
           StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
         },
@@ -95,18 +96,13 @@ namespace IntensityMapViewer
         },
         () => m_performDynamicImageUpdates is true
       ) ;
-      // (m_staticImageSource,m_staticImageLabel) = m_staticImagesSelector.GetCurrent_MoveNext() ;
-      // // UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      // //  IntensityMapViewer.IntensityMapHelpers.CreateSynthetic_UsingSincFunction()
-      // // ) ;
-      // m_dynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
-      //   ref m_writeableBitmap,
-      //   m_dynamicIntensityMapsSelector.Current
-      // ) ; 
+      base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
+      base.IntensityMapLabel = "This will cycle through 60 variants" ;
+      base.ColourMapOption = ColourMapOption.JetColours ;
     }
 
     private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-      2 switch 
+      1 switch 
       {
       1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
           nIntensityMaps                   : 60,
@@ -128,11 +124,7 @@ namespace IntensityMapViewer
 
     // When the timer fires, we replace the Dynamic image.
 
-    // By re-using a single instance of 'WriteableBitmap', writing different values
-    // into its PixelBuffer, we reduce the amount of memory that's allocated between GC passes.
-    // This makes the memory usage stay more or less constant even for dynamic images.
-
-    // private Windows.UI.Xaml.Media.Imaging.WriteableBitmap? m_writeableBitmap = null ;
+    // It's interesting to log the time taken to load a fresh image ...
 
     private List<long> m_bitmapLoadTimes = new () ;
 
@@ -181,10 +173,7 @@ namespace IntensityMapViewer
       {
         System.Diagnostics.Stopwatch bitmapLoadingStopwatch = new() ;
         bitmapLoadingStopwatch.Start() ;
-        // this.DynamicImageSource = UwpUtilities.BitmapHelpers.LoadOrCreateWriteableBitmap(
-        //   ref m_writeableBitmap,
-        //   m_dynamicIntensityMapsSelector.GetCurrent_MoveNext()
-        // ) ; 
+        base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
         m_bitmapLoadTimes.Add(
           bitmapLoadingStopwatch.ElapsedMilliseconds
         ) ;

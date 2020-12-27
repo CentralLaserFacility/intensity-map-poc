@@ -44,56 +44,37 @@ namespace IntensityMapViewer
       (
         new IntensityMap.CreatedAsOffsettedCircle(),
         ColourMapOption.ShadesOfBlue,
-        "Offsetted circle"
+        "Offsetted circle, shades of blue"
+      ),
+      (
+        new IntensityMap.CreatedFromCoordinatesXY(
+          (x,y) => (byte) ( (x*2) + (y*3) )
+        ), 
+        ColourMapOption.ShadesOfBlue,
+        "Diagonals in blue"
+      ),
+      (
+        new IntensityMap.CreatedFromSincFunction(),
+        ColourMapOption.JetColours,
+        "Ripple, JET colours"
+      ),
+      (
+        new IntensityMap.CreatedFromSincFunction(sincFactor:15.0),
+        ColourMapOption.ShadesOfBlue,
+        "Ripple, blue"
+      ),
+      (
+        new IntensityMap.CreatedFromSincFunction(
+          sincFactor:5.0
+        ).CreateCloneWithAddedRandomNoise(30),
+        ColourMapOption.GreyScale,
+        "Ripple, grey with noise"
+      ),
+      (
+        new IntensityMap.CreatedWithRampingValues(),
+        ColourMapOption.ShadesOfBlue,
+        "Ramping values"
       )
-      // (
-      //   UwpUtilities.BitmapHelpers_ForTesting.CreateWriteableBitmap_ForTesting_B(
-      //     (x,y) => (0xff,(byte)(x*2),(byte)(y*2))
-      //   ), 
-      //   "Snazzy"
-      // ),
-      // (
-      //   UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      //     intensityMap : 
-      //     new IntensityMapViewer.IntensityMap.CreatedAsOffsettedCircle(),
-      //     colourMapOption : IntensityMapViewer.ColourMapOption.GreyScale
-      //   ),
-      //   "Synthesised greyscale blob"
-      // ),
-      // (
-      //   UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      //     intensityMap : 
-      //     new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(),
-      //     colourMapOption : IntensityMapViewer.ColourMapOption.JetColours
-      //   ),
-      //   "Synthesised ripple with JET colours"
-      // ),
-      // (
-      //   UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      //     intensityMap : new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
-      //       sincFactor : 5.0
-      //     ),
-      //     colourMapOption : IntensityMapViewer.ColourMapOption.GreyScale
-      //   ),
-      //   "Synthesised ripple with greyscale"
-      // ),
-      // (
-      //   UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      //     intensityMap : new IntensityMapViewer.IntensityMap.CreatedFromSincFunction(
-      //       sincFactor                       : 15.0,
-      //       fractionalRadialOffsetFromCentre : 0.2
-      //     ).CreateCloneWithAddedRandomNoise(50),
-      //     colourMapOption : IntensityMapViewer.ColourMapOption.ShadesOfRed
-      //   ),
-      //   "Coloured with shades of red, offset from centre, with noise"
-      // ),
-      // (
-      //   UwpUtilities.BitmapHelpers.CreateWriteableBitmap(
-      //     intensityMap : new IntensityMapViewer.IntensityMap.CreatedWithRampingValues(),
-      //     colourMapOption : IntensityMapViewer.ColourMapOption.ShadesOfBlue
-      //   ),
-      //   "Ramping, blue"
-      // )
     ) ;
 
     public StaticIntensityMapsDemo_ViewModel ( )

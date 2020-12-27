@@ -12,28 +12,11 @@
 
     <Grid>
 
-      <StackPanel Orientation="Vertical">
-
-        <TextBlock Text="{x:Bind ViewModel.Title}" />
-
-        <!-- Newlines cause XAML intellisense squigglies, but they're NOT spurious ... ??? -->
-
-        <Button Command="{x:Bind ViewModel.Demo_ViewModel.MoveToNextStaticImage}">Click to cycle through examples</Button>
-
-        <TextBlock Text="{x:Bind ViewModel.Demo_ViewModel.IntensityMapLabel, Mode=OneWay}" />
-
-        <Image 
-            x:Name="m_image" 
-            Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.Demo_ViewModel.IntensityMap,ViewModel.Demo_ViewModel.ColourMapOption), Mode=OneWay}"
-            HorizontalAlignment="Left" 
-            VerticalAlignment="Top" 
-            Width="640" 
-            Height="480" 
-            Margin="0,0,0,0" 
-            Visibility="Visible"
-        />
+      <StackPanel Orientation="Horizontal">
 
         <viewsForTesting:StaticIntensityMapsDemo_UserControl />
+        
+        <viewsForTesting:DynamicIntensityMapsDemo_UserControl />
         
       </StackPanel>
 
