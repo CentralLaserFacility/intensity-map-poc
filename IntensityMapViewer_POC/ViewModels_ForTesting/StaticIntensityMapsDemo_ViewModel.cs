@@ -27,6 +27,18 @@ namespace IntensityMapViewer
 
     private Common.CyclicSelector<(IIntensityMap,ColourMapOption,string)> m_staticImagesSelector = new(
       (
+        new IntensityMap.CreatedFromSincFunction(
+          sincFactor:5.0
+        ).CreateCloneWithAddedRandomNoise(30),
+        ColourMapOption.GreyScale,
+        "Ripple, grey with noise"
+      ),
+      (
+        new IntensityMap.CreatedFromSincFunction(),
+        ColourMapOption.JetColours,
+        "Ripple, JET colours"
+      ),
+      (
         new IntensityMap.CreatedAsUniformPixelValue(),
         ColourMapOption.ShadesOfRed,
         "Solid red"
@@ -54,21 +66,9 @@ namespace IntensityMapViewer
         "Diagonals in blue"
       ),
       (
-        new IntensityMap.CreatedFromSincFunction(),
-        ColourMapOption.JetColours,
-        "Ripple, JET colours"
-      ),
-      (
         new IntensityMap.CreatedFromSincFunction(sincFactor:15.0),
         ColourMapOption.ShadesOfBlue,
         "Ripple, blue"
-      ),
-      (
-        new IntensityMap.CreatedFromSincFunction(
-          sincFactor:5.0
-        ).CreateCloneWithAddedRandomNoise(30),
-        ColourMapOption.GreyScale,
-        "Ripple, grey with noise"
       ),
       (
         new IntensityMap.CreatedWithRampingValues(),

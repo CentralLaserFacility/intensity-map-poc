@@ -143,6 +143,36 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{369022b0-c1cd-4dde-975a-f35bc77217c9}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{02a086e0-1e08-427b-bfd8-e43a210cb61a}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelClasses\ModelClasses.csproj">
+      <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UwpSkiaUtilities\UwpSkiaUtilities.csproj">
+      <Project>{d4a7e121-5c92-4d0c-80fb-f97cf9b9f92b}</Project>
+      <Name>UwpSkiaUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UwpUtilities\UwpUtilities.csproj">
+      <Project>{45106ca8-d1ca-49f6-af00-725785966912}</Project>
+      <Name>UwpUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels_ForTesting\ViewModels_ForTesting.csproj">
+      <Project>{ba1aabec-ebf9-478f-828e-def57676a41f}</Project>
+      <Name>ViewModels_ForTesting</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

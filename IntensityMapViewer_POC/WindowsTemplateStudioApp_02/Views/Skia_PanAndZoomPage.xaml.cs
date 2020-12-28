@@ -16,9 +16,9 @@ namespace WindowsTemplateStudioApp_02.Views
     {
       if ( Equals(storage,value) )
       {
-        return;
+        return ;
       }
-      storage = value;
+      storage = value ;
       OnPropertyChanged(propertyName) ;
     }
 

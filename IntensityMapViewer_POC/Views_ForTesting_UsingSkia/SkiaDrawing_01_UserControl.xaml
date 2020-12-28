@@ -11,7 +11,12 @@
   d:DesignWidth="400"
 >
 
-  <Grid>
+  <Grid 
+    Background="LightGray" 
+    Padding="20"
+    RowSpacing="20"
+    ColumnSpacing="20" 
+  >
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>
@@ -36,7 +41,25 @@
       x:Name="m_skiaCanvas_01"
       Grid.Row="0" 
       Grid.Column="1"
-      Background="LightGreen"
+      Background="LightYellow"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+    <skia:SKXamlCanvas 
+      x:Name="m_skiaCanvas_10"
+      Grid.Row="1" 
+      Grid.Column="0"
+      Background="LightYellow"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+    <skia:SKXamlCanvas 
+      x:Name="m_skiaCanvas_11"
+      Grid.Row="1" 
+      Grid.Column="1"
+      Background="LightYellow"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
     />
