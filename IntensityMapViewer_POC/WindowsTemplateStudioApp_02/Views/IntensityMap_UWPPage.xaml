@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="WindowsTemplateStudioApp_02.Views.IntensityMap_UWPPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uwpUtils="using:UwpUtilities"
+    xmlns:viewsForTesting="using:Views_ForTesting"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            x:Uid="IntensityMap_UWP_Title"
+            Style="{StaticResource PageTitleStyle}" />
+        <Grid
+            Grid.Row="1" 
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <!--
+                The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.
+            -->
+            <StackPanel Orientation="Horizontal">
+
+            <viewsForTesting:StaticIntensityMapsDemo_UserControl />
+        
+            <viewsForTesting:DynamicIntensityMapsDemo_UserControl />
+        
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Page>
