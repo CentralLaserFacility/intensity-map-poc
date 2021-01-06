@@ -16,7 +16,7 @@
               This app demonstrates that the time taken to replace the content of
               the PixelBuffer in a WriteableBitmap is occasionally far longer than expected.
               A typical time time to write 320x240 pixels is 3mS, but about one time in ten
-              the operation takes 150mS.
+              the operation takes 150mS - IN AN x86 BUILD ONLY, x64 is FINE !!!
             </TextBlock>
 
             <StackPanel Orientation="Horizontal">

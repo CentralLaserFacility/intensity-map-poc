@@ -18,11 +18,9 @@
             Style="{StaticResource PageTitleStyle}" />
         <Grid
             Grid.Row="1" 
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <!--
-                The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
-                Place your content here.
-            -->
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+        >
+            <TextBlock Text="Just a placeholder, nothing to see yet ..." FontSize="30" />
         </Grid>
     </Grid>
 </Page>
