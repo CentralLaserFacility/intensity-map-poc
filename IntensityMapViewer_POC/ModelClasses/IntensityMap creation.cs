@@ -62,6 +62,18 @@ namespace IntensityMapViewer
           // Sin(x)/x around a point which is roughly at the centre,
           // but offset by an amount that represents a rotation 
           // around a circe centred on the centre point.
+          // NOTE : Could avoid the sin() function and use
+          // a Taylor expansion as an approximation for sin(x)/x :
+          //   1 - (x^2/3!) + (x^4/5!) - (x^6/7!) ...
+          // ... where 'x' is taken modulo 2-PI.
+          // Can also avoid the overhead of an exact SQRT,
+          // by running a few iterations of Newton's formula.
+          // Could use integer arithmetic (faster?) if we
+          // settle on x^6 as the highest power, and premultiply
+          // by 7! to minimise the number of division operations.
+          // Another option would be to use a pre-computed lookup table for sin(x)/x
+          // with a set of say 1024 entries covering the likely range of 'x'.
+          // That table could also accommodate the SQRT computation.
           int nominalCentreX = width / 2 ;
           int nominalCentreY = height / 2 ;
           int offsetX = (int) ( 
@@ -78,6 +90,7 @@ namespace IntensityMapViewer
           int dy = y - nominalCentreY - offsetY ;
           double dxFrac01 = 2.0 * dx / height ; // Deliberately !! To keep circular symmetry
           double dyFrac01 = 2.0 * dy / height ;
+          // Without the SQRT, the central blob is a lot wider ...
           double r = sincFactor * System.Math.Sqrt(
             dxFrac01 * dxFrac01
           + dyFrac01 * dyFrac01

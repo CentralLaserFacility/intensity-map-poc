@@ -54,12 +54,20 @@ namespace IntensityMapViewer
     ) ;
 
     //
-    // Formula for the 'JET' mapping ...
+    // Formula for a 'JET-like' mapping ...
     // https://stackoverflow.com/questions/7706339/grayscale-to-red-green-blue-matlab-jet-color-scale
     //
-    // The mapping represents a walk along the edges of the 'RGB color cube' 
-    // following the path Blue -> Cyan -> Green -> Yellow -> Red
-    // interpolating the intermediate values along this path.
+    // The mapping represents a walk along four edges 
+    // of the 'RGB color cube' following the path
+    //
+    //   Blue -> Cyan -> Green -> Yellow -> Red
+    //
+    // ... interpolating the intermediate values along this path.
+    //
+    // That is a SIMPLIFIED version of the 'Jet' mapping that's in Matlab,
+    // which goes from 'Dark Blue' to 'Dark Red' in five sections rather than four.
+    // See half way down the article mentioned above. That article also mentions
+    // a different coding approach using a 'clamp' function.
     //
 
     public static uint MapIntensityToJet_EncodedAsARGB ( byte intensityValue )
