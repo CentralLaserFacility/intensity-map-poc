@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Uno" Version="8.0.0.1909" />
-    <PackageReference Include="Uno.UI" Version="3.3.0" />
+    <PackageReference Include="Uno.UI" Version="3.4.0" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.3.0" />
   </ItemGroup>
   <ItemGroup>
