@@ -1,5 +1,5 @@
 ﻿//
-// BitmapHelpers.cs
+// BitmapHelpers_ForTesting.cs
 //
 
 using System.Linq;
@@ -9,6 +9,7 @@ using static System.Runtime.InteropServices.WindowsRuntime.WindowsRuntimeBufferE
 
 namespace UwpUtilities
 {
+
   public static class BitmapHelpers_ForTesting
   {
 
@@ -36,8 +37,7 @@ namespace UwpUtilities
           ) ;
         }
       ) ;
-      Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap 
-      = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
+      Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap = new(
         width,
         height
       ) ;
@@ -73,10 +73,10 @@ namespace UwpUtilities
           y => {
             Enumerable.Range(0,width).ForEachItem(
               x => {
-                var rgb = getRgbFunc(x,y) ;
-                stream.WriteByte(rgb.b) ; // B
-                stream.WriteByte(rgb.g) ; // G
-                stream.WriteByte(rgb.r) ; // R
+                var (r,g,b) = getRgbFunc(x,y) ;
+                stream.WriteByte(b)     ; // B
+                stream.WriteByte(g)     ; // G
+                stream.WriteByte(r)     ; // R
                 stream.WriteByte(0xff)  ; // A
               }
             ) ;

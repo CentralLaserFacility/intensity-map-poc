@@ -103,10 +103,10 @@ namespace UwpUtilities
     }
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap LoadOrCreateWriteableBitmap (
-      ref Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap,
-      IntensityMapViewer.IIntensityMap                  intensityMap,
-      IntensityMapViewer.ColourMapOption                colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
-      byte?                                             highestIntensityValue = null
+      ref Windows.UI.Xaml.Media.Imaging.WriteableBitmap? bitmap,
+      IntensityMapViewer.IIntensityMap                   intensityMap,
+      IntensityMapViewer.ColourMapOption                 colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
+      byte?                                              highestIntensityValue = null
     ) { 
       if ( 
          bitmap?.PixelWidth  != intensityMap.Dimensions.Width

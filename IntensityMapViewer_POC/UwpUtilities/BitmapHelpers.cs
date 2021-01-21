@@ -53,60 +53,78 @@ namespace UwpUtilities
   {
 
     //
-    // This helper converts from the raw image data supplied by an IntensityMap
-    // to a BitmapSource that will serve as the data source for an Image control. 
+    // These helpers can be invoked via x:Bind from a XAML view.
     //
-    // Each byte of the image is mapped to an RGB colour.
+    // Unfortunately x:Bind syntax doesn't support default arguments,
+    // so we have to provide overloads with different signatures.
     //
 
-    public static Windows.UI.Xaml.Media.Imaging.BitmapSource BuildBitmapSource (
+    public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
+      IntensityMapViewer.IIntensityMap intensityMap
+    ) { 
+      return CreateWriteableBitmap(
+        intensityMap,
+        IntensityMapViewer.ColourMapOption.JetColours
+      ) ;
+    }
+
+    public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
       IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
-      byte                               highestIntensityValue = (byte) 255
+      IntensityMapViewer.ColourMapOption colourMapOption
     ) { 
       return CreateWriteableBitmap(
         intensityMap,
         colourMapOption,
-        highestIntensityValue
+        null
       ) ;
     }
-
-    // RENAME => CreateImageSource_WriteableBitmap
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
       IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
-      byte                               highestIntensityValue = (byte) 255
+      IntensityMapViewer.ColourMapOption colourMapOption,
+      double?                            gainFactorToApply
     ) { 
-      var bitmap = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
-        intensityMap.Dimensions.Width,
-        intensityMap.Dimensions.Height
+      Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap = null ;
+      return LoadOrCreateWriteableBitmap(
+        ref bitmap,
+        intensityMap,
+        colourMapOption,
+        gainFactorToApply
       ) ;
-      var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
-      var pixelBuffer = bitmap.PixelBuffer ;
-      using var stream = pixelBuffer.AsStream() ;
-      using var binaryWriter = new System.IO.BinaryWriter(stream) ;
-      // TODO : Since this is performance-critical,
-      // should profile it versus a raw 'for' loop ...
-      Enumerable.Range(
-        0,
-        intensityMap.IntensityValues.Count
-      ).ForEachItem(
-        jPixel => {
-          byte pixelByteValue = intensityMap.IntensityValues[jPixel] ;
-          binaryWriter.Write(
-            colourMapper.MapByteValueToEncodedARGB(pixelByteValue)
-          ) ;
-        }
-      ) ;
-      return bitmap ;
+      // OLD VERSION ...
+      // var bitmap = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
+      //   intensityMap.Dimensions.Width,
+      //   intensityMap.Dimensions.Height
+      // ) ;
+      // var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
+      // var pixelBuffer = bitmap.PixelBuffer ;
+      // using var stream = pixelBuffer.AsStream() ;
+      // using var binaryWriter = new System.IO.BinaryWriter(stream) ;
+      // // TODO : Since this is performance-critical,
+      // // should profile it versus a raw 'for' loop ...
+      // Enumerable.Range(
+      //   0,
+      //   intensityMap.IntensityValues.Count
+      // ).ForEachItem(
+      //   jPixel => {
+      //     byte pixelByteValue = intensityMap.IntensityValues[jPixel] ;
+      //     binaryWriter.Write(
+      //       colourMapper.MapByteValueToEncodedARGB(pixelByteValue)
+      //     ) ;
+      //   }
+      // ) ;
+      // return bitmap ;
     }
+
+    //
+    // Hmm, could save the created bitmap in a cache, keyed to the identity of the intensityMap ?
+    //
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap LoadOrCreateWriteableBitmap (
       ref Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap,
       IntensityMapViewer.IIntensityMap                  intensityMap,
-      IntensityMapViewer.ColourMapOption                colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
-      byte?                                             highestIntensityValue = null
+      IntensityMapViewer.ColourMapOption                colourMapOption   = IntensityMapViewer.ColourMapOption.JetColours,
+      double?                                           gainFactorToApply = null
     ) { 
       if ( 
          bitmap?.PixelWidth  != intensityMap.Dimensions.Width
@@ -118,50 +136,48 @@ namespace UwpUtilities
         intensityMap.Dimensions.Width,
         intensityMap.Dimensions.Height
       ) ;
-      double? gainFactorToApply = (
-        (
-           highestIntensityValue.HasValue 
-        && intensityMap.MaximumIntensityValue != 0
-        )
-        ? (
-            (double) highestIntensityValue
-          / intensityMap.MaximumIntensityValue
-          )
-        : null
-      ) ;
       var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
       var pixelBuffer = bitmap.PixelBuffer ;
+      // Hmm, is there a more efficient way to write to the pixel buffer
+      // while applying a transformation ???
       using var stream = pixelBuffer.AsStream() ;
       using var binaryWriter = new System.IO.BinaryWriter(stream) ;
-      // TODO : Since this is performance-critical,
-      // should profile LINQ versus a raw 'for' loop.
-      // Also ... we start with the IReadOnlyList of intensity bytes,
-      // and need to apply (A) a gain factor, then (B) the colour mapping
-      // turning each byte into a 'uint', which is what actually gets written
-      // to the stream via the BinaryWriter. What's the quickest way to apply
-      // these transformations ??
       #if true
+        // Typical time for a 320x240 image is 3mS
         int nPixels = intensityMap.IntensityValues.Count ;
         for ( int jPixel = 0 ; jPixel < nPixels ; jPixel++ )
         {
           byte pixelByteValue = intensityMap.IntensityValues[jPixel] ;
+          // Hmm, removing this gain factor doesn't seem to have
+          // a detectable effect on performance ...
           if ( gainFactorToApply.HasValue )
           {
             pixelByteValue = (byte) (
               gainFactorToApply * pixelByteValue
             ) ;
           }
+          // Hmm, this is going via an interface so maybe that would
+          // inhibit 'inlining' of the function call ? Perhaps better to
+          // retrieve the lookup table directly and apply it here ??
           binaryWriter.Write(
             colourMapper.MapByteValueToEncodedARGB(pixelByteValue)
           ) ;
         }
       #else
+        // Old version - any difference in performance ??
+        // Typical time for a 320x240 image is 4mS
         Enumerable.Range(
           0,
           intensityMap.IntensityValues.Count
         ).ForEachItem(
           jPixel => {
             byte pixelByteValue = intensityMap.IntensityValues[jPixel] ;
+            if ( gainFactorToApply.HasValue )
+            {
+              pixelByteValue = (byte) (
+                gainFactorToApply * pixelByteValue
+              ) ;
+            }
             binaryWriter.Write(
               colourMapper.MapByteValueToEncodedARGB(pixelByteValue)
             ) ;

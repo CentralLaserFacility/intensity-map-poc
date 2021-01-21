@@ -75,10 +75,8 @@ namespace UwpUtilities_TestApp
     ) ;
 
     private IntensityMapViewer.IntensityMapSequence m_intensityMapSequence_C = 
-    IntensityMapViewer.IntensityMapSequence.CreateInstance_RotatingAroundCircle(
-      60,
-      sincFactor                       : 10.0,
-      fractionalRadialOffsetFromCentre : 0.2
+    IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+      60
     ) ;
 
     private void DynamicImageButtonClicked ( )

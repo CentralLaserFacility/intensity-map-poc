@@ -1,0 +1,81 @@
+﻿<Page
+  x:Class="WindowsTemplateStudioApp_02.Views.Skia_PanAndZoomPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:uwp="using:SkiaSharp.Views.UWP"
+  Style="{StaticResource PageStyle}"
+  mc:Ignorable="d"
+ >
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            x:Uid="Skia_PanAndZoom_Title"
+            Style="{StaticResource PageTitleStyle}" />
+        <Grid
+            Grid.Row="1" 
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+  <Grid 
+    Background="LightGray" 
+    Padding="20"
+    RowSpacing="20"
+    ColumnSpacing="20" 
+  >
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+
+    <uwp:SKXamlCanvas 
+      x:Name="m_canvasView_00"
+      Grid.Row="0" 
+      Grid.Column="0"
+      Background="LightGreen"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+    <uwp:SKXamlCanvas  
+      x:Name="m_canvasView_01"
+      Grid.Row="0" 
+      Grid.Column="1"
+      Background="LightYellow"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+    <uwp:SKXamlCanvas  
+      x:Name="m_canvasView_10"
+      Grid.Row="1" 
+      Grid.Column="0"
+      Background="LightYellow"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+    <uwp:SKXamlCanvas  
+      x:Name="m_canvasView_11"
+      Grid.Row="1" 
+      Grid.Column="1"
+      Background="LightYellow"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    />
+
+  </Grid>
+
+        </Grid>
+    </Grid>
+</Page>

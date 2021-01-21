@@ -80,7 +80,7 @@ namespace IntensityMapViewer
       ) ;
     }
 
-    public static IntensityMapSequence CreateInstance_RotatingAroundCircle ( 
+    public static IntensityMapSequence CreateInstance_RippleRotatingAroundCircle ( 
       int                  nIntensityMaps,
       double               sincFactor,
       double               fractionalRadialOffsetFromCentre,
@@ -101,6 +101,27 @@ namespace IntensityMapViewer
             dimensions.Value.Height,
             sincFactor,
             fractionalRadialOffsetFromCentre : fractionalRadialOffsetFromCentre,
+            fractionalRotationOfOffsettedCentrePoint : i * fractionalRotationPerStepOfOffsettedCentrePoint
+          )
+        )
+      ) ;
+    }
+
+    public static IntensityMapSequence CreateInstance_BlobRotatingAroundCircle ( 
+      int                  nIntensityMaps,
+      System.Drawing.Size? dimensions      = null
+    ) {
+      dimensions ??= new System.Drawing.Size(320,240) ;
+      double fractionalRotationPerStepOfOffsettedCentrePoint = (
+        1.0 
+      / nIntensityMaps
+      ) ;
+      return new IntensityMapSequence(
+        Enumerable.Range(
+          0,
+          nIntensityMaps
+        ).Select(
+          i => new IntensityMap.CreatedAsOffsettedCircle(
             fractionalRotationOfOffsettedCentrePoint : i * fractionalRotationPerStepOfOffsettedCentrePoint
           )
         )

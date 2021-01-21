@@ -4,9 +4,11 @@
 
 namespace UkCentralLaserPoC.IntensityMap
 {
+
     public partial class IntensityMapTestPage : Windows.UI.Xaml.Controls.UserControl
     {
-        public IntensityMapTestViewModel ViewModel => new IntensityMapTestViewModel();
+
+        public IntensityMapTestViewModel ViewModel { get ; } = new IntensityMapTestViewModel();
 
         public IntensityMapTestPage()
         {
