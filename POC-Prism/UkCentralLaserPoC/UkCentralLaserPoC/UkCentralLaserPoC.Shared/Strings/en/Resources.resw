@@ -168,4 +168,7 @@
   <data name="Shell_IntensityMap.Content" xml:space="preserve">
     <value>Intensity Map</value>
   </data>
+  <data name="Shell_Skia.Content" xml:space="preserve">
+    <value>Skia</value>
+  </data>
 </root>

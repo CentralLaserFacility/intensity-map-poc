@@ -4,6 +4,7 @@ using Prism.Modularity;
 using System;
 using UkCentralLaserPoC.IntensityMap;
 using UkCentralLaserPoC.Services;
+using UkCentralLaserPoC.Shared.Controls;
 using UkCentralLaserPoC.Shared.Views;
 using UkCentralLaserPoC.ViewModels;
 using UkCentralLaserPoC.Views;
@@ -41,6 +42,7 @@ namespace UkCentralLaserPoC
 
             containerRegistry.RegisterForNavigation(typeof(SettingsView), "SettingsPage");
             containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");
+            containerRegistry.RegisterForNavigation(typeof(SkiaView), "SkiaView");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

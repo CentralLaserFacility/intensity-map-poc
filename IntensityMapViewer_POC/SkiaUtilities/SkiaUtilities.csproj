@@ -1,14 +1,34 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="SkiaScene" Version="1.0.0" />
-    <PackageReference Include="SkiaScene.TouchManipulation" Version="2.2.1" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3-preview.18" />
-    <PackageReference Include="TouchTracking" Version="1.2.0" />
-  </ItemGroup>
-
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.22">
+	<!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+	-->
+	<PropertyGroup>
+		<!--<TargetFrameworks>uap10.0.17763;netstandard2.0;xamarinios10;xamarinmac20;MonoAndroid11.0;monoandroid10.0</TargetFrameworks>-->
+		<TargetFrameworks>uap10.0.17763</TargetFrameworks>
+		<!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+		<GenerateLibraryLayout>true</GenerateLibraryLayout>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Platforms>AnyCPU;x86</Platforms>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.2" />
+		<PackageReference Include="Uno.UI" Version="3.4.0" />
+		<PackageReference Include="SkiaScene" Version="1.0.0" />
+		<PackageReference Include="SkiaScene.TouchManipulation" Version="2.2.1" />
+		<PackageReference Include="SkiaSharp" Version="2.80.3-preview.18" />
+		<PackageReference Include="TouchTracking" Version="1.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+		<Compile Update="**\*.xaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
 </Project>

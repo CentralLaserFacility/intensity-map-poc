@@ -21,7 +21,8 @@
             Edit String/en-US/Resources.resw: Add a menu item title for each page
             -->
             <NavigationViewItem x:Uid="Shell_Main" Icon="Document" Tag="Main" />
-            <NavigationViewItem x:Uid="Shell_IntensityMap" Icon="Globe" Tag="IntensityMap" /> 
+            <NavigationViewItem x:Uid="Shell_IntensityMap" Icon="Globe" Tag="IntensityMap" />
+            <NavigationViewItem x:Uid="Shell_Skia" Icon="Account" Tag="Skia" />
         </NavigationView.MenuItems>
         
         <Grid>

@@ -16,6 +16,9 @@
     <PackageReference Include="Prism.DryIoc.Uno">
       <Version>8.0.0.1909</Version>
     </PackageReference>
+    <PackageReference Include="SkiaSharp.Views.Uno">
+      <Version>2.80.2</Version>
+    </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.1.0" />
     <PackageReference Include="Uno.UI" Version="3.4.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
@@ -34,7 +37,7 @@
     <AssemblyName>UkCentralLaserPoC</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -165,6 +168,10 @@
     <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj">
       <Project>{1b38f8a0-79b3-4ab1-8d9b-82a828e09b56}</Project>
       <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\SkiaUtilities\SkiaUtilities.csproj">
+      <Project>{4ee12eff-49a9-488b-8bd8-eb10ed5af60d}</Project>
+      <Name>SkiaUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ViewModels\ViewModels.csproj">
       <Project>{90b85e92-dd00-456d-9e35-0bbf7dc5830f}</Project>
