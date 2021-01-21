@@ -58,7 +58,7 @@ namespace UkCentralLaserPoC.IntensityMap
 
 
         private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-          IntensityMapViewer.IntensityMapSequence.CreateInstance_RotatingAroundCircle(
+          IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
             nIntensityMaps: 60,
             sincFactor: 10.0,
             fractionalRadialOffsetFromCentre: 0.2
