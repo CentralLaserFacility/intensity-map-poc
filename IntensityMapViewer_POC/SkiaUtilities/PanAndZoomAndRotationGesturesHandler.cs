@@ -16,7 +16,7 @@ namespace UwpSkiaUtilities
 
 #if __ANDROID__
         private TouchTracking.Droid.TouchHandler m_touchHandler = new();
-#else
+#elif NETFX_CORE
         private TouchTracking.UWP.TouchHandler m_touchHandler = new();
 #endif
 
@@ -52,8 +52,11 @@ namespace UwpSkiaUtilities
             // m_canvas.
             m_canvas.PointerWheelChanged += OnPointerWheelChanged;
             m_scene = scene;
+
+#if __ANDROID__ || NETFX_CORE
             m_touchHandler.RegisterEvents(m_canvas);
             m_touchHandler.TouchAction += OnTouch;
+#endif
             ////////////////////
             OnWindowSizeChanged();
             /////////////////////
