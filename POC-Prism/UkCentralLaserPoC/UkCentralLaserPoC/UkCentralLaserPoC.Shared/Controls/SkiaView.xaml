@@ -21,60 +21,68 @@
         <Grid
             Grid.Row="1" 
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-  <Grid 
+            <Grid 
     Background="LightGray" 
     Padding="20"
     RowSpacing="20"
     ColumnSpacing="20" 
   >
 
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-    <Grid.RowDefinitions>
-      <RowDefinition/>
-      <RowDefinition/>
-    </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-    <uwp:SKXamlCanvas 
+                <uwp:SKXamlCanvas 
       x:Name="m_canvasView_00"
       Grid.Row="0" 
       Grid.Column="0"
       Background="LightGreen"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
+        Width="300"
+        Height="300"
     />
 
-    <uwp:SKXamlCanvas  
+                <uwp:SKXamlCanvas  
       x:Name="m_canvasView_01"
       Grid.Row="0" 
       Grid.Column="1"
       Background="LightYellow"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
+                Width="300"
+        Height="300"
     />
 
-    <uwp:SKXamlCanvas  
+                <uwp:SKXamlCanvas  
       x:Name="m_canvasView_10"
       Grid.Row="1" 
       Grid.Column="0"
       Background="LightYellow"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
+                Width="300"
+        Height="300"
     />
 
-    <uwp:SKXamlCanvas  
+                <uwp:SKXamlCanvas  
       x:Name="m_canvasView_11"
       Grid.Row="1" 
       Grid.Column="1"
       Background="LightYellow"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
+                Width="300"
+        Height="300"
     />
 
-  </Grid>
+            </Grid>
 
         </Grid>
     </Grid>

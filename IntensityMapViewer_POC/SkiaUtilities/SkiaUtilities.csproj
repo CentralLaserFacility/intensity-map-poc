@@ -15,11 +15,11 @@
 		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.2" />
+		<PackageReference Include="SkiaSharp" Version="2.80.3-preview.24" />
+		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.24" />
 		<PackageReference Include="Uno.UI" Version="3.4.0" />
 		<PackageReference Include="SkiaScene" Version="1.0.0" />
 		<PackageReference Include="SkiaScene.TouchManipulation" Version="2.2.1" />
-		<PackageReference Include="SkiaSharp" Version="2.80.3-preview.18" />
 		<PackageReference Include="TouchTracking" Version="1.2.0" />
 	</ItemGroup>
 	<ItemGroup>
