@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeUwp_TestHarnessApp", "NativeUwp_TestHarnessApp\NativeUwp_TestHarnessApp.csproj", "{74E6F35C-63B4-4E92-90BD-C303F5B6B91F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels_ForTesting", "ViewModels_ForTesting\ViewModels_ForTesting.csproj", "{BA1AABEC-EBF9-478F-828E-DEF57676A41F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels_ForTesting", "ViewModels_ForTesting\ViewModels_ForTesting.csproj", "{BA1AABEC-EBF9-478F-828E-DEF57676A41F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Views", "Views\Views.csproj", "{968A45E6-FA70-4C64-BF6D-CB37B608F765}"
 EndProject
@@ -48,11 +48,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsTemplateStudioApp_02
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsTemplateStudioApp_02.Core", "WindowsTemplateStudioApp_02.Core\WindowsTemplateStudioApp_02.Core.csproj", "{5509FC40-F78D-4C8D-AC27-4345A14310D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkiaUtilities", "SkiaUtilities\SkiaUtilities.csproj", "{8644C3A6-B151-42CE-97A2-BD5E70B096D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaUtilities", "SkiaUtilities\SkiaUtilities.csproj", "{8644C3A6-B151-42CE-97A2-BD5E70B096D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpSkiaUtilities", "UwpSkiaUtilities\UwpSkiaUtilities.csproj", "{D4A7E121-5C92-4D0C-80FB-F97CF9B9F92B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Views_ForTesting_UsingSkia", "Views_ForTesting_UsingSkia\Views_ForTesting_UsingSkia.csproj", "{66C7374C-8E2B-475C-90EF-CA8CA2459206}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeUwp_ViewerApp_01", "NativeUwp_ViewerApp_01\NativeUwp_ViewerApp_01.csproj", "{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -544,6 +546,32 @@ Global
 		{66C7374C-8E2B-475C-90EF-CA8CA2459206}.Release|x64.Build.0 = Release|x64
 		{66C7374C-8E2B-475C-90EF-CA8CA2459206}.Release|x86.ActiveCfg = Release|x86
 		{66C7374C-8E2B-475C-90EF-CA8CA2459206}.Release|x86.Build.0 = Release|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM.ActiveCfg = Debug|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM.Build.0 = Debug|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM.Deploy.0 = Debug|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM64.Build.0 = Debug|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x64.ActiveCfg = Debug|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x64.Build.0 = Debug|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x64.Deploy.0 = Debug|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x86.ActiveCfg = Debug|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x86.Build.0 = Debug|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Debug|x86.Deploy.0 = Debug|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|Any CPU.ActiveCfg = Release|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM.ActiveCfg = Release|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM.Build.0 = Release|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM.Deploy.0 = Release|ARM
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM64.ActiveCfg = Release|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM64.Build.0 = Release|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|ARM64.Deploy.0 = Release|ARM64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x64.ActiveCfg = Release|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x64.Build.0 = Release|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x64.Deploy.0 = Release|x64
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x86.ActiveCfg = Release|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x86.Build.0 = Release|x86
+		{B3A5F8E9-D134-42FF-B0CD-F789C6A72256}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
