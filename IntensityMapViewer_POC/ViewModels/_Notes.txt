@@ -8,6 +8,7 @@ These implementations are as simple as we can get away with for the purposes of 
 
 The view models are structured as a tree. A parent knows about its children, and a child also knows about its parent. This lets a child access properties and methods anywhere in the tree, which is convenient although it does mean that the classes are strongly coupled. Perhaps better to use Messenger instead ? But although that's fine for raising events, you can't easily query a property value in a different view model.
 
+MORE STUFF HERE ...
 
 
 
