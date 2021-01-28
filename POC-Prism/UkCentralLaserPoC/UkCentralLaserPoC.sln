@@ -31,6 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDefinitions", "..\..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaUtilities", "..\..\IntensityMapViewer_POC\SkiaUtilities\SkiaUtilities.csproj", "{4EE12EFF-49A9-488B-8BD8-EB10ED5AF60D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{D2887029-2411-46C1-9109-825CC9630127}"
+	ProjectSection(SolutionItems) = preProject
+		_Notes on file structure.txt = _Notes on file structure.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UkCentralLaserPoC\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems*{201ff7cc-39ab-4f79-9b23-9966bdb04a5e}*SharedItemsImports = 4

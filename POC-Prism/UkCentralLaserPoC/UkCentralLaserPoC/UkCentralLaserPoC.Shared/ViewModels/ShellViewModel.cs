@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace UkCentralLaserPoC.ViewModels
 {
+
+    // STEVE_QUESTION : Why are we using this base class rather than Prism directly ??
+
     public class ShellViewModel : ViewModelBase
     {
         public ShellViewModel()

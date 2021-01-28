@@ -20,12 +20,32 @@
             Or t1o use an IconElement instead of a Symbol see https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/projectTypes/navigationpane.md
             Edit String/en-US/Resources.resw: Add a menu item title for each page
             -->
+            <!-- 
+              STEVE_COMMENT : These 'items' are displayed in the left-hand panel.
+              When an item is clicked on, the 'ItemSelected' method in the code-behind
+              looks at the 'Tag' passed in, and passes it to the Region Manager :
+                case "Main":
+                  regionManager.RequestNavigate("ContentRegion", "MainPage");
+                case "Intensity Map":
+                  regionManager.RequestNavigate("ContentRegion", "IntensityMapTestView");
+                  break;
+                case "Skia":
+                  regionManager.RequestNavigate("ContentRegion", nameof(SkiaView));
+                  break;
+              Note that the following 'registrations' were performed in app.xaml.cs :
+                containerRegistry.RegisterForNavigation(typeof(SettingsView), "SettingsPage");
+                containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");
+                containerRegistry.RegisterForNavigation(typeof(SkiaView), "SkiaView");
+                moduleCatalog.AddModule<IntensityMapModule>(...);
+            -->
             <NavigationViewItem x:Uid="Shell_Main" Icon="Document" Tag="Main" />
             <NavigationViewItem x:Uid="Shell_IntensityMap" Icon="Globe" Tag="IntensityMap" />
             <NavigationViewItem x:Uid="Shell_Skia" Icon="Account" Tag="Skia" />
         </NavigationView.MenuItems>
         
         <Grid>
+          <!-- Here we're defining just a single Region, 'ContentRegion'. -->
+          <!-- This will get populated via 'RequestNavigate', see above.  -->
            <ContentControl prismRegions:RegionManager.RegionName="ContentRegion" />
         </Grid>
     </NavigationView>

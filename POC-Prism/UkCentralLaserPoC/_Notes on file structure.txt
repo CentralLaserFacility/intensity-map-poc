@@ -1,0 +1,51 @@
+//
+// Notes on the file structure
+//
+
+In the solution :
+                                     This is the directory containing the cloned repo
+  Core                               |
+    Common                <== C:\tmp\poc\IntensityMapViewer_POC\Common.csproj
+    DomainDefinitions     <== C:\tmp\poc\IntensityMapViewer_POC\DomainDefinitions.csproj
+    etc ...
+    [ These folders contain the 'domain model' and 'view model' classes ]
+
+  Platforms
+    UkCentralLaserPoC.Droid   <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\Platforms\UkCentralLaserPoC.Droid\
+    UkCentralLaserPoC.UWP     <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\Platforms\UkCentralLaserPoC.UWP\
+    etc ...
+
+  UkCentralLaserPoC.Core         <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\UkCentralLaserPoC.Core\
+    MVVM
+      ViewModelBase.cs           <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\UkCentralLaserPoC.Core\Mvvm\ViewModelBase.cs 
+    [ This just defines a 'ViewModelBase' class that inherits from the Prism one and defines a Title property ... ??? ]
+      
+  UkCentralLaserPoC.IntensityMap     <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj
+    IntensityMapModule.cs            <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC.IntensityMap\IntensityMapModule.cs
+    IntensityMapDynamicView.xaml
+    IntensityMapDynamicViewModel.cs
+
+  UkCentralLaserPoC.Shared     <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\UkCentralLaserPoC.Shared
+    Assets
+    Controls
+      SkiaSceneRenderer_ForTesting_01.cs  <== C:\tmp\poc\POC-Prism\UkCentralLaserPoC\UkCentralLaserPoC\UkCentralLaserPoC.Shared\Controls\SkiaSceneRenderer_ForTesting_01.cs
+      SkiaView.xaml
+    Helpers
+    Services
+    Strings
+    Styles
+    ViewModels
+      MainViewModel.cs
+      SettingsViewModel.cs
+      ShellViewModel.cs
+    Views
+      MainView.xaml
+      SettingsView.xaml
+      Shell.xaml
+    App.xaml
+    IntensityMapStatic.xaml
+    [ This 'shared project' gets included in all the platform-specific projects ]
+    [ ]
+
+
+

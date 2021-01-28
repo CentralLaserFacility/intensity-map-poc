@@ -43,6 +43,9 @@ namespace UkCentralLaserPoC
             containerRegistry.RegisterForNavigation(typeof(SettingsView), "SettingsPage");
             containerRegistry.RegisterForNavigation(typeof(MainView), "MainPage");
             containerRegistry.RegisterForNavigation(typeof(SkiaView), "SkiaView");
+            
+            // STEVE_FIX
+            containerRegistry.RegisterForNavigation(typeof(Shared.IntensityMapStatic), "IntensityMapStatic");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -49,7 +49,9 @@ namespace UkCentralLaserPoC.Shared.Views
                         regionManager.RequestNavigate("ContentRegion", "MainPage");
                         break;
                     case "Intensity Map":
-                        regionManager.RequestNavigate("ContentRegion", "IntensityMapTestView");
+                        // STEVE_FIX - IntensityMapTestView doesn't exist !!!
+                        // regionManager.RequestNavigate("ContentRegion", "IntensityMapTestView");
+                        regionManager.RequestNavigate("ContentRegion", "IntensityMapStatic");
                         break;
                     case "Skia":
                         regionManager.RequestNavigate("ContentRegion", nameof(SkiaView));

@@ -13,13 +13,17 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.ComponentModel;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace UkCentralLaserPoC.Shared
 {
-    public sealed partial class IntensityMapStatic : UserControl
+    public sealed partial class IntensityMapStatic : UserControl, INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public IntensityMapStatic()
         {
             this.InitializeComponent();
