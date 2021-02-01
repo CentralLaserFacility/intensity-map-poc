@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="NativeUwp_ViewerApp_01.NumericValueEditor_UserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NativeUwp_ViewerApp_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="80"
+    d:DesignWidth="120">
+
+    <Grid>
+
+        <StackPanel Orientation="Vertical">
+
+            <TextBox Text="Position" />
+
+            <StackPanel Orientation="Horizontal">
+        
+                <Slider 
+                    HorizontalAlignment="Left"
+                    Minimum="{x:Bind ViewModel.MinValue}"  
+                    Maximum="{x:Bind ViewModel.MaxValue}" 
+                    Value="{x:Bind ViewModel.CurrentValue}"
+                    Width="100" 
+                />
+
+                <TextBlock Text="0.4" />
+
+          </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

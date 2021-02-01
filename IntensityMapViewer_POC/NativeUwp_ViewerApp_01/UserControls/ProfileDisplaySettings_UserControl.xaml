@@ -11,7 +11,33 @@
 
     <Grid Background="Goldenrod">
 
-      <Button Content="Profile settings" HorizontalAlignment="Center"/>
+      <StackPanel Orientation="Vertical">
+      
+       <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
+
+       <CheckBox Content="Show profile graphs" />
+
+
+      <ComboBox Header="Normalisation mode" Width="160" >
+         <x:String>Automatic</x:String> 
+         <x:String>Manual</x:String> 
+       </ComboBox>
+
+       <Slider 
+         HorizontalAlignment="Left"
+         Minimum="0" Maximum="1" Value="0.5" 
+         Width="160" 
+         Header="X position"
+       />
+
+       <Slider 
+         HorizontalAlignment="Left"
+         Minimum="0" Maximum="1" Value="0.5"
+         Width="160" 
+         Header="Y position"
+       />
+
+     </StackPanel>
 
     </Grid>
 </UserControl>

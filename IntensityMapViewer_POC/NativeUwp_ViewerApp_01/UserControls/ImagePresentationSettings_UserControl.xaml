@@ -6,12 +6,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="200"
+    d:DesignWidth="200">
 
     <Grid Background="Coral">
 
-      <Button Content="Image settings" HorizontalAlignment="Center"/>
+      <StackPanel Orientation="Vertical">
+      
+       <TextBox Text="Image settings" HorizontalAlignment="Center"/>
+
+       <ComboBox Header="Colour map" Width="160" >
+         <x:String>GreyScale</x:String> 
+         <x:String>Jet</x:String> 
+       </ComboBox>
+
+       <ComboBox Header="Normalisation mode" Width="160" >
+         <x:String>Automatic</x:String> 
+         <x:String>Manual</x:String> 
+       </ComboBox>
+
+       <Slider 
+         HorizontalAlignment="Left"
+         Minimum="0" Maximum="255" Width="160" Header="Normalisation value"
+       />
+
+     </StackPanel>
 
     </Grid>
 </UserControl>

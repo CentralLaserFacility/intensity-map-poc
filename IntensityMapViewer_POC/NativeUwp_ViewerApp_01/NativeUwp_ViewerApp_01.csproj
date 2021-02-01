@@ -135,6 +135,9 @@
     <Compile Include="UserControls\IntensityMapImage_UserControl.xaml.cs">
       <DependentUpon>IntensityMapImage_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NumericValueEditor_UserControl.xaml.cs">
+      <DependentUpon>NumericValueEditor_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ProfileDisplaySettings_UserControl.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\IntensityMapImage_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\NumericValueEditor_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
