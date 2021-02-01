@@ -123,6 +123,24 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
+      <DependentUpon>HorizontalProfileGraph_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ImagePresentationSettings_UserControl.xaml.cs">
+      <DependentUpon>ImagePresentationSettings_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\IntensityMapImageAndProfileGraphs_UserControl.xaml.cs">
+      <DependentUpon>IntensityMapImageAndProfileGraphs_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\IntensityMapImage_UserControl.xaml.cs">
+      <DependentUpon>IntensityMapImage_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProfileDisplaySettings_UserControl.xaml.cs">
+      <DependentUpon>ProfileDisplaySettings_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VerticalProfileGraph_UserControl.xaml.cs">
+      <DependentUpon>VerticalProfileGraph_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ViewerPanel_UserControl.xaml.cs">
       <DependentUpon>ViewerPanel_UserControl.xaml</DependentUpon>
     </Compile>
@@ -151,6 +169,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\HorizontalProfileGraph_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ImagePresentationSettings_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\IntensityMapImageAndProfileGraphs_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\IntensityMapImage_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProfileDisplaySettings_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\VerticalProfileGraph_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ViewerPanel_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,7 +203,24 @@
       <Version>6.2.11</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{369022b0-c1cd-4dde-975a-f35bc77217c9}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{02a086e0-1e08-427b-bfd8-e43a210cb61a}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModelClasses\ModelClasses.csproj">
+      <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

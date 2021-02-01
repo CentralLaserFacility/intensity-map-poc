@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		_ConceptualModel_initial_rough_draft.cs = _ConceptualModel_initial_rough_draft.cs
 		_Questions.txt = _Questions.txt
 		PrioritiesForThePOC.md = PrioritiesForThePOC.md
+		State of play.md = State of play.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeUwp_TestHarnessApp", "NativeUwp_TestHarnessApp\NativeUwp_TestHarnessApp.csproj", "{74E6F35C-63B4-4E92-90BD-C303F5B6B91F}"
