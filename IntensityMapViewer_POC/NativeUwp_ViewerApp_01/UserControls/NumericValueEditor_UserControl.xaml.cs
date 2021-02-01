@@ -20,7 +20,7 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class NumericValueEditor_UserControl : UserControl
   {
 
-    private IntensityMapViewer.NumericValueViewModel ViewModel = new IntensityMapViewer.NumericValueViewModel() ;
+    private IntensityMapViewer.NumericValueViewModel ViewModel ; // = new IntensityMapViewer.NumericValueViewModel() ;
     public NumericValueEditor_UserControl()
     {
       this.InitializeComponent();

@@ -7,37 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+>
 
-    <Grid Background="Goldenrod">
-
-      <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Background="Goldenrod">
       
-       <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
+        <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
 
-       <CheckBox Content="Show profile graphs" />
+       <local:NumericValueEditor_UserControl Width="160" Margin="0,10,10,10" HorizontalAlignment="Left"/>
+       
+       <local:NumericValueEditor_UserControl Width="160" Margin="0,0,10,0" HorizontalAlignment="Left"/>
 
+        <ComboBox Header="Normalisation mode" Width="160" >
+            <x:String>Automatic</x:String> 
+            <x:String>Manual</x:String> 
+        </ComboBox>
 
-      <ComboBox Header="Normalisation mode" Width="160" >
-         <x:String>Automatic</x:String> 
-         <x:String>Manual</x:String> 
-       </ComboBox>
-
-       <Slider 
-         HorizontalAlignment="Left"
-         Minimum="0" Maximum="1" Value="0.5" 
-         Width="160" 
-         Header="X position"
-       />
-
-       <Slider 
-         HorizontalAlignment="Left"
-         Minimum="0" Maximum="1" Value="0.5"
-         Width="160" 
-         Header="Y position"
-       />
+        <CheckBox Content="Show profile graphs" />
 
      </StackPanel>
 
-    </Grid>
 </UserControl>

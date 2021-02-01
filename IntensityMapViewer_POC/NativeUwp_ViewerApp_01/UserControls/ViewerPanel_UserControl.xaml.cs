@@ -19,6 +19,9 @@ namespace NativeUwp_ViewerApp_01
 {
   public sealed partial class ViewerPanel_UserControl : UserControl
   {
+
+    private IntensityMapViewer.DisplayPanelViewModel ViewModel ;
+
     public ViewerPanel_UserControl()
     {
       this.InitializeComponent();

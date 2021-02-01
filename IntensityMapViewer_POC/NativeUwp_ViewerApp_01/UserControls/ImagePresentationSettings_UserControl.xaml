@@ -6,14 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="200"
+    d:DesignHeight="280"
     d:DesignWidth="200">
 
     <Grid Background="Coral">
 
       <StackPanel Orientation="Vertical">
       
-       <TextBox Text="Image settings" HorizontalAlignment="Center"/>
+       <TextBox Text="Image presentation settings" HorizontalAlignment="Center"/>
 
        <ComboBox Header="Colour map" Width="160" >
          <x:String>GreyScale</x:String> 
@@ -29,6 +29,8 @@
          HorizontalAlignment="Left"
          Minimum="0" Maximum="255" Width="160" Header="Normalisation value"
        />
+
+       <local:NumericValueEditor_UserControl />
 
      </StackPanel>
 

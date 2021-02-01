@@ -6,29 +6,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="80"
-    d:DesignWidth="120">
+    d:DesignHeight="70"
+    d:DesignWidth="160"
+>
 
-    <Grid>
+    <StackPanel Orientation="Vertical" Background="LightSeaGreen">
 
-        <StackPanel Orientation="Vertical">
+        <TextBox PlaceholderText="Position" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" />
 
-            <TextBox Text="Position" />
-
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" >
         
-                <Slider 
-                    HorizontalAlignment="Left"
-                    Minimum="{x:Bind ViewModel.MinValue}"  
-                    Maximum="{x:Bind ViewModel.MaxValue}" 
-                    Value="{x:Bind ViewModel.CurrentValue}"
-                    Width="100" 
-                />
+        <Slider 
+            HorizontalAlignment="Left"
+            Minimum="{x:Bind ViewModel.MinValue, Mode=OneWay}"  
+            Maximum="{x:Bind ViewModel.MaxValue, Mode=OneWay}" 
+            Value="{x:Bind ViewModel.CurrentValue, Mode=TwoWay}"
+            Width="100" 
+        />
 
-                <TextBlock Text="0.4" />
-
-          </StackPanel>
+        <TextBlock Margin="10,10,10,10" Text="0.4" />
 
         </StackPanel>
-    </Grid>
+
+    </StackPanel>
+
 </UserControl>
