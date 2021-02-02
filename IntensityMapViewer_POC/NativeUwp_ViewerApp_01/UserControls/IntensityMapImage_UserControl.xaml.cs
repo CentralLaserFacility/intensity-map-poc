@@ -21,7 +21,7 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
 
-    private IntensityMapViewer.IIntensityMap ViewModel => DataContext as IntensityMapViewer.IIntensityMap ;
+    private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
 
     public IntensityMapImage_UserControl()
     {
