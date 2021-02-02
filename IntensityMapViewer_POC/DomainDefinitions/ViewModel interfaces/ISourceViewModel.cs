@@ -2,14 +2,10 @@
 // ISourceViewModel.cs
 //
 
-using System.Collections.Generic ;
+using System.Collections.Generic;
 
 namespace IntensityMapViewer
 {
-
-  //
-  // Represets an 'actual' source of IntensityMap data
-  //
 
   public interface ISourceViewModel : IViewModel
   {

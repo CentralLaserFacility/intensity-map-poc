@@ -10,11 +10,11 @@
     d:DesignWidth="1200"
 >
 
-    <Grid ColumnSpacing="20" RowSpacing="20" Background="BlanchedAlmond">
+    <Grid ColumnSpacing="10" RowSpacing="10" Padding="0" Margin="0" Background="Aquamarine">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -22,32 +22,47 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Large 'main' panel with the image and the graphs -->
         <local:IntensityMapImageAndProfileGraphs_UserControl 
           x:Name="m_intensityMapImageAndProfileGraphs_UserControl"
           Grid.Row="0" Grid.Column="0" 
           DataContext="{x:Bind ViewModel, Mode=OneWay}"
         />
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+        <!-- Right hand column containing the adjustment panels -->
+        <StackPanel 
+          Grid.Row="0" Grid.Column="1" 
+          Orientation="Vertical" 
+          Background="AliceBlue"
+        >
 
           <local:ImagePresentationSettings_UserControl 
             Height="300" Margin="20,20,20,10"
             DataContext="{x:Bind ViewModel.ImagePresentationSettings, Mode=OneWay}"
           />
 
-          <local:ProfileDisplaySettings_UserControl 
-            Height="200" Margin="20,10,20,10" 
+          <local:ProfileDisplaySettings_UserControl
+            Height="200" Margin="20,10,20,20" 
             DataContext="{x:Bind ViewModel.CurrentSource.ProfileDisplaySettings, Mode=OneWay}"
           />
 
-          <StackPanel Orientation="Horizontal" Padding="10" Margin="20" >
+          <StackPanel Orientation="Horizontal" Padding="0" Margin="20,0,0,0" >
             <Button Content="Settings" />
-            <Button Content="Reset" />
+            <Button Content="Reset" Margin="20,0,0,0"/>
           </StackPanel>
 
         </StackPanel>
 
-        <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Fill="LightGreen" />
+        <StackPanel 
+          Orientation="Horizontal" Background="AliceBlue"
+          Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
+          Padding="00" Margin="00" 
+          Height="50"
+        >
+          <Button Content="Settings" Margin="10"/>
+          <Button Content="Reset"  Margin="10"/>
+        </StackPanel>
+
 
     </Grid>
 
