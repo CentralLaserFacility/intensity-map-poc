@@ -15,12 +15,21 @@
       
        <TextBox Text="Image presentation settings" HorizontalAlignment="Center"/>
 
+       <!-- 
        <ComboBox Header="Colour map" Width="160" >
          <x:String>GreyScale</x:String> 
          <x:String>Jet</x:String> 
        </ComboBox>
+       -->
 
-       <ComboBox Header="Normalisation mode" Width="160" >
+       <ComboBox Header="Colour map" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptions}"
+         DisplayMemberPath="Name"
+         SelectedValuePath="Value"
+         SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+       />
+
+      <ComboBox Header="Normalisation mode" Width="160" >
          <x:String>Automatic</x:String> 
          <x:String>Manual</x:String> 
        </ComboBox>

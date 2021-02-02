@@ -15,7 +15,10 @@ namespace IntensityMapViewer
   , IImagePresentationSettingsViewModel
   {
 
-    private ColourMapOption m_colourMapOption = ColourMapOption.JetColours ;
+    private ColourMapOption m_colourMapOption = (
+      ColourMapOption.GreyScale 
+      // ColourMapOption.JetColours 
+    ) ;
 
     public ColourMapOption ColourMapOption {
       get => m_colourMapOption ;

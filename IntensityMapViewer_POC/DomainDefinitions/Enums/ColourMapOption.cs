@@ -28,4 +28,12 @@ namespace IntensityMapViewer
     Binary 
   }
 
+  public static class EnumTypeOptions
+  {
+
+    static System.Collections.Generic.List<Common.EnumItemsSource<ColourMapOption>> ColourMapOptions
+    => Common.EnumItemsSource<ColourMapOption>.ToList() ;
+
+  }
+
 }

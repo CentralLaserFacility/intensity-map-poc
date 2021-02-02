@@ -2,9 +2,6 @@
 // BitmapHelpers.cs
 //
 
-using System.Collections.Generic;
-using System.Linq;
-
 using Common.ExtensionMethods;
 using static System.Runtime.InteropServices.WindowsRuntime.WindowsRuntimeBufferExtensions;
 

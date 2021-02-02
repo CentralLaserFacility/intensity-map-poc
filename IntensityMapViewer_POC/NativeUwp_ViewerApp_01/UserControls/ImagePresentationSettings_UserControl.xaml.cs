@@ -35,6 +35,9 @@ namespace NativeUwp_ViewerApp_01
       } ;
     }
 
+    public List<Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>> ColourMapOptions 
+    => Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() ;
+
   }
 
 }
