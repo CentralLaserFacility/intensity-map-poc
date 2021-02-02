@@ -32,7 +32,7 @@ namespace NativeUwp_ViewerApp_01
         this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
         // Hmm, this 'm_intensityMapImage' UserControl has an x:Bind that is meant to
         // bind its data context to the same ViewModel - but is that working ???
-        m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
+        // m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
       } ;
     }
 

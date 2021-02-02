@@ -1,0 +1,42 @@
+﻿Binding the DataContext property of a UserControl
+
+Say I have a Page, and on it a UserControl. The Page has a RootViewModel,
+and the RootViewModel has a 'child' ViewModel whose properties I want to
+interact with via my UserControl :
+
+  class MyPage
+  {
+    RootViewModel ViewModel => DataContext as RootViewModel ;
+  }
+
+  class RootViewModel
+  {
+    public ChildViewModel ChildViewModel { get ; }
+  }
+
+In the Page's XAML :
+
+  <MyUserControl DataContext="{x:Bind ViewModel.ChildViewModel, Mode=OneWay}" />
+
+------------
+
+That's fine, but to make it work, you have to hook into the DataContexChanged event
+in the Page, and explicitly call 'Bindings.Update()'.
+
+  MyPage ( )
+  {
+    this.InitializeComponent();
+    DataContextChanged += (s,e) => {
+      this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+    } ;
+  }
+
+Isn't it very surprising that this is necessary ? After all, if the DataContext changes,
+surely you'd expect that all the UI elements would need to be refreshed ?
+
+I suppose the reasoning here is that x:Bind will be mentioning a specific Property,
+in our case one called 'ViewModel'. Depending on how that property is implemented,
+it would not necessarily be affected by a change to the DataContext - but in our case
+we're getting it *from* the DataContext. This means we can avoid declaring 
+a DependencyProperty to represent our ViewModel property.
+
