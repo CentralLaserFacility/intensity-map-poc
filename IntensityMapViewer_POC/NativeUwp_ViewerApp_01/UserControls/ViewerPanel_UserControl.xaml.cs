@@ -20,7 +20,7 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ViewerPanel_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ISourceViewModel SourceViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
      
     public ViewerPanel_UserControl()
     {

@@ -20,9 +20,9 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class IntensityMapImageAndProfileGraphs_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+    // private IntensityMapViewer.ISourceViewModel ViewModel => 
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
 
 
     public IntensityMapImageAndProfileGraphs_UserControl()

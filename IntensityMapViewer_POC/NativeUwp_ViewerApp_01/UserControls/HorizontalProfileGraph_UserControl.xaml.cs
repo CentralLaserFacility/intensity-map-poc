@@ -22,7 +22,7 @@ namespace NativeUwp_ViewerApp_01
 
     private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => null ;
+    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
 
     public HorizontalProfileGraph_UserControl()
     {
@@ -31,7 +31,7 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
-        // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
       } ;
     }
   }

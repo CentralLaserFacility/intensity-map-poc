@@ -11,8 +11,12 @@
 
     <Grid Background="LightCyan">
 
-
-        <Button Content="Profile Graph" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Vertical">
+            <Button Content="Profile Graph" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox 
+              x:Name="m_textBox"
+              Text="{x:Bind ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.ToString(), Mode=OneWay}" PlaceholderText="(dim)"/>
+        </StackPanel>
 
     </Grid>
 

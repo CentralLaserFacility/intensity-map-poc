@@ -26,8 +26,7 @@ namespace NativeUwp_ViewerApp_01
         {
             this.InitializeComponent();
             this.Loaded += (s,e) => {
-              m_viewerPanel.DataContext = new IntensityMapViewer.DisplayPanelViewModel(){
-              } ;
+              m_viewerPanel_UserControl.DataContext = new IntensityMapViewer.DisplayPanelViewModel() ;
             } ;
         }
     }

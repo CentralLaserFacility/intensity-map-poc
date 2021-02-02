@@ -10,7 +10,7 @@
 
     <Grid>
 
-      <local:ViewerPanel_UserControl x:Name="m_viewerPanel"/>
+      <local:ViewerPanel_UserControl x:Name="m_viewerPanel_UserControl"/>
       
     </Grid>
 </Page>
