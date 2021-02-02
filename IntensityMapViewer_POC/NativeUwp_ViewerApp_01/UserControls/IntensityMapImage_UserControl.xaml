@@ -13,7 +13,9 @@
 
         <StackPanel Orientation="Vertical">
             <Button Content="IntensityMap Image" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Text="{x:Bind ViewModel.Dimensions.ToString()}" PlaceholderText="(dimensions)"/>
+            <TextBox 
+              x:Name="m_textBox"
+              Text="{x:Bind ViewModel.Dimensions.ToString(), Mode=OneWay}" PlaceholderText="(dimensions)"/>
         </StackPanel>
 
     </Grid>

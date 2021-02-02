@@ -31,6 +31,7 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
+        // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
       } ;
     }
   }

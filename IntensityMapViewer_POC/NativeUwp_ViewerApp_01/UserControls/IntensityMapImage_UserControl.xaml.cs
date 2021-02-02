@@ -30,6 +30,13 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
+        // Hmm, setting this in code works fine, but the x:Bind that's supposed to
+        // populate the text-box value doesn't get activated when the DataContext has changed ...
+        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+        // if ( ViewModel != null )
+        // {
+        //   m_textBox.Text = $"Just testing : {ViewModel.Dimensions.ToString()}" ;
+        // }
       } ;
     }
   }
