@@ -11,7 +11,10 @@
 
     <Grid Background="LightCyan">
 
-        <Button Content="IntensityMap Image" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Vertical">
+            <Button Content="IntensityMap Image" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Text="{x:Bind ViewModel.Dimensions.ToString()}" PlaceholderText="(dimensions)"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>

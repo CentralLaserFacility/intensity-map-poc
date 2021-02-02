@@ -23,6 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <local:IntensityMapImageAndProfileGraphs_UserControl 
+          x:Name="m_intensityMapImageAndProfileGraphs_UserControl"
           Grid.Row="0" Grid.Column="0" 
           DataContext="{x:Bind ViewModel, Mode=OneWay}"
         />

@@ -41,6 +41,8 @@ namespace IntensityMapViewer
 
     IReadOnlyList<byte> HorizontalSliceAtRow ( int yDown ) ;
 
+    // string AsString => $"IntensityMap {Dimensions}" ;
+
   }
 
 }

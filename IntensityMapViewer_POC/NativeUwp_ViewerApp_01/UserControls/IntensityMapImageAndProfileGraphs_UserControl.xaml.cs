@@ -19,9 +19,21 @@ namespace NativeUwp_ViewerApp_01
 {
   public sealed partial class IntensityMapImageAndProfileGraphs_UserControl : UserControl
   {
+
+    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
+
+    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
+
+
     public IntensityMapImageAndProfileGraphs_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+        m_intensityMapImage_UserControl.DataContext = ViewModel?.CurrentSource?.MostRecentlyAcquiredIntensityMap ;
+      } ;
     }
   }
 }

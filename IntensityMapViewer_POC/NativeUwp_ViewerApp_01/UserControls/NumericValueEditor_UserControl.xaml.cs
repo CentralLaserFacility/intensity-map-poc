@@ -24,6 +24,11 @@ namespace NativeUwp_ViewerApp_01
     public NumericValueEditor_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+      } ;
     }
   }
 }

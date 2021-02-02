@@ -20,11 +20,20 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ImagePresentationSettings_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ImagePresentationSettingsViewModel ViewModel ;
+    private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+
+    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
 
     public ImagePresentationSettings_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+      } ;
     }
+
   }
+
 }

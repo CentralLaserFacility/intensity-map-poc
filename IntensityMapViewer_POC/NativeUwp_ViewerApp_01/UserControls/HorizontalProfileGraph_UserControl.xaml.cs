@@ -19,9 +19,19 @@ namespace NativeUwp_ViewerApp_01
 {
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
+
+    private IntensityMapViewer.IIntensityMap ViewModel => DataContext as IntensityMapViewer.IIntensityMap ;
+
+    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => null ;
+
     public HorizontalProfileGraph_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+      } ;
     }
   }
 }

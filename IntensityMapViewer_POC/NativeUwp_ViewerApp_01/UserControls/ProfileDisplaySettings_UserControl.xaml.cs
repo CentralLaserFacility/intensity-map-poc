@@ -20,11 +20,18 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ProfileDisplaySettings_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ProfileDisplaySettingsViewModel ViewModel ;
+    private IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel => DataContext as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+
+    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
 
     public ProfileDisplaySettings_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+      } ;
     }
 
   }

@@ -20,11 +20,20 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ViewerPanel_UserControl : UserControl
   {
 
-    private IntensityMapViewer.DisplayPanelViewModel ViewModel ;
-
+    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
+     
     public ViewerPanel_UserControl()
     {
       this.InitializeComponent();
+      DataContextChanged += (s,e) => {
+        System.Diagnostics.Debug.WriteLine(
+          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+        ) ;
+        // Hmm, this 'm_intensityMapImage' UserControl has an x:Bind that is meant to
+        // bind its data context to the same ViewModel - but is that working ???
+        m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
+      } ;
     }
+
   }
 }

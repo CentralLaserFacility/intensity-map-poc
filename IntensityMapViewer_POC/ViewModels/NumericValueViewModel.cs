@@ -6,6 +6,11 @@ using System.Transactions;
 
 namespace IntensityMapViewer
 {
+
+  //
+  // Hmm, need to connect with integer values also ...
+  //
+
   public class NumericValueViewModel
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   {
