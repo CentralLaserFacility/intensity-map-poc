@@ -10,173 +10,6 @@ namespace UwpSkiaUtilities
   public static class DrawingHelpers
   {
 
-    public static void DrawBoundingBox ( 
-      SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
-    ) {
-      SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
-      ) ;
-      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
-      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
-      ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
-      ) ;
-      DrawBoundingBox(
-        skiaCanvas,
-        SkiaSharp.SKRect.Create(
-          new SkiaSharp.SKSize(
-            imageInfo.Width,
-            imageInfo.Height
-          )
-        )
-      ) ;
-    }
-
-    public static void DrawBoundingBox ( 
-      SkiaSharp.SKCanvas skiaCanvas,
-      SkiaSharp.SKRect   canvasRect
-    ) {
-      // Draw a blue rectangle that covers the entire canvas.
-      // One pixel bigger all round just to make sure ??
-      skiaCanvas.DrawFilledRect(
-        canvasRect.ExpandedAllRoundBy(1),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.BlanchedAlmond
-        }
-      ) ;
-      // Draw a rectangle at the extreme edges
-      skiaCanvas.DrawRectOutline(
-        canvasRect,
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Black
-        }
-      ) ;
-      skiaCanvas.DrawRectOutline(
-        canvasRect.ExpandedAllRoundBy(-2),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Black
-        }
-      ) ;
-      skiaCanvas.DrawFilledRect(
-        canvasRect.ExpandedAllRoundBy(-6),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.LightGreen
-        }
-      ) ;
-      // Draw markers at the corner points
-      var red = new SkiaSharp.SKPaint(){
-        Color = SkiaSharp.SKColors.Red
-      } ;
-      var delta = 20.0f ;
-      canvasRect.UnpackVisibleCornerPoints(
-        out SKPoint      topLeftPoint,    
-        out SKPoint      topRightPoint,   
-        out SKPoint      bottomLeftPoint, 
-        out SKPoint      bottomRightPoint
-      ) ;
-      // Lines from top left
-      skiaCanvas.DrawHorizontalLineRight(topLeftPoint,delta,red) ;
-      skiaCanvas.DrawVerticalLineDown(topLeftPoint,delta,red) ;
-      // Lines from top right
-      skiaCanvas.DrawHorizontalLineLeft(topRightPoint,delta,red) ;
-      skiaCanvas.DrawVerticalLineDown(topRightPoint,delta,red) ;
-      // Lines from bottom left
-      skiaCanvas.DrawHorizontalLineRight(bottomLeftPoint,delta,red) ;
-      skiaCanvas.DrawVerticalLineUp(bottomLeftPoint,delta,red) ;
-      // Lines from bottom right
-      skiaCanvas.DrawHorizontalLineLeft(bottomRightPoint,delta,red) ;
-      skiaCanvas.DrawVerticalLineUp(bottomRightPoint,delta,red) ;
-    }
-
-    public static void DrawBoundingBox_old_01 ( 
-      SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs,
-      int                                         widthOfLineJustInsideBoundingBox = 1
-    ) {
-      SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
-      ) ;
-      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
-      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
-      ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
-      ) ;
-      // Draw a blue rectangle that covers the entire canvas,
-      // in fact one pixel bigger all round just to make sure ...
-      paintSurfaceEventArgs.Surface.Canvas.DrawRect(
-        deviceClipBounds.Location.X - 1,
-        deviceClipBounds.Location.Y - 1,
-        deviceClipBounds.Location.X + deviceClipBounds.Width,
-        deviceClipBounds.Location.Y + deviceClipBounds.Height,
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Blue
-        }
-      ) ;
-      paintSurfaceEventArgs.Surface.Canvas.DrawRect(
-        deviceClipBounds.Location.X + widthOfLineJustInsideBoundingBox - 1,
-        deviceClipBounds.Location.Y + widthOfLineJustInsideBoundingBox - 1,
-        deviceClipBounds.Location.X + deviceClipBounds.Width  /* - 1 */ - widthOfLineJustInsideBoundingBox,
-        deviceClipBounds.Location.Y + deviceClipBounds.Height /* - 1 */ - widthOfLineJustInsideBoundingBox,
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.LightGreen
-        }
-      ) ;
-      // Vertical line at the left, down from the top
-      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
-        new SkiaSharp.SKPoint(
-          // Top left
-          deviceClipBounds.Location.X,
-          deviceClipBounds.Location.Y
-        ),
-        new SkiaSharp.SKPoint(
-          // Top left, down 20
-          deviceClipBounds.Location.X, 
-          deviceClipBounds.Location.Y + 20
-        ),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Red
-        }
-      ) ;
-      // Vertical line at the right, up from the bottom
-      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
-        new SkiaSharp.SKPoint(
-          // Bottom right
-          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
-          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
-        ),
-        new SkiaSharp.SKPoint(
-          // Bottom right, up 20
-          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
-          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1 - 20
-        ),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Red
-        }
-      ) ;
-      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
-        new SkiaSharp.SKPoint(
-          deviceClipBounds.Location.X,
-          deviceClipBounds.Location.Y
-        ),
-        new SkiaSharp.SKPoint(
-          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
-          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
-        ),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Red
-        }
-      ) ;
-    }
-
     public static void DrawFilledRect (
       this SkiaSharp.SKCanvas skiaCanvas,
       SkiaSharp.SKPoint       topLeftPoint,
@@ -366,6 +199,173 @@ namespace UwpSkiaUtilities
       startPoint.X + frac01 * ( endPoint.X - startPoint.X ),
       startPoint.Y + frac01 * ( endPoint.Y - startPoint.Y )
     ) ;
+
+    public static void DrawBoundingBox ( 
+      SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
+    ) {
+      SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
+      ) ;
+      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
+      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
+      SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
+      ) ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
+      ) ;
+      DrawBoundingBox(
+        skiaCanvas,
+        SkiaSharp.SKRect.Create(
+          new SkiaSharp.SKSize(
+            imageInfo.Width,
+            imageInfo.Height
+          )
+        )
+      ) ;
+    }
+
+    public static void DrawBoundingBox ( 
+      SkiaSharp.SKCanvas skiaCanvas,
+      SkiaSharp.SKRect   canvasRect
+    ) {
+      // Draw a blue rectangle that covers the entire canvas.
+      // One pixel bigger all round just to make sure ??
+      skiaCanvas.DrawFilledRect(
+        canvasRect.ExpandedAllRoundBy(1),
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.BlanchedAlmond
+        }
+      ) ;
+      // Draw a rectangle at the extreme edges
+      skiaCanvas.DrawRectOutline(
+        canvasRect,
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.Black
+        }
+      ) ;
+      skiaCanvas.DrawRectOutline(
+        canvasRect.ExpandedAllRoundBy(-2),
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.Black
+        }
+      ) ;
+      skiaCanvas.DrawFilledRect(
+        canvasRect.ExpandedAllRoundBy(-6),
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.LightGreen
+        }
+      ) ;
+      // Draw markers at the corner points
+      var red = new SkiaSharp.SKPaint(){
+        Color = SkiaSharp.SKColors.Red
+      } ;
+      var delta = 20.0f ;
+      canvasRect.UnpackVisibleCornerPoints(
+        out SKPoint      topLeftPoint,    
+        out SKPoint      topRightPoint,   
+        out SKPoint      bottomLeftPoint, 
+        out SKPoint      bottomRightPoint
+      ) ;
+      // Lines from top left
+      skiaCanvas.DrawHorizontalLineRight(topLeftPoint,delta,red) ;
+      skiaCanvas.DrawVerticalLineDown(topLeftPoint,delta,red) ;
+      // Lines from top right
+      skiaCanvas.DrawHorizontalLineLeft(topRightPoint,delta,red) ;
+      skiaCanvas.DrawVerticalLineDown(topRightPoint,delta,red) ;
+      // Lines from bottom left
+      skiaCanvas.DrawHorizontalLineRight(bottomLeftPoint,delta,red) ;
+      skiaCanvas.DrawVerticalLineUp(bottomLeftPoint,delta,red) ;
+      // Lines from bottom right
+      skiaCanvas.DrawHorizontalLineLeft(bottomRightPoint,delta,red) ;
+      skiaCanvas.DrawVerticalLineUp(bottomRightPoint,delta,red) ;
+    }
+
+    // public static void DrawBoundingBox_old_01 ( 
+    //   SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs,
+    //   int                                         widthOfLineJustInsideBoundingBox = 1
+    // ) {
+    //   SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
+    //   ) ;
+    //   SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
+    //   SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
+    //   SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
+    //   ) ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
+    //   ) ;
+    //   // Draw a blue rectangle that covers the entire canvas,
+    //   // in fact one pixel bigger all round just to make sure ...
+    //   paintSurfaceEventArgs.Surface.Canvas.DrawRect(
+    //     deviceClipBounds.Location.X - 1,
+    //     deviceClipBounds.Location.Y - 1,
+    //     deviceClipBounds.Location.X + deviceClipBounds.Width,
+    //     deviceClipBounds.Location.Y + deviceClipBounds.Height,
+    //     new SkiaSharp.SKPaint(){
+    //       Color = SkiaSharp.SKColors.Blue
+    //     }
+    //   ) ;
+    //   paintSurfaceEventArgs.Surface.Canvas.DrawRect(
+    //     deviceClipBounds.Location.X + widthOfLineJustInsideBoundingBox - 1,
+    //     deviceClipBounds.Location.Y + widthOfLineJustInsideBoundingBox - 1,
+    //     deviceClipBounds.Location.X + deviceClipBounds.Width  /* - 1 */ - widthOfLineJustInsideBoundingBox,
+    //     deviceClipBounds.Location.Y + deviceClipBounds.Height /* - 1 */ - widthOfLineJustInsideBoundingBox,
+    //     new SkiaSharp.SKPaint(){
+    //       Color = SkiaSharp.SKColors.LightGreen
+    //     }
+    //   ) ;
+    //   // Vertical line at the left, down from the top
+    //   paintSurfaceEventArgs.Surface.Canvas.DrawLine(
+    //     new SkiaSharp.SKPoint(
+    //       // Top left
+    //       deviceClipBounds.Location.X,
+    //       deviceClipBounds.Location.Y
+    //     ),
+    //     new SkiaSharp.SKPoint(
+    //       // Top left, down 20
+    //       deviceClipBounds.Location.X, 
+    //       deviceClipBounds.Location.Y + 20
+    //     ),
+    //     new SkiaSharp.SKPaint(){
+    //       Color = SkiaSharp.SKColors.Red
+    //     }
+    //   ) ;
+    //   // Vertical line at the right, up from the bottom
+    //   paintSurfaceEventArgs.Surface.Canvas.DrawLine(
+    //     new SkiaSharp.SKPoint(
+    //       // Bottom right
+    //       deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+    //       deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
+    //     ),
+    //     new SkiaSharp.SKPoint(
+    //       // Bottom right, up 20
+    //       deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+    //       deviceClipBounds.Location.Y + deviceClipBounds.Height - 1 - 20
+    //     ),
+    //     new SkiaSharp.SKPaint(){
+    //       Color = SkiaSharp.SKColors.Red
+    //     }
+    //   ) ;
+    //   paintSurfaceEventArgs.Surface.Canvas.DrawLine(
+    //     new SkiaSharp.SKPoint(
+    //       deviceClipBounds.Location.X,
+    //       deviceClipBounds.Location.Y
+    //     ),
+    //     new SkiaSharp.SKPoint(
+    //       deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+    //       deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
+    //     ),
+    //     new SkiaSharp.SKPaint(){
+    //       Color = SkiaSharp.SKColors.Red
+    //     }
+    //   ) ;
+    // }
 
   }
 

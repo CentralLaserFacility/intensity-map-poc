@@ -57,6 +57,7 @@ namespace NativeUwp_ViewerApp_01
       SkiaSharp.SKCanvas skiaCanvas,
       SkiaSharp.SKRect   canvasRect
     ) {
+      skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
       var red = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
@@ -68,6 +69,7 @@ namespace NativeUwp_ViewerApp_01
       ) ;
       float spaceAtTopAndBottom = 4.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(0).Count ;
+      List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(120).ForEachItem(
         (value,i) => {
           float lineHeight = (
@@ -87,7 +89,15 @@ namespace NativeUwp_ViewerApp_01
             lineHeight,
             red
           ) ;
+          points.Add(
+            bottomPoint.MovedBy(0,-lineHeight)
+          ) ;
         }
+      ) ;
+      skiaCanvas.DrawPoints(
+        SkiaSharp.SKPointMode.Polygon,
+        points.ToArray(),
+        red
       ) ;
     }
 
