@@ -6,8 +6,8 @@ namespace IntensityMapViewer
 {
 
   public enum NormalisationMode {
-    Automatic_FromBrightestIntensityInImageMap, // Detect highest intensity value
-    Manual_FromUserDefinedValue                 // Highest intensity is specified via a slider
+    Automatic, // Detect highest intensity value              _FromBrightestIntensityInImageMap
+    Manual     // Highest intensity is specified via a slider _FromUserDefinedValue
   }
 
 }

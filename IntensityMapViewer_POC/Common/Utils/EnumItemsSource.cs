@@ -30,21 +30,24 @@ namespace Common
   public class EnumItemsSource<T> where T : struct, System.IConvertible
   {
 
-    public string FullTypeString { get ; }
-
     public string Name { get ; }
 
     public T Value { get ; }
 
-    public EnumItemsSource ( string name, T value, string fullTypeString )
-    {
+    // public string FullTypeString { get ; }
+
+    public EnumItemsSource ( 
+      string name, 
+      T value
+      // , string fullTypeString 
+    ) {
       if ( ! typeof(T).IsEnum )
       {
-        throw new System.ArgumentException("EnumItemsSource only accept Enum type.");
+        throw new System.ArgumentException("EnumItemsSource only accepts an Enum type");
       }
       Name           = name ;
       Value          = value ;
-      FullTypeString = fullTypeString ;
+      // FullTypeString = fullTypeString ;
     }
 
     //
@@ -59,15 +62,14 @@ namespace Common
       var valuesList = System.Enum.GetValues(
         typeof(T)
       ).Cast<T>().ToList() ;
-      // Create EnumItemsSource list
       var enumItemsSourceList = new List<EnumItemsSource<T>>() ;
       for ( int i = 0 ; i < namesList.Length ; i++ )
       {
         enumItemsSourceList.Add(
           new EnumItemsSource<T>(
             namesList[i], 
-            valuesList[i], 
-            $"{typeof(T).Name}.{namesList[i]}"
+            valuesList[i]
+            // , $"{typeof(T).Name}.{namesList[i]}"
           )
         ) ;
       }

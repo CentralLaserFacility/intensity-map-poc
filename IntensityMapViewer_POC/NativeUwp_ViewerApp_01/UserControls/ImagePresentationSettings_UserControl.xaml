@@ -9,7 +9,7 @@
     d:DesignHeight="280"
     d:DesignWidth="200">
 
-    <Grid Background="Coral">
+    <Grid Background="LightYellow">
 
       <StackPanel Orientation="Vertical">
       
@@ -22,6 +22,14 @@
        </ComboBox>
        -->
 
+       <!-- 
+         This works, except that the value is not shown
+         until the selection is changed ... even though
+         the ColourMapOption we're binding to does have 
+         a valid value ...
+         SelectedValuePath="Value"
+         SelectedIndex="0"
+       -->
        <ComboBox Header="Colour map" Width="160" 
          ItemsSource="{x:Bind ColourMapOptions}"
          DisplayMemberPath="Name"
@@ -29,14 +37,28 @@
          SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
        />
 
-      <ComboBox Header="Normalisation mode" Width="160" >
-         <x:String>Automatic</x:String> 
-         <x:String>Manual</x:String> 
-       </ComboBox>
+      <ComboBox Header="Normalisation mode" Width="160" 
+         ItemsSource="{x:Bind NormalisationModeOptions}"
+         DisplayMemberPath="Name"
+         SelectedValuePath="Value"
+         SelectedValue="{x:Bind ViewModel.NormalisationMode, Mode=TwoWay}"
+       />
 
+       <!-- The 'CanSetNormalisationValue' is definitely getting changed, -->
+       <!-- and the ViewModel is publishing the change ... but the 'IsEnabled' -->
+       <!-- property is NOT getting updated ... -->
        <Slider 
+         x:Name="m_normalisationValueSlider"
          HorizontalAlignment="Left"
          Minimum="0" Maximum="255" Width="160" Header="Normalisation value"
+         Value="{x:Bind ViewModel.NormalisationValue, Mode=OneWay}"
+         ValueChanged="Slider_ValueChanged"
+         IsEnabledChanged="m_normalisationValueSlider_IsEnabledChanged"
+       />
+
+       <Button 
+         Content="Just testing" 
+         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
        />
 
        <local:NumericValueEditor_UserControl />

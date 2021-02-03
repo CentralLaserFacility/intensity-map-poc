@@ -25,7 +25,7 @@ namespace IntensityMapViewer
     ShadesOfGreen,
     ShadesOfBlue,
     // As in LabView ; hmm, more like 'cyclic' ??
-    Binary 
+    // Binary 
   }
 
   public static class EnumTypeOptions

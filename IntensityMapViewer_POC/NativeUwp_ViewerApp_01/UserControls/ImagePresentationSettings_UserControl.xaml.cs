@@ -31,13 +31,38 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
-        // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+        if ( ViewModel != null ) 
+        {
+          // Yikes - gotta call this explicitly ? WTF !!
+          // Hmm, if this is not called initially, most things work,
+          // except for the binding to 'IsEnabled'.
+          // BUT - even when this is called :
+          // 1. Exceptions get thrown (to do with combo box values being null) CURRENTLY DISABLED !!
+          // 2. Consequently the displayed combo box values are empty
+          this.Bindings.Update() ; 
+        }
       } ;
     }
 
     public List<Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>> ColourMapOptions 
     => Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() ;
 
+    public List<Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>> NormalisationModeOptions 
+    => Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>.ToList() ;
+
+    private void Slider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )
+    {
+      ViewModel.SetNormalisationValue(
+        (byte) m_normalisationValueSlider.Value
+      ) ;
+    }
+
+    private void m_normalisationValueSlider_IsEnabledChanged ( object sender, DependencyPropertyChangedEventArgs e )
+    {
+      System.Diagnostics.Debug.WriteLine(
+        $"Slider IsEnabled => {m_normalisationValueSlider.IsEnabled}"
+      ) ;
+    }
   }
 
 }

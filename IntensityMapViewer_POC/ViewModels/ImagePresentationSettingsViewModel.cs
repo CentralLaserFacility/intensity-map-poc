@@ -28,14 +28,20 @@ namespace IntensityMapViewer
       ) ;
     }
 
-    private NormalisationMode m_normalisationMode = NormalisationMode.Manual_FromUserDefinedValue ;
+    private NormalisationMode m_normalisationMode = NormalisationMode.Manual ; // _FromUserDefinedValue ;
 
     public NormalisationMode NormalisationMode {
       get => m_normalisationMode ;
-      set => base.SetProperty(
-        ref m_normalisationMode,
-        value
-      ) ;
+      set {
+        if (
+          base.SetProperty(
+            ref m_normalisationMode,
+            value
+          )
+        ) {
+          OnPropertyChanged(nameof(CanSetNormalisationValue)) ;
+        }
+      }
     }
 
     private byte m_normalisationValue = (byte) 120 ;
@@ -52,7 +58,7 @@ namespace IntensityMapViewer
     }
 
     public bool CanSetNormalisationValue => (
-      NormalisationMode is NormalisationMode.Manual_FromUserDefinedValue 
+      NormalisationMode == NormalisationMode.Manual // _FromUserDefinedValue 
     ) ;
 
     public IDisplayPanelViewModel Parent { get ; }
@@ -60,6 +66,13 @@ namespace IntensityMapViewer
     public ImagePresentationSettingsViewModel ( IDisplayPanelViewModel parent )
     {
       Parent = parent ;
+      PropertyChanged += (s,e) => {
+        Common.DebugHelpers.WriteDebugLines(
+          $"ImagePresentationSettingsViewModel {e.PropertyName} CHANGED",
+          $"ImagePresentationSettingsViewModel NormalisationMode = {this.NormalisationMode}",
+          $"ImagePresentationSettingsViewModel CanSetNormalisationValue = {this.CanSetNormalisationValue}"
+        ) ;
+      } ;
     }
 
   }
