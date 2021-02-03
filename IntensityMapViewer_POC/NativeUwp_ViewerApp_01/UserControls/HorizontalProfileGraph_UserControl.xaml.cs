@@ -31,10 +31,12 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+        // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
       } ;
       m_skiaCanvas.PaintSurface += DrawSkiaContent ;
     }
+
+    private int m_offset = 1 ;
 
     private void DrawSkiaContent ( 
       object                                      sender, 
@@ -53,6 +55,56 @@ namespace NativeUwp_ViewerApp_01
       Common.DebugHelpers.WriteDebugLines(
         $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
       ) ;
+      paintSurfaceEventArgs.Surface.Canvas.DrawRect(
+        deviceClipBounds.Location.X,
+        deviceClipBounds.Location.Y,
+        deviceClipBounds.Location.X + deviceClipBounds.Width,
+        deviceClipBounds.Location.Y + deviceClipBounds.Height,
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.Blue
+        }
+      ) ;
+      paintSurfaceEventArgs.Surface.Canvas.DrawRect(
+        deviceClipBounds.Location.X + m_offset,
+        deviceClipBounds.Location.Y + m_offset,
+        deviceClipBounds.Location.X + deviceClipBounds.Width  - 1 - m_offset,
+        deviceClipBounds.Location.Y + deviceClipBounds.Height - 1 - m_offset,
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.LightGreen
+        }
+      ) ;
+      // Vertical line at the left, down from the top
+      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
+        new SkiaSharp.SKPoint(
+          // Top left
+          deviceClipBounds.Location.X,
+          deviceClipBounds.Location.Y
+        ),
+        new SkiaSharp.SKPoint(
+          // Top left, down 20
+          deviceClipBounds.Location.X, 
+          deviceClipBounds.Location.Y + 20
+        ),
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.Red
+        }
+      ) ;
+      // Vertical line at the right, up from the bottom
+      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
+        new SkiaSharp.SKPoint(
+          // Bottom right
+          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
+        ),
+        new SkiaSharp.SKPoint(
+          // Bottom right, up 20
+          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1 - 20
+        ),
+        new SkiaSharp.SKPaint(){
+          Color = SkiaSharp.SKColors.Red
+        }
+      ) ;
       paintSurfaceEventArgs.Surface.Canvas.DrawLine(
         new SkiaSharp.SKPoint(
           deviceClipBounds.Location.X,
@@ -65,28 +117,6 @@ namespace NativeUwp_ViewerApp_01
         new SkiaSharp.SKPaint(){
           Color = SkiaSharp.SKColors.Red
         }
-      ) ;
-      var intensityMap = ViewModel.MostRecentlyAcquiredIntensityMap ;
-      var bitmap = new SkiaSharp.SKBitmap(
-        intensityMap.Dimensions.Width,
-        intensityMap.Dimensions.Height
-      ) ;
-      bitmap.Pixels = intensityMap.IntensityValues.Select(
-        intensity => new SkiaSharp.SKColor(
-          red   : intensity,
-          green : intensity,
-          blue  : intensity
-        )
-      ).ToArray() ;
-      SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
-        left   : 100.0f,
-        top    : 10.0f,
-        right  : 100.0f + intensityMap.Dimensions.Width/2,
-        bottom : 10.0f  + intensityMap.Dimensions.Height/2 
-      ) ;
-      skiaCanvas.DrawBitmap(
-        bitmap,
-        rectInWhichToDrawBitmap
       ) ;
     }
 
