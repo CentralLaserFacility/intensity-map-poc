@@ -40,3 +40,26 @@ it would not necessarily be affected by a change to the DataContext - but in our
 we're getting it *from* the DataContext. This means we can avoid declaring 
 a DependencyProperty to represent our ViewModel property.
 
+=====================================================
+
+Issues :
+
+  On resizing the window, sometimes the background doesn't repaint properly.
+
+  How best to define a consistent spacing between UI elements ?
+  Padding / Margin / Row-Column-Spacing etc
+
+  Strange behaviour of Grid spacing ? Proportional to column sizes ???
+
+  How best to set up a StackPanel so that some elements have a specified size,
+  but another element gets all the remaining space, according to the container
+  that the StackPanel is placed in ?
+
+  Necessity to manually invoke Bindings.Update() on DataContext Changed
+
+  Data binding to enums (eg in ImagePresentationSettings).
+  Current method kindof works but throws exceptions initially.
+
+  Slider.IsEnabled doesn't seem to work with x:Bind ??
+  Same binding works fine on a Button.
+

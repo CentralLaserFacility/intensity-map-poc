@@ -3,19 +3,32 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NativeUwp_ViewerApp_01"
+    xmlns:skia="using:SkiaSharp.Views.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="800">
 
     <Grid Background="LightCyan">
 
         <StackPanel Orientation="Vertical">
+            <!-- 
             <Button Content="Profile Graph" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            -->
             <TextBox 
               x:Name="m_textBox"
-              Text="{x:Bind ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.ToString(), Mode=OneWay}" PlaceholderText="(dim)"/>
+              Text="{x:Bind ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.ToString(), Mode=OneWay}" PlaceholderText="(dim)"
+            />
+            <!-- Hmm, how to make this take up all available space ?? -->
+            <skia:SKXamlCanvas 
+              x:Name="m_skiaCanvas"
+              Background="LightYellow"
+              Width="Auto"
+              Height="100"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+            />
         </StackPanel>
 
     </Grid>
