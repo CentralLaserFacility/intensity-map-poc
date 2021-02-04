@@ -22,7 +22,31 @@ namespace NativeUwp_ViewerApp_01
 
     private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
+    // private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
+
+    // public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+    //   nameof(ViewModel), 
+    //   typeof(IntensityMapViewer.IImagePresentationSettingsViewModel), 
+    //   typeof(ImagePresentationSettings_UserControl), 
+    //   new PropertyMetadata(
+    //     null, 
+    //     OnViewModelChanged
+    //   )
+    // ) ;
+    // 
+    // public IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel
+    // {
+    //   get => (IntensityMapViewer.IImagePresentationSettingsViewModel) GetValue(ViewModelProperty) ;
+    //   set => SetValue(ViewModelProperty,value) ;
+    // }
+    // 
+    // private static void OnViewModelChanged ( DependencyObject d, DependencyPropertyChangedEventArgs e )
+    // {
+    //   var viewModel = d as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+    //   if ( viewModel != null )
+    //   {
+    //   }
+    // }
 
     public ImagePresentationSettings_UserControl()
     {
