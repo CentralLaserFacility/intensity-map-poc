@@ -11,6 +11,8 @@ namespace UwpUtilities_TestApp
   public sealed partial class MainPage : Windows.UI.Xaml.Controls.Page
   {
 
+    private UwpUtilities.ViewModelForMyUserControlEx ViewModelForMyUserControlEx { get ; } = new UwpUtilities.ViewModelForMyUserControlEx() ;
+
     private IntensityMapViewer.DisplayPanelViewModel ViewModel = new IntensityMapViewer.DisplayPanelViewModel() ;
 
     private Windows.UI.Xaml.DispatcherTimer m_timer = new Windows.UI.Xaml.DispatcherTimer(){

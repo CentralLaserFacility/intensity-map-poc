@@ -33,7 +33,7 @@
             Visibility="Visible"
           />
 
-          <uwpUtils:MyUserControlEx />
+          <uwpUtils:MyUserControlEx ViewModelBase="{x:Bind ViewModelForMyUserControlEx, Mode=OneWay}" />
 
         </StackPanel>
 

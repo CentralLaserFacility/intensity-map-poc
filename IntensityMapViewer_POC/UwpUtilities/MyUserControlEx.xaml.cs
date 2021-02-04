@@ -19,10 +19,6 @@ using Windows.UI.Xaml.Navigation;
 namespace UwpUtilities
 {
 
-  public class UserControlEx : UserControl
-  {
-  }
-
   public class ViewModelBase : INotifyPropertyChanged
   {
 
@@ -50,29 +46,85 @@ namespace UwpUtilities
 
   public class ViewModelForMyUserControlEx : ViewModelBase
   {
-    public string Name => "Hello" ;
+    public string Name => "Just testing" ;
   }
 
-  public sealed partial class MyUserControlEx : UserControl
+  //
+  // This abstract 'UserControlEx' base class defines a ViewModelBase dependency property,
+  // which we can x:Bind to in the container's XAML and access as a strongly typed
+  // ViewModel property in the concrete subclass.
+  //
+
+  public abstract class UserControlEx : UserControl
   {
 
-    public ViewModelForMyUserControlEx ViewModel
-    {
-      get { return (ViewModelForMyUserControlEx) GetValue(ViewModelProperty) ; }
-      set { SetValue(ViewModelProperty,value) ; }  
-    }
+    //
+    // We can use x:Bind in the XAML that instantiates an instance of a class
+    // derived from this 'UserControlEx' base class, to populate the ViewModel.
+    // Then in the derived class we can define a strongly-typed ViewModel property
+    //
 
-    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-      nameof(ViewModel), 
-      typeof(ViewModelForMyUserControlEx), 
-      typeof(MyUserControlEx), 
+    public static readonly DependencyProperty ViewModelBaseProperty = DependencyProperty.Register(
+      nameof(ViewModelBase), 
+      typeof(INotifyPropertyChanged), 
+      typeof(UserControlEx), 
       new PropertyMetadata(0)
     ) ;
+
+    public INotifyPropertyChanged ViewModelBase
+    {
+      get { return (INotifyPropertyChanged) base.GetValue(ViewModelBaseProperty) ; }
+      set { base.SetValue(ViewModelBaseProperty,value) ; }  
+    }
+
+  }
+
+  //
+  // Would have been nice to define a strongly-typed ViewModel property,
+  // but this attempt failed. Because the XAML for a subclass, such as
+  // 
+  //  class MyUserControlEx : UserControlEx<ViewModelForMyUserControlEx>
+  //
+  // ... needs to specify the base class at the top level,
+  // and whilst this can be donefor a non-generic base class such as
+  //
+  //  class MyUserControlEx : UserControlEx
+  //
+  //  <local:UserControlEx
+  //    x:Class="UwpUtilities.MyUserControlEx"
+  //
+  // ... theres no way to specify a type parameter.
+  //
+
+  // public class UserControlEx<TViewModel> : UserControl
+  // {
+  // 
+  //   public TViewModel XViewModel
+  //   {
+  //     get { return (TViewModel) base.GetValue(XViewModelProperty) ; }
+  //     set { base.SetValue(XViewModelProperty,value) ; }  
+  //   }
+  // 
+  //   public static readonly DependencyProperty XViewModelProperty = DependencyProperty.Register(
+  //     nameof(XViewModel), 
+  //     typeof(TViewModel), 
+  //     typeof(UserControlEx<TViewModel>), 
+  //     new PropertyMetadata(0)
+  //   ) ;
+  // 
+  // }
+
+  public sealed partial class MyUserControlEx : UserControlEx
+  {
+
+    // Hmm, better than nothing ...
+
+    public ViewModelForMyUserControlEx ViewModel => ViewModelBase as ViewModelForMyUserControlEx ;
 
     public MyUserControlEx ( )
     {
       this.InitializeComponent() ;
-      ViewModel = new ViewModelForMyUserControlEx() ;
+      // ViewModelBase = new ViewModelForMyUserControlEx() ;
     }
 
   }
