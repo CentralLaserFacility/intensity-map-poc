@@ -1,28 +1,18 @@
 ﻿using Common;
-
+using PropertyChanged;
 using UkCentralLaserPoC.Core.Mvvm;
 using UkCentralLaserPoC.IntensityMap;
 using Windows.UI.Xaml;
 
 namespace UkCentralLaserPoC.ViewModels
 {
+    [AddINotifyPropertyChangedInterface]
     public class MainViewModel : ViewModelBase
     {
-        private CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)> _staticImages;
 
-        public CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)> StaticImages
-        {
-            get { return _staticImages; }
-            set { SetProperty(ref _staticImages, value); }
-        }
+        public CyclicSelector<(Windows.UI.Xaml.Media.ImageSource, string)> StaticImages { get; set; }
 
-        private IntensityMapDynamicViewModel _intensityMapDynamicViewModel;
-
-        public IntensityMapDynamicViewModel IntensityMapDynamicViewModel
-        {
-            get { return _intensityMapDynamicViewModel; }
-            set { SetProperty(ref _intensityMapDynamicViewModel, value); }
-        }
+        public IntensityMapDynamicViewModel IntensityMapDynamicViewModel { get; set; }
 
         public MainViewModel(IntensityMapDynamicViewModel intensityMapDynamicViewModel)
         {

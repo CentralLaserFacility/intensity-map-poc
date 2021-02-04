@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
+		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup Condition="exists('..\UkCentralLaserPoC.UWP')">
+		<EmbeddedResource Include="..\UkCentralLaserPoC.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
+		<Content Include="..\UkCentralLaserPoC.UWP\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+		<Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
+	</ItemGroup>
+	<ItemGroup>
+		<UpToDateCheckInput Include="..\UkCentralLaserPoC.Shared\**\*.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Note that for WebAssembly version 1.1.1 of the console logger required -->
+		<PackageReference Include="Fody" Version="6.3.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+		<PackageReference Include="Prism.DryIoc.Uno" Version="8.0.0.1909" />
+		<PackageReference Include="PropertyChanged.Fody" Version="3.3.1" />
+		<PackageReference Include="Uno.UI.Skia.Gtk" Version="3.4.0" />
+		<PackageReference Include="Uno.UI.RemoteControl" Version="3.4.0" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="SkiaSharp" Version="2.80.3-preview.24" />
+		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.24" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\Common\Common.csproj" />
+		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj" />
+		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj" />
+		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\SkiaUtilities\SkiaUtilities.csproj" />
+		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ViewModels\ViewModels.csproj" />
+		<ProjectReference Include="..\..\..\..\..\POC\UkCentralLaserPoC\UnoUtilities\UnoUtilities.csproj" />
+		<ProjectReference Include="..\..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj" />
+		<ProjectReference Include="..\..\UkCentralLaserPoC.Core\UkCentralLaserPoC.Core.csproj" />
+	</ItemGroup>
+	<Import Project="..\..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" />
+</Project>
