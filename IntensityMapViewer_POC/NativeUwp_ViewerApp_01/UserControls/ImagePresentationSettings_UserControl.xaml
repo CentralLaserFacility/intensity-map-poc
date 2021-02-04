@@ -53,6 +53,7 @@
          Minimum="0" Maximum="255" Width="160" Header="Normalisation value"
          Value="{x:Bind ViewModel.NormalisationValue, Mode=OneWay}"
          ValueChanged="Slider_ValueChanged"
+         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
          IsEnabledChanged="m_normalisationValueSlider_IsEnabledChanged"
        />
 
