@@ -3,6 +3,7 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="using:UwpUtilities_TestApp"
+  xmlns:uwpUtils="using:UwpUtilities"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d"
@@ -31,6 +32,8 @@
             Margin="66,86,0,0" 
             Visibility="Visible"
           />
+
+          <uwpUtils:MyUserControlEx />
 
         </StackPanel>
 
@@ -71,10 +74,7 @@
         <!-- eg local:MainPage.                                                -->
         
         <Image 
-          Source="{x:Bind CreateImageSource(
-              ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,
-              ViewModel.ImagePresentationSettings.ColourMapOption
-            ), Mode=OneWay
+          Source="{x:Bind CreateImageSource(ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,ViewModel.ImagePresentationSettings.ColourMapOption), Mode=OneWay
           }" 
           HorizontalAlignment="Left" 
           VerticalAlignment="Top" 

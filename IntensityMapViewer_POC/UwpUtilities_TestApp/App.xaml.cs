@@ -86,8 +86,8 @@ namespace UwpUtilities_TestApp
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(
-                      // typeof(MainPage), 
-                      typeof(IntensityMapTestPage), 
+                      typeof(MainPage), 
+                      // typeof(IntensityMapTestPage), 
                       e.Arguments
                     );
 

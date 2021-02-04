@@ -126,6 +126,9 @@
     <Compile Include="BitmapHelpers.cs" />
     <Compile Include="BitmapHelpers_ForTesting.cs" />
     <Compile Include="BitmapHelpers_old_01.cs" />
+    <Compile Include="MyUserControlEx.xaml.cs">
+      <DependentUpon>MyUserControlEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\UwpUtilities.rd.xml" />
   </ItemGroup>
@@ -153,6 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="_Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MyUserControlEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
