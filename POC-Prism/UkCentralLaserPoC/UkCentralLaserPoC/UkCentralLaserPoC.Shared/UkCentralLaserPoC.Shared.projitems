@@ -18,10 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\SkiaSceneRenderer_ForTesting_01.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\SkiaView.xaml.cs">
-      <DependentUpon>SkiaView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SettingsStorageExtensions.cs" />
@@ -44,10 +40,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\SkiaView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)IntensityMapStatic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,5 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
   </ItemGroup>
 </Project>

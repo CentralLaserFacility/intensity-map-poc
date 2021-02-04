@@ -3,9 +3,7 @@
 	<PropertyGroup>
 		<OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
 		<OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<LangVersion>9.0</LangVersion>
-		<Nullable>enable</Nullable>
+		<TargetFramework>net5.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup Condition="exists('..\UkCentralLaserPoC.UWP')">
 		<EmbeddedResource Include="..\UkCentralLaserPoC.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
@@ -27,14 +25,11 @@
 		<PackageReference Include="PropertyChanged.Fody" Version="3.3.1" />
 		<PackageReference Include="Uno.UI.Skia.Gtk" Version="3.4.0" />
 		<PackageReference Include="Uno.UI.RemoteControl" Version="3.4.0" Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="SkiaSharp" Version="2.80.3-preview.24" />
-		<PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.24" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\Common\Common.csproj" />
 		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\DomainDefinitions\DomainDefinitions.csproj" />
 		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ModelClasses\ModelClasses.csproj" />
-		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\SkiaUtilities\SkiaUtilities.csproj" />
 		<ProjectReference Include="..\..\..\..\..\IntensityMapViewer_POC\ViewModels\ViewModels.csproj" />
 		<ProjectReference Include="..\..\..\..\..\POC\UkCentralLaserPoC\UnoUtilities\UnoUtilities.csproj" />
 		<ProjectReference Include="..\..\..\UkCentralLaserPoC.IntensityMap\UkCentralLaserPoC.IntensityMap.csproj" />

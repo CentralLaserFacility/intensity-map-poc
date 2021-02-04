@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using UkCentralLaserPoC.Shared.Controls;
 using UkCentralLaserPoC.Views;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -51,9 +50,9 @@ namespace UkCentralLaserPoC.Shared.Views
                     case "Intensity Map":
                         regionManager.RequestNavigate("ContentRegion", "IntensityMapTestView");
                         break;
-                    case "Skia":
-                        regionManager.RequestNavigate("ContentRegion", nameof(SkiaView));
-                        break;
+                    //case "Skia":
+                    //    regionManager.RequestNavigate("ContentRegion", nameof(SkiaView));
+                    //    break;
                 }
             }
         }
