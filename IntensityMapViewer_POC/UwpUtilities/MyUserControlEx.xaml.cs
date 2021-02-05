@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -55,25 +56,40 @@ namespace UwpUtilities
   // ViewModel property in the concrete subclass.
   //
 
-  public abstract class UserControlEx : UserControl
+  public abstract class UserControlEx : UserControl, INotifyPropertyChanged
   {
 
+    public event PropertyChangedEventHandler PropertyChanged ;
+
     //
-    // We can use x:Bind in the XAML that instantiates an instance of a class
-    // derived from this 'UserControlEx' base class, to populate the ViewModel.
-    // Then in the derived class we can define a strongly-typed ViewModel property
+    // In the XAML that instantiates an instance of a class derived from 
+    // this 'UserControlEx' base class, we can use x:Bind to populate the ViewModel.
+    // Then in the derived class we can define a strongly-typed ViewModel property.
     //
 
     public static readonly DependencyProperty ViewModelBaseProperty = DependencyProperty.Register(
       nameof(ViewModelBase), 
       typeof(INotifyPropertyChanged), 
       typeof(UserControlEx), 
-      new PropertyMetadata(0)
+      new PropertyMetadata(0,OnViewModelBasePropertyChanged)
     ) ;
+
+    private static void OnViewModelBasePropertyChanged ( DependencyObject sender, DependencyPropertyChangedEventArgs e )
+    {
+      // Hmm, we really need to raise a PropertyChanged pertaining to the 'ViewModel' property
+      // that we'll have in the derived class ... but how to do this ???
+      if ( sender is UserControlEx userControlEx )
+      {
+        userControlEx.PropertyChanged?.Invoke(
+          sender,
+          new PropertyChangedEventArgs("ViewModel")
+        ) ;
+      }
+    }
 
     public INotifyPropertyChanged ViewModelBase
     {
-      get { return (INotifyPropertyChanged) base.GetValue(ViewModelBaseProperty) ; }
+      get { return base.GetValue(ViewModelBaseProperty) as INotifyPropertyChanged ; }
       set { base.SetValue(ViewModelBaseProperty,value) ; }  
     }
 

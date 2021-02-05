@@ -17,23 +17,24 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NativeUwp_ViewerApp_01
 {
-  public sealed partial class ViewerPanel_UserControl : UserControl
+
+  public sealed partial class ViewerPanel_UserControl : UwpUtilities.UserControlEx
   {
 
-    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
+    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => ViewModelBase as IntensityMapViewer.IDisplayPanelViewModel ;
      
     public ViewerPanel_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-        // Hmm, this 'm_intensityMapImage' UserControl has an x:Bind that is meant to
-        // bind its data context to the same ViewModel - but is that working ???
-        // m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      //   // Hmm, this 'm_intensityMapImage' UserControl has an x:Bind that is meant to
+      //   // bind its data context to the same ViewModel - but is that working ???
+      //   // m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
+      // } ;
     }
 
   }
