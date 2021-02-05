@@ -62,7 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Fody">
+      <Version>6.3.0</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Prism.Unity.Uno" Version="8.0.0.1909" />
+    <PackageReference Include="PropertyChanged.Fody">
+      <Version>3.3.1</Version>
+    </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>2.80.3-preview.24</Version>
     </PackageReference>
@@ -130,6 +138,9 @@
       <Project>{197FEC90-CD48-4B92-B53B-8C1FBCEB83A1}</Project>
       <Name>UkCentralLaserPoC.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="..\..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems" Label="Shared" Condition="Exists('..\..\UkCentralLaserPoC.Shared\UkCentralLaserPoC.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
