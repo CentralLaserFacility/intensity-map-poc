@@ -20,19 +20,32 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class VerticalProfileGraph_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+    // private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+    // private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(VerticalProfileGraph_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.ISourceViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
 
     public VerticalProfileGraph_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      // } ;
     }
   }
 }

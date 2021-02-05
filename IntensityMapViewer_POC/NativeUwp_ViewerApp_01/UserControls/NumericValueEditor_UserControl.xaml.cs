@@ -17,19 +17,34 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NativeUwp_ViewerApp_01
 {
+
   public sealed partial class NumericValueEditor_UserControl : UserControl
   {
 
-    private IntensityMapViewer.NumericValueViewModel ViewModel ; // = new IntensityMapViewer.NumericValueViewModel() ;
+    // private IntensityMapViewer.NumericValueViewModel ViewModel ; // = new IntensityMapViewer.NumericValueViewModel() ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.NumericValueViewModel), 
+      typeof(ProfileDisplaySettings_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.NumericValueViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.NumericValueViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
+
     public NumericValueEditor_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      // } ;
     }
   }
 }

@@ -20,7 +20,20 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ImagePresentationSettings_UserControl : UserControl
   {
 
-    private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+    // private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.IImagePresentationSettingsViewModel), 
+      typeof(ImagePresentationSettings_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
 
     // private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
 
@@ -55,21 +68,28 @@ namespace NativeUwp_ViewerApp_01
         System.Diagnostics.Debug.WriteLine(
           $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
         ) ;
-        if ( ViewModel != null ) 
-        {
-          // Yikes - gotta call this explicitly ? WTF !!
-          // Hmm, if this is not called initially, most things work,
-          // except for the binding to 'IsEnabled'.
-          // BUT - even when this is called :
-          // 1. Exceptions get thrown (to do with combo box values being null) CURRENTLY DISABLED !!
-          // 2. Consequently the displayed combo box values are empty
-          this.Bindings.Update() ; 
-        }
+        // if ( ViewModel != null ) 
+        // {
+        //   // Yikes - gotta call this explicitly ? WTF !!
+        //   // Hmm, if this is not called initially, most things work,
+        //   // except for the binding to 'IsEnabled'.
+        //   // BUT - even when this is called :
+        //   // 1. Exceptions get thrown (to do with combo box values being null) CURRENTLY DISABLED !!
+        //   // 2. Consequently the displayed combo box values are empty
+        //   this.Bindings.Update() ; 
+        // }
       } ;
     }
 
-    public List<Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>> ColourMapOptions 
-    => Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() ;
+    public List<
+      Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>
+    > ColourMapOptions { get ; }
+    = Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() ;
+
+    // public CollectionViewSource ColourMapOptions { get ; }
+    // = new CollectionViewSource(){
+    //   Source = Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() 
+    // } ;
 
     public List<Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>> NormalisationModeOptions 
     => Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>.ToList() ;

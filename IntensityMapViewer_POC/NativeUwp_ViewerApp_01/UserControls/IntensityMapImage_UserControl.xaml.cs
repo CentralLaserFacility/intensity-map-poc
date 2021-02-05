@@ -21,25 +21,41 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+    // private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(IntensityMapImage_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.ISourceViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
 
     public IntensityMapImage_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        // Hmm, setting this in code works fine, but the x:Bind that's supposed to
-        // populate the text-box value doesn't get activated when the DataContext has changed ...
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-        // if ( ViewModel != null )
-        // {
-        //   m_textBox.Text = $"Just testing : {ViewModel.Dimensions.ToString()}" ;
-        // }
-        m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+      //DataContextChanged += (s,e) => {
+      //  System.Diagnostics.Debug.WriteLine(
+      //    $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //  ) ;
+      //  // Hmm, setting this in code works fine, but the x:Bind that's supposed to
+      //  // populate the text-box value doesn't get activated when the DataContext has changed ...
+      //  this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      //  // if ( ViewModel != null )
+      //  // {
+      //  //   m_textBox.Text = $"Just testing : {ViewModel.Dimensions.ToString()}" ;
+      //  // }
+      //} ;
 
-      } ;
+      // This event is getting raised even when we're shutting down,
+      // and at that point the ViewModel can have been set to null ...
+      // Maybe we should deregister the event handler in 'OnUnloaded' ??
+      m_skiaCanvas.PaintSurface += DrawSkiaContent ;
     }
 
     private void DrawSkiaContent ( 
@@ -72,34 +88,38 @@ namespace NativeUwp_ViewerApp_01
           Color = SkiaSharp.SKColors.Red
         }
       ) ;
-      var intensityMap = ViewModel.MostRecentlyAcquiredIntensityMap ;
-      var bitmap = new SkiaSharp.SKBitmap(
-        intensityMap.Dimensions.Width,
-        intensityMap.Dimensions.Height
-      ) ;
-      bitmap.Pixels = intensityMap.IntensityValues.Select(
-        intensity => new SkiaSharp.SKColor(
-          red   : intensity,
-          green : intensity,
-          blue  : intensity
-        )
-      ).ToArray() ;
-      // SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
-      //   left   : 100.0f,
-      //   top    : 10.0f,
-      //   right  : 100.0f + intensityMap.Dimensions.Width/2,
-      //   bottom : 10.0f  + intensityMap.Dimensions.Height/2 
-      // ) ;
-      SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
-        left   : 0.0f,
-        top    : 0.0f,
-        right  : intensityMap.Dimensions.Width,
-        bottom : intensityMap.Dimensions.Height
-      ) ;
-      skiaCanvas.DrawBitmap(
-        bitmap,
-        rectInWhichToDrawBitmap
-      ) ;
+      if ( ViewModel != null )
+      { 
+        // Hmm, should try to eliminate this test ...
+        var intensityMap = ViewModel.MostRecentlyAcquiredIntensityMap ;
+        var bitmap = new SkiaSharp.SKBitmap(
+          intensityMap.Dimensions.Width,
+          intensityMap.Dimensions.Height
+        ) ;
+        bitmap.Pixels = intensityMap.IntensityValues.Select(
+          intensity => new SkiaSharp.SKColor(
+            red   : intensity,
+            green : intensity,
+            blue  : intensity
+          )
+        ).ToArray() ;
+        // SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
+        //   left   : 100.0f,
+        //   top    : 10.0f,
+        //   right  : 100.0f + intensityMap.Dimensions.Width/2,
+        //   bottom : 10.0f  + intensityMap.Dimensions.Height/2 
+        // ) ;
+        SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
+          left   : 0.0f,
+          top    : 0.0f,
+          right  : intensityMap.Dimensions.Width,
+          bottom : intensityMap.Dimensions.Height
+        ) ;
+        skiaCanvas.DrawBitmap(
+          bitmap,
+          rectInWhichToDrawBitmap
+        ) ;
+      }
     }
 
   }

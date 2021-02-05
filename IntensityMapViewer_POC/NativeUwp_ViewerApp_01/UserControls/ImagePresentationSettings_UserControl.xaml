@@ -23,18 +23,20 @@
        -->
 
        <!-- 
-         This works, except that the value is not shown
-         until the selection is changed ... even though
-         the ColourMapOption we're binding to does have 
+         The proper value is not shown until the selection is changed
+         ... even though the ColourMapOption we're binding to does have 
          a valid value ...
-         SelectedValuePath="Value"
+         None of these experiments has worked :
+         SelectedItem="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
          SelectedIndex="0"
+         IsSynchronizedWithCurrentItem="True" [ null reference exception !! ]
        -->
        <ComboBox Header="Colour map" Width="160" 
-         ItemsSource="{x:Bind ColourMapOptions}"
          DisplayMemberPath="Name"
          SelectedValuePath="Value"
-         SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         SelectedItem="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         ItemsSource="{x:Bind ColourMapOptions}"
        />
 
       <ComboBox Header="Normalisation mode" Width="160" 

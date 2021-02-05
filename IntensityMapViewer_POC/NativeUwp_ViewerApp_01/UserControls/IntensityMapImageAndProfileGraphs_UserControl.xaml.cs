@@ -20,21 +20,29 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class IntensityMapImageAndProfileGraphs_UserControl : UserControl
   {
 
-    // private IntensityMapViewer.ISourceViewModel ViewModel => 
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.IDisplayPanelViewModel), 
+      typeof(IntensityMapImageAndProfileGraphs_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
 
-    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => DataContext as IntensityMapViewer.IDisplayPanelViewModel ;
-
+    public IntensityMapViewer.IDisplayPanelViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.IDisplayPanelViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
 
     public IntensityMapImageAndProfileGraphs_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-        // m_intensityMapImage_UserControl.DataContext = ViewModel?.CurrentSource?.MostRecentlyAcquiredIntensityMap ;
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      //   // m_intensityMapImage_UserControl.DataContext = ViewModel?.CurrentSource?.MostRecentlyAcquiredIntensityMap ;
+      // } ;
     }
   }
 }

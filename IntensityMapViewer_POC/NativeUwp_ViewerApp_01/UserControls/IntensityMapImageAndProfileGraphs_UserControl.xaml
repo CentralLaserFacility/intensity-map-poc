@@ -26,13 +26,13 @@
         <local:VerticalProfileGraph_UserControl 
           x:Name="m_verticalProfileGraph" 
           Grid.Row="0" Grid.Column="0" 
-          DataContext="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
         />
 
         <local:IntensityMapImage_UserControl 
           x:Name="m_intensityMapImage_UserControl" 
           Grid.Row="0" Grid.Column="1" 
-          DataContext="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
         />
 
         <Rectangle 
@@ -43,7 +43,7 @@
         <local:HorizontalProfileGraph_UserControl 
           x:Name="m_horizontalProfileGraph" 
           Grid.Row="1" Grid.Column="1" 
-          DataContext="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
         />
 
     </Grid>

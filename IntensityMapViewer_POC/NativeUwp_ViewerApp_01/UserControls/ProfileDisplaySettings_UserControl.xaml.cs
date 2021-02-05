@@ -20,19 +20,32 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ProfileDisplaySettings_UserControl : UserControl
   {
 
-    private IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel => DataContext as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.IProfileDisplaySettingsViewModel), 
+      typeof(ProfileDisplaySettings_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
+    public IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
+
+    // private IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel => DataContext as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+
+    // private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
 
     public ProfileDisplaySettings_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
+      // } ;
     }
 
   }

@@ -18,11 +18,24 @@ using Windows.UI.Xaml.Navigation;
 namespace NativeUwp_ViewerApp_01
 {
 
-  public sealed partial class ViewerPanel_UserControl : UwpUtilities.UserControlEx
+  public sealed partial class ViewerPanel_UserControl : UserControl
   {
 
-    private IntensityMapViewer.IDisplayPanelViewModel ViewModel => ViewModelBase as IntensityMapViewer.IDisplayPanelViewModel ;
-     
+    // private IntensityMapViewer.IDisplayPanelViewModel ViewModel => ViewModelBase as IntensityMapViewer.IDisplayPanelViewModel ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.IDisplayPanelViewModel), 
+      typeof(ViewerPanel_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.IDisplayPanelViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.IDisplayPanelViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
+
     public ViewerPanel_UserControl()
     {
       this.InitializeComponent();

@@ -20,12 +20,26 @@ using UwpSkiaUtilities;
 
 namespace NativeUwp_ViewerApp_01
 {
+
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
 
-    private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
+    // private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
 
     private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+      "ViewModel", 
+      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(HorizontalProfileGraph_UserControl), 
+      new PropertyMetadata(0)
+    ) ;
+
+    public IntensityMapViewer.ISourceViewModel ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
 
     public HorizontalProfileGraph_UserControl()
     {
