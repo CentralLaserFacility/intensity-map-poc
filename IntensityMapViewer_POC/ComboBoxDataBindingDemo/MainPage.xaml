@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="ComboBoxDataBindingDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ComboBoxDataBindingDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+
+    <!-- 
+         The proper value is not shown until the selection is changed
+         ... even though the ColourMapOption we're binding to does have 
+         a valid value ...
+         None of these experiments has worked :
+         SelectedItem="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         SelectedIndex="0"
+         IsSynchronizedWithCurrentItem="True" [ null reference exception !! ]
+       -->
+    <ComboBox Header="Choose which option" Width="160" 
+         DisplayMemberPath="Name"
+         SelectedValuePath="Value"
+         SelectedItem="{x:Bind MyEnumTypeOption, Mode=TwoWay}"
+         ItemsSource="{x:Bind MyEnumTypeOptions}"
+       />
+  </Grid>
+</Page>
