@@ -23,8 +23,9 @@
     <ComboBox Header="Choose which option" Width="160" 
          DisplayMemberPath="Name"
          SelectedValuePath="Value"
-         SelectedItem="{x:Bind MyEnumTypeOption, Mode=TwoWay}"
+         SelectedValue="{x:Bind MyEnumTypeOption, Mode=TwoWay}"
          ItemsSource="{x:Bind MyEnumTypeOptions}"
        />
+
   </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,25 +21,52 @@ namespace ComboBoxDataBindingDemo
 
   public enum MyEnumType {
     OptionA,
-    OptionB
+    OptionB,
+    OptionC
   } ;
 
   /// <summary>
   /// An empty page that can be used on its own or navigated to within a Frame.
   /// </summary>
-  public sealed partial class MainPage : Page
-    {
+  public sealed partial class MainPage : Page, INotifyPropertyChanged
+  {
+
+        public event PropertyChangedEventHandler PropertyChanged ;
+
+        private void Set<T> ( 
+          ref T                                                     storage, 
+          T                                                         value, 
+          [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null
+        ) {
+          if ( Equals(storage,value) )
+          {
+            return ;
+          }
+          storage = value ;
+          OnPropertyChanged(propertyName) ;
+        }
+
+        private void OnPropertyChanged ( string propertyName ) => PropertyChanged?.Invoke(
+          this, 
+          new PropertyChangedEventArgs(propertyName)
+        ) ;
+
         public MainPage()
         {
             this.InitializeComponent();
+            MyEnumTypeOption = MyEnumType.OptionC ;
         }
 
-    public IEnumerable<
-      Common.EnumItemsSource<MyEnumType>
-    > MyEnumTypeOptions { get ; }
-    = Common.EnumItemsSource<MyEnumType>.ToList() ;
+        public IEnumerable<
+          Common.EnumItemsSource<MyEnumType>
+        > MyEnumTypeOptions { get ; }
+        = Common.EnumItemsSource<MyEnumType>.ToList() ;
 
-    public MyEnumType MyEnumTypeOption { get ; set ; } = MyEnumType.OptionB ;
+        private MyEnumType m_myEnumTypeOption = MyEnumType.OptionB ;
+        public MyEnumType MyEnumTypeOption {
+          get => m_myEnumTypeOption ;
+          set => Set(ref m_myEnumTypeOption,value) ;
+        }
 
     }
 }
