@@ -11,13 +11,13 @@
   >
   <UserControl.Resources>
     <ResourceDictionary>
-      <local:EnumConverter x:Key="enumConverter">
+      <local:EnumToStringConverter x:Key="enumToStringConverter">
       <!-- 
         <local:EnumConverter.Parameter>
           <x:String>Hello</x:String>
         </local:EnumConverter.Parameter>
       -->
-      </local:EnumConverter>
+      </local:EnumToStringConverter>
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -75,14 +75,26 @@
          SelectedValue="{x:Bind ViewModel.ColourMapOptionName, Mode=TwoWay}"
        />
 
+       <!-- 
+       This version with a Converter and 'SelectedItem' works fully !!
+       We're having to discover the options by invoking 'GetOptionNamesForType'
+       where we supply the current value of the enum. That works fine, but potentially
+       that value could be null (??) and it would be better to query the TYPE of the enum.
+       Something like the following - but there doesn't seem to be a way of
+       passing a 'Type' into a function, in XAML ...
+       ItemsSource="{x:Bind GetOptionNamesForEnumType(local:MySimpleEnum)}"
+       -->
       <ComboBox Header="Colour map 00a" Width="160" 
-         ItemsSource="{x:Bind ColourMapOptionNames}"
-         SelectedItem="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumConverter}, Mode=TwoWay}"
+         ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.ColourMapOption)}"
+         SelectedItem="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
 
+       <!-- 
+       This variant using 'SelectedValue' leaves the initial value unset ...
+       -->
       <ComboBox Header="Colour map 00b" Width="160" 
          ItemsSource="{x:Bind ColourMapOptionNames}"
-         SelectedValue="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumConverter}, Mode=TwoWay}"
+         SelectedValue="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
 
       <!-- 
@@ -131,10 +143,8 @@
        />
 
       <ComboBox Header="Normalisation mode" Width="160" 
-         ItemsSource="{x:Bind NormalisationModeOptions}"
-         DisplayMemberPath="Name"
-         SelectedValuePath="Value"
-         SelectedValue="{x:Bind ViewModel.NormalisationMode, Mode=TwoWay}"
+         ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.NormalisationMode)}"
+         SelectedItem="{x:Bind ViewModel.NormalisationMode, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
 
        <!-- The 'CanSetNormalisationValue' is definitely getting changed, -->

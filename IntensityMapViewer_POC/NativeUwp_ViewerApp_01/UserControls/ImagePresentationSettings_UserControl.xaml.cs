@@ -23,20 +23,25 @@ namespace NativeUwp_ViewerApp_01
     BBB
   }
 
-  public class EnumConverter : IValueConverter
+  public class EnumToStringConverter : IValueConverter
   {
-    public object Convert ( object value, Type targetType, object parameter, string language )
+    public object Convert ( object enumValue, Type targetType, object parameter, string language )
     {
-      return value?.ToString() ?? DependencyProperty.UnsetValue ;
+      // Hmm, could return a DisplayValue described by an attribute,
+      // but that would complicate the 'ConvertBack' function as we'd
+      // have to get from the DisplayValue to the enum ...
+      return enumValue?.ToString() ?? DependencyProperty.UnsetValue ;
     }
-    public object ConvertBack ( object value, Type targetType, object parameter, string language )
-    {
-      return System.Enum.Parse(
+    public object ConvertBack ( object stringValue, Type targetType, object parameter, string language )
+    => (
+      System.Enum.TryParse(
         targetType,
-        // typeof(IntensityMapViewer.ColourMapOption),
-        value as string
-      ) ;
-    }
+        stringValue as string,
+        out var enumResult
+      ) 
+      ? enumResult
+      : null 
+    ) ;
   }
 
   public sealed partial class ImagePresentationSettings_UserControl : UserControl
@@ -127,6 +132,12 @@ namespace NativeUwp_ViewerApp_01
       object enumInstance
     ) => System.Enum.GetNames(
       enumInstance.GetType()
+    ) ;
+
+    public System.Collections.Generic.IEnumerable<string> GetOptionNamesForEnumType ( 
+      System.Type enumType
+    ) => System.Enum.GetNames(
+      enumType
     ) ;
 
     public void SetColourMapOptionFromName2 ( object name, object other )
