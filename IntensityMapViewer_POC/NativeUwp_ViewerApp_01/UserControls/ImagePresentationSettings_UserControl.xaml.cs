@@ -17,6 +17,28 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NativeUwp_ViewerApp_01
 {
+
+  public enum MySimpleEnum {
+    AAA,
+    BBB
+  }
+
+  public class EnumConverter : IValueConverter
+  {
+    public object Convert ( object value, Type targetType, object parameter, string language )
+    {
+      return value?.ToString() ?? DependencyProperty.UnsetValue ;
+    }
+    public object ConvertBack ( object value, Type targetType, object parameter, string language )
+    {
+      return System.Enum.Parse(
+        targetType,
+        // typeof(IntensityMapViewer.ColourMapOption),
+        value as string
+      ) ;
+    }
+  }
+
   public sealed partial class ImagePresentationSettings_UserControl : UserControl
   {
 
@@ -88,10 +110,33 @@ namespace NativeUwp_ViewerApp_01
 
     public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
 
-    public string GetColourMapOptionName ( ) => ViewModel.ColourMapOption.ToString() ;
+    public string GetColourMapOptionName ( IntensityMapViewer.ColourMapOption colourMapOption ) => colourMapOption.ToString() ;
 
     public void SetColourMapOptionFromName ( object name )
     => ViewModel.ColourMapOption = (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
+      typeof(IntensityMapViewer.ColourMapOption),
+      name as string
+    ) ;
+
+    // ----------------------------------------
+
+
+    // Hopefully these helpers can be moved to a Utilities class ...
+
+    public System.Collections.Generic.IEnumerable<string> GetOptionNamesForType ( 
+      object enumInstance
+    ) => System.Enum.GetNames(
+      enumInstance.GetType()
+    ) ;
+
+    public void SetColourMapOptionFromName2 ( object name, object other )
+    => ViewModel.ColourMapOption = (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
+      typeof(IntensityMapViewer.ColourMapOption),
+      name as string
+    ) ;
+
+    public IntensityMapViewer.ColourMapOption GetColourMapOptionFromName ( object name )
+    => (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
       typeof(IntensityMapViewer.ColourMapOption),
       name as string
     ) ;
