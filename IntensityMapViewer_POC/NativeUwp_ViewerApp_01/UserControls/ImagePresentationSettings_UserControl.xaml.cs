@@ -81,6 +81,23 @@ namespace NativeUwp_ViewerApp_01
       } ;
     }
 
+    // ----------------------------------------
+
+    public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
+     = System.Enum.GetNames(typeof(IntensityMapViewer.ColourMapOption)) ;
+
+    public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
+
+    public string GetColourMapOptionName ( ) => ViewModel.ColourMapOption.ToString() ;
+
+    public void SetColourMapOptionFromName ( object name )
+    => ViewModel.ColourMapOption = (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
+      typeof(IntensityMapViewer.ColourMapOption),
+      name as string
+    ) ;
+
+    // ----------------------------------------
+
     public List<
       Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>
     > ColourMapOptions { get ; }
@@ -91,7 +108,7 @@ namespace NativeUwp_ViewerApp_01
     //   Source = Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() 
     // } ;
 
-
+    // ------------------------------------------
 
     public List<Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>> NormalisationModeOptions 
     => Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>.ToList() ;

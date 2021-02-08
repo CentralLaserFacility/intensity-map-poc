@@ -56,6 +56,19 @@
          SelectedValue="{x:Bind ViewModel.ColourMapOptionName, Mode=TwoWay}"
        />
 
+      <!-- 
+      // Compile error : Unexpected BindBack found
+      <ComboBox Header="Colour map xx" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptionNames}"
+         SelectedItem="{x:Bind ColourMapOptionName, Mode=TwoWay, BindBack=SetColourMapOptionFromName}"
+      />
+
+      -->
+      <ComboBox Header="Colour map xx" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptionNames}"
+         SelectedValue="{x:Bind GetColourMapOptionName(), Mode=TwoWay, BindBack=SetColourMapOptionFromName}"
+       />
+
       <ComboBox Header="Normalisation mode" Width="160" 
          ItemsSource="{x:Bind NormalisationModeOptions}"
          DisplayMemberPath="Name"
