@@ -91,6 +91,8 @@ namespace NativeUwp_ViewerApp_01
     //   Source = Common.EnumItemsSource<IntensityMapViewer.ColourMapOption>.ToList() 
     // } ;
 
+
+
     public List<Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>> NormalisationModeOptions 
     => Common.EnumItemsSource<IntensityMapViewer.NormalisationMode>.ToList() ;
 

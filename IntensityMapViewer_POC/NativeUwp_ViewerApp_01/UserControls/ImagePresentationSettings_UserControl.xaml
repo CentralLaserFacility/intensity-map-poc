@@ -31,12 +31,29 @@
          SelectedValue="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
          SelectedIndex="0"
          IsSynchronizedWithCurrentItem="True" [ null reference exception !! ]
+         Tried this, doesn't even compile :
+         https://alski.net/2016/07/21/uwp-combobox-selecteditem-doesnt-bind/
+       
+         Apparently you have to set ItemsSource first
+         see https://alski.net/2016/07/21/uwp-combobox-selecteditem-doesnt-bind/
+
+         Another post says
+         Trust me, ComboBox and enum in UWP is a bad idea. 
+         Save yourself some time, don't use enum on a combobox in UWP.
+
        -->
-       <ComboBox Header="Colour map" Width="160" 
+       <!-- 
+      <ComboBox Header="Colour map" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptions}"
+         SelectedItem="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
+         SelectedValue="{x:Bind Path=ViewModel.ColourMapOption, Mode=TwoWay}"
          DisplayMemberPath="Name"
          SelectedValuePath="Value"
-         SelectedItem="{x:Bind ViewModel.ColourMapOption, Mode=TwoWay}"
-         ItemsSource="{x:Bind ColourMapOptions}"
+       />
+       -->
+      <ComboBox Header="Colour map" Width="160" 
+         ItemsSource="{x:Bind ViewModel.ColourMapOptionNames}"
+         SelectedValue="{x:Bind ViewModel.ColourMapOptionName, Mode=TwoWay}"
        />
 
       <ComboBox Header="Normalisation mode" Width="160" 

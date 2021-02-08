@@ -14,6 +14,14 @@ namespace IntensityMapViewer
   public interface IImagePresentationSettingsViewModel : IViewModel
   {
 
+    // Nasty hack in an attempt to make ComboBox binding work ...
+
+    string ColourMapOptionName { get ; set ; }
+
+    System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; }
+
+    // ----------------------
+
     IDisplayPanelViewModel Parent { get ; }
 
     ColourMapOption ColourMapOption { get ; set ; }
