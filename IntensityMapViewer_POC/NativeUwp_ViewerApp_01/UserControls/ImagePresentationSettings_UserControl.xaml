@@ -9,17 +9,14 @@
     d:DesignHeight="380"
     d:DesignWidth="200"
   >
+
+  <!-- 
   <UserControl.Resources>
     <ResourceDictionary>
-      <local:EnumToStringConverter x:Key="enumToStringConverter">
-      <!-- 
-        <local:EnumConverter.Parameter>
-          <x:String>Hello</x:String>
-        </local:EnumConverter.Parameter>
-      -->
-      </local:EnumToStringConverter>
+      <local:EnumToStringConverter x:Key="enumToStringConverter" />
     </ResourceDictionary>
   </UserControl.Resources>
+  -->
 
     <Grid Background="LightYellow">
 

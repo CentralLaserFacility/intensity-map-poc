@@ -2,6 +2,15 @@
     x:Class="NativeUwp_ViewerApp_01.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NativeUwp_ViewerApp_01">
+    xmlns:local="using:NativeUwp_ViewerApp_01"
+>
+
+  <Application.Resources>
+
+    <ResourceDictionary>
+      <local:EnumToStringConverter x:Key="enumToStringConverter" />
+    </ResourceDictionary>
+
+  </Application.Resources>
 
 </Application>

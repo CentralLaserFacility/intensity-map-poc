@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="800"
-    d:DesignWidth="1200"
+    d:DesignHeight="1100"
+    d:DesignWidth="1400"
 >
 
     <Grid ColumnSpacing="10" RowSpacing="10" Padding="0" Margin="0" Background="Aquamarine">
@@ -37,13 +37,21 @@
           Background="AliceBlue"
         >
 
+          <!-- 
+          Aha - can specify Height=Auto to let each item have
+          exactly the amount of height that it needs ...
+          -->
+
           <local:ImagePresentationSettings_UserControl 
-            Height="450" Margin="20,20,20,10"
+            Height="Auto" 
+            Margin="20,20,20,10"
+            Padding="10"
             ViewModel="{x:Bind ViewModel.ImagePresentationSettings, Mode=OneWay}"
           />
 
           <local:ProfileDisplaySettings_UserControl
-            Height="200" Margin="20,10,20,20" 
+            Height="Auto" 
+            Margin="20,10,20,20" 
             ViewModel="{x:Bind ViewModel.CurrentSource.ProfileDisplaySettings, Mode=OneWay}"
           />
 
