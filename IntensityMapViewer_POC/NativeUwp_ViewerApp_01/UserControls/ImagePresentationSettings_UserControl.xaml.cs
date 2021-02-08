@@ -44,6 +44,30 @@ namespace NativeUwp_ViewerApp_01
     ) ;
   }
 
+  public class EnumDescriptorToStringConverter : IValueConverter
+  {
+    public object Convert ( object value, Type targetType, object parameter, string language )
+    {
+      // Hmm, could return a DisplayValue described by an attribute,
+      // but that would complicate the 'ConvertBack' function as we'd
+      // have to get from the DisplayValue to the enum ...
+      return value?.ToString() ?? DependencyProperty.UnsetValue ;
+    }
+    public object ConvertBack ( object stringValue, Type targetType, object parameter, string language )
+    { 
+      bool ok = System.Enum.TryParse(
+        targetType,
+        stringValue as string,
+        out var enumResult
+      ) ;
+      return (
+        ok
+        ? enumResult
+        : null
+      ) ;
+    }
+  }
+
   public sealed partial class ImagePresentationSettings_UserControl : UserControl
   {
 
@@ -123,8 +147,12 @@ namespace NativeUwp_ViewerApp_01
       name as string
     ) ;
 
-    // ----------------------------------------
+    // ------------------------------
 
+   public IEnumerable<Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>> ColourMapOptionDescriptors { get ; }
+   = Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.CreateDescriptorsList() ;
+
+    // ----------------------------------------
 
     // Hopefully these helpers can be moved to a Utilities class ...
 
@@ -182,6 +210,7 @@ namespace NativeUwp_ViewerApp_01
         $"Slider IsEnabled => {m_normalisationValueSlider.IsEnabled}"
       ) ;
     }
+
   }
 
 }

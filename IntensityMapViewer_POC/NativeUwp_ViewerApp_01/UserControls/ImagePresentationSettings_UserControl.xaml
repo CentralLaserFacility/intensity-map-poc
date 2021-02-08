@@ -86,6 +86,16 @@
          SelectedItem="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
 
+      <!-- 
+      To be continued ...
+      <ComboBox Header="Colour map DDD" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptionDescriptors}"
+         DisplayMemberPath="Name"
+         SelectedValuePath="Value"
+         SelectedValue="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumDescriptorToStringConverter}, Mode=TwoWay}"
+       />
+      -->
+
        <!-- 
        This variant using 'SelectedValue' leaves the initial value unset ...
        -->

@@ -9,6 +9,7 @@
 
     <ResourceDictionary>
       <local:EnumToStringConverter x:Key="enumToStringConverter" />
+      <local:EnumDescriptorToStringConverter x:Key="enumDescriptorToStringConverter" />
     </ResourceDictionary>
 
   </Application.Resources>
