@@ -26,7 +26,7 @@ namespace NativeUwp_ViewerApp_01
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityMapViewer.IImagePresentationSettingsViewModel), 
-      typeof(ImagePresentationSettings_UserControl), 
+      typeof(ImagePresentationSettings_UserControl_2), 
       new PropertyMetadata(0)
     ) ;
 
@@ -91,11 +91,16 @@ namespace NativeUwp_ViewerApp_01
 
     public string GetColourMapOptionName ( IntensityMapViewer.ColourMapOption colourMapOption ) => colourMapOption.ToString() ;
 
-    public void SetColourMapOptionFromName ( object name )
-    => ViewModel.ColourMapOption = (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
-      typeof(IntensityMapViewer.ColourMapOption),
-      name as string
-    ) ;
+    public void SetColourMapOptionFromName ( object value )
+    {
+      if ( value is string name )
+      {
+        ViewModel.ColourMapOption = (IntensityMapViewer.ColourMapOption) System.Enum.Parse(
+          typeof(IntensityMapViewer.ColourMapOption),
+          name
+        ) ;
+      }
+    }
 
     // ------------------------------
 
@@ -164,6 +169,42 @@ namespace NativeUwp_ViewerApp_01
     //     $"Slider IsEnabled => {m_normalisationValueSlider.IsEnabled}"
     //   ) ;
     // }
+
+    // --------------
+
+    public IEnumerable<
+      Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
+    > ColourMapOptionEnumValueDescriptors 
+    => Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.EnumValueDescriptors ;
+  
+    public void SetColourMapOption ( object value )
+    {
+      if ( value is IntensityMapViewer.ColourMapOption option )
+      {
+        ViewModel.ColourMapOption = option ;
+      }
+      else if ( value is Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> descriptor )
+      {
+        ViewModel.ColourMapOption = descriptor.Value ;
+      }
+    }
+
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      var comboBox = sender as ComboBox ;
+      if ( comboBox.SelectedItem is Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> option )
+      {
+        ViewModel.ColourMapOption = option.Value ;
+      }
+    }
+
+    private Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> DescriptorFor ( 
+      IntensityMapViewer.ColourMapOption option 
+    ) {
+      return ColourMapOptionEnumValueDescriptors.Single(
+        descriptor => descriptor.Value == option
+      ) ;
+    }
 
   }
 

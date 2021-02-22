@@ -161,6 +161,6 @@ namespace NativeUwp_ViewerApp_01
       ) ;
     }
 
-  }
+    }
 
 }
