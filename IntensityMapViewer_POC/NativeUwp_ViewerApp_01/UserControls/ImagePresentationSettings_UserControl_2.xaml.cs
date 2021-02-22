@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 namespace NativeUwp_ViewerApp_01
 {
 
-  public sealed partial class ImagePresentationSettings_UserControl : UserControl
+  public sealed partial class ImagePresentationSettings_UserControl_2 : UserControl
   {
 
     // private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
@@ -62,7 +62,7 @@ namespace NativeUwp_ViewerApp_01
     //   }
     // }
 
-    public ImagePresentationSettings_UserControl()
+    public ImagePresentationSettings_UserControl_2()
     {
       this.InitializeComponent();
       DataContextChanged += (s,e) => {
@@ -87,7 +87,7 @@ namespace NativeUwp_ViewerApp_01
     public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
      = System.Enum.GetNames(typeof(IntensityMapViewer.ColourMapOption)) ;
 
-    public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
+    // public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
 
     public string GetColourMapOptionName ( IntensityMapViewer.ColourMapOption colourMapOption ) => colourMapOption.ToString() ;
 
@@ -99,8 +99,12 @@ namespace NativeUwp_ViewerApp_01
 
     // ------------------------------
 
-   public IEnumerable<Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>> ColourMapOptionDescriptors { get ; }
-   = Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.CreateDescriptorsList() ;
+    public IEnumerable<
+      Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
+    > ColourMapOptionDescriptors { get ; }
+    = Common.EnumValueDescriptor<
+      IntensityMapViewer.ColourMapOption
+    >.EnumValueDescriptors ;
 
     // ----------------------------------------
 
@@ -154,12 +158,12 @@ namespace NativeUwp_ViewerApp_01
       ) ;
     }
 
-    private void m_normalisationValueSlider_IsEnabledChanged ( object sender, DependencyPropertyChangedEventArgs e )
-    {
-      System.Diagnostics.Debug.WriteLine(
-        $"Slider IsEnabled => {m_normalisationValueSlider.IsEnabled}"
-      ) ;
-    }
+    // private void m_normalisationValueSlider_IsEnabledChanged ( object sender, DependencyPropertyChangedEventArgs e )
+    // {
+    //   System.Diagnostics.Debug.WriteLine(
+    //     $"Slider IsEnabled => {m_normalisationValueSlider.IsEnabled}"
+    //   ) ;
+    // }
 
   }
 

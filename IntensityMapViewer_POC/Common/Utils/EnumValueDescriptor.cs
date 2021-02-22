@@ -72,6 +72,17 @@ namespace Common
 
     public TEnum Value { get ; }
 
+    private static List<EnumValueDescriptor<TEnum>>? m_valueDescriptors = null ;
+
+    public static IEnumerable<EnumValueDescriptor<TEnum>> EnumValueDescriptors 
+    => ( 
+      m_valueDescriptors ??= System.Enum.GetValues(
+        typeof(TEnum)
+      ).Cast<TEnum>().Select(
+        enumValue => new EnumValueDescriptor<TEnum>(enumValue)
+      ).ToList() 
+    ) ;
+
     //
     // Create a list of EnumItemsSource from an enum type.
     //
