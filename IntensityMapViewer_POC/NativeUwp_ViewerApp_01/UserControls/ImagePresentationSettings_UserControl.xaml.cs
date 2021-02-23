@@ -39,8 +39,9 @@ namespace NativeUwp_ViewerApp_01
     public ImagePresentationSettings_UserControl()
     {
       this.InitializeComponent();
-      ColourMapBindingHelper = new EnumBindingHelper<IntensityMapViewer.ColourMapOption>(
-        (value) => ViewModel.ColourMapOption = value 
+      ColourMapBindingHelper = new(
+        (value) => ViewModel.ColourMapOption = value,
+        (value) => $"Option {value}"
       ) ;
     }
 
@@ -87,12 +88,17 @@ namespace NativeUwp_ViewerApp_01
   {
 
     private System.Action<T> m_valueChanged ;
+    
+    private System.Func<T,string> m_valueToStringFunc ;
 
     private IEnumerable<T> m_options ;
 
-    public EnumBindingHelper ( System.Action<T> valueChanged )
-    {
+    public EnumBindingHelper ( 
+      System.Action<T>       valueChanged, 
+      System.Func<T,string>? valueToString = null 
+    ) {
       m_valueChanged = valueChanged ;
+      m_valueToStringFunc = valueToString ?? ( (value) => value.ToString() ) ;
       List<T> options = new List<T>() ;
       foreach ( 
         T option in System.Enum.GetValues(
@@ -106,15 +112,15 @@ namespace NativeUwp_ViewerApp_01
 
     public IEnumerable<string> OptionNames 
     => m_options.Select(
-      value => GetOptionName(value)
+      value => m_valueToStringFunc(value)
     ) ;
 
     public string GetOptionName ( T option ) 
-    => option.ToString() ;
+    => m_valueToStringFunc(option) ;
 
     public T GetOptionFromName ( string optionName ) 
     => m_options.Single(
-      option => GetOptionName(option) == optionName
+      option => m_valueToStringFunc(option) == optionName
     ) ;
 
     public void SetOptionFromName ( object optionName )
