@@ -39,11 +39,9 @@ namespace NativeUwp_ViewerApp_01
     public ImagePresentationSettings_UserControl()
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-      } ;
+      ColourMapBindingHelper = new EnumBindingHelper<IntensityMapViewer.ColourMapOption>(
+        (value) => ViewModel.ColourMapOption = value 
+      ) ;
     }
 
     public List<IntensityMapViewer.ColourMapOption> GetColourMapOptions ( ) 
@@ -78,6 +76,53 @@ namespace NativeUwp_ViewerApp_01
     {
       ViewModel.ColourMapOption = GetColourMapOptionFromName(
         colourMapOptionName as string
+      ) ;
+    }
+
+    public EnumBindingHelper<IntensityMapViewer.ColourMapOption> ColourMapBindingHelper { get ; }
+
+  }
+
+  public class EnumBindingHelper<T>
+  {
+
+    private System.Action<T> m_valueChanged ;
+
+    private IEnumerable<T> m_options ;
+
+    public EnumBindingHelper ( System.Action<T> valueChanged )
+    {
+      m_valueChanged = valueChanged ;
+      List<T> options = new List<T>() ;
+      foreach ( 
+        T option in System.Enum.GetValues(
+          typeof(T)
+        )
+      ) {
+        options.Add(option) ;
+      }
+      m_options = options ;
+    }
+
+    public IEnumerable<string> OptionNames 
+    => m_options.Select(
+      value => GetOptionName(value)
+    ) ;
+
+    public string GetOptionName ( T option ) 
+    => option.ToString() ;
+
+    public T GetOptionFromName ( string optionName ) 
+    => m_options.Single(
+      option => GetOptionName(option) == optionName
+    ) ;
+
+    public void SetOptionFromName ( object optionName )
+    {
+      m_valueChanged(
+        GetOptionFromName(
+          optionName as string
+        )
       ) ;
     }
 

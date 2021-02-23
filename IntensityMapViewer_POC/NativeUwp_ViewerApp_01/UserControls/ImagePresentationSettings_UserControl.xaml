@@ -17,14 +17,19 @@
       
        <TextBox Text="Image presentation settings" HorizontalAlignment="Center"/>
 
-      <ComboBox Header="Colour map" Width="160" 
+      <ComboBox Header="Colour map A" Width="160" 
          ItemsSource="{x:Bind GetColourMapOptionNames(), Mode=OneTime}"
          SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=SetColourMapOptionFromName, Mode=TwoWay}"
        />
 
-      <ComboBox Header="Colour map" Width="160" 
+      <ComboBox Header="Colour map B" Width="160" 
          ItemsSource="{x:Bind GetColourMapOptionNames()}"
          SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=SetColourMapOptionFromName, Mode=TwoWay}"
+       />
+
+      <ComboBox Header="Colour map C" Width="160" 
+         ItemsSource="{x:Bind ColourMapBindingHelper.OptionNames}"
+         SelectedValue="{x:Bind ColourMapBindingHelper.GetOptionName(ViewModel.ColourMapOption), BindBack=ColourMapBindingHelper.SetOptionFromName, Mode=TwoWay}"
        />
 
       <!-- 
