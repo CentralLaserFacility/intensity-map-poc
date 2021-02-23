@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="380"
-    d:DesignWidth="200"
+    d:DesignWidth="300"
     x:DefaultBindMode="OneWay"
   >
 
@@ -17,37 +17,56 @@
       
        <TextBox Text="Image presentation settings" HorizontalAlignment="Center"/>
 
-      <ComboBox Header="Colour map A" Width="160" 
-         ItemsSource="{x:Bind GetColourMapOptionNames(), Mode=OneTime}"
-         SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=SetColourMapOptionFromName, Mode=TwoWay}"
-       />
-
-      <ComboBox Header="Colour map B" Width="160" 
-         ItemsSource="{x:Bind GetColourMapOptionNames()}"
-         SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=SetColourMapOptionFromName, Mode=TwoWay}"
-       />
-
-      <ComboBox Header="Colour map C" Width="160" 
+      <ComboBox Header="Colour map" Width="240" 
          ItemsSource="{x:Bind ColourMapBindingHelper.OptionNames}"
          SelectedValue="{x:Bind ColourMapBindingHelper.GetOptionName(ViewModel.ColourMapOption), BindBack=ColourMapBindingHelper.SetOptionFromName, Mode=TwoWay}"
        />
 
-      <!-- 
       <ComboBox Header="Normalisation mode" Width="160" 
-         ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.NormalisationMode)}"
-         SelectedItem="{x:Bind ViewModel.NormalisationMode, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
+         ItemsSource="{x:Bind NormalisationModeBindingHelper.OptionNames}"
+         SelectedValue="{x:Bind NormalisationModeBindingHelper.GetOptionName(ViewModel.NormalisationMode), BindBack=NormalisationModeBindingHelper.SetOptionFromName, Mode=TwoWay}"
        />
+
+       <!-- 
+         Value="{x:Bind ViewModel.NormalisationValue, BindBack=SetNormalisationValue, Mode=TwoWay}"
+         ValueChanged="m_normalisationValueSlider_ValueChanged"
        <Slider 
          x:Name="m_normalisationValueSlider"
          HorizontalAlignment="Left"
-         Minimum="0" Maximum="255" Width="160" Header="Normalisation value"
-         Value="{x:Bind ViewModel.NormalisationValue, Mode=OneWay}"
-         ValueChanged="Slider_ValueChanged"
+         Minimum="0" Maximum="255" Width="160" 
+         Header="Normalisation value"
+         Value="{x:Bind ViewModel.NormalisationValue}"
+         ValueChanged="m_normalisationValueSlider_ValueChanged"
          IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
        />
-      -->
+       -->
 
-       <local:NumericValueEditor_UserControl />
+       <!-- 
+         To make x:Bind work with Mode=TwoWay, it seems that the main 'source'
+         for the x:Bind has to specify a function call (here 'GetNormalisationValue()')
+         rather than the property itself. If we just specify 
+           x:Bind ViewModel.NormalisationValue
+         we get a compile time error, 'Unexpected BindBack found'.
+         Although maybe that's due to the mismatch between the Value type,
+         which is 'double', and the Normalisation Value which is 'byte'.
+       -->
+      <Slider 
+         Header="Normalisation value 1"
+         HorizontalAlignment="Left"
+         Minimum="0" Maximum="255" Width="160" 
+         Value="{x:Bind GetNormalisationValue(ViewModel.NormalisationValue), BindBack=SetNormalisationValue, Mode=TwoWay}"
+         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
+       />
+
+      <Slider 
+         Header="Normalisation value 2"
+         HorizontalAlignment="Stretch"
+         Minimum="0" Maximum="255" Width="160" 
+         Value="{x:Bind GetNormalisationValue(ViewModel.NormalisationValue), BindBack=SetNormalisationValue, Mode=TwoWay}"
+         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
+       />
+
+      <local:NumericValueEditor_UserControl />
 
      </StackPanel>
 

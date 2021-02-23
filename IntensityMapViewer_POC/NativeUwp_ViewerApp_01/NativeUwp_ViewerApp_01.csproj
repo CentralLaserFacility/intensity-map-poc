@@ -128,10 +128,14 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\EnumBindingHelper.cs" />
     <Compile Include="UserControls\EnumDescriptorToStringConverter.cs" />
     <Compile Include="UserControls\EnumToStringConverter.cs" />
     <Compile Include="UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
       <DependentUpon>HorizontalProfileGraph_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ImagePresentationSettings_UserControl_old_03.xaml.cs">
+      <DependentUpon>ImagePresentationSettings_UserControl_old_03.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ImagePresentationSettings_UserControl_old_01.xaml.cs">
       <DependentUpon>ImagePresentationSettings_UserControl_old_01.xaml</DependentUpon>
@@ -190,6 +194,10 @@
     <Page Include="UserControls\HorizontalProfileGraph_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ImagePresentationSettings_UserControl_old_03.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\ImagePresentationSettings_UserControl_old_01.xaml">
       <Generator>MSBuild:Compile</Generator>
