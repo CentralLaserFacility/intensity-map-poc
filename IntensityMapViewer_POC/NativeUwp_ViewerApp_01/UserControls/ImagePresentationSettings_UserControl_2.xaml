@@ -81,10 +81,10 @@
        Something like the following - but there doesn't seem to be a way of
        passing a 'Type' into a function, in XAML ...
        ItemsSource="{x:Bind GetOptionNamesForEnumType(local:MySimpleEnum)}"
-       THIS WORKS OK
+       THIS DOESN'T WORK - Missing 'BindBack', can't use a Converter here ...
        <ComboBox Header="Colour map A" Width="160" 
          ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.ColourMapOption)}"
-         SelectedItem="{x:Bind ViewModel.ColourMapOption, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
+         SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
        -->
 
@@ -94,11 +94,17 @@
       This works correctly in all respects, but the 'BindBack' function is explicitly setting
       the ViewModel property and returning void ; it can't be made into a generic helper.
        THIS WORKS OK
-      <ComboBox Header="Colour map B" Width="160" 
+      -->
+      <ComboBox Header="Colour map A" Width="160" 
          ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.ColourMapOption)}"
          SelectedValue="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=SetColourMapOptionFromName, Mode=TwoWay}"
        />
-      -->
+
+      <ComboBox Header="Colour map B" Width="160" 
+         ItemsSource="{x:Bind ColourMapOptionEnumValueDescriptors}"
+         DisplayMemberPath="Name"
+         SelectedItem="{x:Bind DescriptorFor(ViewModel.ColourMapOption), BindBack=SetColourMapOption, Mode=TwoWay}"
+       />
 
       <ComboBox Header="Colour map C" Width="160" 
          ItemsSource="{x:Bind ColourMapOptionEnumValueDescriptors}"
@@ -106,12 +112,6 @@
          SelectedValuePath="Value"
          SelectedItem="{x:Bind DescriptorFor(ViewModel.ColourMapOption)}"
          SelectionChanged="ComboBox_SelectionChanged"
-       />
-
-      <ComboBox Header="Colour map D" Width="160" 
-         ItemsSource="{x:Bind ColourMapOptionEnumValueDescriptors}"
-         DisplayMemberPath="Name"
-         SelectedItem="{x:Bind DescriptorFor(ViewModel.ColourMapOption), BindBack=SetColourMapOption, Mode=TwoWay}"
        />
 
       <!-- 
@@ -164,12 +164,12 @@
          ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.ColourMapOption)}"
          SelectedItem="{x:Bind GetColourMapOptionName(ViewModel.ColourMapOption), BindBack=GetColourMapOptionFromName, Mode=TwoWay}"
        />
-      -->
-
       <ComboBox Header="Normalisation mode" Width="160" 
          ItemsSource="{x:Bind GetOptionNamesForType(ViewModel.NormalisationMode)}"
          SelectedItem="{x:Bind ViewModel.NormalisationMode, Converter={StaticResource enumToStringConverter}, Mode=TwoWay}"
        />
+
+      -->
 
        <Slider 
          x:Name="m_normalisationValueSlider"
