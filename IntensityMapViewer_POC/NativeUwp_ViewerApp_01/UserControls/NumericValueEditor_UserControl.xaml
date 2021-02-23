@@ -7,27 +7,42 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="70"
-    d:DesignWidth="160"
+    d:DesignWidth="260"
+    x:DefaultBindMode="OneWay"
 >
 
-    <StackPanel Orientation="Vertical" Background="LightSeaGreen">
+  <StackPanel Orientation="Vertical" Background="LightSeaGreen">
 
-        <TextBox PlaceholderText="Position" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" />
+    <Border Background="Cornsilk">
+      <TextBlock Text="{x:Bind ViewModel.DisplayName}" />
+    </Border>
 
-        <StackPanel Orientation="Horizontal" >
+    <StackPanel Orientation="Horizontal" Spacing="10" Margin="10">
         
-        <Slider 
-            HorizontalAlignment="Left"
-            Minimum="{x:Bind ViewModel.MinValue, Mode=OneWay}"  
-            Maximum="{x:Bind ViewModel.MaxValue, Mode=OneWay}" 
-            Value="{x:Bind ViewModel.CurrentValue, Mode=TwoWay}"
-            Width="100" 
-        />
+      <Slider 
+        Width="100" 
+        HorizontalAlignment="Left"
+        Minimum="{x:Bind ViewModel.MinValue}"  
+        Maximum="{x:Bind ViewModel.MaxValue}" 
+        StepFrequency="{x:Bind ViewModel.StepDelta}"
+        Value="{x:Bind GetDoubleValue(ViewModel.CurrentValue), BindBack=ViewModel.SetCurrentValue, Mode=TwoWay}"
+      />
 
-        <TextBlock Margin="10,10,10,10" Text="0.4" />
-
-        </StackPanel>
+      <!-- Hmm, how to make the text box fill the remaining available width ??? -->
+      <!-- Nothing reasonable seems to work ; got to use a Grid ??? -->
+      <!-- HorizontalAlignment="Stretch" -->
+      <TextBox 
+        Width="120" 
+        Text="{
+          x:Bind GetStringValue(ViewModel.CurrentValueAsString), 
+          Mode=TwoWay, 
+          BindBack=ViewModel.SetCurrentValueFromString, 
+          UpdateSourceTrigger=PropertyChanged
+        }" 
+      />
 
     </StackPanel>
+
+  </StackPanel>
 
 </UserControl>

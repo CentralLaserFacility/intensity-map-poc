@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntensityMapViewer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NativeUwp_ViewerApp_01
 {
+
   public sealed partial class ProfileDisplaySettings_UserControl : UserControl
   {
 
@@ -33,20 +35,17 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    // private IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel => DataContext as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
-
-    // private IntensityMapViewer.IDisplayPanelViewModel RootViewModel ;
-
     public ProfileDisplaySettings_UserControl()
     {
-      this.InitializeComponent();
-      // DataContextChanged += (s,e) => {
-      //   System.Diagnostics.Debug.WriteLine(
-      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-      //   ) ;
-      //   // this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      // } ;
+      this.InitializeComponent() ;
+      XPositionViewModel = new() {
+        DisplayName = "X position",
+        MinValue    = 0.0,
+        MaxValue    = 100.0
+      } ;
     }
+
+    private NumericValueViewModel XPositionViewModel ;
 
   }
 

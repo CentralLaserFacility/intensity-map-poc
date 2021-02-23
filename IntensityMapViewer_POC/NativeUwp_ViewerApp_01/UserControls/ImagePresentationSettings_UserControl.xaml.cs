@@ -45,11 +45,22 @@ namespace NativeUwp_ViewerApp_01
       NormalisationModeBindingHelper = new(
         (value) => ViewModel.NormalisationMode = value
       ) ;
+      NormalisationValueBindingHelper = new(
+        (byteValue) => byteValue,
+        (doubleValue) => ViewModel.SetNormalisationValue(
+          (byte) doubleValue
+        ) 
+      ) {
+        Minimum = 0.0,
+        Maximum = 255.0
+      } ;
     }
 
     public EnumBindingHelper<IntensityMapViewer.ColourMapOption> ColourMapBindingHelper { get ; }
 
     public EnumBindingHelper<IntensityMapViewer.NormalisationMode> NormalisationModeBindingHelper { get ; }
+
+    public SliderValueBindingHelper<byte> NormalisationValueBindingHelper { get ; }
 
     public double GetNormalisationValue ( byte value ) => value ;
     

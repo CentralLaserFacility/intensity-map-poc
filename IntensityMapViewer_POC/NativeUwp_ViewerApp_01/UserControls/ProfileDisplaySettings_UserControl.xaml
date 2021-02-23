@@ -1,30 +1,31 @@
 ﻿<UserControl
-    x:Class="NativeUwp_ViewerApp_01.ProfileDisplaySettings_UserControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NativeUwp_ViewerApp_01"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
+  x:Class="NativeUwp_ViewerApp_01.ProfileDisplaySettings_UserControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:NativeUwp_ViewerApp_01"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignHeight="300"
+  d:DesignWidth="400"
+  x:DefaultBindMode="OneWay"
 >
 
-    <StackPanel Orientation="Vertical" Background="Goldenrod">
+  <StackPanel Orientation="Vertical" Background="Goldenrod">
       
-        <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
+    <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
 
-       <local:NumericValueEditor_UserControl Width="160" Margin="0,10,10,10" HorizontalAlignment="Left"/>
+    <local:NumericValueEditor_UserControl 
+      ViewModel="{x:Bind XPositionViewModel}"
+      Width="260" 
+      HorizontalAlignment="Left"
+      Margin="0,10,10,10" 
+    />
        
-       <local:NumericValueEditor_UserControl Width="160" Margin="0,0,10,0" HorizontalAlignment="Left"/>
+    <local:NumericValueEditor_UserControl Width="260" Margin="0,0,10,0" HorizontalAlignment="Left"/>
 
-        <ComboBox Header="Normalisation mode" Width="160" >
-            <x:String>Automatic</x:String> 
-            <x:String>Manual</x:String> 
-        </ComboBox>
+    <CheckBox Content="Show profile graphs" />
 
-        <CheckBox Content="Show profile graphs" />
-
-     </StackPanel>
+    </StackPanel>
 
 </UserControl>

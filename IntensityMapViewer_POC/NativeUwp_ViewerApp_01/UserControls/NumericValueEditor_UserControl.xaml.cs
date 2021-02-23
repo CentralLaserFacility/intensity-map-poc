@@ -1,4 +1,8 @@
-﻿using System;
+﻿//
+// NumericValueEditor_UserControl.cs
+//
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,20 +17,16 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace NativeUwp_ViewerApp_01
 {
 
   public sealed partial class NumericValueEditor_UserControl : UserControl
   {
 
-    // private IntensityMapViewer.NumericValueViewModel ViewModel ; // = new IntensityMapViewer.NumericValueViewModel() ;
-
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityMapViewer.NumericValueViewModel), 
-      typeof(ProfileDisplaySettings_UserControl), 
+      typeof(NumericValueEditor_UserControl), 
       new PropertyMetadata(0)
     ) ;
 
@@ -36,15 +36,15 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    public NumericValueEditor_UserControl()
+    public NumericValueEditor_UserControl ( )
     {
-      this.InitializeComponent();
-      // DataContextChanged += (s,e) => {
-      //   System.Diagnostics.Debug.WriteLine(
-      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-      //   ) ;
-      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      // } ;
+      this.InitializeComponent() ;
     }
+
+    public double GetDoubleValue ( double value ) => value ;
+
+    public string GetStringValue ( string value ) => value ;
+
   }
+
 }

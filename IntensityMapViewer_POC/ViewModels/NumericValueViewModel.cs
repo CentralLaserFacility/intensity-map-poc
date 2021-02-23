@@ -25,35 +25,47 @@ namespace IntensityMapViewer
       ) ;
     }
     
-    public double MaxValue => 1.0 ;
+    public double MinValue { get ; set ; } = 0.0 ;
 
-    public double MinValue => 0.0 ;
+    public double MaxValue { get ; set ; } = 1.0 ;
 
-    private double m_currentValue = double.NaN ;
-    public double CurrentValue 
+    public int NSteps { get ; set ; } = 50 ;
+
+    public double StepDelta => ( MaxValue - MinValue ) / NSteps ;
+
+    public double CurrentValue { get ; private set ; } = 0.0 ;
+
+    public void SetCurrentValue ( double value )
     {
-      get => m_currentValue ;
-      set {
-        if (
-          SetProperty(
-            ref m_currentValue,
-            value
-          )
-        ) {
-          base.OnPropertyChanged(nameof(CurrentValueAsString)) ;
-          ValueChanged?.Invoke() ;
-        }
+      if ( 
+         value >= MinValue 
+      && value <= MaxValue
+      ) {
+        CurrentValue = value ;
+        OnPropertyChanged(nameof(CurrentValue)) ;
+        OnPropertyChanged(nameof(CurrentValueAsString)) ;
+        Common.DebugHelpers.WriteDebugLines($"Set to {value}") ;
+        ValueChanged?.Invoke() ;
       }
     }
 
-    public string CurrentValueAsString
+    public string CurrentValueAsString => CurrentValue.ToString() ;
+
+    public void SetCurrentValueFromString ( string value )
     {
-      get => m_currentValue.ToString() ;
-      set => CurrentValue = double.Parse(value) ;
+      if (
+        double.TryParse(
+          value,
+          out var parsedValue
+        )
+      ) {
+        SetCurrentValue(
+          parsedValue
+        ) ;
+      }
     }
 
     public event System.Action? ValueChanged ;
-
 
   }
 

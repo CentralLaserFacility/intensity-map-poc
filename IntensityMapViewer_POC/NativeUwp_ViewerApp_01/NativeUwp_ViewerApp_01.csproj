@@ -159,6 +159,7 @@
     <Compile Include="UserControls\ProfileDisplaySettings_UserControl.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SliderValueBindingHelper.cs" />
     <Compile Include="UserControls\VerticalProfileGraph_UserControl.xaml.cs">
       <DependentUpon>VerticalProfileGraph_UserControl.xaml</DependentUpon>
     </Compile>
