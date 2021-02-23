@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 namespace NativeUwp_ViewerApp_01
 {
 
-  public sealed partial class ImagePresentationSettings_UserControl_2 : UserControl
+  public sealed partial class ImagePresentationSettings_UserControl_old_02 : UserControl
   {
 
     // private IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel => DataContext as IntensityMapViewer.IImagePresentationSettingsViewModel ;
@@ -26,7 +26,7 @@ namespace NativeUwp_ViewerApp_01
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityMapViewer.IImagePresentationSettingsViewModel), 
-      typeof(ImagePresentationSettings_UserControl_2), 
+      typeof(ImagePresentationSettings_UserControl_old_02), 
       new PropertyMetadata(0)
     ) ;
 
@@ -62,7 +62,7 @@ namespace NativeUwp_ViewerApp_01
     //   }
     // }
 
-    public ImagePresentationSettings_UserControl_2()
+    public ImagePresentationSettings_UserControl_old_02()
     {
       this.InitializeComponent();
       DataContextChanged += (s,e) => {
@@ -84,12 +84,14 @@ namespace NativeUwp_ViewerApp_01
 
     // ----------------------------------------
 
-    public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
-     = System.Enum.GetNames(typeof(IntensityMapViewer.ColourMapOption)) ;
+    public string GetColourMapOptionName ( IntensityMapViewer.ColourMapOption colourMapOption ) 
+    => colourMapOption.ToString() ;
 
-    // public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
-
-    public string GetColourMapOptionName ( IntensityMapViewer.ColourMapOption colourMapOption ) => colourMapOption.ToString() ;
+    public System.Collections.Generic.IEnumerable<string> GetOptionNamesForType ( 
+      object enumInstance
+    ) => System.Enum.GetNames(
+      enumInstance.GetType()
+    ) ;
 
     public void SetColourMapOptionFromName ( object value )
     {
@@ -101,6 +103,21 @@ namespace NativeUwp_ViewerApp_01
         ) ;
       }
     }
+
+    // private IntensityMapViewer.ColourMapOption ColourMapOptionFromDisplayText ( 
+    //   string displayText 
+    // ) {
+    //   return ColourMapOptionEnumValueDescriptors.Single(
+    //     descriptor => descriptor.Value == option
+    //   ) ;
+    // }
+
+    // ----------------------------------------
+
+    public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
+     = System.Enum.GetNames(typeof(IntensityMapViewer.ColourMapOption)) ;
+
+    // public string ColourMapOptionName => ViewModel.ColourMapOption.ToString() ;
 
     // ------------------------------
 
@@ -114,12 +131,6 @@ namespace NativeUwp_ViewerApp_01
     // ----------------------------------------
 
     // Hopefully these helpers can be moved to a Utilities class ...
-
-    public System.Collections.Generic.IEnumerable<string> GetOptionNamesForType ( 
-      object enumInstance
-    ) => System.Enum.GetNames(
-      enumInstance.GetType()
-    ) ;
 
     public System.Collections.Generic.IEnumerable<string> GetOptionNamesForEnumType ( 
       System.Type enumType
