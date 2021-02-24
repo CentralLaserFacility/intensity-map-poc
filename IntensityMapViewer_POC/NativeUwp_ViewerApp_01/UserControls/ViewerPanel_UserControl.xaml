@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     d:DesignHeight="1100"
     d:DesignWidth="1400"
+    x:DefaultBindMode="OneWay"
 >
 
     <Grid ColumnSpacing="10" RowSpacing="10" Padding="0" Margin="0" Background="Aquamarine">

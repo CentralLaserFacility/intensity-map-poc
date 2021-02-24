@@ -2,8 +2,8 @@
 // Object_ExtensionMethods.cs
 //
 
-using System.Collections.Generic ;
-using System.Linq ;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Common.ExtensionMethods
 {

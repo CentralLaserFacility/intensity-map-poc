@@ -2,13 +2,13 @@
 // IntensityMapProfileDisplaySettings.cs
 //
 
-using System.Transactions;
+using Common.ExtensionMethods ;
 
 namespace IntensityMapViewer
 {
 
   //
-  // Hmm, need to connect with integer values also ...
+  // Hmm, need an integer version of this ...
   //
 
   public class NumericValueViewModel
@@ -25,7 +25,9 @@ namespace IntensityMapViewer
       ) ;
     }
 
-    public string ToolTipInfo => $"Valid range :\nMinimum {MinValue}\nMaximum {MaxValue}" ;
+    public string ToolTipInfo 
+    // => $"Valid range :\nMinimum {MinValue}\nMaximum {MaxValue}" ;
+    => $"Valid range is {MinValue} to {MaxValue}" ;
     
     private bool m_mostRecentSetAttemptFailed = false ;
     public bool MostRecentSetAttemptFailed
@@ -37,12 +39,51 @@ namespace IntensityMapViewer
       ) ;
     }
     
-    public double MinValue { get ; set ; } = 0.0 ;
+    private double m_minValue = 0.0 ;
+    public double MinValue
+    {
+      get => m_minValue ;
+      set => SetProperty(
+        ref m_minValue,
+        value
+      ).WithActionOnTrueValue(
+        () => {
+          OnPropertyChanged(nameof(StepDelta)) ;
+          OnPropertyChanged(nameof(ToolTipInfo)) ;
+          SetCurrentValue(CurrentValue) ;
+        }
+      ) ;
+    }
 
-    public double MaxValue { get ; set ; } = 1.0 ;
+    private double m_maxValue = 0.0 ;
+    public double MaxValue
+    {
+      get => m_maxValue ;
+      set => SetProperty(
+        ref m_maxValue,
+        value
+      ).WithActionOnTrueValue(
+        () => {
+          OnPropertyChanged(nameof(StepDelta)) ;
+          OnPropertyChanged(nameof(ToolTipInfo)) ;
+          SetCurrentValue(CurrentValue) ;
+        }
+      ) ;
+    }
 
-    public int NSteps { get ; set ; } = 50 ;
-
+    public int m_nSteps = 50 ;
+    public int NSteps 
+    {
+      get => m_nSteps ;
+      set => SetProperty(
+        ref m_nSteps,
+        value
+      ).WithActionOnTrueValue(
+        () => {
+          OnPropertyChanged(nameof(StepDelta)) ;
+        }
+      ) ;
+    }
     public double StepDelta => ( MaxValue - MinValue ) / NSteps ;
 
     private double m_currentValue = 0.0 ;
@@ -70,8 +111,6 @@ namespace IntensityMapViewer
         MostRecentSetAttemptFailed = true ;
       }
     }
-
-    // public string CurrentValueAsString => CurrentValue.ToString() ;
 
     public string CurrentValueAsString 
     {

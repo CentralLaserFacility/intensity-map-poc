@@ -22,6 +22,20 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ProfileDisplaySettings_UserControl : UserControl
   {
 
+    //
+    // The 'ViewModel' property has to be set up as a DependencyProperty 
+    // in order that we can use x:Bind to SET the value in XAML.
+    //
+    // If we were using some other technique to set the ViewModel,
+    // eg Dependency Injection ... it could be an 'ordinary' property ...
+    //
+
+    public IntensityMapViewer.IProfileDisplaySettingsViewModel? ViewModel
+    {
+      get => GetValue(ViewModelProperty) as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+      set => SetValue(ViewModelProperty,value) ;
+    }
+
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityMapViewer.IProfileDisplaySettingsViewModel), 
@@ -38,13 +52,22 @@ namespace NativeUwp_ViewerApp_01
       )
     ) ;
 
-    public IntensityMapViewer.IProfileDisplaySettingsViewModel? ViewModel
-    {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
-      set => SetValue(ViewModelProperty,value) ;
-    }
+    //
+    // For the time being, we're declaring these as 'fields',
+    // and x:Bind to their properties seems to work ...
+    //
+    // Hmm, these really should be Dependency Properties
+    // since we're binding to them using x:Bind ???
+    //
+    // Or at least, we should be implementing INotifyProperyChanged
+    // if we were to replace these instances.
+    //
 
-    public ProfileDisplaySettings_UserControl()
+    private readonly NumericValueViewModel XPositionViewModel ;
+
+    private readonly NumericValueViewModel YPositionViewModel ;
+
+    public ProfileDisplaySettings_UserControl ( )
     {
       this.InitializeComponent() ;
       // Hmm, need to initialise these from the ViewModel ...
@@ -115,17 +138,6 @@ namespace NativeUwp_ViewerApp_01
     // {
     // 
     // }
-
-    // Hmm, these really should be Dependency Properties
-    // since we're binding to them using x:Bind ???
-    // Or at least, we should be implementing INotifyProperyChanged
-    // if we replace these instances.
-    // For the time being, we're declaring these as 'fields'
-    // and x:Bind seems to work ...
-
-    private NumericValueViewModel XPositionViewModel ;
-
-    private NumericValueViewModel YPositionViewModel ;
 
   }
 

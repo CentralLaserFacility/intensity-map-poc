@@ -33,16 +33,28 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    public IntensityMapImageAndProfileGraphs_UserControl()
+    public IntensityMapImageAndProfileGraphs_UserControl ( )
     {
-      this.InitializeComponent();
-      // DataContextChanged += (s,e) => {
-      //   System.Diagnostics.Debug.WriteLine(
-      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-      //   ) ;
-      //   this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      //   // m_intensityMapImage_UserControl.DataContext = ViewModel?.CurrentSource?.MostRecentlyAcquiredIntensityMap ;
-      // } ;
+      InitializeComponent() ;
     }
+
+    public Visibility VisibleWhen ( bool visible )
+    => (
+      visible
+      ? Visibility.Visible
+      : Visibility.Collapsed
+    ) ;
+
+    public int ChooseIntegerValue ( 
+      bool condition, 
+      int valueWhenTrue, 
+      int valueWhenFalse 
+    ) => (
+      condition 
+      ? valueWhenTrue 
+      : valueWhenFalse 
+    ) ;
+
   }
+
 }

@@ -8,10 +8,10 @@
     mc:Ignorable="d"
     d:DesignHeight="600"
     d:DesignWidth="900"
-    
+    x:DefaultBindMode="OneWay"
   >
 
-    <Grid Background="LightPink" Margin="20" ColumnSpacing="10" RowSpacing="10" >
+    <Grid Background="LightPink" Padding="10" ColumnSpacing="10" RowSpacing="10" >
 
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -27,23 +27,29 @@
           x:Name="m_verticalProfileGraph" 
           Grid.Row="0" Grid.Column="0" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
 
         <local:IntensityMapImage_UserControl 
           x:Name="m_intensityMapImage_UserControl" 
-          Grid.Row="0" Grid.Column="1" 
+          Grid.Row="0"
+          Grid.Column="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,0)}" 
+          Grid.RowSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
+          Grid.ColumnSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
         />
 
         <Rectangle 
           Grid.Row="1" Grid.Column="0" 
           Fill="LightGray" 
+          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
 
         <local:HorizontalProfileGraph_UserControl 
           x:Name="m_horizontalProfileGraph" 
           Grid.Row="1" Grid.Column="1" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
 
     </Grid>
