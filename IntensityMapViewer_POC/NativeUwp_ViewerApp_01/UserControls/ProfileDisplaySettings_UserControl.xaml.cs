@@ -75,11 +75,11 @@ namespace NativeUwp_ViewerApp_01
       // Hmm, need to initialise these from the ViewModel ...
       // however the ViewModel is 'null' at this point
       XPositionViewModel = new() {
-        DisplayName = "X position",
+        DisplayName = "X position (from left)",
         MinValue    = 0.0
       } ;
       YPositionViewModel = new() {
-        DisplayName  = "Y position",
+        DisplayName  = "Y position (from top)",
         MinValue     = 0.0
       } ;
     }

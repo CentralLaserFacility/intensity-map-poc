@@ -62,6 +62,9 @@ namespace NativeUwp_ViewerApp_01
 
     public SliderValueBindingHelper<byte> NormalisationValueBindingHelper { get ; }
 
+    public string GetNormalisationValueHeaderText ( byte value )
+    => $"Normalisation value ({value})" ;
+
     public double GetNormalisationValue ( byte value ) => value ;
     
     public void SetNormalisationValue ( double value )
