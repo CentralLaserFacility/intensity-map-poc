@@ -31,12 +31,29 @@
       <!-- Hmm, how to make the text box fill the remaining available width ??? -->
       <!-- Nothing reasonable seems to work ; got to use a Grid ??? -->
       <!-- HorizontalAlignment="Stretch" -->
+      <!-- 
+        If we want two-way binding to a ViewModel property that has
+        both a Getter and a Setter, and the type is an exact match,
+        then we can use x:Bind to that property with Mode=TwoWay.
+        In other situations, eg when a type conversion is necessary
+        or the 'set' is performed via a function call rather than a Setter,
+        it's necessary to specify a function call for both aspects of the x:Bind.
+        <TextBox 
+          Width="120" 
+          Text="{
+            x:Bind GetStringValue(ViewModel.CurrentValueAsString), 
+            Mode=TwoWay, 
+            BindBack=ViewModel.SetCurrentValueFromString, 
+            UpdateSourceTrigger=PropertyChanged
+          }" 
+        />
+      -->
       <TextBox 
         Width="120" 
+        Background="{x:Bind GetErrorIndicationBrush(ViewModel.MostRecentSetAttemptFailed)}"
         Text="{
-          x:Bind GetStringValue(ViewModel.CurrentValueAsString), 
+          x:Bind ViewModel.CurrentValueAsString, 
           Mode=TwoWay, 
-          BindBack=ViewModel.SetCurrentValueFromString, 
           UpdateSourceTrigger=PropertyChanged
         }" 
       />

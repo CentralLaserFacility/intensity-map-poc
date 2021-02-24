@@ -41,9 +41,18 @@ namespace NativeUwp_ViewerApp_01
       this.InitializeComponent() ;
     }
 
+    // Helpers that must be specified in some forms of two-way x:Bind ...
+
     public double GetDoubleValue ( double value ) => value ;
 
     public string GetStringValue ( string value ) => value ;
+
+    public Brush GetErrorIndicationBrush ( bool error )
+    => (
+      error
+      ? new SolidColorBrush(Windows.UI.Colors.Pink)
+      : new SolidColorBrush(Windows.UI.Colors.LightGreen)
+    ) ;
 
   }
 

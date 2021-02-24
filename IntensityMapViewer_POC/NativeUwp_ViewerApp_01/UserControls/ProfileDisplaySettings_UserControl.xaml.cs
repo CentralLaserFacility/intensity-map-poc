@@ -39,13 +39,20 @@ namespace NativeUwp_ViewerApp_01
     {
       this.InitializeComponent() ;
       XPositionViewModel = new() {
-        DisplayName = "X position",
+        DisplayName = "X position (%)",
+        MinValue    = 0.0,
+        MaxValue    = 100.0
+      } ;
+      XPositionViewModel = new() {
+        DisplayName = "Y position (%)",
         MinValue    = 0.0,
         MaxValue    = 100.0
       } ;
     }
 
     private NumericValueViewModel XPositionViewModel ;
+
+    private NumericValueViewModel YPositionViewModel ;
 
   }
 

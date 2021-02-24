@@ -25,6 +25,16 @@ namespace IntensityMapViewer
       ) ;
     }
     
+    private bool m_mostRecentSetAttemptFailed = false ;
+    public bool MostRecentSetAttemptFailed
+    {
+      get => m_mostRecentSetAttemptFailed ;
+      private set => SetProperty(
+        ref m_mostRecentSetAttemptFailed,
+        value
+      ) ;
+    }
+    
     public double MinValue { get ; set ; } = 0.0 ;
 
     public double MaxValue { get ; set ; } = 1.0 ;
@@ -44,12 +54,23 @@ namespace IntensityMapViewer
         CurrentValue = value ;
         OnPropertyChanged(nameof(CurrentValue)) ;
         OnPropertyChanged(nameof(CurrentValueAsString)) ;
+        MostRecentSetAttemptFailed = false ;
         Common.DebugHelpers.WriteDebugLines($"Set to {value}") ;
         ValueChanged?.Invoke() ;
       }
+      else
+      {
+        MostRecentSetAttemptFailed = true ;
+      }
     }
 
-    public string CurrentValueAsString => CurrentValue.ToString() ;
+    // public string CurrentValueAsString => CurrentValue.ToString() ;
+
+    public string CurrentValueAsString 
+    {
+      get => CurrentValue.ToString() ;
+      set => SetCurrentValueFromString(value) ;
+    }
 
     public void SetCurrentValueFromString ( string value )
     {
@@ -62,6 +83,10 @@ namespace IntensityMapViewer
         SetCurrentValue(
           parsedValue
         ) ;
+      }
+      else
+      {
+        MostRecentSetAttemptFailed = true ;
       }
     }
 
