@@ -32,7 +32,16 @@ namespace NativeUwp_ViewerApp_01
       "ViewModel", 
       typeof(IntensityMapViewer.ISourceViewModel), 
       typeof(HorizontalProfileGraph_UserControl), 
-      new PropertyMetadata(0)
+      new PropertyMetadata(
+        defaultValue : null,
+        propertyChangedCallback : (dp,propertyChangedEventArgs) => {
+          var userControlThatOwnsThisViewModelProperty = dp as HorizontalProfileGraph_UserControl ;
+          userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
+            propertyChangedEventArgs.OldValue as IntensityMapViewer.ISourceViewModel,
+            propertyChangedEventArgs.NewValue as IntensityMapViewer.ISourceViewModel
+          ) ;
+        }
+      )
     ) ;
 
     public IntensityMapViewer.ISourceViewModel ViewModel
@@ -41,16 +50,16 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    public HorizontalProfileGraph_UserControl()
+    public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
-      DataContextChanged += (s,e) => {
-        System.Diagnostics.Debug.WriteLine(
-          $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-        ) ;
-        // Yikes - gotta call this explicitly ? WTF !!!
-        // this.Bindings.Update() ; 
-      } ;
+      // DataContextChanged += (s,e) => {
+      //   System.Diagnostics.Debug.WriteLine(
+      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
+      //   ) ;
+      //   // Yikes - gotta call this explicitly ? WTF !!!
+      //   // this.Bindings.Update() ; 
+      // } ;
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
         // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
         //   paintSurfaceEventArgs
@@ -67,11 +76,32 @@ namespace NativeUwp_ViewerApp_01
       } ;
     }
 
+    private void OnViewModelPropertyChanged ( 
+      IntensityMapViewer.ISourceViewModel? oldViewModel,
+      IntensityMapViewer.ISourceViewModel? newViewModel
+    ) {
+      newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
+      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
+    }
+
+    private void PerformRepaint ( )
+    {
+      m_skiaCanvas.Invalidate() ;
+    }
+
     private void DrawHorizontalProfileGraph_IndividualLines (
       SkiaSharp.SKCanvas skiaCanvas,
       SkiaSharp.SKRect   canvasRect
     ) {
       skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
+
+      if (
+         ViewModel.MostRecentlyAcquiredIntensityMap == null
+      || ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue is false
+      ) {
+        return ;
+      }
+
       var red = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
@@ -82,9 +112,14 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
       float spaceAtTopAndBottom = 4.0f ;
-      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(0).Count ;
+      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
-      ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(120).ForEachItem(
+      var intensityValues = TryGetValue(
+        () => ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
+          ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+        )
+      ) ;
+      intensityValues.ForEachItem(
         (value,i) => {
           float lineHeight = (
             (
@@ -113,6 +148,19 @@ namespace NativeUwp_ViewerApp_01
         points.ToArray(),
         red
       ) ;
+    }
+
+    public static T TryGetValue<T> ( System.Func<T> func )
+    {
+      try
+      {
+        return func() ;
+      }
+      catch
+      {
+        return func() ;
+        throw ;
+      }
     }
 
   }

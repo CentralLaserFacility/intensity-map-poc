@@ -1,4 +1,8 @@
-﻿using IntensityMapViewer;
+﻿//
+// ProfileDisplaySettings_UserControl.cs
+//
+
+using IntensityMapViewer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +17,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -73,43 +75,13 @@ namespace NativeUwp_ViewerApp_01
       // Hmm, need to initialise these from the ViewModel ...
       // however the ViewModel is 'null' at this point
       XPositionViewModel = new() {
-        DisplayName = "X position (%)",
-        MinValue    = 0.0,
-        MaxValue    = 100.0
+        DisplayName = "X position",
+        MinValue    = 0.0
       } ;
       YPositionViewModel = new() {
-        DisplayName  = "Y position (%)",
-        MinValue     = 0.0,
-        MaxValue     = 100.0
+        DisplayName  = "Y position",
+        MinValue     = 0.0
       } ;
-      XPositionViewModel.ValueChanged = SetReferencePosition ;
-      YPositionViewModel.ValueChanged = SetReferencePosition ;
-      // Loaded += (s,e) => {
-      //   // We need to wait until the Loaded event has fired before accessing the ViewModel.
-      //   // Hmm, better to hook into a ViewModel changed event ...
-      //   ViewModel.ProfileGraphsReferencePositionChanged += ()=> {
-      //     if ( ViewModel.ProfileGraphsReferencePosition.HasValue )
-      //     {
-      //       XPositionViewModel.CurrentValue = (
-      //         ViewModel.ProfileGraphsReferencePosition.Value.X * 100.0 / ViewModel.HorizontalProfileIntensityValues.Count 
-      //       ) ;
-      //       YPositionViewModel.CurrentValue = (
-      //         ViewModel.ProfileGraphsReferencePosition.Value.Y * 100.0 / ViewModel.VerticalProfileIntensityValues.Count 
-      //       ) ;
-      //     }
-      //   } ;
-      // } ;
-      void SetReferencePosition ( )
-      {
-        ViewModel.ProfileGraphsReferencePosition = new System.Drawing.Point(
-          (int) (
-            XPositionViewModel.CurrentValue * ViewModel.HorizontalProfileIntensityValues.Count / 100.0
-          ),
-          (int) (
-            YPositionViewModel.CurrentValue * ViewModel.VerticalProfileIntensityValues.Count / 100.0
-          )
-        ) ;
-      }
     }
 
     private void OnViewModelPropertyChanged ( 
@@ -120,17 +92,30 @@ namespace NativeUwp_ViewerApp_01
       // by de-registering the event handler for a non-null 'oldViewModel' ...
       if ( newViewModel != null )
       {
+        XPositionViewModel.MaxValue = newViewModel.Parent.MostRecentlyAcquiredIntensityMap.Dimensions.Width - 1 ;
+        YPositionViewModel.MaxValue = newViewModel.Parent.MostRecentlyAcquiredIntensityMap.Dimensions.Height - 1 ;
+        XPositionViewModel.ValueChanged = SetReferencePosition ;
+        YPositionViewModel.ValueChanged = SetReferencePosition ;
+        XPositionViewModel.CurrentValue = XPositionViewModel.MaxValue / 2 ;
+        YPositionViewModel.CurrentValue = YPositionViewModel.MaxValue / 2 ;
         newViewModel.ProfileGraphsReferencePositionChanged += ()=> {
-          if ( newViewModel.ProfileGraphsReferencePosition.HasValue )
-          {
-            XPositionViewModel.CurrentValue = (
-              newViewModel.ProfileGraphsReferencePosition.Value.X * 100.0 / newViewModel.HorizontalProfileIntensityValues.Count 
-            ) ;
-            YPositionViewModel.CurrentValue = (
-              newViewModel.ProfileGraphsReferencePosition.Value.Y * 100.0 / newViewModel.VerticalProfileIntensityValues.Count 
-            ) ;
-          }
+          GetReferencePosition() ;
         } ;
+      }
+      void SetReferencePosition ( )
+      {
+        newViewModel.ProfileGraphsReferencePosition = new System.Drawing.Point(
+          (int) XPositionViewModel.CurrentValue,
+          (int) YPositionViewModel.CurrentValue 
+        ) ;
+      }
+      void GetReferencePosition ( )
+      {
+        if ( newViewModel.ProfileGraphsReferencePosition.HasValue )
+        {
+          XPositionViewModel.CurrentValue = newViewModel.ProfileGraphsReferencePosition.Value.X ;
+          YPositionViewModel.CurrentValue = newViewModel.ProfileGraphsReferencePosition.Value.Y ;
+        }
       }
     }
 

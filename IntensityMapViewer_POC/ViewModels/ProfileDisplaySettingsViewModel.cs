@@ -1,5 +1,5 @@
 ﻿//
-// IntensityMapProfileDisplaySettings.cs
+// ProfileDisplaySettingsViewModel.cs
 //
 
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace IntensityMapViewer
 
     public event System.Action? ProfileGraphsReferencePositionChanged ;
 
-    private System.Drawing.Point? m_profileGraphsReferencePosition ;
+    private System.Drawing.Point? m_profileGraphsReferencePosition = new System.Drawing.Point(10,10) ;
 
     public System.Drawing.Point? ProfileGraphsReferencePosition {
       get => m_profileGraphsReferencePosition ;
@@ -27,15 +27,33 @@ namespace IntensityMapViewer
           )
         ) {
           ProfileGraphsReferencePositionChanged?.Invoke() ;
+          OnPropertyChanged(nameof(VerticalProfileIntensityValues)) ;
+          OnPropertyChanged(nameof(HorizontalProfileIntensityValues)) ;
         }
       }
     }
 
     public System.Collections.Generic.IReadOnlyList<byte> VerticalProfileIntensityValues 
-    => GetDummyProfileIntensityValues() ;
+    // => GetDummyProfileIntensityValues() ;
+    => (
+      Parent.MostRecentlyAcquiredIntensityMap != null
+      && ProfileGraphsReferencePosition.HasValue 
+      ? Parent.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
+          ProfileGraphsReferencePosition.Value.X
+        )
+      : GetDummyProfileIntensityValues() 
+    ) ;
 
     public System.Collections.Generic.IReadOnlyList<byte> HorizontalProfileIntensityValues
-    => GetDummyProfileIntensityValues() ;
+    // => GetDummyProfileIntensityValues() ;
+    => (
+      Parent.MostRecentlyAcquiredIntensityMap != null
+      && ProfileGraphsReferencePosition.HasValue 
+      ? Parent.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
+          ProfileGraphsReferencePosition.Value.Y
+        )
+      : GetDummyProfileIntensityValues() 
+    ) ;
 
     private bool m_shouldShowProfileGraphs = true ;
 
