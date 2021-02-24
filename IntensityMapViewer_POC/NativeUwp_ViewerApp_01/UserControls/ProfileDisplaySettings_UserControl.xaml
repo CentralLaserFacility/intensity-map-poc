@@ -11,21 +11,32 @@
   x:DefaultBindMode="OneWay"
 >
 
-  <StackPanel Orientation="Vertical" Background="Goldenrod">
+  <!-- ??? How do we specify the Height to be enough to accommodate the content ?? -->
+
+  <StackPanel 
+    Orientation="Vertical" 
+    Background="Gainsboro"
+    Spacing="10"
+    Padding="10"
+  >
       
     <TextBox Text="Profile settings" HorizontalAlignment="Center"/>
 
     <local:NumericValueEditor_UserControl 
       ViewModel="{x:Bind XPositionViewModel}"
-      Width="260" 
-      HorizontalAlignment="Left"
-      Margin="0,10,10,10" 
+      HorizontalAlignment="Stretch"
     />
-       
-    <local:NumericValueEditor_UserControl Width="260" Margin="0,0,10,0" HorizontalAlignment="Left"/>
 
-    <CheckBox Content="Show profile graphs" />
+    <local:NumericValueEditor_UserControl 
+      ViewModel="{x:Bind YPositionViewModel}"
+      HorizontalAlignment="Stretch"
+    />
 
-    </StackPanel>
+    <CheckBox 
+      Content="Show profile graphs" 
+      IsChecked="{x:Bind ViewModel.ShouldShowProfileGraphs, Mode=TwoWay}"
+    />
+
+  </StackPanel>
 
 </UserControl>

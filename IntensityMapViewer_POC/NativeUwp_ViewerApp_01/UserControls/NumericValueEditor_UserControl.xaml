@@ -6,31 +6,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="70"
+    d:DesignHeight="120"
     d:DesignWidth="260"
     x:DefaultBindMode="OneWay"
 >
 
   <StackPanel Orientation="Vertical" Background="LightSeaGreen">
 
+    <!-- To set the background colour, have to use a Border ... -->
+    <!-- And without a Margin, the text is scrunched up aginst the edges -->
+
     <Border Background="Cornsilk">
-      <TextBlock Text="{x:Bind ViewModel.DisplayName}" />
+      <TextBlock Text="{x:Bind ViewModel.DisplayName}" Margin="6"/>
     </Border>
 
     <StackPanel Orientation="Horizontal" Spacing="10" Margin="10">
         
-      <Slider 
-        Width="100" 
-        HorizontalAlignment="Left"
-        Minimum="{x:Bind ViewModel.MinValue}"  
-        Maximum="{x:Bind ViewModel.MaxValue}" 
-        StepFrequency="{x:Bind ViewModel.StepDelta}"
-        Value="{x:Bind GetDoubleValue(ViewModel.CurrentValue), BindBack=ViewModel.SetCurrentValue, Mode=TwoWay}"
-      />
+      <!-- 
+      
+        Hmm, how to make the text box or the slider fill the remaining available width ???
 
-      <!-- Hmm, how to make the text box fill the remaining available width ??? -->
-      <!-- Nothing reasonable seems to work ; got to use a Grid ??? -->
-      <!-- HorizontalAlignment="Stretch" -->
+        Nothing reasonable seems to work ; got to use a Grid ???
+        HorizontalAlignment="Stretch" ?? Width="Auto" ???
+        In the end, compromised by specifying the width explicitly
+        and configuring the Slider to stretch horizontally. 
+        But that didn't work either ... 
+      
+      -->
+
       <!-- 
         If we want two-way binding to a ViewModel property that has
         both a Getter and a Setter, and the type is an exact match,
@@ -48,14 +51,26 @@
           }" 
         />
       -->
+
       <TextBox 
-        Width="120" 
+        Width="80" 
         Background="{x:Bind GetErrorIndicationBrush(ViewModel.MostRecentSetAttemptFailed)}"
         Text="{
           x:Bind ViewModel.CurrentValueAsString, 
           Mode=TwoWay, 
           UpdateSourceTrigger=PropertyChanged
         }" 
+        ToolTipService.ToolTip="{x:Bind ViewModel.ToolTipInfo}"
+      />
+
+      <!-- Hmm, here we need an explicit Width otherwise the width is zero -->
+      <!-- even if we specify HorizontalAlignment="Stretch" or Width="Auto" ... -->
+      <Slider 
+        Width="120"
+        Minimum="{x:Bind ViewModel.MinValue}"  
+        Maximum="{x:Bind ViewModel.MaxValue}" 
+        StepFrequency="{x:Bind ViewModel.StepDelta}"
+        Value="{x:Bind GetDoubleValue(ViewModel.CurrentValue), Mode=TwoWay, BindBack=ViewModel.SetCurrentValue}"
       />
 
     </StackPanel>

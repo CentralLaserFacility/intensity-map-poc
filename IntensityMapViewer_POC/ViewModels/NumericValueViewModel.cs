@@ -24,6 +24,8 @@ namespace IntensityMapViewer
         value
       ) ;
     }
+
+    public string ToolTipInfo => $"Valid range :\nMinimum {MinValue}\nMaximum {MaxValue}" ;
     
     private bool m_mostRecentSetAttemptFailed = false ;
     public bool MostRecentSetAttemptFailed
@@ -43,7 +45,12 @@ namespace IntensityMapViewer
 
     public double StepDelta => ( MaxValue - MinValue ) / NSteps ;
 
-    public double CurrentValue { get ; private set ; } = 0.0 ;
+    private double m_currentValue = 0.0 ;
+    public double CurrentValue 
+    {
+      get => m_currentValue ;
+      set => SetCurrentValue(value) ;
+    }
 
     public void SetCurrentValue ( double value )
     {
@@ -51,7 +58,7 @@ namespace IntensityMapViewer
          value >= MinValue 
       && value <= MaxValue
       ) {
-        CurrentValue = value ;
+        m_currentValue = value ;
         OnPropertyChanged(nameof(CurrentValue)) ;
         OnPropertyChanged(nameof(CurrentValueAsString)) ;
         MostRecentSetAttemptFailed = false ;
@@ -90,7 +97,7 @@ namespace IntensityMapViewer
       }
     }
 
-    public event System.Action? ValueChanged ;
+    public System.Action? ValueChanged { get ; set ; }
 
   }
 

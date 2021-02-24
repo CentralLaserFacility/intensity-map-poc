@@ -26,10 +26,19 @@ namespace NativeUwp_ViewerApp_01
       "ViewModel", 
       typeof(IntensityMapViewer.IProfileDisplaySettingsViewModel), 
       typeof(ProfileDisplaySettings_UserControl), 
-      new PropertyMetadata(0)
+      new PropertyMetadata(
+        defaultValue : null,
+        propertyChangedCallback : (dp,propertyChangedEventArgs) => {
+          var userControlThatOwnsThisViewModelProperty = dp as ProfileDisplaySettings_UserControl ;
+          userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
+            propertyChangedEventArgs.OldValue as IntensityMapViewer.IProfileDisplaySettingsViewModel,
+            propertyChangedEventArgs.NewValue as IntensityMapViewer.IProfileDisplaySettingsViewModel
+          ) ;
+        }
+      )
     ) ;
 
-    public IntensityMapViewer.IProfileDisplaySettingsViewModel ViewModel
+    public IntensityMapViewer.IProfileDisplaySettingsViewModel? ViewModel
     {
       get => GetValue(ViewModelProperty) as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
       set => SetValue(ViewModelProperty,value) ;
@@ -38,17 +47,81 @@ namespace NativeUwp_ViewerApp_01
     public ProfileDisplaySettings_UserControl()
     {
       this.InitializeComponent() ;
+      // Hmm, need to initialise these from the ViewModel ...
+      // however the ViewModel is 'null' at this point
       XPositionViewModel = new() {
         DisplayName = "X position (%)",
         MinValue    = 0.0,
         MaxValue    = 100.0
       } ;
-      XPositionViewModel = new() {
-        DisplayName = "Y position (%)",
-        MinValue    = 0.0,
-        MaxValue    = 100.0
+      YPositionViewModel = new() {
+        DisplayName  = "Y position (%)",
+        MinValue     = 0.0,
+        MaxValue     = 100.0
       } ;
+      XPositionViewModel.ValueChanged = SetReferencePosition ;
+      YPositionViewModel.ValueChanged = SetReferencePosition ;
+      // Loaded += (s,e) => {
+      //   // We need to wait until the Loaded event has fired before accessing the ViewModel.
+      //   // Hmm, better to hook into a ViewModel changed event ...
+      //   ViewModel.ProfileGraphsReferencePositionChanged += ()=> {
+      //     if ( ViewModel.ProfileGraphsReferencePosition.HasValue )
+      //     {
+      //       XPositionViewModel.CurrentValue = (
+      //         ViewModel.ProfileGraphsReferencePosition.Value.X * 100.0 / ViewModel.HorizontalProfileIntensityValues.Count 
+      //       ) ;
+      //       YPositionViewModel.CurrentValue = (
+      //         ViewModel.ProfileGraphsReferencePosition.Value.Y * 100.0 / ViewModel.VerticalProfileIntensityValues.Count 
+      //       ) ;
+      //     }
+      //   } ;
+      // } ;
+      void SetReferencePosition ( )
+      {
+        ViewModel.ProfileGraphsReferencePosition = new System.Drawing.Point(
+          (int) (
+            XPositionViewModel.CurrentValue * ViewModel.HorizontalProfileIntensityValues.Count / 100.0
+          ),
+          (int) (
+            YPositionViewModel.CurrentValue * ViewModel.VerticalProfileIntensityValues.Count / 100.0
+          )
+        ) ;
+      }
     }
+
+    private void OnViewModelPropertyChanged ( 
+      IntensityMapViewer.IProfileDisplaySettingsViewModel? oldViewModel,
+      IntensityMapViewer.IProfileDisplaySettingsViewModel? newViewModel
+    ) {
+      // TODO : we should properly handle a change to a different view model,
+      // by de-registering the event handler for a non-null 'oldViewModel' ...
+      if ( newViewModel != null )
+      {
+        newViewModel.ProfileGraphsReferencePositionChanged += ()=> {
+          if ( newViewModel.ProfileGraphsReferencePosition.HasValue )
+          {
+            XPositionViewModel.CurrentValue = (
+              newViewModel.ProfileGraphsReferencePosition.Value.X * 100.0 / newViewModel.HorizontalProfileIntensityValues.Count 
+            ) ;
+            YPositionViewModel.CurrentValue = (
+              newViewModel.ProfileGraphsReferencePosition.Value.Y * 100.0 / newViewModel.VerticalProfileIntensityValues.Count 
+            ) ;
+          }
+        } ;
+      }
+    }
+
+    // private void OnProfileGraphsReferencePositionChanged ( )
+    // {
+    // 
+    // }
+
+    // Hmm, these really should be Dependency Properties
+    // since we're binding to them using x:Bind ???
+    // Or at least, we should be implementing INotifyProperyChanged
+    // if we replace these instances.
+    // For the time being, we're declaring these as 'fields'
+    // and x:Bind seems to work ...
 
     private NumericValueViewModel XPositionViewModel ;
 
