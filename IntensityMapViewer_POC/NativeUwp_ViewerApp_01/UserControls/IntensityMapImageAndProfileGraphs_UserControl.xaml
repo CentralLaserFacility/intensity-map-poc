@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NativeUwp_ViewerApp_01"
+    xmlns:uwpUtils="using:UwpUtilities"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -39,12 +40,21 @@
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
         />
 
-        <Rectangle 
+        <!-- 
+          <Rectangle 
+            Grid.Row="1" Grid.Column="0" 
+            Fill="LightGray" 
+            Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+          />
+        -->
+
+        <Image 
+          Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,ViewModel.ImagePresentationSettings.ColourMapOption), Mode=OneWay}"
           Grid.Row="1" Grid.Column="0" 
-          Fill="LightGray" 
+          Stretch="UniformToFill"
           Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
-
+    
         <local:HorizontalProfileGraph_UserControl 
           x:Name="m_horizontalProfileGraph" 
           Grid.Row="1" Grid.Column="1" 

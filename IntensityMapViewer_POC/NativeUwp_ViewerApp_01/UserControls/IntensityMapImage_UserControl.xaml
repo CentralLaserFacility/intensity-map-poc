@@ -15,12 +15,18 @@
 
     <Grid Background="LightCyan">
 
+        <!-- 
         <StackPanel Orientation="Vertical">
+        -->
+
+            <!-- 
             <Button Content="IntensityMap Image" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox 
               x:Name="m_textBox"
               Text="{x:Bind ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.ToString(), Mode=OneWay}" PlaceholderText="(dim)"
             />
+            -->
+            <!-- 
             <Image 
               Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.MostRecentlyAcquiredIntensityMap,ViewModel.Parent.ImagePresentationSettings.ColourMapOption), Mode=OneWay}"
               Width="320"
@@ -29,17 +35,18 @@
               Stretch="UniformToFill"
               Visibility="Visible"
             />
+            -->
             <skia:SKXamlCanvas 
               x:Name="m_skiaCanvas"
               Background="LightYellow"
-              Width="320"
-              Height="240" 
               Margin="10" 
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
             />
 
-        </StackPanel>
+        <!-- 
+          </StackPanel>
+        -->
 
     </Grid>
 </UserControl>

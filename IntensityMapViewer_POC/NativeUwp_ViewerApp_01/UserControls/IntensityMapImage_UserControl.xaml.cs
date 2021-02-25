@@ -21,13 +21,20 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
 
-    // private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
-
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityMapViewer.ISourceViewModel), 
       typeof(IntensityMapImage_UserControl), 
-      new PropertyMetadata(0)
+      new PropertyMetadata(
+        defaultValue : null,
+        propertyChangedCallback : (dp,propertyChangedEventArgs) => {
+          var userControlThatOwnsThisViewModelProperty = dp as IntensityMapImage_UserControl ;
+          userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
+            propertyChangedEventArgs.OldValue as IntensityMapViewer.ISourceViewModel,
+            propertyChangedEventArgs.NewValue as IntensityMapViewer.ISourceViewModel
+          ) ;
+        }
+      )
     ) ;
 
     public IntensityMapViewer.ISourceViewModel ViewModel
@@ -39,23 +46,26 @@ namespace NativeUwp_ViewerApp_01
     public IntensityMapImage_UserControl()
     {
       this.InitializeComponent();
-      //DataContextChanged += (s,e) => {
-      //  System.Diagnostics.Debug.WriteLine(
-      //    $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-      //  ) ;
-      //  // Hmm, setting this in code works fine, but the x:Bind that's supposed to
-      //  // populate the text-box value doesn't get activated when the DataContext has changed ...
-      //  this.Bindings.Update() ; // Yikes - gotta call this explicitly ? WTF !!!
-      //  // if ( ViewModel != null )
-      //  // {
-      //  //   m_textBox.Text = $"Just testing : {ViewModel.Dimensions.ToString()}" ;
-      //  // }
-      //} ;
-
       // This event is getting raised even when we're shutting down,
       // and at that point the ViewModel can have been set to null ...
       // Maybe we should deregister the event handler in 'OnUnloaded' ??
       m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+    }
+
+    private void OnViewModelPropertyChanged ( 
+      IntensityMapViewer.ISourceViewModel? oldViewModel,
+      IntensityMapViewer.ISourceViewModel? newViewModel
+    ) {
+      newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
+      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
+      ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
+        PerformRepaint() ;
+      } ;
+    }
+
+    private void PerformRepaint ( )
+    {
+      m_skiaCanvas.Invalidate() ;
     }
 
     private void DrawSkiaContent ( 
@@ -96,11 +106,14 @@ namespace NativeUwp_ViewerApp_01
           intensityMap.Dimensions.Width,
           intensityMap.Dimensions.Height
         ) ;
+        var colourMapOption = ViewModel.Parent.ImagePresentationSettings.ColourMapOption ;
+        var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
         bitmap.Pixels = intensityMap.IntensityValues.Select(
           intensity => new SkiaSharp.SKColor(
-            red   : intensity,
-            green : intensity,
-            blue  : intensity
+            colourMapper.MapByteValueToEncodedARGB(intensity)
+            // red   : intensity,
+            // green : intensity,
+            // blue  : intensity
           )
         ).ToArray() ;
         // SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
@@ -112,8 +125,8 @@ namespace NativeUwp_ViewerApp_01
         SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
           left   : 0.0f,
           top    : 0.0f,
-          right  : intensityMap.Dimensions.Width,
-          bottom : intensityMap.Dimensions.Height
+          right  : deviceClipBounds.Width, // intensityMap.Dimensions.Width,
+          bottom : deviceClipBounds.Height // intensityMap.Dimensions.Height
         ) ;
         skiaCanvas.DrawBitmap(
           bitmap,
