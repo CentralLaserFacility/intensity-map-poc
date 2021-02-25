@@ -53,13 +53,6 @@ namespace NativeUwp_ViewerApp_01
     public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
-      // DataContextChanged += (s,e) => {
-      //   System.Diagnostics.Debug.WriteLine(
-      //     $"{this.GetType()} DataContext => {DataContext?.GetType().ToString()??"null"}"
-      //   ) ;
-      //   // Yikes - gotta call this explicitly ? WTF !!!
-      //   // this.Bindings.Update() ; 
-      // } ;
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
         // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
         //   paintSurfaceEventArgs
@@ -114,10 +107,8 @@ namespace NativeUwp_ViewerApp_01
       float spaceAtTopAndBottom = 4.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
-      var intensityValues = TryGetValue(
-        () => ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
-          ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
-        )
+      var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
+        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
       ) ;
       intensityValues.ForEachItem(
         (value,i) => {
