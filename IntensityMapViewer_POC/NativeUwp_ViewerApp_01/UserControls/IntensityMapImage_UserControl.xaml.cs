@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UwpSkiaUtilities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,8 +14,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -43,13 +43,35 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
+    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
+
+    public static bool SupportPanAndZoom = true ;
+
     public IntensityMapImage_UserControl()
     {
-      this.InitializeComponent();
+      this.InitializeComponent() ;
       // This event is getting raised even when we're shutting down,
       // and at that point the ViewModel can have been set to null ...
       // Maybe we should deregister the event handler in 'OnUnloaded' ??
-      m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+      if ( SupportPanAndZoom )
+      {
+        SkiaSharp.SKMatrix matrix = new() ;
+        m_panAndZoomAndRotationGesturesHandler = new(
+          m_skiaCanvas,
+          new SkiaSceneRenderer(DrawIntensityMap){
+            ShowTransformMatrixInfo = true,
+            RenderHook = (canvas) => {
+              matrix = canvas.TotalMatrix ;
+            }
+          }
+        ) ;
+        // Hmm, we somehow need to set up the equivalent RenderHook
+        // on the Profile Graphs, but using canvas.SetMatrix(matrix) ;
+      }
+      else
+      {
+        m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+      }
     }
 
     private void OnViewModelPropertyChanged ( 
@@ -72,32 +94,40 @@ namespace NativeUwp_ViewerApp_01
       object                                      sender, 
       SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
     ) {
+      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
+      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
+      ) ;
+      // All we need is the Canvas - we can query the ImageInfo to get the dimensions#
+      // but that gives us the same info we'll get from the 'device clip bounds'
       SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
       Common.DebugHelpers.WriteDebugLines(
         $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
       ) ;
-      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
-      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
-      ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
-      ) ;
-      paintSurfaceEventArgs.Surface.Canvas.DrawLine(
-        new SkiaSharp.SKPoint(
-          deviceClipBounds.Location.X,
-          deviceClipBounds.Location.Y
-        ),
-        new SkiaSharp.SKPoint(
-          deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
-          deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
-        ),
-        new SkiaSharp.SKPaint(){
-          Color = SkiaSharp.SKColors.Red
-        }
-      ) ;
+      // SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
+      // Common.DebugHelpers.WriteDebugLines(
+      //   $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
+      // ) ;
+    }
+
+    private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
+    { 
+      var deviceClipBounds = skiaCanvas.DeviceClipBounds ;
+      // Draw a diagonal line (debugging)
+      // skiaCanvas.DrawLine(
+      //   new SkiaSharp.SKPoint(
+      //     deviceClipBounds.Location.X,
+      //     deviceClipBounds.Location.Y
+      //   ),
+      //   new SkiaSharp.SKPoint(
+      //     deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
+      //     deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
+      //   ),
+      //   new SkiaSharp.SKPaint(){
+      //     Color = SkiaSharp.SKColors.Red
+      //   }
+      // ) ;
       if ( ViewModel != null )
       { 
         // Hmm, should try to eliminate this test ...
@@ -116,25 +146,121 @@ namespace NativeUwp_ViewerApp_01
             // blue  : intensity
           )
         ).ToArray() ;
-        // SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
-        //   left   : 100.0f,
-        //   top    : 10.0f,
-        //   right  : 100.0f + intensityMap.Dimensions.Width/2,
-        //   bottom : 10.0f  + intensityMap.Dimensions.Height/2 
-        // ) ;
         SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
           left   : 0.0f,
           top    : 0.0f,
-          right  : deviceClipBounds.Width, // intensityMap.Dimensions.Width,
-          bottom : deviceClipBounds.Height // intensityMap.Dimensions.Height
+          right  : deviceClipBounds.Width,
+          bottom : deviceClipBounds.Height
         ) ;
         skiaCanvas.DrawBitmap(
           bitmap,
           rectInWhichToDrawBitmap
         ) ;
+        if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
+        {
+          var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
+          int xAlongFromLeft = Scale(
+            referencePosition.X,
+            intensityMap.Dimensions.Width,
+            deviceClipBounds.Width
+          ) ;
+          int yDownFromTop = Scale(
+            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y,
+            intensityMap.Dimensions.Height,
+            deviceClipBounds.Height
+          ) ;
+          var scaledReferencePoint = new SkiaSharp.SKPoint(
+            xAlongFromLeft,
+            yDownFromTop
+          ) ;
+          var horizontalLine = new HorizontalLine(
+            scaledReferencePoint,
+            0.0f,
+            deviceClipBounds.Width
+          ) ;
+          var verticalLine = new VerticalLine(
+            scaledReferencePoint,
+            0.0f,
+            deviceClipBounds.Height
+          ) ;
+          var lineStyle = new SkiaSharp.SKPaint(){
+            Color       = SkiaSharp.SKColors.Red,
+            StrokeWidth = 3
+          } ;
+          horizontalLine.Draw(skiaCanvas,lineStyle) ;
+          verticalLine.Draw(skiaCanvas,lineStyle) ;
+        }
+        static int Scale ( double value, double nImagePixels, double nDisplayPixels )
+        => (int) (
+          value * nDisplayPixels / nImagePixels
+        ) ;
       }
     }
 
+  }
+
+  // We need a 'Line' abstraction that (A) can be drawn,
+  // and (B) can participate in Hit Testing ...
+
+  public abstract record Line ( SkiaSharp.SKPoint From, SkiaSharp.SKPoint To )
+  {
+    public void Draw ( SkiaSharp.SKCanvas canvas, SkiaSharp.SKPaint paint )
+    {
+      canvas.DrawLine(
+        From,
+        To,
+        paint
+      ) ;
+    }
+    public abstract bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f ) ;
+  }
+
+  public record HorizontalLine : Line
+  {
+    public HorizontalLine (
+      SkiaSharp.SKPoint pointOnLine,
+      float extremeLeftX,
+      float extremeRightX
+    ) :
+    base(
+      From : new SkiaSharp.SKPoint(
+        extremeLeftX,
+        pointOnLine.Y
+      ),
+      To : new SkiaSharp.SKPoint(
+        extremeRightX,
+        pointOnLine.Y
+      )
+    ) {
+    }
+    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
+    => System.MathF.Abs(
+      From.Y - mousePosition.Y
+    ) > maxDelta ;
+  }
+
+  public record VerticalLine : Line
+  {
+    public VerticalLine (
+      SkiaSharp.SKPoint pointOnLine,
+      float extremeTopY,
+      float extremeBottomY
+    ) :
+    base(
+      From : new SkiaSharp.SKPoint(
+        pointOnLine.X,
+        extremeTopY
+      ),
+      To : new SkiaSharp.SKPoint(
+        pointOnLine.X,
+        extremeBottomY
+      )
+    ) {
+    }
+    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
+    => System.MathF.Abs(
+      From.X - mousePosition.X
+    ) > maxDelta ;
   }
 
 }

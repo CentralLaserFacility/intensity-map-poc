@@ -41,41 +41,43 @@ namespace UwpSkiaUtilities
       m_canvas = canvas ;
       m_canvas.PaintSurface += OnPaintSurface ;
       m_canvas.PointerMoved += OnPointerMoved ;
-      // m_canvas.
       m_canvas.PointerWheelChanged += OnPointerWheelChanged ;
       m_scene = scene ;
       m_touchHandler = new TouchTracking.UWP.TouchHandler() ;
       m_touchHandler.RegisterEvents(m_canvas) ;
       m_touchHandler.TouchAction += OnTouch ;
-      ////////////////////
       OnWindowSizeChanged() ;
-      /////////////////////
       m_touchGestureRecognizer = new SkiaScene.TouchManipulation.TouchGestureRecognizer() ;
-      m_touchGestureRecognizer.OnPan += (s,e) => {
-        // m_renderer.DebugInfoToDraw_01 = e.TouchActionType.ToString() ;
-        // m_renderer.DebugInfoToDraw_02 = "" ;
-        if ( 
-           e.TouchActionType == TouchTracking.TouchActionType.Moved 
-        || e.TouchActionType == TouchTracking.TouchActionType.Released 
-        ) {
-          // var matrix = ((SkiaSceneEx) m_scene).CurrentTransformMatrix ;
-          // m_renderer.DebugInfoToDraw_02 = $"Matrix Trans = ({matrix.TransX},{matrix.TransY})" ;
-        }
-      } ;
+      // m_touchGestureRecognizer.OnPan += (s,e) => {
+      //   if ( 
+      //      e.TouchActionType == TouchTracking.TouchActionType.Moved 
+      //   || e.TouchActionType == TouchTracking.TouchActionType.Released 
+      //   ) {
+      //   }
+      // } ;
       m_sceneGestureResponder = new SkiaScene.TouchManipulation.SceneGestureRenderingResponder(
         () => m_canvas.Invalidate(),
         m_scene,
         m_touchGestureRecognizer
       ) {
         TouchManipulationMode = SkiaScene.TouchManipulation.TouchManipulationMode.IsotropicScale,
-        MaxFramesPerSecond = 30,
+        MaxFramesPerSecond    = 30
       } ;
       m_sceneGestureResponder.StartResponding() ;    
     }
 
-    private void OnPointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void OnPointerMoved ( object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e )
     {
-      //
+      Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(m_canvas) ;
+      var positionInSceneCoordinates = m_scene.GetCanvasPointFromViewPoint(
+        new SkiaSharp.SKPoint(
+          (float) pointerPoint.Position.X,
+          (float) pointerPoint.Position.Y
+        )
+      ) ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"PointerMoved ; physical [{pointerPoint.Position.X},{pointerPoint.Position.Y}] ; scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}]"
+      ) ;
     }
 
     public void OnWindowSizeChanged ( )
@@ -101,6 +103,9 @@ namespace UwpSkiaUtilities
         (float) ( m_canvas.CanvasSize.Width  * viewPoint.X / m_canvas.ActualWidth ),
         (float) ( m_canvas.CanvasSize.Height * viewPoint.Y / m_canvas.ActualHeight )
       ) ;
+      // Common.DebugHelpers.WriteDebugLines(
+      //   $"TouchAction at physical position [{point.X},{point.Y}] : {args.Type} ; InContact={args.IsInContact}"
+      // ) ;
       m_touchGestureRecognizer.ProcessTouchEvent(
         id   : args.Id,
         type : args.Type, // Action Type
@@ -144,9 +149,6 @@ namespace UwpSkiaUtilities
           * System.Math.PI / 180.0 
           )
         ) ;
-        // var matrix2 = ((SkiaSceneEx) m_scene).CurrentTransformMatrix ;
-        // m_renderer.DebugInfoToDraw_01 = $"Matrix Scale = ({matrix2.ScaleX},{matrix2.ScaleY})" ;
-        // m_renderer.DebugInfoToDraw_02 = $"Matrix Trans = ({matrix2.TransX},{matrix2.TransY})" ;
         m_canvas.Invalidate() ;
         return ;
       }
@@ -179,11 +181,7 @@ namespace UwpSkiaUtilities
         zoomReferencePoint,
         zoomFactorToApply
       ) ;
-      // var matrix = ((SkiaSceneEx) m_scene).CurrentTransformMatrix ;
       m_aggregatedZoomFactor *= zoomFactorToApply ;
-      // m_renderer.DebugInfoToDraw_01 = $"Matrix Scale = ({matrix.ScaleX},{matrix.ScaleY})" ;
-      // m_renderer.DebugInfoToDraw_02 = $"Matrix Trans = ({matrix.TransX},{matrix.TransY})" ;
-      // m_renderer.DebugInfoToDraw_03 = $"Aggregated zoom factor is {m_aggregatedZoomFactor:F4}" ;
       m_canvas.Invalidate() ;
     }
 

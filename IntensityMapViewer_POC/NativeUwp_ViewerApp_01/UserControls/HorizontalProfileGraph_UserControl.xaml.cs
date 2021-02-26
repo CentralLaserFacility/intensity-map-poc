@@ -112,25 +112,25 @@ namespace NativeUwp_ViewerApp_01
       ) ;
       intensityValues.ForEachItem(
         (value,i) => {
-          float lineHeight = (
+          float lineLength = (
             (
               canvasRect.Height 
             - spaceAtTopAndBottom * 2.0f
             )
           * value / 255.0f 
           ) ;
-          var bottomPoint = UwpSkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
-            bottomLeftPoint.MovedBy(0,-spaceAtTopAndBottom),
-            bottomRightPoint.MovedBy(0,-spaceAtTopAndBottom),
+          var bottomAnchorPoint = UwpSkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
+            bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
+            bottomRightPoint.MovedBy(-spaceAtTopAndBottom,-spaceAtTopAndBottom),
             i / (float) nPoints
           ) ;
           skiaCanvas.DrawVerticalLineUp(
-            bottomPoint,
-            lineHeight,
+            bottomAnchorPoint,
+            lineLength,
             red
           ) ;
           points.Add(
-            bottomPoint.MovedBy(0,-lineHeight)
+            bottomAnchorPoint.MovedBy(0,-lineLength)
           ) ;
         }
       ) ;

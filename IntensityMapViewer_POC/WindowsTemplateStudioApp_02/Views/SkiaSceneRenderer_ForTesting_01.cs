@@ -128,28 +128,6 @@ namespace WindowsTemplateStudioApp_02.Views
         rectInWhichToDrawBitmap.Height + lineHeight
       ) ;
 
-      DrawDebugTextLines(
-        $"Scaling {skiaCanvas.TotalMatrix.ScaleX:F2} {skiaCanvas.TotalMatrix.ScaleY:F2}",
-        $"Translation {skiaCanvas.TotalMatrix.TransX:F2} {skiaCanvas.TotalMatrix.TransY:F2}",
-        $"",
-        $"Transform matrix : ",
-        $"{skiaCanvas.TotalMatrix.Values[0]:F2} {skiaCanvas.TotalMatrix.Values[1]:F2} {skiaCanvas.TotalMatrix.Values[2]:F2} ",
-        $"{skiaCanvas.TotalMatrix.Values[3]:F2} {skiaCanvas.TotalMatrix.Values[4]:F2} {skiaCanvas.TotalMatrix.Values[5]:F2} ",
-        $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} "
-      ) ;
-
-      void DrawDebugTextLines ( params string[] textLines )
-      {
-        foreach ( var textLine in textLines )
-        {
-          skiaCanvas.DrawText(
-            textLine,
-            debugTextOrigin,
-            redPaint
-          ) ;
-          debugTextOrigin.Offset(0.0f,lineHeight) ;
-        }
-      }
 
     }
 
