@@ -13,13 +13,31 @@
   public class SkiaSceneRenderer : SkiaScene.ISKSceneRenderer
   {
 
-    public static void LoadTransformParameters ( 
+    public static void LoadPanAndZoomParameters ( 
       IntensityMapViewer.PanAndZoomParameters transformParameters,
-      ref SkiaSharp.SKMatrix                  source 
+      SkiaSharp.SKMatrix                      source 
     ) {
       transformParameters.ScaleXY    = source.ScaleX ;
       transformParameters.TranslateX = source.TransX ;
       transformParameters.TranslateY = source.TransY ;
+    }
+    
+    public static SkiaSharp.SKMatrix GetTransformParameters_HorizontalOnly ( 
+      IntensityMapViewer.PanAndZoomParameters transformParameters
+    ) {
+      var matrix = SkiaSharp.SKMatrix.Identity ;
+      matrix.ScaleX = transformParameters.ScaleXY ;
+      matrix.TransX = transformParameters.TranslateX ;
+      return matrix ;
+    }
+    
+    public static SkiaSharp.SKMatrix GetTransformParameters_VerticalOnly ( 
+      IntensityMapViewer.PanAndZoomParameters transformParameters
+    ) {
+      var matrix = SkiaSharp.SKMatrix.Identity ;
+      matrix.ScaleY = transformParameters.ScaleXY ;
+      matrix.TransY = transformParameters.TranslateY ;
+      return matrix ;
     }
     
     private System.Action<SkiaSharp.SKCanvas> m_draw ;

@@ -50,31 +50,55 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
+    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
+
     public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
-      m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
-        // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
-        //   paintSurfaceEventArgs
-        // ) ;
-        DrawHorizontalProfileGraph_IndividualLines(
-          paintSurfaceEventArgs.Surface.Canvas,
-          SkiaSharp.SKRect.Create(
-            new SkiaSharp.SKSize(
-              paintSurfaceEventArgs.Info.Width,
-              paintSurfaceEventArgs.Info.Height
-            )
-          ) 
-        ) ;
-      } ;
     }
 
     private void OnViewModelPropertyChanged ( 
       IntensityMapViewer.ISourceViewModel? oldViewModel,
       IntensityMapViewer.ISourceViewModel? newViewModel
     ) {
+      // if ( IntensityMapImage_UserControl.SupportPanAndZoom )
+      // {
+      //   m_panAndZoomAndRotationGesturesHandler = new(
+      //     m_skiaCanvas,
+      //     new SkiaSceneRenderer(DrawHorizontalProfileGraph_IndividualLines){
+      //       // ShowTransformMatrixInfo = true,
+      //       RenderHook = (canvas) => {
+      //         // var effectiveMatrix = newViewModel.Parent.PanAndZoomParameters
+      //         canvas.SetMatrix(
+      //           SkiaSceneRenderer.GetTransformParameters_HorizontalOnly(
+      //             newViewModel.Parent.PanAndZoomParameters
+      //           )
+      //         ) ;
+      //         // matrix = canvas.TotalMatrix ;
+      //       }
+      //     }
+      //   ) ;
+      // }
+      // else
+      {
+        m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
+          // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
+          //   paintSurfaceEventArgs
+          // ) ;
+          DrawHorizontalProfileGraph_IndividualLines(
+            paintSurfaceEventArgs.Surface.Canvas// ,
+            // SkiaSharp.SKRect.Create(//
+            //   new SkiaSharp.SKSize(
+            //     paintSurfaceEventArgs.Info.Width,
+            //     paintSurfaceEventArgs.Info.Height
+            //   )
+            // ) 
+          ) ;
+        } ;
+      }
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
+      newViewModel.Parent.IntensityMapVisualisationHasChanged += () => PerformRepaint() ;
     }
 
     private void PerformRepaint ( )
@@ -83,9 +107,22 @@ namespace NativeUwp_ViewerApp_01
     }
 
     private void DrawHorizontalProfileGraph_IndividualLines (
-      SkiaSharp.SKCanvas skiaCanvas,
-      SkiaSharp.SKRect   canvasRect
+      SkiaSharp.SKCanvas skiaCanvas
     ) {
+
+      skiaCanvas.SetMatrix(
+        SkiaSceneRenderer.GetTransformParameters_HorizontalOnly(
+          ViewModel.Parent.PanAndZoomParameters
+        )
+      ) ;
+
+      SkiaSharp.SKRect canvasRect = SkiaSharp.SKRect.Create(
+        new SkiaSharp.SKSize(
+          skiaCanvas.DeviceClipBounds.Width,
+          skiaCanvas.DeviceClipBounds.Height
+        )
+      ) ;
+
       skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
 
       if (
@@ -104,7 +141,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
-      float spaceAtTopAndBottom = 4.0f ;
+      float spaceAtTopAndBottom = 10.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(

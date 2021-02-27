@@ -52,13 +52,13 @@ namespace NativeUwp_ViewerApp_01
         //   paintSurfaceEventArgs
         // ) ;
         DrawVerticalProfileGraph_IndividualLines(
-          paintSurfaceEventArgs.Surface.Canvas,
-          SkiaSharp.SKRect.Create(
-            new SkiaSharp.SKSize(
-              paintSurfaceEventArgs.Info.Width,
-              paintSurfaceEventArgs.Info.Height
-            )
-          ) 
+          paintSurfaceEventArgs.Surface.Canvas//,
+          // SkiaSharp.SKRect.Create(
+          //   new SkiaSharp.SKSize(
+          //     paintSurfaceEventArgs.Info.Width,
+          //     paintSurfaceEventArgs.Info.Height
+          //   )
+          // ) 
         ) ;
       } ;
     }
@@ -69,6 +69,7 @@ namespace NativeUwp_ViewerApp_01
     ) {
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
+      newViewModel.Parent.IntensityMapVisualisationHasChanged += () => PerformRepaint() ;
     }
 
     private void PerformRepaint ( )
@@ -77,9 +78,22 @@ namespace NativeUwp_ViewerApp_01
     }
 
     private void DrawVerticalProfileGraph_IndividualLines (
-      SkiaSharp.SKCanvas skiaCanvas,
-      SkiaSharp.SKRect   canvasRect
+      SkiaSharp.SKCanvas skiaCanvas
     ) {
+
+      skiaCanvas.SetMatrix(
+        SkiaSceneRenderer.GetTransformParameters_VerticalOnly(
+          ViewModel.Parent.PanAndZoomParameters
+        )
+      ) ;
+
+      SkiaSharp.SKRect canvasRect = SkiaSharp.SKRect.Create(
+        new SkiaSharp.SKSize(
+          skiaCanvas.DeviceClipBounds.Width,
+          skiaCanvas.DeviceClipBounds.Height
+        )
+      ) ;
+
       skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
 
       if (
@@ -98,7 +112,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
-      float spaceAtTopAndBottom = 4.0f ;
+      float spaceAtTopAndBottom = 10.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(

@@ -16,9 +16,15 @@ namespace IntensityMapViewer
 
     IImagePresentationSettingsViewModel ImagePresentationSettings { get ; }
 
+    IUserPreferencesViewModel UserPreferences { get ; }
+
+    // This acts as a central 'hub' for pan/zoom changes
+
     PanAndZoomParameters PanAndZoomParameters { get ; } 
 
-    IUserPreferencesViewModel UserPreferences { get ; }
+    event System.Action? IntensityMapVisualisationHasChanged ;
+
+    void RaiseIntensityMapVisualisationHasChangedEvent ( ) ;
 
     //
     // When this is 'true' the image panel updates itself to keep in sync with

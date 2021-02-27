@@ -23,6 +23,11 @@ namespace IntensityMapViewer
 
     public PanAndZoomParameters PanAndZoomParameters { get ; } = new PanAndZoomParameters() ;
 
+    public event System.Action? IntensityMapVisualisationHasChanged ;
+
+    public void RaiseIntensityMapVisualisationHasChangedEvent ( )
+    => IntensityMapVisualisationHasChanged?.Invoke() ;
+
     public IUserPreferencesViewModel UserPreferences { get ; }
 
     private bool m_enableRealTimeUpdates ;

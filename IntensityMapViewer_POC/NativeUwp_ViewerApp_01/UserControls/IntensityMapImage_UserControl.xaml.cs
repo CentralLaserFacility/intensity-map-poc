@@ -53,31 +53,33 @@ namespace NativeUwp_ViewerApp_01
       // This event is getting raised even when we're shutting down,
       // and at that point the ViewModel can have been set to null ...
       // Maybe we should deregister the event handler in 'OnUnloaded' ??
-      if ( SupportPanAndZoom )
-      {
-        SkiaSharp.SKMatrix matrix = new() ;
-        m_panAndZoomAndRotationGesturesHandler = new(
-          m_skiaCanvas,
-          new SkiaSceneRenderer(DrawIntensityMap){
-            ShowTransformMatrixInfo = true,
-            RenderHook = (canvas) => {
-              matrix = canvas.TotalMatrix ;
-            }
-          }
-        ) ;
-        // Hmm, we somehow need to set up the equivalent RenderHook
-        // on the Profile Graphs, but using canvas.SetMatrix(matrix) ;
-      }
-      else
-      {
-        m_skiaCanvas.PaintSurface += DrawSkiaContent ;
-      }
     }
 
     private void OnViewModelPropertyChanged ( 
       IntensityMapViewer.ISourceViewModel? oldViewModel,
       IntensityMapViewer.ISourceViewModel? newViewModel
     ) {
+      if ( SupportPanAndZoom )
+      {
+        // SkiaSharp.SKMatrix matrix = new() ;
+        m_panAndZoomAndRotationGesturesHandler = new(
+          m_skiaCanvas,
+          new SkiaSceneRenderer(DrawIntensityMap){
+            ShowTransformMatrixInfo = true,
+            RenderHook = (canvas) => {
+              SkiaSceneRenderer.LoadPanAndZoomParameters(
+                newViewModel.Parent.PanAndZoomParameters,
+                canvas.TotalMatrix
+              ) ;
+              // matrix = canvas.TotalMatrix ;
+            }
+          }
+        ) ;
+      }
+      else
+      {
+        m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+      }
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
       ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
@@ -99,7 +101,7 @@ namespace NativeUwp_ViewerApp_01
       Common.DebugHelpers.WriteDebugLines(
         $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
       ) ;
-      // All we need is the Canvas - we can query the ImageInfo to get the dimensions#
+      // All we need is the Canvas - we can query the ImageInfo to get the dimensions
       // but that gives us the same info we'll get from the 'device clip bounds'
       SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
       Common.DebugHelpers.WriteDebugLines(
@@ -113,6 +115,7 @@ namespace NativeUwp_ViewerApp_01
 
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
+      ViewModel.Parent.RaiseIntensityMapVisualisationHasChangedEvent() ;
       var deviceClipBounds = skiaCanvas.DeviceClipBounds ;
       // Draw a diagonal line (debugging)
       // skiaCanvas.DrawLine(
