@@ -3,9 +3,25 @@
 
   // Move this to SkiaUtils ???
 
+  // public class TransformParameters
+  // {
+  //   public float ScaleFactor = 1.0f ;
+  //   public float DeltaX      = 0.0f ;
+  //   public float DeltaY      = 0.0f ;
+  // }
+
   public class SkiaSceneRenderer : SkiaScene.ISKSceneRenderer
   {
 
+    public static void LoadTransformParameters ( 
+      IntensityMapViewer.PanAndZoomParameters transformParameters,
+      ref SkiaSharp.SKMatrix                  source 
+    ) {
+      transformParameters.ScaleXY    = source.ScaleX ;
+      transformParameters.TranslateX = source.TransX ;
+      transformParameters.TranslateY = source.TransY ;
+    }
+    
     private System.Action<SkiaSharp.SKCanvas> m_draw ;
 
     public System.Action<SkiaSharp.SKCanvas> RenderHook = null ;
@@ -38,6 +54,26 @@
           radius : 10.0f,
           redPaint
         ) ;
+        //
+        //    0    ScaleX
+        //    1
+        //    2    TransX
+        //    3
+        //    4    ScaleY
+        //    5    TransY
+        //    6     0.0
+        //    7     0.0
+        //    8     1.0
+        //
+        // |    [0]     [1]      [2]    |
+        // |  ScaleX           TransX   |
+        // |                            |
+        // |    [3]     [4]      [5]    |
+        // |          ScaleY   TransY   |
+        // |                            |
+        // |    [6]     [7]      [8]    |
+        // |     0       0        1     |
+        //
         DrawDebugTextLines(
           $"Scale {skiaCanvas.TotalMatrix.ScaleX:F2} {skiaCanvas.TotalMatrix.ScaleY:F2}",
           $"Translate {skiaCanvas.TotalMatrix.TransX:F2} {skiaCanvas.TotalMatrix.TransY:F2}",

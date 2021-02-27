@@ -16,6 +16,8 @@ namespace IntensityMapViewer
 
     IImagePresentationSettingsViewModel ImagePresentationSettings { get ; }
 
+    PanAndZoomParameters PanAndZoomParameters { get ; } 
+
     IUserPreferencesViewModel UserPreferences { get ; }
 
     //

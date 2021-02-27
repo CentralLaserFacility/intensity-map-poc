@@ -9,7 +9,7 @@ namespace IntensityMapViewer
 
   //
   // The 'View' for this will be a UserControl
-  // packaged as a component in it own DLL.
+  // packaged as a component in its own DLL.
   //
 
   public class DisplayPanelViewModel 
@@ -20,6 +20,8 @@ namespace IntensityMapViewer
     public ISourceViewModel CurrentSource { get ; }
 
     public IImagePresentationSettingsViewModel ImagePresentationSettings { get ; } 
+
+    public PanAndZoomParameters PanAndZoomParameters { get ; } = new PanAndZoomParameters() ;
 
     public IUserPreferencesViewModel UserPreferences { get ; }
 
