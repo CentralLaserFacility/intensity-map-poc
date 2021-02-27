@@ -73,16 +73,6 @@
           redPaint
         ) ;
         //
-        //    0    ScaleX
-        //    1
-        //    2    TransX
-        //    3
-        //    4    ScaleY
-        //    5    TransY
-        //    6     0.0
-        //    7     0.0
-        //    8     1.0
-        //
         // |    [0]     [1]      [2]    |
         // |  ScaleX           TransX   |
         // |                            |

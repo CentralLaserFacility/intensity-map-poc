@@ -152,6 +152,7 @@
     <Compile Include="UserControls\IntensityMapImage_UserControl.xaml.cs">
       <DependentUpon>IntensityMapImage_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Line.cs" />
     <Compile Include="UserControls\MySimpleEnum.cs" />
     <Compile Include="UserControls\NumericValueEditor_UserControl.xaml.cs">
       <DependentUpon>NumericValueEditor_UserControl.xaml</DependentUpon>

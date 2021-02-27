@@ -52,13 +52,7 @@ namespace NativeUwp_ViewerApp_01
         //   paintSurfaceEventArgs
         // ) ;
         DrawVerticalProfileGraph_IndividualLines(
-          paintSurfaceEventArgs.Surface.Canvas//,
-          // SkiaSharp.SKRect.Create(
-          //   new SkiaSharp.SKSize(
-          //     paintSurfaceEventArgs.Info.Width,
-          //     paintSurfaceEventArgs.Info.Height
-          //   )
-          // ) 
+          paintSurfaceEventArgs.Surface.Canvas
         ) ;
       } ;
     }
@@ -112,7 +106,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
-      float spaceAtTopAndBottom = 10.0f ;
+      float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(

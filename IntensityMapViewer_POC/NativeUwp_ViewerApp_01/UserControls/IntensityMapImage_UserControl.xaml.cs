@@ -47,12 +47,9 @@ namespace NativeUwp_ViewerApp_01
 
     public static bool SupportPanAndZoom = true ;
 
-    public IntensityMapImage_UserControl()
+    public IntensityMapImage_UserControl ( )
     {
-      this.InitializeComponent() ;
-      // This event is getting raised even when we're shutting down,
-      // and at that point the ViewModel can have been set to null ...
-      // Maybe we should deregister the event handler in 'OnUnloaded' ??
+      InitializeComponent() ;
     }
 
     private void OnViewModelPropertyChanged ( 
@@ -61,7 +58,6 @@ namespace NativeUwp_ViewerApp_01
     ) {
       if ( SupportPanAndZoom )
       {
-        // SkiaSharp.SKMatrix matrix = new() ;
         m_panAndZoomAndRotationGesturesHandler = new(
           m_skiaCanvas,
           new SkiaSceneRenderer(DrawIntensityMap){
@@ -71,7 +67,6 @@ namespace NativeUwp_ViewerApp_01
                 newViewModel.Parent.PanAndZoomParameters,
                 canvas.TotalMatrix
               ) ;
-              // matrix = canvas.TotalMatrix ;
             }
           }
         ) ;
@@ -111,6 +106,7 @@ namespace NativeUwp_ViewerApp_01
       // Common.DebugHelpers.WriteDebugLines(
       //   $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
       // ) ;
+      DrawIntensityMap(skiaCanvas) ;
     }
 
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
@@ -200,70 +196,6 @@ namespace NativeUwp_ViewerApp_01
       }
     }
 
-  }
-
-  // We need a 'Line' abstraction that (A) can be drawn,
-  // and (B) can participate in Hit Testing ...
-
-  public abstract record Line ( SkiaSharp.SKPoint From, SkiaSharp.SKPoint To )
-  {
-    public void Draw ( SkiaSharp.SKCanvas canvas, SkiaSharp.SKPaint paint )
-    {
-      canvas.DrawLine(
-        From,
-        To,
-        paint
-      ) ;
-    }
-    public abstract bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f ) ;
-  }
-
-  public record HorizontalLine : Line
-  {
-    public HorizontalLine (
-      SkiaSharp.SKPoint pointOnLine,
-      float extremeLeftX,
-      float extremeRightX
-    ) :
-    base(
-      From : new SkiaSharp.SKPoint(
-        extremeLeftX,
-        pointOnLine.Y
-      ),
-      To : new SkiaSharp.SKPoint(
-        extremeRightX,
-        pointOnLine.Y
-      )
-    ) {
-    }
-    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
-    => System.MathF.Abs(
-      From.Y - mousePosition.Y
-    ) > maxDelta ;
-  }
-
-  public record VerticalLine : Line
-  {
-    public VerticalLine (
-      SkiaSharp.SKPoint pointOnLine,
-      float extremeTopY,
-      float extremeBottomY
-    ) :
-    base(
-      From : new SkiaSharp.SKPoint(
-        pointOnLine.X,
-        extremeTopY
-      ),
-      To : new SkiaSharp.SKPoint(
-        pointOnLine.X,
-        extremeBottomY
-      )
-    ) {
-    }
-    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
-    => System.MathF.Abs(
-      From.X - mousePosition.X
-    ) > maxDelta ;
   }
 
 }

@@ -21,6 +21,19 @@ namespace Common
       a = tmp ;
     }
 
+    public static T TryGetValue<T> ( System.Func<T> func )
+    {
+      try
+      {
+        return func() ;
+      }
+      catch
+      {
+        return func() ;
+        throw ;
+      }
+    }
+
   }
 
 }

@@ -16,15 +16,11 @@ using Windows.UI.Xaml.Navigation;
 using Common.ExtensionMethods ;
 using UwpSkiaUtilities;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace NativeUwp_ViewerApp_01
 {
 
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
-
-    // private IntensityMapViewer.ISourceViewModel ViewModel => DataContext as IntensityMapViewer.ISourceViewModel ;
 
     private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
 
@@ -61,41 +57,14 @@ namespace NativeUwp_ViewerApp_01
       IntensityMapViewer.ISourceViewModel? oldViewModel,
       IntensityMapViewer.ISourceViewModel? newViewModel
     ) {
-      // if ( IntensityMapImage_UserControl.SupportPanAndZoom )
-      // {
-      //   m_panAndZoomAndRotationGesturesHandler = new(
-      //     m_skiaCanvas,
-      //     new SkiaSceneRenderer(DrawHorizontalProfileGraph_IndividualLines){
-      //       // ShowTransformMatrixInfo = true,
-      //       RenderHook = (canvas) => {
-      //         // var effectiveMatrix = newViewModel.Parent.PanAndZoomParameters
-      //         canvas.SetMatrix(
-      //           SkiaSceneRenderer.GetTransformParameters_HorizontalOnly(
-      //             newViewModel.Parent.PanAndZoomParameters
-      //           )
-      //         ) ;
-      //         // matrix = canvas.TotalMatrix ;
-      //       }
-      //     }
-      //   ) ;
-      // }
-      // else
-      {
-        m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
-          // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
-          //   paintSurfaceEventArgs
-          // ) ;
-          DrawHorizontalProfileGraph_IndividualLines(
-            paintSurfaceEventArgs.Surface.Canvas// ,
-            // SkiaSharp.SKRect.Create(//
-            //   new SkiaSharp.SKSize(
-            //     paintSurfaceEventArgs.Info.Width,
-            //     paintSurfaceEventArgs.Info.Height
-            //   )
-            // ) 
-          ) ;
-        } ;
-      }
+      m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
+        // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
+        //   paintSurfaceEventArgs
+        // ) ;
+        DrawHorizontalProfileGraph_IndividualLines(
+          paintSurfaceEventArgs.Surface.Canvas
+        ) ;
+      } ;
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
       newViewModel.Parent.IntensityMapVisualisationHasChanged += () => PerformRepaint() ;
@@ -141,7 +110,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
-      float spaceAtTopAndBottom = 10.0f ;
+      float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
@@ -176,19 +145,6 @@ namespace NativeUwp_ViewerApp_01
         points.ToArray(),
         red
       ) ;
-    }
-
-    public static T TryGetValue<T> ( System.Func<T> func )
-    {
-      try
-      {
-        return func() ;
-      }
-      catch
-      {
-        return func() ;
-        throw ;
-      }
     }
 
   }
