@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using Common.ExtensionMethods ;
-using UwpSkiaUtilities;
+using SkiaUtilities;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -121,7 +121,7 @@ namespace NativeUwp_ViewerApp_01
             )
           * value / 255.0f 
           ) ;
-          var leftAnchorPoint = UwpSkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
+          var leftAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
             topLeftPoint.MovedBy(spaceAtTopAndBottom,spaceAtTopAndBottom),
             bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
             i / (float) nPoints

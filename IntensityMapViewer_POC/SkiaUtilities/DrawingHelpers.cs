@@ -4,7 +4,7 @@
 
 using SkiaSharp;
 
-namespace UwpSkiaUtilities
+namespace SkiaUtilities
 {
 
   public static class DrawingHelpers
@@ -200,37 +200,42 @@ namespace UwpSkiaUtilities
       startPoint.Y + frac01 * ( endPoint.Y - startPoint.Y )
     ) ;
 
-    public static void DrawBoundingBox ( 
-      SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
-    ) {
-      SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
-      ) ;
-      SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
-      SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
-      ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
-      ) ;
-      DrawBoundingBox(
-        skiaCanvas,
-        SkiaSharp.SKRect.Create(
-          new SkiaSharp.SKSize(
-            imageInfo.Width,
-            imageInfo.Height
-          )
-        )
-      ) ;
-    }
+    // public static void DrawBoundingBox ( 
+    //   SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
+    // ) {
+    //   SkiaSharp.SKImageInfo imageInfo = paintSurfaceEventArgs.Info ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"SKImageInfo : size [{imageInfo.Width}x{imageInfo.Height}]"
+    //   ) ;
+    //   SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
+    //   SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;
+    //   SkiaSharp.SKRect localClipBounds = skiaCanvas.LocalClipBounds ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"Skia.Canvas.DeviceClipBounds : [{deviceClipBounds.Left},{deviceClipBounds.Top}] size [{deviceClipBounds.Width}x{deviceClipBounds.Height}]"
+    //   ) ;
+    //   Common.DebugHelpers.WriteDebugLines(
+    //     $"Skia.Canvas.LocalClipBounds : [{localClipBounds.Left},{localClipBounds.Top}] size [{localClipBounds.Width}x{localClipBounds.Height}]"
+    //   ) ;
+    //   DrawBoundingBox(
+    //     skiaCanvas//,
+    //     // SkiaSharp.SKRect.Create(
+    //     //   new SkiaSharp.SKSize(
+    //     //     imageInfo.Width,
+    //     //     imageInfo.Height
+    //     //   )
+    //     // )
+    //   ) ;
+    // }
 
     public static void DrawBoundingBox ( 
-      SkiaSharp.SKCanvas skiaCanvas,
-      SkiaSharp.SKRect   canvasRect
+      SkiaSharp.SKCanvas skiaCanvas
     ) {
+      SkiaSharp.SKRect canvasRect =  SkiaSharp.SKRect.Create(
+        new SkiaSharp.SKSize(
+          skiaCanvas.DeviceClipBounds.Width,
+          skiaCanvas.DeviceClipBounds.Height
+        )
+      ) ;
       // Draw a blue rectangle that covers the entire canvas.
       // One pixel bigger all round just to make sure ??
       skiaCanvas.DrawFilledRect(

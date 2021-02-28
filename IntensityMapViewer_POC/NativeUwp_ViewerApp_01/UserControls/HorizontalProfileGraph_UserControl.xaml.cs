@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using Common.ExtensionMethods ;
-using UwpSkiaUtilities;
+using SkiaUtilities;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -58,12 +58,12 @@ namespace NativeUwp_ViewerApp_01
       IntensityMapViewer.ISourceViewModel? newViewModel
     ) {
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
-        // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
-        //   paintSurfaceEventArgs
-        // ) ;
         DrawHorizontalProfileGraph_IndividualLines(
           paintSurfaceEventArgs.Surface.Canvas
         ) ;
+        // SkiaUtilities.DrawingHelpers.DrawBoundingBox(
+        //   paintSurfaceEventArgs.Surface.Canvas
+        // ) ;
       } ;
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
@@ -125,7 +125,7 @@ namespace NativeUwp_ViewerApp_01
             )
           * value / 255.0f 
           ) ;
-          var bottomAnchorPoint = UwpSkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
+          var bottomAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
             bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
             bottomRightPoint.MovedBy(-spaceAtTopAndBottom,-spaceAtTopAndBottom),
             i / (float) nPoints

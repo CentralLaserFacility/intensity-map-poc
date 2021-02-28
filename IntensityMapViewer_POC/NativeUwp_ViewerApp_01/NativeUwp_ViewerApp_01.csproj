@@ -269,6 +269,10 @@
       <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
       <Name>ModelClasses</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkiaUtilities\SkiaUtilities.csproj">
+      <Project>{8644c3a6-b151-42ce-97a2-bd5e70b096d1}</Project>
+      <Name>SkiaUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UwpSkiaUtilities\UwpSkiaUtilities.csproj">
       <Project>{d4a7e121-5c92-4d0c-80fb-f97cf9b9f92b}</Project>
       <Name>UwpSkiaUtilities</Name>
