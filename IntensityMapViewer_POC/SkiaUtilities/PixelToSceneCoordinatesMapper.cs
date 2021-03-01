@@ -2,6 +2,8 @@
 // PixelToSceneCoordinatesMapper.cs
 //
 
+using Common.ExtensionMethods ;
+
 namespace SkiaUtilities
 {
 
@@ -10,7 +12,11 @@ namespace SkiaUtilities
 
     public System.Drawing.Size PixelDimensions { get ; }
 
+    public System.Drawing.Rectangle PixelRectangle { get ; }
+
     public SkiaSharp.SKSize SceneDimensions { get ; }
+
+    public SkiaSharp.SKRect SceneRectangle { get ; }
 
     public PixelToSceneCoordinatesMapper (
       System.Drawing.Size pixelDimensions,
@@ -18,6 +24,14 @@ namespace SkiaUtilities
     ) {
       PixelDimensions = pixelDimensions ;
       SceneDimensions = sceneDimensions ;
+      PixelRectangle = new System.Drawing.Rectangle(
+        new System.Drawing.Point(0,0),
+        PixelDimensions
+      ) ;
+      SceneRectangle = SkiaSharp.SKRect.Create(
+        new SkiaSharp.SKPoint(0.0f,0.0f),
+        SceneDimensions
+      ) ;
     }
 
     public bool CanGetPointInSceneCoordinates ( 
@@ -37,7 +51,7 @@ namespace SkiaUtilities
               PixelDimensions.Height,
               SceneDimensions.Height
             )
-          )
+          ).ConstrainedToBeInside(SceneRectangle)
         : null
       )
     ) != null ;
@@ -60,7 +74,7 @@ namespace SkiaUtilities
               SceneDimensions.Height,
               PixelDimensions.Height
             )
-          )
+          ).ConstrainedToBeInside(PixelRectangle)
         : null
       )
     ) != null ;

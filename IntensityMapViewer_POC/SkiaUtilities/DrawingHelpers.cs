@@ -173,6 +173,26 @@ namespace SkiaUtilities
       // ) ;
     }
 
+    public static SkiaSharp.SKPoint ConstrainedToBeInside (
+      this SkiaSharp.SKPoint point,
+      SkiaSharp.SKRect       rectangle
+    ) => new SkiaSharp.SKPoint(
+      point.X.ClampedToRange(rectangle.Left,rectangle.Right),
+      point.Y.ClampedToRange(rectangle.Top,rectangle.Bottom)
+    ) ;
+
+    public static float ClampedToRange (
+      this float position,
+      float      min,
+      float      max
+    ) => (
+      position < min 
+      ? min
+      : position > max
+        ? max
+        : position
+    ) ;
+
     public static SkiaSharp.SKPoint MovedBy (
       this SkiaSharp.SKPoint point,
       float                  deltaX,

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
+using Common.ExtensionMethods;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -151,29 +152,72 @@ namespace NativeUwp_ViewerApp_01
         break ;
       case TouchTracking.TouchActionType.Moved:
         m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = positionInSceneCoordinates ;
+        int deltaRight = 0 ;
+        int deltaDown = 0 ;
         if ( m_horizontalLineDraggingInProgress )
         {
-          var deltaDown = (int) (
-            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.Y
-          - m_profileGraphsReferencePositionBeforeDragStarted.Value.Y
-          ) ;
+          if ( 
+            m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+              m_mostRecentlyNotifiedPointerPosition_sceneCoordinates,
+              out var mostRecentlyNotifiedPointerPosition_pixelCoordinates
+            )
+          ) {
+            deltaDown = (
+              mostRecentlyNotifiedPointerPosition_pixelCoordinates.Value.Y
+            - m_profileGraphsReferencePositionBeforeDragStarted.Value.Y
+            ) ;
+          }
+        }
+        if ( m_verticalLineDraggingInProgress )
+        {
+          if ( 
+            m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+              m_mostRecentlyNotifiedPointerPosition_sceneCoordinates,
+              out var mostRecentlyNotifiedPointerPosition_pixelCoordinates
+            )
+          ) {
+            deltaRight = (
+              mostRecentlyNotifiedPointerPosition_pixelCoordinates.Value.X
+            - m_profileGraphsReferencePositionBeforeDragStarted.Value.X
+            ) ;
+            // var updatedReferencePosition = new System.Drawing.Point(
+            //   (
+            //     m_profileGraphsReferencePositionBeforeDragStarted.Value.X + deltaRight
+            //   ).ClampedToInclusiveRange(
+            //     0,
+            //     ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width - 1
+            //   ),
+            //   m_profileGraphsReferencePositionBeforeDragStarted.Value.Y
+            // ) ;
+            // Common.DebugHelpers.WriteDebugLines(
+            //   $"Adjusting ProfileGraphsReferencePosition.Y by {deltaRight} => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
+            // ) ;
+            // ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
+          }
+        }
+        if ( 
+          deltaRight != 0 
+        || deltaDown != 0
+        ) {
           var updatedReferencePosition = new System.Drawing.Point(
-            m_profileGraphsReferencePositionBeforeDragStarted.Value.X,
-            m_profileGraphsReferencePositionBeforeDragStarted.Value.Y + deltaDown
+            (
+              m_profileGraphsReferencePositionBeforeDragStarted.Value.X + deltaRight
+            ).ClampedToInclusiveRange(
+              0,
+              ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width - 1
+            ),
+            (
+              m_profileGraphsReferencePositionBeforeDragStarted.Value.Y + deltaDown
+            ).ClampedToInclusiveRange(
+              0,
+              ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height - 1
+            )
           ) ;
           Common.DebugHelpers.WriteDebugLines(
-            $"Adjusting ProfileGraphsReferencePosition.Y by {deltaDown} => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
+            $"Adjusting ProfileGraphsReferencePosition by [{deltaRight},{deltaDown}] => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
           ) ;
           ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
         }
-        // if ( m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true )
-        // {
-        //   handled = true ;
-        // }
-        // if ( m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true )
-        // {
-        //   handled = true ;
-        // }
         break ;
       case TouchTracking.TouchActionType.Released:
         m_profileGraphsReferencePositionBeforeDragStarted = null ;
@@ -214,7 +258,7 @@ namespace NativeUwp_ViewerApp_01
 
     private HorizontalLine? m_horizontalLine = null ;
 
-    private VerticalLine?   m_verticalLine = null ;
+    private VerticalLine?   m_verticalLine   = null ;
 
     private SkiaUtilities.PixelToSceneCoordinatesMapper m_pixelToSceneCoordinatesMapper ;
 
@@ -268,18 +312,25 @@ namespace NativeUwp_ViewerApp_01
           bitmap,
           rectInWhichToDrawBitmap
         ) ;
-        var lineStyle = new SkiaSharp.SKPaint(){
-          Color       = SkiaSharp.SKColors.Red,
+        var dragMarkerStyle = new SkiaSharp.SKPaint(){
+          Color       = SkiaSharp.SKColors.Blue,
           StrokeWidth = 3
         } ;
         if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
         {
-          skiaCanvas.DrawCircle(
+          skiaCanvas.DrawOval(
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
-            m_inContact ? 10.0f : 5.0f ,
-            lineStyle
+            new SkiaSharp.SKSize(
+              m_inContact ? 10.0f : 5.0f,
+              m_inContact ? 10.0f : 5.0f
+            ),
+            dragMarkerStyle
           ) ;
         }
+        var lineStyle = new SkiaSharp.SKPaint(){
+          Color       = SkiaSharp.SKColors.Red,
+          StrokeWidth = 3
+        } ;
         // if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
         // {
           // var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;

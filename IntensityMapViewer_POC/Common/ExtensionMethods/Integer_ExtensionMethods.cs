@@ -26,6 +26,18 @@ namespace Common.ExtensionMethods
       }
     }
 
+    public static int ClampedToInclusiveRange (
+      this int position,
+      int      min,
+      int      max
+    ) => (
+      position < min 
+      ? min
+      : position > max
+        ? max
+        : position
+    ) ;
+
   }
 
 }
