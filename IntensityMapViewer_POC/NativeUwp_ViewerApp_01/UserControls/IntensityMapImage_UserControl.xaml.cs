@@ -79,7 +79,12 @@ namespace NativeUwp_ViewerApp_01
         m_skiaCanvas.PaintSurface += DrawSkiaContent ;
       }
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
-      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
+      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => {
+        Common.DebugHelpers.WriteDebugLines(
+          $"ProfileGraphsReferencePositionChanged => {newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition}"
+        ) ;
+        PerformRepaint() ;
+      } ;
       ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
         PerformRepaint() ;
       } ;
@@ -91,11 +96,26 @@ namespace NativeUwp_ViewerApp_01
     }
 
     //
-    // Dragging works as follows.
+    // Dragging works as follows :
     //
+    // When a 'touch' occurs, it is raised as an event on the skia Canvas.
+    // Our 'PanAndZoomAndRotationGesturesHandler' will have hooked into that event,
+    // and by default will pass it on to a helper class that will perform adjustments
+    // to the Transform Matrix as required to implement panning and zooming.
+    //
+    // Ordinarily we'll allow the default 'pan/zoom' actions to be performed.
+    // However under certain circimstances, we'll disable that behaviour and instead
+    // use 'drag' operations to adjust the Reference Position.
+    //
+    
+    private System.Drawing.Point? m_profileGraphsReferencePositionBeforeDragStarted = null ;
 
-    private SkiaSharp.SKPoint? m_mostRecentlyNotifiedPointerPosition = null ;
-    private bool               m_inContact                           = false ;
+    private bool m_horizontalLineDraggingInProgress = false ;
+
+    private bool m_verticalLineDraggingInProgress   = false ;
+
+    private SkiaSharp.SKPoint? m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = null ;
+    private bool               m_inContact                                            = false ;
 
     private bool TouchActionDetected (
       TouchTracking.TouchActionType actionType, 
@@ -107,27 +127,62 @@ namespace NativeUwp_ViewerApp_01
       switch ( actionType )
       {
       case TouchTracking.TouchActionType.Entered:
-        m_mostRecentlyNotifiedPointerPosition = positionInSceneCoordinates ;
+        m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = positionInSceneCoordinates ;
         break ;
       case TouchTracking.TouchActionType.Pressed:
+        m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = positionInSceneCoordinates ;
+        if ( 
+           m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true  
+        && ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue 
+        ) {
+          m_profileGraphsReferencePositionBeforeDragStarted = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
+          m_horizontalLineDraggingInProgress = true ;
+          handled = true ;
+        }
+        if ( 
+           m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true  
+        && ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue 
+        ) {
+          m_profileGraphsReferencePositionBeforeDragStarted = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
+          m_verticalLineDraggingInProgress = true ;
+          handled = true ;
+        }
         break ;
       case TouchTracking.TouchActionType.Moved:
-        m_mostRecentlyNotifiedPointerPosition = positionInSceneCoordinates ;
-        if ( m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition.Value) is true )
+        m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = positionInSceneCoordinates ;
+        if ( m_horizontalLineDraggingInProgress )
         {
-          handled = true ;
+          var deltaDown = (int) (
+            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.Y
+          - m_profileGraphsReferencePositionBeforeDragStarted.Value.Y
+          ) ;
+          var updatedReferencePosition = new System.Drawing.Point(
+            m_profileGraphsReferencePositionBeforeDragStarted.Value.X,
+            m_profileGraphsReferencePositionBeforeDragStarted.Value.Y + deltaDown
+          ) ;
+          Common.DebugHelpers.WriteDebugLines(
+            $"Adjusting ProfileGraphsReferencePosition.Y by {deltaDown} => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
+          ) ;
+          ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
         }
-        if ( m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition.Value) is true )
-        {
-          handled = true ;
-        }
+        // if ( m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true )
+        // {
+        //   handled = true ;
+        // }
+        // if ( m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true )
+        // {
+        //   handled = true ;
+        // }
         break ;
       case TouchTracking.TouchActionType.Released:
+        m_profileGraphsReferencePositionBeforeDragStarted = null ;
+        m_horizontalLineDraggingInProgress = false ;
+        m_verticalLineDraggingInProgress = false ;
         break ;
       case TouchTracking.TouchActionType.Cancelled:
         break ;
       case TouchTracking.TouchActionType.Exited:
-        m_mostRecentlyNotifiedPointerPosition = null ;
+        m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = null ;
         break ;
       }
       PerformRepaint() ;
@@ -210,10 +265,10 @@ namespace NativeUwp_ViewerApp_01
           Color       = SkiaSharp.SKColors.Red,
           StrokeWidth = 3
         } ;
-        if ( m_mostRecentlyNotifiedPointerPosition.HasValue )
+        if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
         {
           skiaCanvas.DrawCircle(
-            m_mostRecentlyNotifiedPointerPosition.Value,
+            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
             m_inContact ? 10.0f : 5.0f ,
             lineStyle
           ) ;

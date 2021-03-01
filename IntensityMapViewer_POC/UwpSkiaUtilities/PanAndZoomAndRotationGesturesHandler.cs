@@ -89,9 +89,9 @@ namespace UwpSkiaUtilities
           (float) pointerPoint.Position.Y
         )
       ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"OnPointerMoved : physical [{pointerPoint.Position.X},{pointerPoint.Position.Y}] ; scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}]"
-      ) ;
+      // Common.DebugHelpers.WriteDebugLines(
+      //   $"OnPointerMoved : physical [{pointerPoint.Position.X},{pointerPoint.Position.Y}] ; scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}]"
+      // ) ;
     }
     // TODO : SetSceneCentreFromCanvas
 
@@ -127,12 +127,12 @@ namespace UwpSkiaUtilities
       SkiaSharp.SKPoint positionInSceneCoordinates = m_scene.GetCanvasPointFromViewPoint(
         pointOnCanvas
       ) ;
-      Common.DebugHelpers.WriteDebugLines(
-        $"HandleTouchEvent : {args.Type} ; "
-      + $"canvas [{pointOnCanvas.X},{pointOnCanvas.Y}] ; "
-      + $"scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}] : "
-      + $"InContact={args.IsInContact}"
-      ) ;
+      // Common.DebugHelpers.WriteDebugLines(
+      //   $"HandleTouchEvent : {args.Type} ; "
+      // + $"canvas [{pointOnCanvas.X},{pointOnCanvas.Y}] ; "
+      // + $"scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}] : "
+      // + $"InContact={args.IsInContact}"
+      // ) ;
       bool handled = TouchActionDetected.Invoke(
         args.Type,
         positionInSceneCoordinates,
@@ -162,31 +162,31 @@ namespace UwpSkiaUtilities
       int wheelDelta = pointerPoint.Properties.MouseWheelDelta ;
 
       // If CONTROL is down, we ROTATE ...
-      if ( 
-        Windows.UI.Core.CoreWindow.GetForCurrentThread(
-        ).GetAsyncKeyState(
-          Windows.System.VirtualKey.Control
-        ) == Windows.UI.Core.CoreVirtualKeyStates.Down 
-      ) {
-        var rotationReferencePoint = m_scene.GetCanvasPointFromViewPoint(
-          new SkiaSharp.SKPoint(
-            (float) pointerPoint.Position.X,
-            (float) pointerPoint.Position.Y
-          )
-        ) ;
-        m_scene.RotateByRadiansDelta(
-          rotationReferencePoint,
-          (float) ( 
-            // Each click gives a delta of 120
-            // We want one click to rotate us by 10 degrees
-            ( wheelDelta / 120 ) 
-          * 10.0 
-          * System.Math.PI / 180.0 
-          )
-        ) ;
-        m_canvas.Invalidate() ;
-        return ;
-      }
+      // if ( 
+      //   Windows.UI.Core.CoreWindow.GetForCurrentThread(
+      //   ).GetAsyncKeyState(
+      //     Windows.System.VirtualKey.Control
+      //   ) == Windows.UI.Core.CoreVirtualKeyStates.Down 
+      // ) {
+      //   var rotationReferencePoint = m_scene.GetCanvasPointFromViewPoint(
+      //     new SkiaSharp.SKPoint(
+      //       (float) pointerPoint.Position.X,
+      //       (float) pointerPoint.Position.Y
+      //     )
+      //   ) ;
+      //   m_scene.RotateByRadiansDelta(
+      //     rotationReferencePoint,
+      //     (float) ( 
+      //       // Each click gives a delta of 120
+      //       // We want one click to rotate us by 10 degrees
+      //       ( wheelDelta / 120 ) 
+      //     * 10.0 
+      //     * System.Math.PI / 180.0 
+      //     )
+      //   ) ;
+      //   m_canvas.Invalidate() ;
+      //   return ;
+      // }
       // Otherwise, we ZOOM ...
       float zoomFactorToApply = (
         wheelDelta > 0 

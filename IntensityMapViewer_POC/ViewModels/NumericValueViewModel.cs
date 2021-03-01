@@ -103,7 +103,7 @@ namespace IntensityMapViewer
         OnPropertyChanged(nameof(CurrentValue)) ;
         OnPropertyChanged(nameof(CurrentValueAsString)) ;
         MostRecentSetAttemptFailed = false ;
-        Common.DebugHelpers.WriteDebugLines($"Set to {value}") ;
+        // Common.DebugHelpers.WriteDebugLines($"Numeric value => {value}") ;
         ValueChanged?.Invoke() ;
       }
       else
