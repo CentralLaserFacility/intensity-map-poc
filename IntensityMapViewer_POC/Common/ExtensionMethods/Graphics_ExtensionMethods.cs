@@ -16,6 +16,10 @@ namespace Common.ExtensionMethods
       point.Y.ClampedToInclusiveRange(rectangle.Top,rectangle.Bottom)
     ) ;
 
+    public static string ToPixelPositionString (
+      this System.Drawing.Point point
+    ) => $"[{point.X},{point.Y}]" ;
+
   }
 
 }

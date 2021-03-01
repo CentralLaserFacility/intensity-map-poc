@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using UwpSkiaUtilities;
+using SkiaUtilities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -180,24 +180,11 @@ namespace NativeUwp_ViewerApp_01
               mostRecentlyNotifiedPointerPosition_pixelCoordinates.Value.X
             - m_profileGraphsReferencePositionBeforeDragStarted.Value.X
             ) ;
-            // var updatedReferencePosition = new System.Drawing.Point(
-            //   (
-            //     m_profileGraphsReferencePositionBeforeDragStarted.Value.X + deltaRight
-            //   ).ClampedToInclusiveRange(
-            //     0,
-            //     ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width - 1
-            //   ),
-            //   m_profileGraphsReferencePositionBeforeDragStarted.Value.Y
-            // ) ;
-            // Common.DebugHelpers.WriteDebugLines(
-            //   $"Adjusting ProfileGraphsReferencePosition.Y by {deltaRight} => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
-            // ) ;
-            // ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
           }
         }
         if ( 
-          deltaRight != 0 
-        || deltaDown != 0
+           deltaRight != 0 
+        || deltaDown  != 0
         ) {
           var updatedReferencePosition = new System.Drawing.Point(
             (
@@ -327,61 +314,75 @@ namespace NativeUwp_ViewerApp_01
             dragMarkerStyle
           ) ;
         }
-        var lineStyle = new SkiaSharp.SKPaint(){
+        var horizontalLineStyle = new SkiaSharp.SKPaint(){
+          Color       = SkiaSharp.SKColors.Red,
+          StrokeWidth = 3
+        } ;        
+        var verticalLineStyle = new SkiaSharp.SKPaint(){
           Color       = SkiaSharp.SKColors.Red,
           StrokeWidth = 3
         } ;
-        // if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
-        // {
-          // var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
-          // int xAlongFromLeft = Scale(
-          //   referencePosition.X,
-          //   intensityMap.Dimensions.Width,
-          //   deviceClipBounds.Width
+        if ( 
+          m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
+            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
+            out var referencePointInSceneCoordinates
+          )
+        ) {
+          // m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+          //   referencePointInSceneCoordinates,
+          //   out var referencePositionInPixels 
           // ) ;
-          // int yDownFromTop = Scale(
-          //   ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y,
-          //   intensityMap.Dimensions.Height,
-          //   deviceClipBounds.Height
-          // ) ;
-          // var scaledReferencePoint = new SkiaSharp.SKPoint(
-          //   xAlongFromLeft,
-          //   yDownFromTop
-          // ) ;
+          m_horizontalLine = new HorizontalLine(
+            referencePointInSceneCoordinates.Value,
+            0.0f,
+            deviceClipBounds.Width
+          ) ;
+          m_verticalLine = new VerticalLine(
+            referencePointInSceneCoordinates.Value,
+            0.0f,
+            deviceClipBounds.Height
+          ) ;
+          m_horizontalLine.Draw(skiaCanvas,horizontalLineStyle) ;
+          m_verticalLine.Draw(skiaCanvas,verticalLineStyle) ;
+        }
+        else
+        {
+          m_horizontalLine = null ;
+          m_verticalLine   = null ;
+        }
+        SkiaSharp.SKPaint textPaint = new SkiaSharp.SKPaint() { 
+          Color       = SkiaSharp.SKColors.White,
+          IsAntialias = true,
+          Typeface    = SkiaSharp.SKTypeface.FromFamilyName(
+            "Courier",
+            SkiaSharp.SKFontStyle.Normal
+          )
+        } ;
+        // skiaCanvas.DrawCircle(
+        //  cx     : 0.0f,
+        //  cy     : 0.0f,
+        //  radius : 10.0f,
+        //  redPaint
+        //  ;
+        if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
+        {
+          m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates,
+            out var pointerPositionInPixels 
+          ) ;
+          var intensityValue = ViewModel.MostRecentlyAcquiredIntensityMap.GetIntensityValueAt(
+            pointerPositionInPixels.Value.X,
+            pointerPositionInPixels.Value.Y
+          ) ;
+          // string label = $"[{ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X},{ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y}] : {intensityValue}" ;
+          string label = $"{pointerPositionInPixels.Value.ToPixelPositionString()}: {intensityValue}" ;
+          skiaCanvas.DrawText(
+            label,
+            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.MovedBy(10.0f,-20.0f),
+            textPaint
+          ) ;
+        }
 
-          if ( 
-            m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
-              ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
-              out var scaledReferencePoint
-            )
-          ) {
-            m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
-              scaledReferencePoint,
-              out var referencePositionInPixels 
-            ) ;
-            m_horizontalLine = new HorizontalLine(
-              scaledReferencePoint.Value,
-              0.0f,
-              deviceClipBounds.Width
-            ) ;
-            m_verticalLine = new VerticalLine(
-              scaledReferencePoint.Value,
-              0.0f,
-              deviceClipBounds.Height
-            ) ;
-            m_horizontalLine.Draw(skiaCanvas,lineStyle) ;
-            m_verticalLine.Draw(skiaCanvas,lineStyle) ;
-          }
-          else
-          {
-            m_horizontalLine = null ;
-            m_verticalLine   = null ;
-          }
-        // }
-        // static int Scale ( double value, double nImagePixels, double nDisplayPixels )
-        // => (int) (
-        //   value * nDisplayPixels / nImagePixels
-        // ) ;
       }
     }
 
