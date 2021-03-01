@@ -99,7 +99,16 @@ namespace NativeUwp_ViewerApp_01
         XPositionViewModel.CurrentValue = XPositionViewModel.MaxValue / 2 ;
         YPositionViewModel.CurrentValue = YPositionViewModel.MaxValue / 2 ;
         newViewModel.ProfileGraphsReferencePositionChanged += ()=> {
-          GetReferencePosition() ;
+          // GetReferencePosition() ;
+          // Hmm, trickiness here as there can be several parties updating the value !!
+          // If someone else updates the value, we need to keep our ViewModels in sync
+          // but we definitiely don't want to set 'CurrentValue' as that will have the effect
+          // of pushing our current value !!!
+          if ( newViewModel.ProfileGraphsReferencePosition.HasValue )
+          {
+            XPositionViewModel.OnCurrentValueChangedExternally(newViewModel.ProfileGraphsReferencePosition.Value.X) ;
+            YPositionViewModel.OnCurrentValueChangedExternally(newViewModel.ProfileGraphsReferencePosition.Value.Y) ;
+          }
         } ;
       }
       void SetReferencePosition ( )

@@ -215,6 +215,41 @@ namespace NativeUwp_ViewerApp_01
 
     private VerticalLine?   m_verticalLine = null ;
 
+    public class PixelToSceneCoordinatesMapper
+    {
+      public System.Drawing.Size PixelDimensions { get ; }
+      public SkiaSharp.SKSize SceneDimensions { get ; }
+      public PixelToSceneCoordinatesMapper (
+        System.Drawing.Size pixelDimensions,
+        SkiaSharp.SKSize    sceneDimensions
+      ) {
+        PixelDimensions = pixelDimensions ;
+        SceneDimensions = sceneDimensions ;
+      }
+      public SkiaSharp.SKPoint? GetPointInSceneCoordinates ( 
+        System.Drawing.Point? pointInPixelCoordinates
+      ) => (
+        pointInPixelCoordinates.HasValue
+        ? new SkiaSharp.SKPoint(
+            (int) Scale(
+              pointInPixelCoordinates.Value.X,
+              PixelDimensions.Width,
+              SceneDimensions.Width
+            ),
+            (int) Scale(
+              pointInPixelCoordinates.Value.Y,
+              PixelDimensions.Height,
+              SceneDimensions.Height
+            )
+          )
+        : null
+      ) ;
+      private static double Scale ( double value, double nImagePixels, double nDisplayPixels )
+      => (
+        value * nDisplayPixels / nImagePixels
+      ) ;
+    }
+
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
       ViewModel.Parent.RaiseIntensityMapVisualisationHasChangedEvent() ;
@@ -275,21 +310,30 @@ namespace NativeUwp_ViewerApp_01
         }
         if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
         {
-          var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
-          int xAlongFromLeft = Scale(
-            referencePosition.X,
-            intensityMap.Dimensions.Width,
-            deviceClipBounds.Width
+          // var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
+          // int xAlongFromLeft = Scale(
+          //   referencePosition.X,
+          //   intensityMap.Dimensions.Width,
+          //   deviceClipBounds.Width
+          // ) ;
+          // int yDownFromTop = Scale(
+          //   ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y,
+          //   intensityMap.Dimensions.Height,
+          //   deviceClipBounds.Height
+          // ) ;
+          // var scaledReferencePoint = new SkiaSharp.SKPoint(
+          //   xAlongFromLeft,
+          //   yDownFromTop
+          // ) ;
+
+          PixelToSceneCoordinatesMapper pixelToSceneCoordinatesMapper = new PixelToSceneCoordinatesMapper(
+            intensityMap.Dimensions,
+            rectInWhichToDrawBitmap.Size
           ) ;
-          int yDownFromTop = Scale(
-            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y,
-            intensityMap.Dimensions.Height,
-            deviceClipBounds.Height
-          ) ;
-          var scaledReferencePoint = new SkiaSharp.SKPoint(
-            xAlongFromLeft,
-            yDownFromTop
-          ) ;
+          var scaledReferencePoint = pixelToSceneCoordinatesMapper.GetPointInSceneCoordinates(
+            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition
+          ).Value ;
+
           m_horizontalLine = new HorizontalLine(
             scaledReferencePoint,
             0.0f,

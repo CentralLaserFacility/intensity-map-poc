@@ -112,6 +112,13 @@ namespace IntensityMapViewer
       }
     }
 
+    public void OnCurrentValueChangedExternally ( double value )
+    {
+      m_currentValue = value ;
+      OnPropertyChanged(nameof(CurrentValue)) ;
+      OnPropertyChanged(nameof(CurrentValueAsString)) ;
+    }
+
     public string CurrentValueAsString 
     {
       get => CurrentValue.ToString() ;
