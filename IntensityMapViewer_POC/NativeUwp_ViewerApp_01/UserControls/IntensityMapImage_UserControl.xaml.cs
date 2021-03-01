@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -215,40 +216,7 @@ namespace NativeUwp_ViewerApp_01
 
     private VerticalLine?   m_verticalLine = null ;
 
-    public class PixelToSceneCoordinatesMapper
-    {
-      public System.Drawing.Size PixelDimensions { get ; }
-      public SkiaSharp.SKSize SceneDimensions { get ; }
-      public PixelToSceneCoordinatesMapper (
-        System.Drawing.Size pixelDimensions,
-        SkiaSharp.SKSize    sceneDimensions
-      ) {
-        PixelDimensions = pixelDimensions ;
-        SceneDimensions = sceneDimensions ;
-      }
-      public SkiaSharp.SKPoint? GetPointInSceneCoordinates ( 
-        System.Drawing.Point? pointInPixelCoordinates
-      ) => (
-        pointInPixelCoordinates.HasValue
-        ? new SkiaSharp.SKPoint(
-            (int) Scale(
-              pointInPixelCoordinates.Value.X,
-              PixelDimensions.Width,
-              SceneDimensions.Width
-            ),
-            (int) Scale(
-              pointInPixelCoordinates.Value.Y,
-              PixelDimensions.Height,
-              SceneDimensions.Height
-            )
-          )
-        : null
-      ) ;
-      private static double Scale ( double value, double nImagePixels, double nDisplayPixels )
-      => (
-        value * nDisplayPixels / nImagePixels
-      ) ;
-    }
+    private SkiaUtilities.PixelToSceneCoordinatesMapper m_pixelToSceneCoordinatesMapper ;
 
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
@@ -292,6 +260,10 @@ namespace NativeUwp_ViewerApp_01
           right  : deviceClipBounds.Width,
           bottom : deviceClipBounds.Height
         ) ;
+        m_pixelToSceneCoordinatesMapper = new SkiaUtilities.PixelToSceneCoordinatesMapper(
+          intensityMap.Dimensions,
+          rectInWhichToDrawBitmap.Size
+        ) ;
         skiaCanvas.DrawBitmap(
           bitmap,
           rectInWhichToDrawBitmap
@@ -308,8 +280,8 @@ namespace NativeUwp_ViewerApp_01
             lineStyle
           ) ;
         }
-        if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
-        {
+        // if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
+        // {
           // var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
           // int xAlongFromLeft = Scale(
           //   referencePosition.X,
@@ -326,36 +298,39 @@ namespace NativeUwp_ViewerApp_01
           //   yDownFromTop
           // ) ;
 
-          PixelToSceneCoordinatesMapper pixelToSceneCoordinatesMapper = new PixelToSceneCoordinatesMapper(
-            intensityMap.Dimensions,
-            rectInWhichToDrawBitmap.Size
-          ) ;
-          var scaledReferencePoint = pixelToSceneCoordinatesMapper.GetPointInSceneCoordinates(
-            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition
-          ).Value ;
-
-          m_horizontalLine = new HorizontalLine(
-            scaledReferencePoint,
-            0.0f,
-            deviceClipBounds.Width
-          ) ;
-          m_verticalLine = new VerticalLine(
-            scaledReferencePoint,
-            0.0f,
-            deviceClipBounds.Height
-          ) ;
-          m_horizontalLine.Draw(skiaCanvas,lineStyle) ;
-          m_verticalLine.Draw(skiaCanvas,lineStyle) ;
-        }
-        else
-        {
-          m_horizontalLine = null ;
-          m_verticalLine   = null ;
-        }
-        static int Scale ( double value, double nImagePixels, double nDisplayPixels )
-        => (int) (
-          value * nDisplayPixels / nImagePixels
-        ) ;
+          if ( 
+            m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
+              ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
+              out var scaledReferencePoint
+            )
+          ) {
+            m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+              scaledReferencePoint,
+              out var referencePositionInPixels 
+            ) ;
+            m_horizontalLine = new HorizontalLine(
+              scaledReferencePoint.Value,
+              0.0f,
+              deviceClipBounds.Width
+            ) ;
+            m_verticalLine = new VerticalLine(
+              scaledReferencePoint.Value,
+              0.0f,
+              deviceClipBounds.Height
+            ) ;
+            m_horizontalLine.Draw(skiaCanvas,lineStyle) ;
+            m_verticalLine.Draw(skiaCanvas,lineStyle) ;
+          }
+          else
+          {
+            m_horizontalLine = null ;
+            m_verticalLine   = null ;
+          }
+        // }
+        // static int Scale ( double value, double nImagePixels, double nDisplayPixels )
+        // => (int) (
+        //   value * nDisplayPixels / nImagePixels
+        // ) ;
       }
     }
 
