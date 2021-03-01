@@ -41,7 +41,7 @@ namespace NativeUwp_ViewerApp_01
     public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
     => System.MathF.Abs(
       From.Y - mousePosition.Y
-    ) > maxDelta ;
+    ) < maxDelta ;
   }
 
   public record VerticalLine : Line
@@ -65,7 +65,7 @@ namespace NativeUwp_ViewerApp_01
     public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
     => System.MathF.Abs(
       From.X - mousePosition.X
-    ) > maxDelta ;
+    ) < maxDelta ;
   }
 
 }

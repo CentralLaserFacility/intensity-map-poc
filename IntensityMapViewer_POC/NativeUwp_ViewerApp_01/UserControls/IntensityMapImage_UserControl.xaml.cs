@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -67,9 +68,11 @@ namespace NativeUwp_ViewerApp_01
                 newViewModel.Parent.PanAndZoomParameters,
                 canvas.TotalMatrix
               ) ;
-            }
+            },
           }
-        ) ;
+        ) {
+          TouchActionDetected = TouchActionDetected
+        } ;
       }
       else
       {
@@ -85,6 +88,50 @@ namespace NativeUwp_ViewerApp_01
     private void PerformRepaint ( )
     {
       m_skiaCanvas.Invalidate() ;
+    }
+
+    //
+    // Dragging works as follows.
+    //
+
+    private SkiaSharp.SKPoint? m_mostRecentlyNotifiedPointerPosition = null ;
+    private bool               m_inContact                           = false ;
+
+    private bool TouchActionDetected (
+      TouchTracking.TouchActionType actionType, 
+      SkiaSharp.SKPoint             positionInSceneCoordinates,
+      bool                          inContact
+    ) {
+      bool handled = false ;
+      m_inContact = inContact ;
+      switch ( actionType )
+      {
+      case TouchTracking.TouchActionType.Entered:
+        m_mostRecentlyNotifiedPointerPosition = positionInSceneCoordinates ;
+        break ;
+      case TouchTracking.TouchActionType.Pressed:
+        break ;
+      case TouchTracking.TouchActionType.Moved:
+        m_mostRecentlyNotifiedPointerPosition = positionInSceneCoordinates ;
+        if ( m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition.Value) is true )
+        {
+          handled = true ;
+        }
+        if ( m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition.Value) is true )
+        {
+          handled = true ;
+        }
+        break ;
+      case TouchTracking.TouchActionType.Released:
+        break ;
+      case TouchTracking.TouchActionType.Cancelled:
+        break ;
+      case TouchTracking.TouchActionType.Exited:
+        m_mostRecentlyNotifiedPointerPosition = null ;
+        break ;
+      }
+      PerformRepaint() ;
+      return handled ;
     }
 
     private void DrawSkiaContent ( 
@@ -108,6 +155,10 @@ namespace NativeUwp_ViewerApp_01
       // ) ;
       DrawIntensityMap(skiaCanvas) ;
     }
+
+    private HorizontalLine? m_horizontalLine = null ;
+
+    private VerticalLine?   m_verticalLine = null ;
 
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
@@ -155,6 +206,18 @@ namespace NativeUwp_ViewerApp_01
           bitmap,
           rectInWhichToDrawBitmap
         ) ;
+        var lineStyle = new SkiaSharp.SKPaint(){
+          Color       = SkiaSharp.SKColors.Red,
+          StrokeWidth = 3
+        } ;
+        if ( m_mostRecentlyNotifiedPointerPosition.HasValue )
+        {
+          skiaCanvas.DrawCircle(
+            m_mostRecentlyNotifiedPointerPosition.Value,
+            m_inContact ? 10.0f : 5.0f ,
+            lineStyle
+          ) ;
+        }
         if ( ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
         {
           var referencePosition = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
@@ -172,22 +235,23 @@ namespace NativeUwp_ViewerApp_01
             xAlongFromLeft,
             yDownFromTop
           ) ;
-          var horizontalLine = new HorizontalLine(
+          m_horizontalLine = new HorizontalLine(
             scaledReferencePoint,
             0.0f,
             deviceClipBounds.Width
           ) ;
-          var verticalLine = new VerticalLine(
+          m_verticalLine = new VerticalLine(
             scaledReferencePoint,
             0.0f,
             deviceClipBounds.Height
           ) ;
-          var lineStyle = new SkiaSharp.SKPaint(){
-            Color       = SkiaSharp.SKColors.Red,
-            StrokeWidth = 3
-          } ;
-          horizontalLine.Draw(skiaCanvas,lineStyle) ;
-          verticalLine.Draw(skiaCanvas,lineStyle) ;
+          m_horizontalLine.Draw(skiaCanvas,lineStyle) ;
+          m_verticalLine.Draw(skiaCanvas,lineStyle) ;
+        }
+        else
+        {
+          m_horizontalLine = null ;
+          m_verticalLine   = null ;
         }
         static int Scale ( double value, double nImagePixels, double nDisplayPixels )
         => (int) (

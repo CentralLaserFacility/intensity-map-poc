@@ -5,6 +5,13 @@
 namespace UwpSkiaUtilities
 {
 
+  public class TouchEventDescriptor
+  {
+    public TouchTracking.TouchActionType EventType ;
+    public SkiaSharp.SKPoint positionInSceneCoordinates ;
+    public bool InContact ;
+  }
+
   public class PanAndZoomAndRotationGesturesHandler 
   {
 
@@ -17,6 +24,13 @@ namespace UwpSkiaUtilities
     private TouchTracking.UWP.TouchHandler m_touchHandler ;
 
     private SkiaSharp.Views.UWP.SKXamlCanvas m_canvas ;
+
+    public System.Func<
+      TouchTracking.TouchActionType, 
+      SkiaSharp.SKPoint,             // positionInSceneCoordinates
+      bool,                          // In Contact
+      bool                           // Handled ...
+    > TouchActionDetected ;
 
     public PanAndZoomAndRotationGesturesHandler ( 
       SkiaSharp.Views.UWP.SKXamlCanvas canvas,
@@ -45,7 +59,7 @@ namespace UwpSkiaUtilities
       m_scene = scene ;
       m_touchHandler = new TouchTracking.UWP.TouchHandler() ;
       m_touchHandler.RegisterEvents(m_canvas) ;
-      m_touchHandler.TouchAction += OnTouch ;
+      m_touchHandler.TouchAction += HandleTouchEvent ;
       OnWindowSizeChanged() ;
       m_touchGestureRecognizer = new SkiaScene.TouchManipulation.TouchGestureRecognizer() ;
       // m_touchGestureRecognizer.OnPan += (s,e) => {
@@ -56,9 +70,9 @@ namespace UwpSkiaUtilities
       //   }
       // } ;
       m_sceneGestureResponder = new SkiaScene.TouchManipulation.SceneGestureRenderingResponder(
-        () => m_canvas.Invalidate(),
-        m_scene,
-        m_touchGestureRecognizer
+        invalidateViewAction   : () => m_canvas.Invalidate(),
+        skScene                : m_scene,
+        touchGestureRecognizer : m_touchGestureRecognizer
       ) {
         TouchManipulationMode = SkiaScene.TouchManipulation.TouchManipulationMode.IsotropicScale,
         MaxFramesPerSecond    = 30
@@ -76,9 +90,10 @@ namespace UwpSkiaUtilities
         )
       ) ;
       Common.DebugHelpers.WriteDebugLines(
-        $"PointerMoved ; physical [{pointerPoint.Position.X},{pointerPoint.Position.Y}] ; scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}]"
+        $"OnPointerMoved : physical [{pointerPoint.Position.X},{pointerPoint.Position.Y}] ; scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}]"
       ) ;
     }
+    // TODO : SetSceneCentreFromCanvas
 
     public void OnWindowSizeChanged ( )
     {
@@ -88,29 +103,49 @@ namespace UwpSkiaUtilities
       ) ;
     }
 
-    private void OnPaintSurface ( object sender, SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs args )
+    private void OnPaintSurface ( object sender, SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs )
     {
-      SkiaSharp.SKImageInfo imageInfo = args.Info ;
-      SkiaSharp.SKSurface surface = args.Surface ;
-      SkiaSharp.SKCanvas canvas = surface.Canvas ;
-      m_scene.Render(canvas) ;
+      // SkiaSharp.SKImageInfo imageInfo = args.Info ;
+      // SkiaSharp.SKSurface surface = args.Surface ;
+      // SkiaSharp.SKCanvas canvas = surface.Canvas ;
+      // m_scene.Render(canvas) ;
+      // SkiaSharp.SKSurface surface =  ;
+      // SkiaSharp.SKCanvas canvas = surface.Canvas ;
+      m_scene.Render(
+        paintSurfaceEventArgs.Surface.Canvas
+      ) ;
     }
 
-    private void OnTouch ( object sender, TouchTracking.TouchActionEventArgs args )
+    private void HandleTouchEvent ( object sender, TouchTracking.TouchActionEventArgs args )
     {
+      // Invoked when our 'TouchHandler' detects a touch event.
       var viewPoint = args.Location ;
-      SkiaSharp.SKPoint point = new SkiaSharp.SKPoint(
+      SkiaSharp.SKPoint pointOnCanvas = new SkiaSharp.SKPoint(
         (float) ( m_canvas.CanvasSize.Width  * viewPoint.X / m_canvas.ActualWidth ),
         (float) ( m_canvas.CanvasSize.Height * viewPoint.Y / m_canvas.ActualHeight )
       ) ;
-      // Common.DebugHelpers.WriteDebugLines(
-      //   $"TouchAction at physical position [{point.X},{point.Y}] : {args.Type} ; InContact={args.IsInContact}"
-      // ) ;
-      m_touchGestureRecognizer.ProcessTouchEvent(
-        id   : args.Id,
-        type : args.Type, // Action Type
-        point
+      SkiaSharp.SKPoint positionInSceneCoordinates = m_scene.GetCanvasPointFromViewPoint(
+        pointOnCanvas
       ) ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"HandleTouchEvent : {args.Type} ; "
+      + $"canvas [{pointOnCanvas.X},{pointOnCanvas.Y}] ; "
+      + $"scene [{positionInSceneCoordinates.X},{positionInSceneCoordinates.Y}] : "
+      + $"InContact={args.IsInContact}"
+      ) ;
+      bool handled = TouchActionDetected.Invoke(
+        args.Type,
+        positionInSceneCoordinates,
+        args.IsInContact
+      ) ;
+      if ( ! handled )
+      {
+        m_touchGestureRecognizer.ProcessTouchEvent(
+          id   : args.Id,
+          type : args.Type, // Action Type
+          pointOnCanvas
+        ) ;
+      }
     }
 
     private enum HowToZoom {
