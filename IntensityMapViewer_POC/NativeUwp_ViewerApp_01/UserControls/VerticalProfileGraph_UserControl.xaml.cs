@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 using Common.ExtensionMethods ;
 using SkiaUtilities;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -44,9 +45,23 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
+    private ReferencePositionChangedMessage? m_latestReferencePositionChangedMessage = null ;
+
     public VerticalProfileGraph_UserControl()
     {
       this.InitializeComponent();
+      Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register(
+        this,
+        (VerticalProfileGraph_UserControl self, ReferencePositionChangedMessage message) => {
+          m_latestReferencePositionChangedMessage = message ;
+        }
+      ) ;
+    }
+
+    private void OnViewModelPropertyChanged ( 
+      IntensityMapViewer.ISourceViewModel? oldViewModel,
+      IntensityMapViewer.ISourceViewModel? newViewModel
+    ) {
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
         // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(
         //   paintSurfaceEventArgs
@@ -55,12 +70,6 @@ namespace NativeUwp_ViewerApp_01
           paintSurfaceEventArgs.Surface.Canvas
         ) ;
       } ;
-    }
-
-    private void OnViewModelPropertyChanged ( 
-      IntensityMapViewer.ISourceViewModel? oldViewModel,
-      IntensityMapViewer.ISourceViewModel? newViewModel
-    ) {
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
       newViewModel.Parent.IntensityMapVisualisationHasChanged += () => PerformRepaint() ;
@@ -97,9 +106,15 @@ namespace NativeUwp_ViewerApp_01
         return ;
       }
 
-      var red = new SkiaSharp.SKPaint(){
+      var normal = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
+      var special = new SkiaSharp.SKPaint(){
+        Color = SkiaSharp.SKColors.Red,
+        StrokeWidth = 3
+      } ;
+      int iSpecial = m_latestReferencePositionChangedMessage?.Y ?? -1 ;
+
       canvasRect.UnpackVisibleCornerPoints(
         out SkiaSharp.SKPoint topLeftPoint,    
         out SkiaSharp.SKPoint topRightPoint,   
@@ -129,7 +144,7 @@ namespace NativeUwp_ViewerApp_01
           skiaCanvas.DrawHorizontalLineRight(
             leftAnchorPoint,
             lineLength,
-            red
+            i == iSpecial ? special : normal
           ) ;
           points.Add(
             leftAnchorPoint.MovedBy(lineLength,0)
@@ -139,7 +154,7 @@ namespace NativeUwp_ViewerApp_01
       skiaCanvas.DrawPoints(
         SkiaSharp.SKPointMode.Polygon,
         points.ToArray(),
-        red
+        normal
       ) ;
     }
 

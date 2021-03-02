@@ -22,9 +22,9 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 namespace NativeUwp_ViewerApp_01
 {
 
-  public record ReferencePositionChangedMessage ( System.Drawing.Point? referencePosition ) ;
+  public record ReferencePositionChangedMessage ( int ? X, int ? Y ) ;
 
-  public record PointerPositionChangedMessage ( System.Drawing.Point? pointerPosition ) ;
+  public record PointerPositionChangedMessage ( int ? X, int ? Y ) ;
 
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
@@ -210,8 +210,10 @@ namespace NativeUwp_ViewerApp_01
           ) ;
           ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
           Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
-            new ReferencePositionChangedMessage(updatedReferencePosition)//,
-            //0
+            new ReferencePositionChangedMessage(
+              updatedReferencePosition.X,
+              updatedReferencePosition.Y
+            )
           ) ;
         }
         break ;
@@ -294,11 +296,20 @@ namespace NativeUwp_ViewerApp_01
             // blue  : intensity
           )
         ).ToArray() ;
+        // We'll want to preserve the aspect ratio
+        float expansionFactorX = deviceClipBounds.Width  / (float) intensityMap.Dimensions.Width ;
+        float expansionFactorY = deviceClipBounds.Height / (float) intensityMap.Dimensions.Height ;
+        float expansionFactor = System.MathF.Min(
+          expansionFactorX,
+          expansionFactorY
+        ) ;
         SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
           left   : 0.0f,
           top    : 0.0f,
-          right  : deviceClipBounds.Width,
-          bottom : deviceClipBounds.Height
+          // right  : deviceClipBounds.Width,
+          right : intensityMap.Dimensions.Width * expansionFactor, 
+          // bottom : deviceClipBounds.Height
+          bottom : intensityMap.Dimensions.Height * expansionFactor 
         ) ;
         m_pixelToSceneCoordinatesMapper = new SkiaUtilities.PixelToSceneCoordinatesMapper(
           intensityMap.Dimensions,

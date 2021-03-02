@@ -121,13 +121,15 @@ namespace NativeUwp_ViewerApp_01
         return ;
       }
 
-      var red = new SkiaSharp.SKPaint(){
+      var normal = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
-      var blue = new SkiaSharp.SKPaint(){
-        Color = SkiaSharp.SKColors.Blue,
+      var special = new SkiaSharp.SKPaint(){
+        Color = SkiaSharp.SKColors.Red,
         StrokeWidth = 3
       } ;
+      int iSpecial = m_latestReferencePositionChangedMessage?.X ?? -1 ;
+
       canvasRect.UnpackVisibleCornerPoints(
         out SkiaSharp.SKPoint topLeftPoint,    
         out SkiaSharp.SKPoint topRightPoint,   
@@ -140,9 +142,6 @@ namespace NativeUwp_ViewerApp_01
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
       ) ;
-      var iSpecial = (
-        m_latestReferencePositionChangedMessage?.referencePosition ?? new System.Drawing.Point(-1,-1) 
-      ).X ;
       intensityValues.ForEachItem(
         (value,i) => {
           float lineLength = (
@@ -160,7 +159,7 @@ namespace NativeUwp_ViewerApp_01
           skiaCanvas.DrawVerticalLineUp(
             bottomAnchorPoint,
             lineLength,
-            i == iSpecial ? blue : red
+            i == iSpecial ? special : normal
           ) ;
           points.Add(
             bottomAnchorPoint.MovedBy(0,-lineLength)
@@ -170,7 +169,7 @@ namespace NativeUwp_ViewerApp_01
       skiaCanvas.DrawPoints(
         SkiaSharp.SKPointMode.Polygon,
         points.ToArray(),
-        red
+        normal
       ) ;
     }
 
