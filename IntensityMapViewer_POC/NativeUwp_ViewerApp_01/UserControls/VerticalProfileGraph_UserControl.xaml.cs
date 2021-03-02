@@ -109,9 +109,10 @@ namespace NativeUwp_ViewerApp_01
       var normal = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
+      float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleY ; 
       var special = new SkiaSharp.SKPaint(){
-        Color = SkiaSharp.SKColors.Red,
-        StrokeWidth = 3
+        Color = SkiaSharp.SKColors.Blue,
+        StrokeWidth = zoomCompensationFactor * 3
       } ;
       int iSpecial = m_latestReferencePositionChangedMessage?.Y ?? -1 ;
 

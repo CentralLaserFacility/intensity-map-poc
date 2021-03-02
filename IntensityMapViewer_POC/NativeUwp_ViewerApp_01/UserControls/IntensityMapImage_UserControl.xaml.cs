@@ -323,13 +323,14 @@ namespace NativeUwp_ViewerApp_01
           Color       = SkiaSharp.SKColors.Blue,
           StrokeWidth = 3
         } ;
+        float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
         if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
         {
           skiaCanvas.DrawOval(
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
             new SkiaSharp.SKSize(
-              5.0f,
-              5.0f
+              5.0f * zoomCompensationFactor,
+              5.0f * zoomCompensationFactor
               // m_inContact ? 10.0f : 5.0f,
               // m_inContact ? 10.0f : 5.0f
             ),
@@ -349,26 +350,26 @@ namespace NativeUwp_ViewerApp_01
           m_horizontalLine = new HorizontalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
-            deviceClipBounds.Width
+            rectInWhichToDrawBitmap.Width
           ) ;
           m_verticalLine = new VerticalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
-            deviceClipBounds.Height
+            rectInWhichToDrawBitmap.Height
           ) ;
           var horizontalLineStyle = new SkiaSharp.SKPaint(){
             Color       = SkiaSharp.SKColors.Red,
-            StrokeWidth = (
+            StrokeWidth = zoomCompensationFactor * (
               m_horizontalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)  
-              ? 3
-              : 1
+              ? 2
+              : 1 
             )
           } ;        
           var verticalLineStyle = new SkiaSharp.SKPaint(){
             Color       = SkiaSharp.SKColors.Red,
-            StrokeWidth = (
+            StrokeWidth = zoomCompensationFactor * (
               m_verticalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)   
-              ? 3
+              ? 2
               : 1
             )
           } ;
@@ -383,7 +384,7 @@ namespace NativeUwp_ViewerApp_01
         SkiaSharp.SKPaint textPaint = new SkiaSharp.SKPaint() { 
           Color       = SkiaSharp.SKColors.White,
           IsAntialias = true,
-          TextSize    = 16.0f,
+          TextSize    = zoomCompensationFactor * 16.0f,
           Typeface    = SkiaSharp.SKTypeface.FromFamilyName(
             "Courier",
             SkiaSharp.SKFontStyle.Normal
@@ -410,7 +411,10 @@ namespace NativeUwp_ViewerApp_01
           string label = $"{pointerPositionInPixels.Value.ToPixelPositionString()} {intensityValue}" ;
           skiaCanvas.DrawText(
             label,
-            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.MovedBy(10.0f,-20.0f),
+            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.MovedBy(
+              +10.0f * zoomCompensationFactor,
+              -20.0f * zoomCompensationFactor
+            ),
             textPaint
           ) ;
         }
