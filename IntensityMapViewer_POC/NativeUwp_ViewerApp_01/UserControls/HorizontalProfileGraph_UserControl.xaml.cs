@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 using Common.ExtensionMethods ;
 using SkiaUtilities;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -46,11 +47,30 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
+    // private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
+
+    private ReferencePositionChangedMessage? m_latestReferencePositionChangedMessage = null ;
 
     public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
+      Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register<
+        HorizontalProfileGraph_UserControl,
+        ReferencePositionChangedMessage,
+        int
+      >(
+        this,
+        0,
+        (self,message) => {
+          // m_latestReferencePositionChangedMessage = message ;
+        }
+      ) ;
+      Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register(
+        this,
+        (HorizontalProfileGraph_UserControl self, ReferencePositionChangedMessage message) => {
+          m_latestReferencePositionChangedMessage = message ;
+        }
+      ) ;
     }
 
     private void OnViewModelPropertyChanged ( 
@@ -104,6 +124,10 @@ namespace NativeUwp_ViewerApp_01
       var red = new SkiaSharp.SKPaint(){
         Color = SkiaSharp.SKColors.Red
       } ;
+      var blue = new SkiaSharp.SKPaint(){
+        Color = SkiaSharp.SKColors.Blue,
+        StrokeWidth = 3
+      } ;
       canvasRect.UnpackVisibleCornerPoints(
         out SkiaSharp.SKPoint topLeftPoint,    
         out SkiaSharp.SKPoint topRightPoint,   
@@ -116,6 +140,9 @@ namespace NativeUwp_ViewerApp_01
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
       ) ;
+      var iSpecial = (
+        m_latestReferencePositionChangedMessage?.referencePosition ?? new System.Drawing.Point(-1,-1) 
+      ).X ;
       intensityValues.ForEachItem(
         (value,i) => {
           float lineLength = (
@@ -133,7 +160,7 @@ namespace NativeUwp_ViewerApp_01
           skiaCanvas.DrawVerticalLineUp(
             bottomAnchorPoint,
             lineLength,
-            red
+            i == iSpecial ? blue : red
           ) ;
           points.Add(
             bottomAnchorPoint.MovedBy(0,-lineLength)

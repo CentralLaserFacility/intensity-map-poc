@@ -17,9 +17,14 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
 using Common.ExtensionMethods;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace NativeUwp_ViewerApp_01
 {
+
+  public record ReferencePositionChangedMessage ( System.Drawing.Point? referencePosition ) ;
+
+  public record PointerPositionChangedMessage ( System.Drawing.Point? pointerPosition ) ;
 
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
@@ -204,6 +209,10 @@ namespace NativeUwp_ViewerApp_01
             $"Adjusting ProfileGraphsReferencePosition by [{deltaRight},{deltaDown}] => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
           ) ;
           ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
+          Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
+            new ReferencePositionChangedMessage(updatedReferencePosition)//,
+            //0
+          ) ;
         }
         break ;
       case TouchTracking.TouchActionType.Released:
