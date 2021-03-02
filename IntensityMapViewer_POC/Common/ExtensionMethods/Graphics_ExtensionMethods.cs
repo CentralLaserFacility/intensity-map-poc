@@ -12,8 +12,8 @@ namespace Common.ExtensionMethods
       this System.Drawing.Point point,
       System.Drawing.Rectangle  rectangle
     ) => new System.Drawing.Point(
-      point.X.ClampedToInclusiveRange(rectangle.Left,rectangle.Right),
-      point.Y.ClampedToInclusiveRange(rectangle.Top,rectangle.Bottom)
+      point.X.ClampedToInclusiveRange(rectangle.Left,rectangle.Right-1),
+      point.Y.ClampedToInclusiveRange(rectangle.Top,rectangle.Bottom-1)
     ) ;
 
     public static string ToPixelPositionString (

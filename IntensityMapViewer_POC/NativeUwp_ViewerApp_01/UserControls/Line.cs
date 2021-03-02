@@ -17,7 +17,7 @@ namespace NativeUwp_ViewerApp_01
         paint
       ) ;
     }
-    public abstract bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f ) ;
+    public abstract bool CoincidesWithMousePosition ( SkiaSharp.SKPoint? mousePosition, float maxDelta = 4.0f ) ;
   }
 
   public record HorizontalLine : Line
@@ -38,10 +38,14 @@ namespace NativeUwp_ViewerApp_01
       )
     ) {
     }
-    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
-    => System.MathF.Abs(
-      From.Y - mousePosition.Y
-    ) < maxDelta ;
+    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint? mousePosition, float maxDelta = 4.0f )
+    => (
+      mousePosition.HasValue
+      ? System.MathF.Abs(
+          From.Y - mousePosition.Value.Y
+        ) < maxDelta
+      : false
+    ) ;
   }
 
   public record VerticalLine : Line
@@ -62,10 +66,14 @@ namespace NativeUwp_ViewerApp_01
       )
     ) {
     }
-    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint mousePosition, float maxDelta = 4.0f )
-    => System.MathF.Abs(
-      From.X - mousePosition.X
-    ) < maxDelta ;
+    public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint? mousePosition, float maxDelta = 4.0f )
+    => (
+      mousePosition.HasValue
+      ? System.MathF.Abs(
+          From.X - mousePosition.Value.X
+        ) < maxDelta
+      : false
+    ) ;
   }
 
 }

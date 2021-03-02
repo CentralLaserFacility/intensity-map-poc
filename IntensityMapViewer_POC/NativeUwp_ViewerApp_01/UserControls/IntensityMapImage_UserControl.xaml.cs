@@ -134,7 +134,7 @@ namespace NativeUwp_ViewerApp_01
       case TouchTracking.TouchActionType.Pressed:
         m_mostRecentlyNotifiedPointerPosition_sceneCoordinates = positionInSceneCoordinates ;
         if ( 
-           m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true  
+           m_horizontalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates) is true  
         && ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue 
         ) {
           m_profileGraphsReferencePositionBeforeDragStarted = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
@@ -142,7 +142,7 @@ namespace NativeUwp_ViewerApp_01
           handled = true ;
         }
         if ( 
-           m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value) is true  
+           m_verticalLine?.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates) is true  
         && ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue 
         ) {
           m_profileGraphsReferencePositionBeforeDragStarted = ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value ;
@@ -308,20 +308,14 @@ namespace NativeUwp_ViewerApp_01
           skiaCanvas.DrawOval(
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
             new SkiaSharp.SKSize(
-              m_inContact ? 10.0f : 5.0f,
-              m_inContact ? 10.0f : 5.0f
+              5.0f,
+              5.0f
+              // m_inContact ? 10.0f : 5.0f,
+              // m_inContact ? 10.0f : 5.0f
             ),
             dragMarkerStyle
           ) ;
         }
-        var horizontalLineStyle = new SkiaSharp.SKPaint(){
-          Color       = SkiaSharp.SKColors.Red,
-          StrokeWidth = 3
-        } ;        
-        var verticalLineStyle = new SkiaSharp.SKPaint(){
-          Color       = SkiaSharp.SKColors.Red,
-          StrokeWidth = 3
-        } ;
         if ( 
           m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
             ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
@@ -342,6 +336,22 @@ namespace NativeUwp_ViewerApp_01
             0.0f,
             deviceClipBounds.Height
           ) ;
+          var horizontalLineStyle = new SkiaSharp.SKPaint(){
+            Color       = SkiaSharp.SKColors.Red,
+            StrokeWidth = (
+              m_horizontalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)  
+              ? 3
+              : 1
+            )
+          } ;        
+          var verticalLineStyle = new SkiaSharp.SKPaint(){
+            Color       = SkiaSharp.SKColors.Red,
+            StrokeWidth = (
+              m_verticalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)   
+              ? 3
+              : 1
+            )
+          } ;
           m_horizontalLine.Draw(skiaCanvas,horizontalLineStyle) ;
           m_verticalLine.Draw(skiaCanvas,verticalLineStyle) ;
         }
@@ -353,6 +363,7 @@ namespace NativeUwp_ViewerApp_01
         SkiaSharp.SKPaint textPaint = new SkiaSharp.SKPaint() { 
           Color       = SkiaSharp.SKColors.White,
           IsAntialias = true,
+          TextSize    = 16.0f,
           Typeface    = SkiaSharp.SKTypeface.FromFamilyName(
             "Courier",
             SkiaSharp.SKFontStyle.Normal
@@ -364,18 +375,19 @@ namespace NativeUwp_ViewerApp_01
         //  radius : 10.0f,
         //  redPaint
         //  ;
-        if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
-        {
-          m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
-            m_mostRecentlyNotifiedPointerPosition_sceneCoordinates,
-            out var pointerPositionInPixels 
-          ) ;
+        if ( 
+           m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue
+        && m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
+             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates,
+             out var pointerPositionInPixels 
+           )
+        ) { 
           var intensityValue = ViewModel.MostRecentlyAcquiredIntensityMap.GetIntensityValueAt(
             pointerPositionInPixels.Value.X,
             pointerPositionInPixels.Value.Y
           ) ;
           // string label = $"[{ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X},{ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y}] : {intensityValue}" ;
-          string label = $"{pointerPositionInPixels.Value.ToPixelPositionString()}: {intensityValue}" ;
+          string label = $"{pointerPositionInPixels.Value.ToPixelPositionString()} {intensityValue}" ;
           skiaCanvas.DrawText(
             label,
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value.MovedBy(10.0f,-20.0f),
@@ -384,6 +396,7 @@ namespace NativeUwp_ViewerApp_01
         }
 
       }
+
     }
 
   }

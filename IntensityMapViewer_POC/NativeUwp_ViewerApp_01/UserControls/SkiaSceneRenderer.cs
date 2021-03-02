@@ -53,7 +53,7 @@
       float              scaleFactor
     ) {
       RenderHook?.Invoke(skiaCanvas) ;
-      skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
+      skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
       m_draw(skiaCanvas) ;
       if ( ShowTransformMatrixInfo )
       {
