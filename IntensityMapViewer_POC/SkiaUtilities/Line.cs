@@ -2,7 +2,7 @@
 // Line.cs
 // 
 
-namespace NativeUwp_ViewerApp_01
+namespace SkiaUtilities
 {
 
   // A 'Line' can be drawn, and can participate in Hit Testing
@@ -41,7 +41,7 @@ namespace NativeUwp_ViewerApp_01
     public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint? mousePosition, float maxDelta = 4.0f )
     => (
       mousePosition.HasValue
-      ? System.MathF.Abs(
+      ? System.Math.Abs(
           From.Y - mousePosition.Value.Y
         ) < maxDelta
       : false
@@ -69,7 +69,7 @@ namespace NativeUwp_ViewerApp_01
     public override bool CoincidesWithMousePosition ( SkiaSharp.SKPoint? mousePosition, float maxDelta = 4.0f )
     => (
       mousePosition.HasValue
-      ? System.MathF.Abs(
+      ? System.Math.Abs(
           From.X - mousePosition.Value.X
         ) < maxDelta
       : false

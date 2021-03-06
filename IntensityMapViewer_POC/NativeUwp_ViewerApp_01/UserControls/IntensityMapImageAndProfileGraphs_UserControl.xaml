@@ -24,7 +24,7 @@
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
-        <local:VerticalProfileGraph_UserControl 
+        <local:VerticalProfileGraph_UserControl
           x:Name="m_verticalProfileGraph" 
           Grid.Row="0" Grid.Column="0" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"

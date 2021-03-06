@@ -28,10 +28,10 @@ namespace WindowsTemplateStudioApp_02.Views
       new PropertyChangedEventArgs(propertyName)
     ) ;
 
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler_00 ;
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler_01 ;
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler_10 ;
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler_11 ;
+    private UwpSkiaUtilities.PanAndZoomGesturesHandler m_panAndZoomAndRotationGesturesHandler_00 ;
+    private UwpSkiaUtilities.PanAndZoomGesturesHandler m_panAndZoomAndRotationGesturesHandler_01 ;
+    private UwpSkiaUtilities.PanAndZoomGesturesHandler m_panAndZoomAndRotationGesturesHandler_10 ;
+    private UwpSkiaUtilities.PanAndZoomGesturesHandler m_panAndZoomAndRotationGesturesHandler_11 ;
 
     public Skia_PanAndZoomPage ( )
     {

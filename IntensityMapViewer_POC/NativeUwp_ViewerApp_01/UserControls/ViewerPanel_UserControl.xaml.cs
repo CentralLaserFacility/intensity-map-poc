@@ -50,5 +50,11 @@ namespace NativeUwp_ViewerApp_01
       // } ;
     }
 
+    private void TestButton_Click ( object sender, RoutedEventArgs e )
+    {
+
+    }
+
   }
+
 }

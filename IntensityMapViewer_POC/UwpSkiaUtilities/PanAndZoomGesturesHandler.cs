@@ -5,14 +5,14 @@
 namespace UwpSkiaUtilities
 {
 
-  public class TouchEventDescriptor
-  {
-    public TouchTracking.TouchActionType EventType ;
-    public SkiaSharp.SKPoint positionInSceneCoordinates ;
-    public bool InContact ;
-  }
+  // public class TouchEventDescriptor
+  // {
+  //   public TouchTracking.TouchActionType EventType ;
+  //   public SkiaSharp.SKPoint             TouchPositionInSceneCoordinates ;
+  //   public bool                          InContact ;
+  // }
 
-  public class PanAndZoomAndRotationGesturesHandler 
+  public class PanAndZoomGesturesHandler 
   {
 
     private SkiaScene.ISKScene m_scene ;
@@ -28,11 +28,11 @@ namespace UwpSkiaUtilities
     public System.Func<
       TouchTracking.TouchActionType, 
       SkiaSharp.SKPoint,             // positionInSceneCoordinates
-      bool,                          // In Contact
-      bool                           // Handled ...
+      bool,                          // inContact
+      bool                           // return true if 'handled'
     > TouchActionDetected ;
 
-    public PanAndZoomAndRotationGesturesHandler ( 
+    public PanAndZoomGesturesHandler ( 
       SkiaSharp.Views.UWP.SKXamlCanvas canvas,
       SkiaScene.ISKSceneRenderer       sceneRenderer
     ) :
@@ -48,7 +48,7 @@ namespace UwpSkiaUtilities
     ) {
     }
 
-    public PanAndZoomAndRotationGesturesHandler ( 
+    public PanAndZoomGesturesHandler ( 
       SkiaSharp.Views.UWP.SKXamlCanvas canvas,
       SkiaScene.ISKScene               scene
     ) {
@@ -155,6 +155,8 @@ namespace UwpSkiaUtilities
 
     private float m_aggregatedZoomFactor = 1.0f ;
 
+    public static bool RecogniseRotationGestures = false ;
+
     private void OnPointerWheelChanged ( object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e )
     {
       const float zoomFactorPerScrollWheelClick = 1.1f ;
@@ -162,31 +164,36 @@ namespace UwpSkiaUtilities
       int wheelDelta = pointerPoint.Properties.MouseWheelDelta ;
 
       // If CONTROL is down, we ROTATE ...
-      // if ( 
-      //   Windows.UI.Core.CoreWindow.GetForCurrentThread(
-      //   ).GetAsyncKeyState(
-      //     Windows.System.VirtualKey.Control
-      //   ) == Windows.UI.Core.CoreVirtualKeyStates.Down 
-      // ) {
-      //   var rotationReferencePoint = m_scene.GetCanvasPointFromViewPoint(
-      //     new SkiaSharp.SKPoint(
-      //       (float) pointerPoint.Position.X,
-      //       (float) pointerPoint.Position.Y
-      //     )
-      //   ) ;
-      //   m_scene.RotateByRadiansDelta(
-      //     rotationReferencePoint,
-      //     (float) ( 
-      //       // Each click gives a delta of 120
-      //       // We want one click to rotate us by 10 degrees
-      //       ( wheelDelta / 120 ) 
-      //     * 10.0 
-      //     * System.Math.PI / 180.0 
-      //     )
-      //   ) ;
-      //   m_canvas.Invalidate() ;
-      //   return ;
-      // }
+      // https://blog.mzikmund.com/2017/06/the-right-way-to-check-for-key-state-in-uwp-apps/
+      if ( 
+         RecogniseRotationGestures 
+      && Windows.UI.Core.CoreWindow.GetForCurrentThread(
+         ).GetAsyncKeyState(
+           Windows.System.VirtualKey.Control
+         ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
+      ) {
+        var rotationReferencePoint = m_scene.GetCanvasPointFromViewPoint(
+          new SkiaSharp.SKPoint(
+            (float) pointerPoint.Position.X,
+            (float) pointerPoint.Position.Y
+          )
+        ) ;
+        m_scene.RotateByRadiansDelta(
+          rotationReferencePoint,
+          (float) ( 
+            // Each click of the wheel in a 'forward' direction,
+            // ie with the finger that's resting on the mouse wheel
+            // moving 'forward' towards the end of the mouse body,
+            // gives a delta of +120.
+            // We want one click to rotate us by 10 degrees clockwise.
+            ( wheelDelta / 120 ) 
+          * 10.0 
+          * System.Math.PI / 180.0 
+          )
+        ) ;
+        m_canvas.Invalidate() ;
+        return ;
+      }
       // Otherwise, we ZOOM ...
       float zoomFactorToApply = (
         wheelDelta > 0 

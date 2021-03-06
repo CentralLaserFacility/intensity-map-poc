@@ -38,7 +38,7 @@
             -->
             <skia:SKXamlCanvas 
               x:Name="m_skiaCanvas"
-              Margin="10" 
+              Margin="0" 
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
             />

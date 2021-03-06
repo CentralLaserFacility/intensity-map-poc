@@ -120,7 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PanAndZoomAndRotationGesturesHandler.cs" />
+    <Compile Include="PanAndZoomGesturesHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\UwpSkiaUtilities.rd.xml" />
   </ItemGroup>

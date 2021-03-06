@@ -102,8 +102,12 @@ namespace NativeUwp_ViewerApp_01
           // GetReferencePosition() ;
           // Hmm, trickiness here as there can be several parties updating the value !!
           // If someone else updates the value, we need to keep our ViewModels in sync
-          // but we definitiely don't want to set 'CurrentValue' as that will have the effect
-          // of pushing our current value !!!
+          // but we definitely don't want to set 'CurrentValue' as that will have the effect
+          // of pushing *our* current value !!!
+          // TODO - make sure this is bulletproof ...
+          // IDEALLY WE SHOULD JUST SET THE CURRENT VALUE HERE ???
+          // Probably the issue is being caused by having a nested call, 
+          // we could probably avoid it by detecting that situation.
           if ( newViewModel.ProfileGraphsReferencePosition.HasValue )
           {
             XPositionViewModel.OnCurrentValueChangedExternally(newViewModel.ProfileGraphsReferencePosition.Value.X) ;
@@ -111,13 +115,15 @@ namespace NativeUwp_ViewerApp_01
           }
         } ;
       }
-      void SetReferencePosition ( )
+
+      void SetReferencePosition ( double value )
       {
         newViewModel.ProfileGraphsReferencePosition = new System.Drawing.Point(
           (int) XPositionViewModel.CurrentValue,
           (int) YPositionViewModel.CurrentValue 
         ) ;
       }
+
       void GetReferencePosition ( )
       {
         if ( newViewModel.ProfileGraphsReferencePosition.HasValue )

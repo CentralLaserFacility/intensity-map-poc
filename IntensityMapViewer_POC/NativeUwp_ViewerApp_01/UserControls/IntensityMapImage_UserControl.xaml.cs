@@ -51,7 +51,7 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
+    private UwpSkiaUtilities.PanAndZoomGesturesHandler m_panAndZoomGesturesHandler ;
 
     public static bool SupportPanAndZoom = true ;
 
@@ -66,7 +66,7 @@ namespace NativeUwp_ViewerApp_01
     ) {
       if ( SupportPanAndZoom )
       {
-        m_panAndZoomAndRotationGesturesHandler = new(
+        m_panAndZoomGesturesHandler = new(
           m_skiaCanvas,
           new SkiaSceneRenderer(DrawIntensityMap){
             ShowTransformMatrixInfo = true,
@@ -254,9 +254,9 @@ namespace NativeUwp_ViewerApp_01
       DrawIntensityMap(skiaCanvas) ;
     }
 
-    private HorizontalLine? m_horizontalLine = null ;
+    private SkiaUtilities.HorizontalLine? m_horizontalLine = null ;
 
-    private VerticalLine?   m_verticalLine   = null ;
+    private SkiaUtilities.VerticalLine?   m_verticalLine   = null ;
 
     private SkiaUtilities.PixelToSceneCoordinatesMapper m_pixelToSceneCoordinatesMapper ;
 
@@ -347,12 +347,12 @@ namespace NativeUwp_ViewerApp_01
           //   referencePointInSceneCoordinates,
           //   out var referencePositionInPixels 
           // ) ;
-          m_horizontalLine = new HorizontalLine(
+          m_horizontalLine = new SkiaUtilities.HorizontalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
             rectInWhichToDrawBitmap.Width
           ) ;
-          m_verticalLine = new VerticalLine(
+          m_verticalLine = new SkiaUtilities.VerticalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
             rectInWhichToDrawBitmap.Height

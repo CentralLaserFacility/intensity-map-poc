@@ -104,7 +104,7 @@ namespace IntensityMapViewer
         OnPropertyChanged(nameof(CurrentValueAsString)) ;
         MostRecentSetAttemptFailed = false ;
         // Common.DebugHelpers.WriteDebugLines($"Numeric value => {value}") ;
-        ValueChanged?.Invoke() ;
+        ValueChanged?.Invoke(CurrentValue) ;
       }
       else
       {
@@ -117,6 +117,7 @@ namespace IntensityMapViewer
       m_currentValue = value ;
       OnPropertyChanged(nameof(CurrentValue)) ;
       OnPropertyChanged(nameof(CurrentValueAsString)) ;
+      // Note that we DO NOT INVOKE 'ValueChanged()' ...
     }
 
     public string CurrentValueAsString 
@@ -143,7 +144,7 @@ namespace IntensityMapViewer
       }
     }
 
-    public System.Action? ValueChanged { get ; set ; }
+    public System.Action<double>? ValueChanged { get ; set ; }
 
   }
 
