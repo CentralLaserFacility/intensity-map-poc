@@ -264,20 +264,6 @@ namespace NativeUwp_ViewerApp_01
     { 
       ViewModel.Parent.RaiseIntensityMapVisualisationHasChangedEvent() ;
       var deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      // Draw a diagonal line (debugging)
-      // skiaCanvas.DrawLine(
-      //   new SkiaSharp.SKPoint(
-      //     deviceClipBounds.Location.X,
-      //     deviceClipBounds.Location.Y
-      //   ),
-      //   new SkiaSharp.SKPoint(
-      //     deviceClipBounds.Location.X + deviceClipBounds.Width  - 1,
-      //     deviceClipBounds.Location.Y + deviceClipBounds.Height - 1
-      //   ),
-      //   new SkiaSharp.SKPaint(){
-      //     Color = SkiaSharp.SKColors.Red
-      //   }
-      // ) ;
       if ( ViewModel != null )
       { 
         // Hmm, should try to eliminate this test ...
@@ -288,9 +274,19 @@ namespace NativeUwp_ViewerApp_01
         ) ;
         var colourMapOption = ViewModel.Parent.ImagePresentationSettings.ColourMapOption ;
         var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
+        var normalisationValue = ViewModel.Parent.ImagePresentationSettings.NormalisationValue ;
+        var normalisationGainValue = 255.0 / normalisationValue ;
+        byte ApplyNormalisationValue ( byte nominalIntensity )
+        => (
+          nominalIntensity >= normalisationValue
+          ? (byte) 255
+          : (byte) ( nominalIntensity * normalisationGainValue )
+        ) ;
         bitmap.Pixels = intensityMap.IntensityValues.Select(
           intensity => new SkiaSharp.SKColor(
-            colourMapper.MapByteValueToEncodedARGB(intensity)
+            colourMapper.MapByteValueToEncodedARGB(
+              ApplyNormalisationValue(intensity)
+            )
             // red   : intensity,
             // green : intensity,
             // blue  : intensity
@@ -326,11 +322,12 @@ namespace NativeUwp_ViewerApp_01
         float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
         if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
         {
+          float ovalDiameter = 4.0f ;
           skiaCanvas.DrawOval(
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
             new SkiaSharp.SKSize(
-              5.0f * zoomCompensationFactor,
-              5.0f * zoomCompensationFactor
+              ovalDiameter * zoomCompensationFactor,
+              ovalDiameter * zoomCompensationFactor
               // m_inContact ? 10.0f : 5.0f,
               // m_inContact ? 10.0f : 5.0f
             ),

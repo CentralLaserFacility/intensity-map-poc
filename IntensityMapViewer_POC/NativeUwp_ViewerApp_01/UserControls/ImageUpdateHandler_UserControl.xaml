@@ -10,13 +10,23 @@
     d:DesignWidth="500"
 >
 
-  <StackPanel Orientation="Horizontal" Padding="10" Spacing="10">
+  <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="Bisque">
 
     <Button Content="Next" Click="Button_Click" />
 
     <CheckBox Content="Auto" />
 
+    <!-- 
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />
+    -->
+
+    <Slider 
+      Header="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString, Mode=OneWay}"
+      Minimum="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min, Mode=OneWay}" 
+      Maximum="{x:Bind TimedUpdatesScheduler.TimerPeriod_Max, Mode=OneWay}" 
+      Value="{x:Bind TimedUpdatesScheduler.TimerPeriodInMillisecs, Mode=TwoWay}" 
+      Width="200" 
+    />
 
   </StackPanel>
 

@@ -73,25 +73,28 @@ namespace IntensityMapViewer
 
     public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
 
-    public TimedUpdatesScheduler ( )
+    private readonly System.Action m_updateActionToBePerformed ;
+
+    public TimedUpdatesScheduler ( System.Action updateActionToBePerformed )
     {
+      m_updateActionToBePerformed = updateActionToBePerformed ;
       m_desiredWakeupPeriodMillisecs = TimerPeriod_Default ; 
-      StartDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
+      StartTimedUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_performDynamicImageUpdates = true ;
+          m_enableTimedUpdates = true ;
           // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
-          StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
-          StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
+          StartTimedUpdates.NotifyCanExecuteChanged() ;
+          StopTimedUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_performDynamicImageUpdates is false
+        () => m_enableTimedUpdates is false
       ) ;
-      StopDynamicImageUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
+      StopTimedUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_performDynamicImageUpdates = false ;
-          StartDynamicImageUpdates.NotifyCanExecuteChanged() ;
-          StopDynamicImageUpdates.NotifyCanExecuteChanged() ;
+          m_enableTimedUpdates = false ;
+          StartTimedUpdates.NotifyCanExecuteChanged() ;
+          StopTimedUpdates.NotifyCanExecuteChanged() ;
         },
-        () => m_performDynamicImageUpdates is true
+        () => m_enableTimedUpdates is true
       ) ;
       // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
       // base.IntensityMapLabel = "This will cycle through 60 variants" ;
@@ -113,19 +116,17 @@ namespace IntensityMapViewer
     //   }
     // ) ;
 
-    private bool m_performDynamicImageUpdates = false ;
+    private bool m_enableTimedUpdates = false ;
 
-    public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StartDynamicImageUpdates { get ; }
+    public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StartTimedUpdates { get ; }
 
-    public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StopDynamicImageUpdates { get ; }
+    public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StopTimedUpdates { get ; }
 
-    // When the timer fires, we replace the Dynamic image.
+    // It can be interesting to log the time taken to perform the operation we're invoking
 
-    // It's interesting to log the time taken to load a fresh image ...
+    private List<long> m_updateExecutionTimes = new () ;
 
-    private List<long> m_bitmapLoadTimes = new () ;
-
-    public string BitmapLoadTimes { get ; private set ; } = "" ;
+    public string UpdateExecutionTimes { get ; private set ; } = "" ;
 
     public string ActualTimerWakeupIntervals { get ; private set ; } = "" ;
 
@@ -166,37 +167,31 @@ namespace IntensityMapViewer
         m_actualTimerWakeupIntervals.Clear() ;
         m_timerTickReportStopwatch.Restart() ;
       }
-      if ( m_performDynamicImageUpdates )
+      if ( m_enableTimedUpdates )
       {
-        System.Diagnostics.Stopwatch bitmapLoadingStopwatch = new() ;
-        bitmapLoadingStopwatch.Start() ;
-        // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
-        m_bitmapLoadTimes.Add(
-          bitmapLoadingStopwatch.ElapsedMilliseconds
+        System.Diagnostics.Stopwatch executionTimingStopwatch = new() ;
+        executionTimingStopwatch.Start() ;
+        m_updateActionToBePerformed() ;
+        m_updateExecutionTimes.Add(
+          executionTimingStopwatch.ElapsedMilliseconds
         ) ;
-        if ( m_bitmapLoadTimes.Count == 20 )
+        if ( m_updateExecutionTimes.Count == 20 )
         {
-          BitmapLoadTimes = (
-            "Bitmap load times (mS) (ordered) : "
+          UpdateExecutionTimes = (
+            "Action execution times (mS) (ordered) : "
           + string.Join(
               " ",
-              m_bitmapLoadTimes.OrderBy(
+              m_updateExecutionTimes.OrderBy(
                 time => time
               ).Select(
                 time => time.ToString("F0")
               )
             )
           ) ;
-          base.OnPropertyChanged(nameof(BitmapLoadTimes)) ;
-          m_bitmapLoadTimes.Clear() ;
+          base.OnPropertyChanged(nameof(UpdateExecutionTimes)) ;
+          m_updateExecutionTimes.Clear() ;
         }
       }
-      // System.Diagnostics.Debug.WriteLine(
-      //   $"LoadOrCreateWriteableBitmap took {elapsedMilliseconds} mS"
-      // ) ;
-      // If we set this to null, then a fresh PixelBuffer gets allocated for each Image
-      // and memory usage increases until GC kicks in (every few seconds).
-      // m_writeableBitmap = null ;
     }
 
   }
