@@ -285,9 +285,7 @@ namespace NativeUwp_ViewerApp_01
 
     private SkiaUtilities.PixelToSceneCoordinatesMapper m_pixelToSceneCoordinatesMapper ;
 
-    // YUK : THIS IS A HACK TO TRY OUT A POTENTIAL FIX ...
-
-    public static SkiaSharp.SKRect RectInWhichToDrawBitmap { get ; private set ; }
+    public SkiaSharp.SKRect RectInWhichToDrawBitmap { get ; private set ; }
 
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 

@@ -16,7 +16,7 @@
 
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
-        <RowDefinition Height="70"/>
+        <RowDefinition Height="90"/>
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
@@ -64,6 +64,11 @@
       Padding="10" 
       Spacing="10"
     >
+      <!-- 
+      <Button Content="Next" />
+      <CheckBox Content="Free-run" />
+      -->
+      <local:ImageUpdateHandler_UserControl />
       <Button Content="Settings"/>
       <Button Content="Test"  Click="TestButton_Click"/>
       <Button Content="Reset" />

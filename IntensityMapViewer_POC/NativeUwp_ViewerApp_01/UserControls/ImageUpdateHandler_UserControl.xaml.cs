@@ -50,6 +50,8 @@ namespace NativeUwp_ViewerApp_01
 
     public System.Action? CurrentIntensityMapChanged ;
 
+    private int m_nUpdatesPerformed = 0 ;
+
     public ImageUpdateHandler_UserControl ( )
     {
       this.InitializeComponent() ;
@@ -57,6 +59,9 @@ namespace NativeUwp_ViewerApp_01
         () => {
           CurrentIntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
           CurrentIntensityMapChanged?.Invoke() ;
+          Common.DebugHelpers.WriteDebugLines(
+            $"Performed update #{++m_nUpdatesPerformed}"
+          ) ;
         }
       ) ;
       // m_updateRateEditor.ViewModel = UpdateRateViewModel = new(){
@@ -85,7 +90,7 @@ namespace NativeUwp_ViewerApp_01
       m_timer.Start() ;
     }
 
-    private void Button_Click ( object sender, RoutedEventArgs e )
+    private void NextButton_Click ( object sender, RoutedEventArgs e )
     {
 
     }

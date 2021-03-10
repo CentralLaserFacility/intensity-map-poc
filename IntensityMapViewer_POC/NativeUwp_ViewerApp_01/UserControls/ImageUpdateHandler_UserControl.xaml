@@ -6,22 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="100"
-    d:DesignWidth="500"
+    d:DesignHeight="80"
+    d:DesignWidth="700"
     x:DefaultBindMode="OneWay"
 >
 
   <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="Bisque">
 
-    <Button Content="Next" Click="Button_Click" />
+    <Button Content="Next" Click="NextButton_Click" />
 
-    <CheckBox Content="Auto" />
+    <!-- Hmm, what determines the width ?? -->
+
+    <CheckBox Content="Free-run" Width="20" />
 
     <!-- 
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />
     -->
 
-    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="LightCyan">
       <Slider 
         Header  ="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString}"
         Minimum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min}" 
@@ -37,7 +38,6 @@
         Width="200" 
       />
 
-    </StackPanel>
 
   </StackPanel>
 

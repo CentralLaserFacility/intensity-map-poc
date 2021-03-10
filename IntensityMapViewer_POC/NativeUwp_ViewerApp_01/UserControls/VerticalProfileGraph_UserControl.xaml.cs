@@ -80,6 +80,10 @@ namespace NativeUwp_ViewerApp_01
       m_skiaCanvas.Invalidate() ;
     }
 
+    // Nasty HACK ...
+
+    public IntensityMapImage_UserControl IntensityMapImage_UserControl ;
+
     private void DrawVerticalProfileGraph_IndividualLines (
       SkiaSharp.SKCanvas skiaCanvas
     ) {

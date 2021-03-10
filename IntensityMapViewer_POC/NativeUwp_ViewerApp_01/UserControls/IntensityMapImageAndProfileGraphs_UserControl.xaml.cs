@@ -37,6 +37,12 @@ namespace NativeUwp_ViewerApp_01
     public IntensityMapImageAndProfileGraphs_UserControl ( )
     {
       InitializeComponent() ;
+      // Hmm, NASTY HACK ... there's gotta be a better way of setting up this relationship.
+      // In the Horizontal control, we could navigate back through the Parent properties
+      // until we find this 'IntensityMapImageAndProfileGraphs' control, and then access
+      // the 'Image' control and its 'RectInWhichToDrawBitmap' property.
+      m_horizontalProfileGraph_UserControl .IntensityMapImage_UserControl = m_intensityMapImage_UserControl ;
+      m_verticalProfileGraph_UserControl   .IntensityMapImage_UserControl = m_intensityMapImage_UserControl ;
     }
 
     public Visibility VisibleWhen ( bool visible )
