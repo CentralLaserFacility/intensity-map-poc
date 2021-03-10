@@ -42,7 +42,7 @@
     
     private System.Action<SkiaSharp.SKCanvas> m_draw ;
 
-    public System.Action<SkiaSharp.SKCanvas> RenderHook = null ;
+    public System.Action<SkiaSharp.SKCanvas> RenderHookAction = null ;
 
     public bool ShowTransformMatrixInfo { get ; set ; }
 
@@ -52,7 +52,7 @@
       SkiaSharp.SKPoint  centrePoint,
       float              scaleFactor
     ) {
-      RenderHook?.Invoke(skiaCanvas) ;
+      RenderHookAction?.Invoke(skiaCanvas) ;
       skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
       m_draw(skiaCanvas) ;
       if ( ShowTransformMatrixInfo )

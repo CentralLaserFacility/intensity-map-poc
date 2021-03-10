@@ -122,6 +122,12 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
+
+      // We only want to make the drawing as high as the rectangle in which we're drawing the image
+
+      bottomLeftPoint.Y  = topLeftPoint.Y  + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
+      bottomRightPoint.Y = topRightPoint.Y + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
+
       float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;

@@ -54,17 +54,17 @@ namespace NativeUwp_ViewerApp_01
     public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
-      Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register<
-        HorizontalProfileGraph_UserControl,
-        ReferencePositionChangedMessage,
-        int
-      >(
-        this,
-        0,
-        (self,message) => {
-          // m_latestReferencePositionChangedMessage = message ;
-        }
-      ) ;
+      // Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register<
+      //   HorizontalProfileGraph_UserControl,
+      //   ReferencePositionChangedMessage,
+      //   int
+      // >(
+      //   this,
+      //   0,
+      //   (self,message) => {
+      //     // m_latestReferencePositionChangedMessage = message ;
+      //   }
+      // ) ;
       Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register(
         this,
         (HorizontalProfileGraph_UserControl self, ReferencePositionChangedMessage message) => {
@@ -137,6 +137,12 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomLeftPoint, 
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
+
+      // We only want to make the drawing as wide as the rectangle in which we're drawing the image
+
+      bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
+      topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
+
       float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;

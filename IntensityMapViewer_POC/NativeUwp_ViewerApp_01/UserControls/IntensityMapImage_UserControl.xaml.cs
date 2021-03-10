@@ -70,7 +70,7 @@ namespace NativeUwp_ViewerApp_01
           m_skiaCanvas,
           new SkiaSceneRenderer(DrawIntensityMap){
             ShowTransformMatrixInfo = true,
-            RenderHook = (canvas) => {
+            RenderHookAction = (canvas) => {
               SkiaSceneRenderer.LoadPanAndZoomParameters(
                 newViewModel.Parent.PanAndZoomParameters,
                 canvas.TotalMatrix
@@ -260,6 +260,10 @@ namespace NativeUwp_ViewerApp_01
 
     private SkiaUtilities.PixelToSceneCoordinatesMapper m_pixelToSceneCoordinatesMapper ;
 
+    // YUK : THIS IS A HACK TO TRY OUT A POTENTIAL FIX ...
+
+    public static SkiaSharp.SKRect RectInWhichToDrawBitmap { get ; private set ; }
+
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
       ViewModel.Parent.RaiseIntensityMapVisualisationHasChangedEvent() ;
@@ -299,7 +303,7 @@ namespace NativeUwp_ViewerApp_01
           expansionFactorX,
           expansionFactorY
         ) ;
-        SkiaSharp.SKRect rectInWhichToDrawBitmap = new SkiaSharp.SKRect(
+        RectInWhichToDrawBitmap = new SkiaSharp.SKRect(
           left   : 0.0f,
           top    : 0.0f,
           // right  : deviceClipBounds.Width,
@@ -309,11 +313,11 @@ namespace NativeUwp_ViewerApp_01
         ) ;
         m_pixelToSceneCoordinatesMapper = new SkiaUtilities.PixelToSceneCoordinatesMapper(
           intensityMap.Dimensions,
-          rectInWhichToDrawBitmap.Size
+          RectInWhichToDrawBitmap.Size
         ) ;
         skiaCanvas.DrawBitmap(
           bitmap,
-          rectInWhichToDrawBitmap
+          RectInWhichToDrawBitmap
         ) ;
         var dragMarkerStyle = new SkiaSharp.SKPaint(){
           Color       = SkiaSharp.SKColors.Blue,
@@ -347,12 +351,12 @@ namespace NativeUwp_ViewerApp_01
           m_horizontalLine = new SkiaUtilities.HorizontalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
-            rectInWhichToDrawBitmap.Width
+            RectInWhichToDrawBitmap.Width
           ) ;
           m_verticalLine = new SkiaUtilities.VerticalLine(
             referencePointInSceneCoordinates.Value,
             0.0f,
-            rectInWhichToDrawBitmap.Height
+            RectInWhichToDrawBitmap.Height
           ) ;
           var horizontalLineStyle = new SkiaSharp.SKPaint(){
             Color       = SkiaSharp.SKColors.Red,

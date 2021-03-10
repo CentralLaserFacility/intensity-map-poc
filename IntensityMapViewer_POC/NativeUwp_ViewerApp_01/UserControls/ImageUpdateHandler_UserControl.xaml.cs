@@ -21,9 +21,9 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class ImageUpdateHandler_UserControl : UserControl
   {
 
-    public IntensityMapViewer.NumericValueViewModel UpdateRateViewModel { get ; set ; } 
-
-    public IntensityMapViewer.NumericValueViewModel UpdatePeriodViewModel { get ; set ; } 
+    // public IntensityMapViewer.NumericValueViewModel UpdateRateViewModel { get ; set ; } 
+    // 
+    // public IntensityMapViewer.NumericValueViewModel UpdatePeriodViewModel { get ; set ; } 
 
     private Windows.UI.Xaml.DispatcherTimer m_timer ;
     

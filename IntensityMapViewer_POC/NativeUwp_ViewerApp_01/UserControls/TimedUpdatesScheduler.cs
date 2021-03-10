@@ -10,8 +10,16 @@ namespace IntensityMapViewer
 {
 
   //
-  // This uses a timer to dynamically cycle through a set of pre-computed settings.
+  // This uses an externally supplied timer to regularly invoke an 'update' action,
+  // eg to dynamically cycle through a set of pre-computed settings.
   //    
+  // The scheduler maintains a property that represents the desired 'wakeup period',
+  // together with min and max values. The desired wakeup period can be set between 
+  // those limits, either in terms of milliseconds or as frames-per-second.
+  //
+  // The external client is expected to invoke the 'wakeup' function at 
+  // the regular intervals indicated by the DesiredWakeupPeriod property.
+  //
 
   public class TimedUpdatesScheduler 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
@@ -122,7 +130,8 @@ namespace IntensityMapViewer
 
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StopTimedUpdates { get ; }
 
-    // It can be interesting to log the time taken to perform the operation we're invoking
+    // It can be interesting to log the time taken
+    // to perform the operation we're invoking.
 
     private List<long> m_updateExecutionTimes = new () ;
 

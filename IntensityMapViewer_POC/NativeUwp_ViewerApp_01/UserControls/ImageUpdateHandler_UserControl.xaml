@@ -8,6 +8,7 @@
     mc:Ignorable="d"
     d:DesignHeight="100"
     d:DesignWidth="500"
+    x:DefaultBindMode="OneWay"
 >
 
   <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="Bisque">
@@ -20,13 +21,23 @@
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />
     -->
 
-    <Slider 
-      Header="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString, Mode=OneWay}"
-      Minimum="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min, Mode=OneWay}" 
-      Maximum="{x:Bind TimedUpdatesScheduler.TimerPeriod_Max, Mode=OneWay}" 
-      Value="{x:Bind TimedUpdatesScheduler.TimerPeriodInMillisecs, Mode=TwoWay}" 
-      Width="200" 
-    />
+    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="LightCyan">
+      <Slider 
+        Header  ="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString}"
+        Minimum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min}" 
+        Maximum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Max}" 
+        Value   ="{x:Bind TimedUpdatesScheduler.TimerPeriodInMillisecs, Mode=TwoWay}" 
+        Width="200" 
+      />
+      <Slider 
+        Header  ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_AsString,}"
+        Minimum ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_Min}" 
+        Maximum ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_Max}" 
+        Value   ="{x:Bind TimedUpdatesScheduler.FramesPerSecond, Mode=TwoWay}" 
+        Width="200" 
+      />
+
+    </StackPanel>
 
   </StackPanel>
 
