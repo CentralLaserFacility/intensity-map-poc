@@ -27,7 +27,7 @@ namespace NativeUwp_ViewerApp_01
 
     private Windows.UI.Xaml.DispatcherTimer m_timer ;
     
-    private IntensityMapViewer.TimedUpdatesScheduler TimedUpdatesScheduler ;
+    public IntensityMapViewer.TimedUpdatesScheduler TimedUpdatesScheduler ;
 
     public static int SequenceType = 1 ;
 

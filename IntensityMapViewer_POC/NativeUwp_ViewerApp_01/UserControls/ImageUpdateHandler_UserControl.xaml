@@ -13,31 +13,31 @@
 
   <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="Bisque">
 
-    <Button Content="Next" Click="NextButton_Click" />
+    <Button Content="Next" Command="{x:Bind TimedUpdatesScheduler.PerformUpdate}" />
 
-    <!-- Hmm, what determines the width ?? -->
+    <!-- Hmm, what determines the width ?? It seems to have a minimum value of 120 ... -->
 
-    <CheckBox Content="Free-run" Width="20" />
+    <CheckBox Content="Free-run" Width="75" IsChecked="{x:Bind TimedUpdatesScheduler.EnableTimedUpdates, Mode=TwoWay}"/>
 
     <!-- 
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />
     -->
 
-      <Slider 
-        Header  ="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString}"
-        Minimum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min}" 
-        Maximum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Max}" 
-        Value   ="{x:Bind TimedUpdatesScheduler.TimerPeriodInMillisecs, Mode=TwoWay}" 
-        Width="200" 
-      />
-      <Slider 
-        Header  ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_AsString,}"
-        Minimum ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_Min}" 
-        Maximum ="{x:Bind TimedUpdatesScheduler.FramesPerSecond_Max}" 
-        Value   ="{x:Bind TimedUpdatesScheduler.FramesPerSecond, Mode=TwoWay}" 
-        Width="200" 
-      />
+    <Slider 
+      Header  ="{x:Bind TimedUpdatesScheduler.TimerPeriod_AsString}"
+      Value   ="{x:Bind TimedUpdatesScheduler.TimerPeriodInMillisecs, Mode=TwoWay}" 
+      Minimum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Min}" 
+      Maximum ="{x:Bind TimedUpdatesScheduler.TimerPeriod_Max}" 
+      Width="220" 
+    />
 
+    <Slider 
+      Header  ="{x:Bind TimedUpdatesScheduler.UpdatesPerSecond_AsString,}"
+      Value   ="{x:Bind TimedUpdatesScheduler.UpdatesPerSecond, Mode=TwoWay}" 
+      Minimum ="{x:Bind TimedUpdatesScheduler.UpdatesPerSecond_Min}" 
+      Maximum ="{x:Bind TimedUpdatesScheduler.UpdatesPerSecond_Max}" 
+      Width="220" 
+    />
 
   </StackPanel>
 

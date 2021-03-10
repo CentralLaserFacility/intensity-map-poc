@@ -52,6 +52,7 @@
       <StackPanel Orientation="Horizontal" Spacing="10" >
         <Button Content="Settings" />
         <Button Content="Reset" />
+        <Button Content="Test" Click="TestButton_Click"/>
       </StackPanel>
 
     </StackPanel>
@@ -68,10 +69,7 @@
       <Button Content="Next" />
       <CheckBox Content="Free-run" />
       -->
-      <local:ImageUpdateHandler_UserControl />
-      <Button Content="Settings"/>
-      <Button Content="Test"  Click="TestButton_Click"/>
-      <Button Content="Reset" />
+      <local:ImageUpdateHandler_UserControl x:Name="m_imageUpdateHandler" />
     </StackPanel>
 
 

@@ -21,9 +21,30 @@ namespace IntensityMapViewer
   // the regular intervals indicated by the DesiredWakeupPeriod property.
   //
 
+  public interface ITimedUpdatesScheduler
+  {
+    System.Action? UpdateActionToBePerformed { get ; set ; }
+    double DesiredWakeupPeriodMillisecs { get ; set ; }
+    event System.Action? DesiredWakeupPeriodChanged ;
+    double TimerPeriodInMillisecs { get ; set ; }
+    double TimerPeriod_Min     { get ; } 
+    double TimerPeriod_Max     { get ; } 
+    double TimerPeriod_Default { get ; } 
+    string TimerPeriod_AsString { get ; }
+    double UpdatesPerSecond { get ; set ; }
+    double UpdatesPerSecond_Max { get ; }
+    double UpdatesPerSecond_Min { get ; }
+    string UpdatesPerSecond_AsString { get ; }
+    bool EnableTimedUpdates { get ; set ; } 
+    Microsoft.Toolkit.Mvvm.Input.IRelayCommand StartTimedUpdates { get ; }
+    Microsoft.Toolkit.Mvvm.Input.IRelayCommand StopTimedUpdates  { get ; }
+    Microsoft.Toolkit.Mvvm.Input.IRelayCommand PerformUpdate  { get ; }
+  }
+
   public class TimedUpdatesScheduler 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
   , Common.IExpectsTimerWakeupNotifications
+  , ITimedUpdatesScheduler 
   {
 
     private double m_desiredWakeupPeriodMillisecs ;
@@ -39,13 +60,40 @@ namespace IntensityMapViewer
         ) {
           DesiredWakeupPeriodChanged?.Invoke() ;
           base.OnPropertyChanged(
+            nameof(TimerPeriodInMillisecs)
+          ) ;
+          base.OnPropertyChanged(
             nameof(TimerPeriod_AsString)
           ) ;
           base.OnPropertyChanged(
-            nameof(FramesPerSecond)
+            nameof(UpdatesPerSecond)
           ) ;
           base.OnPropertyChanged(
-            nameof(FramesPerSecond_AsString)
+            nameof(UpdatesPerSecond_AsString)
+          ) ;
+        }
+      }
+    }
+
+    private bool m_enableTimedUpdates = false ;
+    public bool EnableTimedUpdates
+    { 
+      get => m_enableTimedUpdates ;
+      set {
+        if (
+          SetProperty(
+            ref m_enableTimedUpdates,
+            value
+          )
+        ) {
+          OnPropertyChanged(
+            nameof(StartTimedUpdates)
+          ) ;
+          OnPropertyChanged(
+            nameof(StopTimedUpdates)
+          ) ;
+          OnPropertyChanged(
+            nameof(PerformUpdate)
           ) ;
         }
       }
@@ -59,7 +107,7 @@ namespace IntensityMapViewer
       set => DesiredWakeupPeriodMillisecs = value ;
     }
 
-    public double FramesPerSecond
+    public double UpdatesPerSecond
     {
       // ( 1000.0 / 20mS ) ==> 50 fps
       get => 1000.0 / TimerPeriodInMillisecs ;
@@ -71,38 +119,50 @@ namespace IntensityMapViewer
     // public (double Min,double Max) TimerPeriodValidRange => (20.0,2000.0) ;
 
     public double TimerPeriod_Min     { get ; } = 20.0 ;
-    public double TimerPeriod_Max     { get ; } = 500.0 ;
-    public double TimerPeriod_Default { get ; } = 100.0 ;
+    public double TimerPeriod_Max     { get ; } = 1000.0 ;
 
-    public double FramesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
-    public double FramesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps
+    public double TimerPeriod_Default { get ; } = 500.0 ;
+
+    public double UpdatesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
+    public double UpdatesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps
 
     public string TimerPeriod_AsString => $"Update requested every {TimerPeriodInMillisecs:F0}mS" ;
 
-    public string FramesPerSecond_AsString => $"Frames per sec : {FramesPerSecond:F0}" ;
+    public string UpdatesPerSecond_AsString => $"Updates per sec : {UpdatesPerSecond:F1}" ;
 
-    private readonly System.Action m_updateActionToBePerformed ;
+    public System.Action? UpdateActionToBePerformed { get ; set ; }
 
     public TimedUpdatesScheduler ( System.Action updateActionToBePerformed )
     {
-      m_updateActionToBePerformed = updateActionToBePerformed ;
+      UpdateActionToBePerformed = updateActionToBePerformed ;
       m_desiredWakeupPeriodMillisecs = TimerPeriod_Default ; 
       StartTimedUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_enableTimedUpdates = true ;
+          EnableTimedUpdates = true ;
           // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
           StartTimedUpdates.NotifyCanExecuteChanged() ;
           StopTimedUpdates.NotifyCanExecuteChanged() ;
+          PerformUpdate.NotifyCanExecuteChanged() ;
         },
-        () => m_enableTimedUpdates is false
+        () => EnableTimedUpdates is false
       ) ;
       StopTimedUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
-          m_enableTimedUpdates = false ;
+          EnableTimedUpdates = false ;
           StartTimedUpdates.NotifyCanExecuteChanged() ;
           StopTimedUpdates.NotifyCanExecuteChanged() ;
+          PerformUpdate.NotifyCanExecuteChanged() ;
         },
-        () => m_enableTimedUpdates is true
+        () => EnableTimedUpdates is true
+      ) ;
+      PerformUpdate = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
+        () => {
+          UpdateActionToBePerformed?.Invoke() ;
+        },
+        () => (
+           UpdateActionToBePerformed is not null
+        && EnableTimedUpdates is false
+        )
       ) ;
       // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
       // base.IntensityMapLabel = "This will cycle through 60 variants" ;
@@ -124,11 +184,11 @@ namespace IntensityMapViewer
     //   }
     // ) ;
 
-    private bool m_enableTimedUpdates = false ;
-
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StartTimedUpdates { get ; }
 
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StopTimedUpdates { get ; }
+
+    public Microsoft.Toolkit.Mvvm.Input.IRelayCommand PerformUpdate { get ; }
 
     // It can be interesting to log the time taken
     // to perform the operation we're invoking.
@@ -176,11 +236,11 @@ namespace IntensityMapViewer
         m_actualTimerWakeupIntervals.Clear() ;
         m_timerTickReportStopwatch.Restart() ;
       }
-      if ( m_enableTimedUpdates )
+      if ( EnableTimedUpdates )
       {
         System.Diagnostics.Stopwatch executionTimingStopwatch = new() ;
         executionTimingStopwatch.Start() ;
-        m_updateActionToBePerformed() ;
+        UpdateActionToBePerformed?.Invoke() ;
         m_updateExecutionTimes.Add(
           executionTimingStopwatch.ElapsedMilliseconds
         ) ;

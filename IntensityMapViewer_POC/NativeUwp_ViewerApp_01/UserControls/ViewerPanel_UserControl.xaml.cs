@@ -48,6 +48,11 @@ namespace NativeUwp_ViewerApp_01
       //   // bind its data context to the same ViewModel - but is that working ???
       //   // m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
       // } ;
+      m_imageUpdateHandler.CurrentIntensityMapChanged = ()=> {
+        ViewModel.CurrentSource.SetRecentlyAcquiredIntensityMap(
+          m_imageUpdateHandler.CurrentIntensityMap
+        ) ;
+      } ;
     }
 
     private void TestButton_Click ( object sender, RoutedEventArgs e )
