@@ -123,7 +123,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
 
-      // We only want to make the drawing as high as the rectangle in which we're drawing the image
+      // We only want to make our graph as high as the rectangle in which we're drawing the Image
 
       bottomLeftPoint.Y  = topLeftPoint.Y  + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
       bottomRightPoint.Y = topRightPoint.Y + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;

@@ -131,6 +131,26 @@ namespace NativeUwp_ViewerApp_01
       } ;
       int iSpecial = m_latestReferencePositionChangedMessage?.X ?? -1 ;
 
+      //
+      // Nominally we'll draw the graph into the entire space available in our Canvas :
+      //
+      //   +-----------------------------+
+      //   |                             |
+      //   |                             |
+      //   |                             |
+      //   +-----------------------------+
+      //
+      // However if the Image has had to be rendered into a rectangle that is
+      // smaller than the entire Canvas of the Image control, we'll need to adjust this
+      // so that we only use an appropriate 'width' for the graph :
+      //
+      //   +------------------+ - - - - -+
+      //   |                  |          |
+      //   |                  |          |
+      //   |                  |          |
+      //   +------------------+ - - - - -+
+      //
+
       canvasRect.UnpackVisibleCornerPoints(
         out SkiaSharp.SKPoint topLeftPoint,    
         out SkiaSharp.SKPoint topRightPoint,   
@@ -138,7 +158,7 @@ namespace NativeUwp_ViewerApp_01
         out SkiaSharp.SKPoint bottomRightPoint
       ) ;
 
-      // We only want to make the drawing as wide as the rectangle in which we're drawing the image
+      // We only want to make our graph as wide as the rectangle in which we're drawing the Image
 
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;

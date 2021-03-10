@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
 using Common.ExtensionMethods;
-using Microsoft.Toolkit.Mvvm.Messaging;
+using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -95,6 +95,15 @@ namespace NativeUwp_ViewerApp_01
       ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
         PerformRepaint() ;
       } ;
+      if ( newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
+      {
+        Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
+          new ReferencePositionChangedMessage(
+            newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X,
+            newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+          )
+        ) ;
+      }
     }
 
     private void PerformRepaint ( )
