@@ -60,6 +60,8 @@ namespace NativeUwp_ViewerApp_01
       InitializeComponent() ;
     }
 
+    // private SkiaSharp.SKCanvas? m_skiaCanvas ; // No no no ...
+
     private void OnViewModelPropertyChanged ( 
       IntensityMapViewer.ISourceViewModel? oldViewModel,
       IntensityMapViewer.ISourceViewModel? newViewModel
@@ -67,13 +69,21 @@ namespace NativeUwp_ViewerApp_01
       if ( SupportPanAndZoom )
       {
         m_panAndZoomGesturesHandler = new(
-          m_skiaCanvas,
+          m_skiaXamlCanvas,
           new SkiaSceneRenderer(DrawIntensityMap){
             ShowTransformMatrixInfo = true,
-            RenderHookAction = (canvas) => {
+            RenderHookAction = (skiaCanvas) => {
+              // Hmm, this seems to be the *only* way we can
+              // get access to the Skia Canvas associated with
+              // the Xaml Canvas ...    
+              // BUT ... Yikes !! The 'skiaCanvas' given to us here
+              // is only valid for the duration of this call.
+              // Accessing it outside of this context triggers
+              // a memory access exception !!!
+              // m_skiaCanvas = skiaCanvas ;
               SkiaSceneRenderer.LoadPanAndZoomParameters(
                 newViewModel.Parent.PanAndZoomParameters,
-                canvas.TotalMatrix
+                skiaCanvas.TotalMatrix
               ) ;
             },
           }
@@ -83,7 +93,7 @@ namespace NativeUwp_ViewerApp_01
       }
       else
       {
-        m_skiaCanvas.PaintSurface += DrawSkiaContent ;
+        m_skiaXamlCanvas.PaintSurface += DrawSkiaContent ;
       }
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => {
@@ -108,7 +118,13 @@ namespace NativeUwp_ViewerApp_01
 
     private void PerformRepaint ( )
     {
-      m_skiaCanvas.Invalidate() ;
+      m_skiaXamlCanvas.Invalidate() ;
+    }
+
+    public void ResetPanAndZoom ( )
+    {
+      m_panAndZoomGesturesHandler.ResetPanAndZoom() ;
+      PerformRepaint() ;
     }
 
     //
@@ -276,6 +292,16 @@ namespace NativeUwp_ViewerApp_01
     private void DrawIntensityMap ( SkiaSharp.SKCanvas skiaCanvas )
     { 
       ViewModel.Parent.RaiseIntensityMapVisualisationHasChangedEvent() ;
+      // if ( m_performMatrixResetOnNextRepaint )
+      // {
+      //   // Hmm, this works - but of course it doesn't affect the transform
+      //   // that has been set on the Scene ... so on the next repaint,
+      //   // we'll see the previously active transform ...
+      //   skiaCanvas.SetMatrix(
+      //     SkiaSharp.SKMatrix.CreateIdentity()
+      //   ) ;
+      //   m_performMatrixResetOnNextRepaint = false ;
+      // }
       var deviceClipBounds = skiaCanvas.DeviceClipBounds ;
       if ( ViewModel != null )
       { 

@@ -37,7 +37,7 @@
             />
             -->
             <skia:SKXamlCanvas 
-              x:Name="m_skiaCanvas"
+              x:Name="m_skiaXamlCanvas"
               Margin="0" 
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"

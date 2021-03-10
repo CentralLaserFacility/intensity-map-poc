@@ -13,6 +13,8 @@
   public class SkiaSceneRenderer : SkiaScene.ISKSceneRenderer
   {
 
+    // TODO : Move to 'SkiaTransformHelpers'
+
     public static void LoadPanAndZoomParameters ( 
       IntensityMapViewer.PanAndZoomParameters transformParameters,
       SkiaSharp.SKMatrix                      source 

@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NativeUwp_ViewerApp_01
 {
+
   public sealed partial class IntensityMapImageAndProfileGraphs_UserControl : UserControl
   {
 
@@ -54,6 +55,11 @@ namespace NativeUwp_ViewerApp_01
       ? valueWhenTrue 
       : valueWhenFalse 
     ) ;
+
+    private void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
+    {
+      m_intensityMapImage_UserControl.ResetPanAndZoom() ;
+    }
 
   }
 

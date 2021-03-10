@@ -16,7 +16,7 @@ namespace UwpSkiaUtilities
 
     private TouchTracking.UWP.TouchHandler m_touchHandler ;
 
-    private SkiaSharp.Views.UWP.SKXamlCanvas m_canvas ;
+    private SkiaSharp.Views.UWP.SKXamlCanvas m_skiaXamlCanvas ;
 
     public System.Func<
       TouchTracking.TouchActionType, 
@@ -42,16 +42,16 @@ namespace UwpSkiaUtilities
     }
 
     public PanAndZoomGesturesHandler ( 
-      SkiaSharp.Views.UWP.SKXamlCanvas canvas,
+      SkiaSharp.Views.UWP.SKXamlCanvas skiaXamlCanvas,
       SkiaScene.ISKScene               scene
     ) {
-      m_canvas = canvas ;
-      m_canvas.PaintSurface += OnPaintSurface ;
-      m_canvas.PointerMoved += OnPointerMoved ;
-      m_canvas.PointerWheelChanged += OnPointerWheelChanged ;
+      m_skiaXamlCanvas = skiaXamlCanvas ;
+      m_skiaXamlCanvas.PaintSurface += OnPaintSurface ;
+      m_skiaXamlCanvas.PointerMoved += OnPointerMoved ;
+      m_skiaXamlCanvas.PointerWheelChanged += OnPointerWheelChanged ;
       m_scene = scene ;
       m_touchHandler = new TouchTracking.UWP.TouchHandler() ;
-      m_touchHandler.RegisterEvents(m_canvas) ;
+      m_touchHandler.RegisterEvents(m_skiaXamlCanvas) ;
       m_touchHandler.TouchAction += HandleTouchEvent ;
       OnWindowSizeChanged() ;
       m_touchGestureRecognizer = new SkiaScene.TouchManipulation.TouchGestureRecognizer() ;
@@ -63,7 +63,7 @@ namespace UwpSkiaUtilities
       //   }
       // } ;
       m_sceneGestureResponder = new SkiaScene.TouchManipulation.SceneGestureRenderingResponder(
-        invalidateViewAction   : () => m_canvas.Invalidate(),
+        invalidateViewAction   : () => m_skiaXamlCanvas.Invalidate(),
         skScene                : m_scene,
         touchGestureRecognizer : m_touchGestureRecognizer
       ) {
@@ -73,9 +73,23 @@ namespace UwpSkiaUtilities
       m_sceneGestureResponder.StartResponding() ;    
     }
 
+    public void ResetPanAndZoom ( )
+    {
+      // Hmm, it'd be nice if the 'scene' had an API
+      // to set the Transform Matrix, but we can achieve
+      // the same effect in these two calls ...
+      m_scene.MoveToPoint(
+        new SkiaSharp.SKPoint(0.0f,0.0f) 
+      ) ;
+      m_scene.Zoom(
+        new SkiaSharp.SKPoint(0.0f,0.0f),
+        1.0f
+      ) ;
+    }
+
     private void OnPointerMoved ( object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e )
     {
-      Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(m_canvas) ;
+      Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(m_skiaXamlCanvas) ;
       var positionInSceneCoordinates = m_scene.GetCanvasPointFromViewPoint(
         new SkiaSharp.SKPoint(
           (float) pointerPoint.Position.X,
@@ -91,8 +105,8 @@ namespace UwpSkiaUtilities
     public void OnWindowSizeChanged ( )
     {
       m_scene.ScreenCenter = new SkiaSharp.SKPoint(
-        m_canvas.CanvasSize.Width  / 2,
-        m_canvas.CanvasSize.Height / 2
+        m_skiaXamlCanvas.CanvasSize.Width  / 2,
+        m_skiaXamlCanvas.CanvasSize.Height / 2
       ) ;
     }
 
@@ -114,8 +128,8 @@ namespace UwpSkiaUtilities
       // Invoked when our 'TouchHandler' detects a touch event.
       var viewPoint = args.Location ;
       SkiaSharp.SKPoint pointOnCanvas = new SkiaSharp.SKPoint(
-        (float) ( m_canvas.CanvasSize.Width  * viewPoint.X / m_canvas.ActualWidth ),
-        (float) ( m_canvas.CanvasSize.Height * viewPoint.Y / m_canvas.ActualHeight )
+        (float) ( m_skiaXamlCanvas.CanvasSize.Width  * viewPoint.X / m_skiaXamlCanvas.ActualWidth ),
+        (float) ( m_skiaXamlCanvas.CanvasSize.Height * viewPoint.Y / m_skiaXamlCanvas.ActualHeight )
       ) ;
       SkiaSharp.SKPoint positionInSceneCoordinates = m_scene.GetCanvasPointFromViewPoint(
         pointOnCanvas
@@ -153,7 +167,7 @@ namespace UwpSkiaUtilities
     private void OnPointerWheelChanged ( object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e )
     {
       const float zoomFactorPerScrollWheelClick = 1.1f ;
-      Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(m_canvas) ;
+      Windows.UI.Input.PointerPoint pointerPoint = e.GetCurrentPoint(m_skiaXamlCanvas) ;
       int wheelDelta = pointerPoint.Properties.MouseWheelDelta ;
 
       // If CONTROL is down, we ROTATE ...
@@ -184,7 +198,7 @@ namespace UwpSkiaUtilities
           * System.Math.PI / 180.0 
           )
         ) ;
-        m_canvas.Invalidate() ;
+        m_skiaXamlCanvas.Invalidate() ;
         return ;
       }
       // Otherwise, we ZOOM ...
@@ -217,7 +231,7 @@ namespace UwpSkiaUtilities
         zoomFactorToApply
       ) ;
       m_aggregatedZoomFactor *= zoomFactorToApply ;
-      m_canvas.Invalidate() ;
+      m_skiaXamlCanvas.Invalidate() ;
     }
 
   }

@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
 
         <local:VerticalProfileGraph_UserControl
-          x:Name="m_verticalProfileGraph" 
+          x:Name="m_verticalProfileGraph_UserControl" 
           Grid.Row="0" Grid.Column="0" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
           Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
@@ -48,15 +48,26 @@
           />
         -->
 
+        <!-- 
         <Image 
           Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,ViewModel.ImagePresentationSettings.ColourMapOption), Mode=OneWay}"
           Grid.Row="1" Grid.Column="0" 
           Stretch="UniformToFill"
           Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
+        -->
     
+        <Button 
+          HorizontalAlignment="Center"
+          Grid.Row="1" Grid.Column="0" 
+          Background="LightGray" 
+          Content="Reset Pan/Zoom"
+          Click="ResetPanZoomButton_Click"
+          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+        />
+
         <local:HorizontalProfileGraph_UserControl 
-          x:Name="m_horizontalProfileGraph" 
+          x:Name="m_horizontalProfileGraph_UserControl" 
           Grid.Row="1" Grid.Column="1" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
           Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
