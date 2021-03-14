@@ -5,8 +5,12 @@
 using System.Collections.Generic ;
 using System.Linq ;
 
-namespace Common
+namespace Common.old
 {
+
+  //
+  // Hmm, we have a better scheme now !!!
+  //
 
   //
   // Helper class to bind an Enum type as an ItemsSource for a control .

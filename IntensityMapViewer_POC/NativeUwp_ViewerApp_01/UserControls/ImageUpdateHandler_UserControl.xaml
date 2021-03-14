@@ -6,12 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="80"
+    d:DesignHeight="90"
     d:DesignWidth="700"
     x:DefaultBindMode="OneWay"
 >
 
   <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="Bisque">
+
+    <!--
+    <ComboBox Header="Image Source" Width="160" 
+       ItemsSource="{x:Bind SourceOptionsBindingHelper.OptionNames}"
+       SelectedValue="{x:Bind SourceOptionsBindingHelper.GetOptionName(CurrentlySelectedSource), BindBack=SourceOptionsBindingHelper.SetOptionFromName, Mode=TwoWay}"
+     />
+    -->
+
+    <ComboBox Header="Image Source" Width="160" 
+       ItemsSource="{x:Bind SourceOptions}"
+       SelectedItem="{x:Bind CurrentlySelectedSource, Mode=TwoWay}"
+     />
 
     <Button Content="Next" Command="{x:Bind TimedUpdatesScheduler.PerformUpdate}" />
 

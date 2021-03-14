@@ -6,8 +6,10 @@ using Windows.UI.Xaml.Data;
 
 namespace NativeUwp_ViewerApp_01
 {
+
   public class EnumDescriptorToStringConverter : IValueConverter
   {
+
     public object Convert ( object value, Type targetType, object parameter, string language )
     {
       // Hmm, could return a DisplayValue described by an attribute,

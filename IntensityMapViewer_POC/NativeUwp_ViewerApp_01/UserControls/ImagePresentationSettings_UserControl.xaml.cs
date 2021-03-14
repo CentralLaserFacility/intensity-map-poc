@@ -39,8 +39,8 @@ namespace NativeUwp_ViewerApp_01
     {
       this.InitializeComponent();
       ColourMapBindingHelper = new(
-        (value) => ViewModel.ColourMapOption = value,
-        (value) => $"Show {value}"
+        valueChanged  : (value) => ViewModel.ColourMapOption = value,
+        valueToString : (value) => $"Show {value}"
       ) ;
       NormalisationModeBindingHelper = new(
         (value) => ViewModel.NormalisationMode = value
@@ -51,7 +51,7 @@ namespace NativeUwp_ViewerApp_01
           (byte) doubleValue
         ) 
       ) {
-        Minimum = 0.0,
+        Minimum = 8.0,
         Maximum = 255.0
       } ;
     }

@@ -16,7 +16,7 @@
 
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
-        <RowDefinition Height="90"/>
+        <RowDefinition Height="110"/>
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
@@ -71,7 +71,6 @@
       -->
       <local:ImageUpdateHandler_UserControl x:Name="m_imageUpdateHandler" />
     </StackPanel>
-
 
   </Grid>
 

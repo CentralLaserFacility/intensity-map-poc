@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using Common.ExtensionMethods ;
 using SkiaUtilities;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using IntensityMapViewer.ExtensionMethods;
+using SkiaSharp;
 
 namespace NativeUwp_ViewerApp_01
 {
@@ -71,7 +73,10 @@ namespace NativeUwp_ViewerApp_01
           m_latestReferencePositionChangedMessage = message ;
         }
       ) ;
+      m_executionTimingStopwatch.Start() ;
     }
+
+    private System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     private void OnViewModelPropertyChanged ( 
       IntensityMapViewer.ISourceViewModel? oldViewModel,
@@ -116,6 +121,8 @@ namespace NativeUwp_ViewerApp_01
         )
       ) ;
 
+      System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
+
       skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
 
       if (
@@ -145,8 +152,9 @@ namespace NativeUwp_ViewerApp_01
       //   +-----------------------------+
       //
       // However if the Image has had to be rendered into a rectangle that is
-      // smaller than the entire Canvas of the Image control, we'll need to adjust this
-      // so that we only use an appropriate 'width' for the graph :
+      // smaller than the entire Canvas of the Image control, in order to preserve
+      // the aspect ratio, then we'll need to adjust this so that we only use
+      // an appropriate 'width' for the graph :
       //
       //   +------------------+ - - - - -+
       //   |                  |          |
@@ -167,25 +175,31 @@ namespace NativeUwp_ViewerApp_01
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
 
-      float spaceAtTopAndBottom = 0.0f ;
+      //float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+      ).WithNormalisationApplied(
+        new IntensityMapViewer.Normaliser(
+          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+        )
       ) ;
       intensityValues.ForEachItem(
         (value,i) => {
           float lineLength = (
             (
-              canvasRect.Height 
-            - spaceAtTopAndBottom * 2.0f
+              canvasRect.Height // - 1
+            //- spaceAtTopAndBottom * 2.0f
             )
           * value / 255.0f 
           ) ;
           var bottomAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
-            bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
-            bottomRightPoint.MovedBy(-spaceAtTopAndBottom,-spaceAtTopAndBottom),
-            i / (float) nPoints
+            bottomLeftPoint.MovedBy(0,1),
+            bottomRightPoint.MovedBy(0,1),
+            // bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
+            // bottomRightPoint.MovedBy(-spaceAtTopAndBottom,-spaceAtTopAndBottom),
+            i / (float) ( nPoints - 1 ) // ??????????????
           ) ;
           skiaCanvas.DrawVerticalLineUp(
             bottomAnchorPoint,
@@ -202,6 +216,19 @@ namespace NativeUwp_ViewerApp_01
         points.ToArray(),
         normal
       ) ;
+
+      System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
+
+      skiaCanvas.SetMatrix(
+        SkiaSharp.SKMatrix.CreateIdentity()
+      ) ;
+      skiaCanvas.DrawText(
+        $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}",
+        new(2.0f,14.0f),
+        normal
+      ) ;
+
     }
 
   }

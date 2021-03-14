@@ -190,76 +190,124 @@ namespace IntensityMapViewer
 
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand PerformUpdate { get ; }
 
-    // It can be interesting to log the time taken
-    // to perform the operation we're invoking.
+    // It can be interesting to log the times taken
+    // to perform the operation we're invoking, and 
+    // the actual times between 'wakeups'.
 
-    private List<long> m_updateExecutionTimes = new () ;
+    private static bool MeasureTimerTickTimings = false ;
 
-    public string UpdateExecutionTimes { get ; private set ; } = "" ;
+    private List<long> m_actionExecutionTimesLog = new() ;
 
-    public string ActualTimerWakeupIntervals { get ; private set ; } = "" ;
-
-    private List<long> m_actualTimerWakeupIntervals = new () ;
+    private List<long> m_actualTimerWakeupIntervalsLog = new() ;
 
     private System.Diagnostics.Stopwatch m_timerTickStopwatch = new() ;
 
     private System.Diagnostics.Stopwatch m_timerTickReportStopwatch = new() ;
 
+    private System.Diagnostics.Stopwatch m_executionTimingStopwatch = null ;
+
+    public string UpdateExecutionTimes { get ; private set ; } = "" ;
+
+    public string ActualTimerWakeupIntervals { get ; private set ; } = "" ;
+
+    private bool m_isBusyHandlingWakeupNotification = false ;
+
+    private int m_nWakeupNotificationsRejected = 0 ;
+
     public void OnWakeupNotification ( System.DateTime currentTime )
     {
-      if ( m_timerTickStopwatch.IsRunning )
+      if ( m_isBusyHandlingWakeupNotification )
       {
-        m_actualTimerWakeupIntervals.Add(
-          m_timerTickStopwatch.ElapsedMilliseconds
-        ) ;
-        m_timerTickStopwatch.Reset() ;
+        m_nWakeupNotificationsRejected++ ;
+        return ;
       }
-      else
+      m_isBusyHandlingWakeupNotification = true ;
+      try
       {
-        m_timerTickStopwatch.Start() ;
-        m_timerTickReportStopwatch.Start() ;
-      }
-      if ( m_timerTickReportStopwatch.ElapsedMilliseconds > 1000 )
-      {
-        ActualTimerWakeupIntervals = (
-          "Actual wakeup intervals : "
-        + string.Join(
-            " ",
-            m_actualTimerWakeupIntervals.OrderBy(
-              time => time
-            ).Select(
-              time => time.ToString("F0")
-            )
-          )
-        ) ;
-        base.OnPropertyChanged(nameof(ActualTimerWakeupIntervals)) ;
-        m_actualTimerWakeupIntervals.Clear() ;
-        m_timerTickReportStopwatch.Restart() ;
-      }
-      if ( EnableTimedUpdates )
-      {
-        System.Diagnostics.Stopwatch executionTimingStopwatch = new() ;
-        executionTimingStopwatch.Start() ;
-        UpdateActionToBePerformed?.Invoke() ;
-        m_updateExecutionTimes.Add(
-          executionTimingStopwatch.ElapsedMilliseconds
-        ) ;
-        if ( m_updateExecutionTimes.Count == 20 )
+        if ( MeasureTimerTickTimings )
         {
-          UpdateExecutionTimes = (
-            "Action execution times (mS) (ordered) : "
-          + string.Join(
-              " ",
-              m_updateExecutionTimes.OrderBy(
-                time => time
-              ).Select(
-                time => time.ToString("F0")
+          if ( m_timerTickStopwatch.IsRunning )
+          {
+            m_actualTimerWakeupIntervalsLog.Add(
+              m_timerTickStopwatch.ElapsedMilliseconds
+            ) ;
+            m_timerTickStopwatch.Reset() ;
+          }
+          else
+          {
+            m_timerTickStopwatch.Start() ;
+            m_timerTickReportStopwatch.Start() ;
+          }
+          if ( m_timerTickReportStopwatch.ElapsedMilliseconds > 1000 )
+          {
+            ActualTimerWakeupIntervals = (
+              "Actual wakeup intervals : "
+            + string.Join(
+                " ",
+                m_actualTimerWakeupIntervalsLog.OrderBy(
+                  time => time
+                ).Select(
+                  time => time.ToString("F0")
+                )
               )
-            )
-          ) ;
-          base.OnPropertyChanged(nameof(UpdateExecutionTimes)) ;
-          m_updateExecutionTimes.Clear() ;
+            ) ;
+            Common.DebugHelpers.WriteDebugLines(
+              ActualTimerWakeupIntervals
+            ) ;
+            base.OnPropertyChanged(nameof(ActualTimerWakeupIntervals)) ;
+            m_actualTimerWakeupIntervalsLog.Clear() ;
+            m_timerTickReportStopwatch.Restart() ;
+          }
         }
+        if ( EnableTimedUpdates )
+        {
+          if ( m_executionTimingStopwatch is null )
+          {
+            m_executionTimingStopwatch = new() ;
+            m_executionTimingStopwatch.Start() ;
+          }
+          if ( MeasureTimerTickTimings )
+          {
+            var timeBeforeActionExecution = m_executionTimingStopwatch.ElapsedMilliseconds ;
+            UpdateActionToBePerformed?.Invoke() ;
+            var timeAfterActionExecution = m_executionTimingStopwatch.ElapsedMilliseconds ;
+            m_actionExecutionTimesLog.Add(
+              timeAfterActionExecution
+            - timeBeforeActionExecution
+            ) ;
+            if ( m_actionExecutionTimesLog.Count == 20 )
+            {
+              UpdateExecutionTimes = (
+                "Action execution times (mS) (ordered) : "
+              + string.Join(
+                  " ",
+                  m_actionExecutionTimesLog.OrderBy(
+                    time => time
+                  ).Select(
+                    time => time.ToString()
+                  )
+                )
+              ) ;
+              Common.DebugHelpers.WriteDebugLines(
+                UpdateExecutionTimes
+              ) ;
+              // Hmm, not a good idea to do this in a time critical loop ...
+              // base.OnPropertyChanged(nameof(UpdateExecutionTimes)) ;
+              m_actionExecutionTimesLog.Clear() ;
+            }
+          }
+          else
+          {
+            UpdateActionToBePerformed?.Invoke() ;
+          }
+        }
+      }
+      catch ( System.Exception x )
+      {
+      }
+      finally
+      {
+        m_isBusyHandlingWakeupNotification = false ;
       }
     }
 

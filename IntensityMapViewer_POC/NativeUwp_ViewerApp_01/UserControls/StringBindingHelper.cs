@@ -1,5 +1,5 @@
 ﻿//
-// EnumBindingHelper.cs
+// StringBindingHelper.cs
 //
 
 using System.Collections.Generic;
@@ -8,32 +8,26 @@ using System.Linq;
 namespace NativeUwp_ViewerApp_01
 {
 
-  // TODO : Move to 'Common', add support for [Description]
-
-  public class EnumBindingHelper<T> where T : System.Enum
+  public class StringBindingHelper<T> 
   {
+
+    private readonly IEnumerable<T> m_options ;
+
+    private System.Func<T,string> m_valueToStringFunc ;
 
     private System.Action<T> m_valueChanged ;
     
-    private System.Func<T,string> m_valueToStringFunc ;
-
-    private IEnumerable<T> m_options ;
-
-    public EnumBindingHelper ( 
+    public StringBindingHelper ( 
+      IEnumerable<T>         options,
       System.Action<T>       valueChanged, 
       System.Func<T,string>? valueToString = null 
     ) {
       m_valueChanged = valueChanged ;
       m_valueToStringFunc = valueToString ?? ( (value) => value.ToString() ) ;
-      List<T> options = new List<T>() ;
-      foreach ( 
-        T option in System.Enum.GetValues(
-          typeof(T)
-        )
-      ) {
-        options.Add(option) ;
-      }
-      m_options = options ;
+      m_options = options.ToList() ;
+      m_valueChanged(
+        options.First()
+      ) ;
     }
 
     public IEnumerable<string> OptionNames 

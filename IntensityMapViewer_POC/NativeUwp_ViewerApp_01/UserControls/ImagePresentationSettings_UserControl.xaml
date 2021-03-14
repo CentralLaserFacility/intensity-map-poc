@@ -6,28 +6,69 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="380"
+    d:DesignHeight="300"
     d:DesignWidth="300"
     x:DefaultBindMode="OneWay"
   >
 
-    <Grid Background="LightYellow">
+  <!-- Matteo : is it recommended to *always* have a grid at the root ?? -->
 
-      <StackPanel Orientation="Vertical" Padding="10" Spacing="10">
-      
-       <TextBox Text="Image presentation settings" HorizontalAlignment="Center"/>
+  <Grid>
 
-      <ComboBox Header="Colour map" Width="240" 
+    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="LightYellow">
+
+      <!-- 
+        Matteo : 
+        TextBlock with border is verbose, but it works
+        TextBox in 'read-only' mode is misaligned ???
+      -->
+
+      <Border 
+        Grid.Row="0"
+        Grid.Column="0"
+        HorizontalAlignment="Center"
+        Background="Bisque" 
+      >
+        <TextBlock 
+          Text="Image presentation settings" 
+          Height="Auto" 
+          Margin="6"
+        />
+      </Border>
+
+      <TextBox 
+        Text="Image presentation settings" 
+        HorizontalAlignment="Center" 
+        VerticalAlignment="Center"
+        VerticalContentAlignment="Center"
+        BorderThickness="0"
+        IsReadOnly="true" 
+        Background="Bisque"
+      />
+
+      <ComboBox Header="Colour map" HorizontalAlignment="Stretch" 
          ItemsSource="{x:Bind ColourMapBindingHelper.OptionNames}"
          SelectedValue="{x:Bind ColourMapBindingHelper.GetOptionName(ViewModel.ColourMapOption), BindBack=ColourMapBindingHelper.SetOptionFromName, Mode=TwoWay}"
        />
 
-      <ComboBox Header="Normalisation mode" Width="160" 
+      <ComboBox Header="Normalisation mode" HorizontalAlignment="Stretch" 
          ItemsSource="{x:Bind NormalisationModeBindingHelper.OptionNames}"
          SelectedValue="{x:Bind NormalisationModeBindingHelper.GetOptionName(ViewModel.NormalisationMode), BindBack=NormalisationModeBindingHelper.SetOptionFromName, Mode=TwoWay}"
        />
 
-       <!-- 
+       <!-- Matteo : how to get some 'header' text shown at design time ?? -->
+       <!-- TargetNullValue ?? -->
+
+       <Slider 
+         Header="{x:Bind GetNormalisationValueHeaderText(ViewModel.NormalisationValue)}"
+         HorizontalAlignment="Stretch"
+         Minimum="{x:Bind NormalisationValueBindingHelper.Minimum}" 
+         Maximum="{x:Bind NormalisationValueBindingHelper.Maximum}" 
+         Value="{x:Bind NormalisationValueBindingHelper.GetValue(ViewModel.NormalisationValue), BindBack=NormalisationValueBindingHelper.SetValue, Mode=TwoWay}"
+         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
+       />
+
+      <!-- 
          Value="{x:Bind ViewModel.NormalisationValue, BindBack=SetNormalisationValue, Mode=TwoWay}"
          ValueChanged="m_normalisationValueSlider_ValueChanged"
        <Slider 
@@ -61,16 +102,8 @@
        />
        -->
 
-      <Slider 
-         Header="{x:Bind GetNormalisationValueHeaderText(ViewModel.NormalisationValue)}"
-         HorizontalAlignment="Stretch"
-         Minimum="{x:Bind NormalisationValueBindingHelper.Minimum}" 
-         Maximum="{x:Bind NormalisationValueBindingHelper.Maximum}" 
-         Value="{x:Bind NormalisationValueBindingHelper.GetValue(ViewModel.NormalisationValue), BindBack=NormalisationValueBindingHelper.SetValue, Mode=TwoWay}"
-         IsEnabled="{x:Bind ViewModel.CanSetNormalisationValue, Mode=OneWay}"
-       />
+    </StackPanel>
 
-     </StackPanel>
+  </Grid>
 
-    </Grid>
 </UserControl>

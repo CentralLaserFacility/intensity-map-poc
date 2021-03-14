@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
 using Common.ExtensionMethods;
+using IntensityMapViewer.ExtensionMethods ;
+
 using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
 namespace NativeUwp_ViewerApp_01
@@ -301,7 +303,7 @@ namespace NativeUwp_ViewerApp_01
       //   m_performMatrixResetOnNextRepaint = false ;
       // }
       var deviceClipBounds = skiaCanvas.DeviceClipBounds ;
-      if ( ViewModel != null )
+      // if ( ViewModel != null )
       { 
         // Hmm, should try to eliminate this test ...
         var intensityMap = ViewModel.MostRecentlyAcquiredIntensityMap ;
@@ -311,24 +313,44 @@ namespace NativeUwp_ViewerApp_01
         ) ;
         var colourMapOption = ViewModel.Parent.ImagePresentationSettings.ColourMapOption ;
         var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
-        var normalisationValue = ViewModel.Parent.ImagePresentationSettings.NormalisationValue ;
-        var normalisationGainValue = 255.0 / normalisationValue ;
-        byte ApplyNormalisationValue ( byte nominalIntensity )
-        => (
-          nominalIntensity >= normalisationValue
-          ? (byte) 255
-          : (byte) ( nominalIntensity * normalisationGainValue )
-        ) ;
-        bitmap.Pixels = intensityMap.IntensityValues.Select(
-          intensity => new SkiaSharp.SKColor(
-            colourMapper.MapByteValueToEncodedARGB(
-              ApplyNormalisationValue(intensity)
+        #if false
+          var normalisationValue = ViewModel.Parent.ImagePresentationSettings.NormalisationValue ;
+          var normalisationGainValue = 255.0 / normalisationValue ;
+          static byte ApplyNormalisationValue ( byte nominalIntensity, double normalisationGainValue )
+          {
+            double intensityWithGainApplied = nominalIntensity * normalisationGainValue ;
+            return (
+              intensityWithGainApplied > 255.0
+              ? (byte) 255
+              : (byte) intensityWithGainApplied
+            ) ;
+          }
+          bitmap.Pixels = intensityMap.IntensityValues.Select(
+            intensity => new SkiaSharp.SKColor(
+              colourMapper.MapByteValueToEncodedARGB(
+                ApplyNormalisationValue(
+                  intensity,
+                  normalisationGainValue
+                )
+              )
+              // red   : intensity,
+              // green : intensity,
+              // blue  : intensity
             )
-            // red   : intensity,
-            // green : intensity,
-            // blue  : intensity
-          )
-        ).ToArray() ;
+          ).ToArray() ;
+        #else
+          bitmap.Pixels = intensityMap.IntensityValues.WithNormalisationApplied(
+            new IntensityMapViewer.Normaliser(
+              ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+            )
+          ).Select(
+            intensity => new SkiaSharp.SKColor(
+              colourMapper.MapByteValueToEncodedARGB(
+                intensity
+              )
+            )
+          ).ToArray() ;
+        #endif
         // We'll want to preserve the aspect ratio
         float expansionFactorX = deviceClipBounds.Width  / (float) intensityMap.Dimensions.Width ;
         float expansionFactorY = deviceClipBounds.Height / (float) intensityMap.Dimensions.Height ;
@@ -372,10 +394,11 @@ namespace NativeUwp_ViewerApp_01
           ) ;
         }
         if ( 
-          m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
-            ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
-            out var referencePointInSceneCoordinates
-          )
+           ViewModel.Parent.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs
+        && m_pixelToSceneCoordinatesMapper.CanGetPointInSceneCoordinates(
+             ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition,
+             out var referencePointInSceneCoordinates
+           )
         ) {
           // m_pixelToSceneCoordinatesMapper.CanGetPointInPixelCoordinates(
           //   referencePointInSceneCoordinates,

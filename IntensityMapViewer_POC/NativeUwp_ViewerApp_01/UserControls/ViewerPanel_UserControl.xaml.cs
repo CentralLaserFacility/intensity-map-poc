@@ -36,7 +36,7 @@ namespace NativeUwp_ViewerApp_01
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    public ViewerPanel_UserControl()
+    public ViewerPanel_UserControl ( )
     {
       this.InitializeComponent();
       // DataContextChanged += (s,e) => {
@@ -52,6 +52,9 @@ namespace NativeUwp_ViewerApp_01
         ViewModel.CurrentSource.SetRecentlyAcquiredIntensityMap(
           m_imageUpdateHandler.CurrentIntensityMap
         ) ;
+      } ;
+      this.Loaded += (s,e) => {
+        m_imageUpdateHandler.PerformIntensityMapUpdate() ;
       } ;
     }
 

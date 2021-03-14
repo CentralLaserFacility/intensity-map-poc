@@ -29,6 +29,13 @@ namespace IntensityMapViewer
           nameof(MostRecentlyAcquiredIntensityMap)
         )
       ) {
+        var imagePresentationSettings = Parent.ImagePresentationSettings ;
+        if ( imagePresentationSettings.NormalisationMode == NormalisationMode.Automatic )
+        {
+          imagePresentationSettings.SetNormalisationValue(
+            m_mostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 0
+          ) ;
+        }
         NewIntensityMapAcquired?.Invoke() ;
       }
     }

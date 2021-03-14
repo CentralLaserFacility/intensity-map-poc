@@ -55,8 +55,11 @@
       float              scaleFactor
     ) {
       RenderHookAction?.Invoke(skiaCanvas) ;
+      System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
       skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
       m_draw(skiaCanvas) ;
+      System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
       if ( ShowTransformMatrixInfo )
       {
         SkiaSharp.SKPaint redPaint = new SkiaSharp.SKPaint() { 
@@ -91,7 +94,8 @@
           $"{skiaCanvas.TotalMatrix.Values[0]:F2} {skiaCanvas.TotalMatrix.Values[1]:F2} {skiaCanvas.TotalMatrix.Values[2]:F2} ",
           $"{skiaCanvas.TotalMatrix.Values[3]:F2} {skiaCanvas.TotalMatrix.Values[4]:F2} {skiaCanvas.TotalMatrix.Values[5]:F2} ",
           // Note that these elements are always the same ...
-          $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} "
+          $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} ",
+          $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}"
         ) ;
         void DrawDebugTextLines ( params string[] textLines )
         {
@@ -110,9 +114,12 @@
       }
     }
 
+    private System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+
     public SkiaSceneRenderer ( System.Action<SkiaSharp.SKCanvas> draw )
     {
       m_draw = draw ;
+      m_executionTimingStopwatch.Start() ;
     }
 
   }

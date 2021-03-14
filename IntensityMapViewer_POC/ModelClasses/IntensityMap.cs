@@ -62,11 +62,11 @@ namespace IntensityMapViewer
       
     private byte? m_minimumIntensityValue ;
 
-    public byte MinimumIntensityValue => m_minimumIntensityValue ??= IntensityValues.Max() ;
+    public byte MinimumIntensityValue => m_minimumIntensityValue ??= IntensityValues.Min() ;
 
     private byte? m_maximumIntensityValue ;
 
-    public byte MaximumIntensityValue => m_maximumIntensityValue ??= IntensityValues.Min() ;
+    public byte MaximumIntensityValue => m_maximumIntensityValue ??= IntensityValues.Max() ;
 
   }
 

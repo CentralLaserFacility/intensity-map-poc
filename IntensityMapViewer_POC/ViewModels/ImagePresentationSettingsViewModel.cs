@@ -62,7 +62,11 @@ namespace IntensityMapViewer
       }
     }
 
-    private NormalisationMode m_normalisationMode = NormalisationMode.Manual ; // _FromUserDefinedValue ;
+    private NormalisationMode m_normalisationMode = (
+      NormalisationMode.Automatic
+      // NormalisationMode.Manual
+    ) ; 
+
 
     public NormalisationMode NormalisationMode {
       get => m_normalisationMode ;
@@ -74,11 +78,20 @@ namespace IntensityMapViewer
           )
         ) {
           OnPropertyChanged(nameof(CanSetNormalisationValue)) ;
+          if ( m_normalisationMode == NormalisationMode.Automatic )
+          {
+            // We've switched from Manual to Automatic mode,
+            // so reset the NormalisationValue to match the
+            // maximum value in the current IntensityMap
+            SetNormalisationValue(
+              Parent.CurrentSource.MostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 0
+            ) ;
+          }
         }
       }
     }
 
-    private byte m_normalisationValue = (byte) 120 ;
+    private byte m_normalisationValue = (byte) 120 ; // TODO - should accept null here ???
 
     public byte NormalisationValue => m_normalisationValue ;
 
@@ -100,13 +113,13 @@ namespace IntensityMapViewer
     public ImagePresentationSettingsViewModel ( IDisplayPanelViewModel parent )
     {
       Parent = parent ;
-      PropertyChanged += (s,e) => {
-        Common.DebugHelpers.WriteDebugLines(
-          $"ImagePresentationSettingsViewModel {e.PropertyName} CHANGED",
-          $"ImagePresentationSettingsViewModel NormalisationMode = {this.NormalisationMode}",
-          $"ImagePresentationSettingsViewModel CanSetNormalisationValue = {this.CanSetNormalisationValue}"
-        ) ;
-      } ;
+      // PropertyChanged += (s,e) => {
+      //   Common.DebugHelpers.WriteDebugLines(
+      //     $"ImagePresentationSettingsViewModel {e.PropertyName} CHANGED",
+      //     $"ImagePresentationSettingsViewModel NormalisationMode = {this.NormalisationMode}",
+      //     $"ImagePresentationSettingsViewModel CanSetNormalisationValue = {this.CanSetNormalisationValue}"
+      //   ) ;
+      // } ;
     }
 
   }

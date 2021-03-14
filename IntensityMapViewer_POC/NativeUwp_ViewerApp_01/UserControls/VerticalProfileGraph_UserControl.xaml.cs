@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using Common.ExtensionMethods ;
+using IntensityMapViewer.ExtensionMethods;
 using SkiaUtilities;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
@@ -137,12 +138,16 @@ namespace NativeUwp_ViewerApp_01
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X
+      ).WithNormalisationApplied(
+        new IntensityMapViewer.Normaliser(
+          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+        )
       ) ;
       intensityValues.ForEachItem(
         (value,i) => {
           float lineLength = (
             (
-              canvasRect.Width 
+              canvasRect.Width - 1
             - spaceAtTopAndBottom * 2.0f
             )
           * value / 255.0f 

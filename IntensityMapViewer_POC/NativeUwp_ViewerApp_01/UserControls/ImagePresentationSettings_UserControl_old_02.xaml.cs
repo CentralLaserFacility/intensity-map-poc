@@ -122,9 +122,9 @@ namespace NativeUwp_ViewerApp_01
     // ------------------------------
 
     public IEnumerable<
-      Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
+      Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
     > ColourMapOptionDescriptors { get ; }
-    = Common.EnumValueDescriptor<
+    = Common.old.EnumValueDescriptor<
       IntensityMapViewer.ColourMapOption
     >.EnumValueDescriptors ;
 
@@ -184,9 +184,9 @@ namespace NativeUwp_ViewerApp_01
     // --------------
 
     public IEnumerable<
-      Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
+      Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>
     > ColourMapOptionEnumValueDescriptors 
-    => Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.EnumValueDescriptors ;
+    => Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.EnumValueDescriptors ;
   
     public void SetColourMapOption ( object value )
     {
@@ -194,7 +194,7 @@ namespace NativeUwp_ViewerApp_01
       {
         ViewModel.ColourMapOption = option ;
       }
-      else if ( value is Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> descriptor )
+      else if ( value is Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> descriptor )
       {
         ViewModel.ColourMapOption = descriptor.Value ;
       }
@@ -203,13 +203,13 @@ namespace NativeUwp_ViewerApp_01
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       var comboBox = sender as ComboBox ;
-      if ( comboBox.SelectedItem is Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> option )
+      if ( comboBox.SelectedItem is Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> option )
       {
         ViewModel.ColourMapOption = option.Value ;
       }
     }
 
-    private Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> DescriptorFor ( 
+    private Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption> DescriptorFor ( 
       IntensityMapViewer.ColourMapOption option 
     ) {
       return ColourMapOptionEnumValueDescriptors.Single(

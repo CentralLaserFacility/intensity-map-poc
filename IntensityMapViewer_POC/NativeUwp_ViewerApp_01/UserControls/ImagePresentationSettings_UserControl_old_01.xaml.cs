@@ -99,8 +99,8 @@ namespace NativeUwp_ViewerApp_01
 
     // ------------------------------
 
-   public IEnumerable<Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>> ColourMapOptionDescriptors { get ; }
-   = Common.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.CreateDescriptorsList() ;
+   public IEnumerable<Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>> ColourMapOptionDescriptors { get ; }
+   = Common.old.EnumValueDescriptor<IntensityMapViewer.ColourMapOption>.CreateDescriptorsList() ;
 
     // ----------------------------------------
 

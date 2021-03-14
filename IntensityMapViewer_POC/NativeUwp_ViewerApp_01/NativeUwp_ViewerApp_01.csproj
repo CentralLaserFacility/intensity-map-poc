@@ -135,6 +135,19 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\NumericValueEditor_UserControl_old_01.xaml.cs">
+      <DependentUpon>NumericValueEditor_UserControl_old_01.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Preferences_UserControl.xaml.cs">
+      <DependentUpon>Preferences_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProfileDisplaySettings_UserControl_old_01.xaml.cs">
+      <DependentUpon>ProfileDisplaySettings_UserControl_old_01.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Settings_UserControl.xaml.cs">
+      <DependentUpon>Settings_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\StringBindingHelper.cs" />
     <Compile Include="UserControls\TimedUpdatesScheduler.cs" />
     <Compile Include="UserControls\EnumBindingHelper.cs" />
     <Compile Include="UserControls\EnumDescriptorToStringConverter.cs" />
@@ -239,11 +252,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\NumericValueEditor_UserControl_old_01.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\NumericValueEditor_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Preferences_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProfileDisplaySettings_UserControl_old_01.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\ProfileDisplaySettings_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Settings_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
