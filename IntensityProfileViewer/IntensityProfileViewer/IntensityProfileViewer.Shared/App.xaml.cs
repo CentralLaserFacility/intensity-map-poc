@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

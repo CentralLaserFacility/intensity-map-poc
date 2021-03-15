@@ -18,7 +18,7 @@ using IntensityProfileViewer.ExtensionMethods;
 using SkiaUtilities;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   public sealed partial class VerticalProfileGraph_UserControl : UserControl

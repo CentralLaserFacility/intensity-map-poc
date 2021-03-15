@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   public sealed partial class NumericValueEditor_UserControl : UserControl

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   public sealed partial class IntensityMapImageAndProfileGraphs_UserControl : UserControl

@@ -1,4 +1,4 @@
-﻿namespace NativeUwp_ViewerApp_01
+﻿namespace IntensityProfileViewer
 {
 
   // Move this to SkiaUtils ???

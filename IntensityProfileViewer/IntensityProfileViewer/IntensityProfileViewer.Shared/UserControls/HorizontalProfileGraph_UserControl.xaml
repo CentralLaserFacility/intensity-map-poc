@@ -1,8 +1,8 @@
 ﻿<UserControl
-    x:Class="NativeUwp_ViewerApp_01.HorizontalProfileGraph_UserControl"
+    x:Class="IntensityProfileViewer.HorizontalProfileGraph_UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NativeUwp_ViewerApp_01"
+    xmlns:local="using:IntensityProfileViewer"
     xmlns:skia="using:SkiaSharp.Views.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

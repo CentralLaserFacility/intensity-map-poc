@@ -21,7 +21,7 @@ using IntensityProfileViewer.ExtensionMethods ;
 
 using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   public record ReferencePositionChangedMessage ( int ? X, int ? Y ) ;

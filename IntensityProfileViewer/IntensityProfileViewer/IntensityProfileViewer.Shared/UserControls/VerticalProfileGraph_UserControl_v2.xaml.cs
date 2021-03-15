@@ -17,7 +17,7 @@ using Common.ExtensionMethods ;
 using SkiaUtilities;
 using Microsoft.Toolkit.Mvvm.Messaging;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   //

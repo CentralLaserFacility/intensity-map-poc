@@ -19,7 +19,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using IntensityProfileViewer.ExtensionMethods;
 using SkiaSharp;
 
-namespace NativeUwp_ViewerApp_01
+namespace IntensityProfileViewer
 {
 
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
