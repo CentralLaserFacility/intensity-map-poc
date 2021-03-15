@@ -1,0 +1,63 @@
+﻿<UserControl
+  x:Class="NativeUwp_ViewerApp_01.ProfileDisplaySettings_UserControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:NativeUwp_ViewerApp_01"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignHeight="300"
+  d:DesignWidth="400"
+  x:DefaultBindMode="OneWay"
+>
+
+  <Grid Background="Gainsboro" Padding="10" RowSpacing="10">
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+ 
+    <!-- 
+    <TextBox Text="Profile graph display settings" 
+      Grid.Row="0" 
+      HorizontalAlignment="Center"
+    />
+    -->
+
+    <Border 
+      Grid.Row="0"
+      Grid.Column="0"
+      Background="Cornsilk" 
+    >
+      <TextBlock 
+        Text="Profile graph display settings" 
+        Height="Auto" 
+        Margin="6"
+      />
+    </Border>
+
+    <local:NumericValueEditor_UserControl 
+      ViewModel="{x:Bind XPositionViewModel}"
+      HorizontalAlignment="Stretch"
+      Grid.Row="1" 
+    />
+
+    <local:NumericValueEditor_UserControl 
+      ViewModel="{x:Bind YPositionViewModel}"
+      HorizontalAlignment="Stretch"
+      Grid.Row="2" 
+    />
+
+    <CheckBox 
+      Content="Show profile graphs" 
+      IsChecked="{x:Bind ViewModel.ShouldShowProfileGraphs, Mode=TwoWay}"
+      Grid.Row="3" 
+    />
+
+  </Grid>
+
+</UserControl>

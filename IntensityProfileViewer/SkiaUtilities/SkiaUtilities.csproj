@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaScene" Version="1.0.0" />
+    <PackageReference Include="SkiaScene.TouchManipulation" Version="2.2.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3-preview.18" />
+    <PackageReference Include="TouchTracking" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>

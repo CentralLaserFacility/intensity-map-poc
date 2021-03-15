@@ -1,0 +1,9 @@
+﻿//
+// _Notes.txt
+//
+
+This project defines miscellaneous utilities that are specific to the Uwp platform :
+
+- functions to build a displayable bitmap image from an ImageMap
+
+

@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="BitmapLoadTimingTest_UwpApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BitmapLoadTimingTest_UwpApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+
+        <StackPanel Orientation="Vertical">
+
+            <TextBlock Margin =" 20" Width="400" TextWrapping="WrapWholeWords" HorizontalAlignment="Left">
+              This app demonstrates that the time taken to replace the content of
+              the PixelBuffer in a WriteableBitmap is occasionally far longer than expected.
+              A typical time time to write 320x240 pixels is 3mS, but about one time in ten
+              the operation takes 150mS - IN AN x86 BUILD ONLY, x64 is FINE !!!
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal">
+
+                <StackPanel Orientation="Vertical" Margin="20"  Background="LightBlue">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button 
+                          Content="Start"
+                          Command="{x:Bind ViewModel.StartDynamicImageUpdates}"
+                        />
+                        <Button 
+                          Content="Stop"
+                          Command="{x:Bind ViewModel.StopDynamicImageUpdates}" 
+                          Margin="10,0,10,0"
+                        />
+
+                        <Slider 
+                          Header="{x:Bind ViewModel.TimerPeriod_AsString, Mode=OneWay}"
+                          Width="200" 
+                          Minimum="{x:Bind ViewModel.TimerPeriod_Min, Mode=OneWay}" 
+                          Maximum="{x:Bind ViewModel.TimerPeriod_Max, Mode=OneWay}" 
+                          Value="{x:Bind ViewModel.TimerPeriodInMillisecs, Mode=TwoWay}" 
+                        />
+
+                        <Slider 
+                          Header="{x:Bind ViewModel.FramesPerSecond_AsString, Mode=OneWay}"
+                          Width="200" 
+                          Margin="10,0,0,0"
+                          Minimum="{x:Bind ViewModel.FramesPerSecond_Min, Mode=OneWay}" 
+                          Maximum="{x:Bind ViewModel.FramesPerSecond_Max, Mode=OneWay}" 
+                          Value="{x:Bind ViewModel.FramesPerSecond, Mode=TwoWay}" 
+                        />
+                    </StackPanel>
+
+                    <TextBlock Text="{x:Bind ViewModel.BitmapLoadTimes, Mode=OneWay}" />
+                    <TextBlock Text="{x:Bind ViewModel.ActualTimerWakeupIntervals, Mode=OneWay}" />
+                    <Image 
+                        Source="{x:Bind ViewModel.DynamicImageSource, Mode=OneWay}"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" 
+                        Width="640"
+                        Height="480" 
+                        Margin="0,0,0,0" 
+                        Visibility="Visible"
+                    />
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+
+</Page>
