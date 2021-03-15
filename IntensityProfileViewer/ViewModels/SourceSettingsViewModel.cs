@@ -2,7 +2,7 @@
 // SourceSettingsViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class SourceSettingsViewModel 

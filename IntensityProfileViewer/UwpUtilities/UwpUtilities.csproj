@@ -126,6 +126,7 @@
     <Compile Include="BitmapHelpers.cs" />
     <Compile Include="BitmapHelpers_ForTesting.cs" />
     <Compile Include="BitmapHelpers_old_01.cs" />
+    <Compile Include="EnumToStringConverter.cs" />
     <Compile Include="MyUserControlEx.xaml.cs">
       <DependentUpon>MyUserControlEx.xaml</DependentUpon>
     </Compile>

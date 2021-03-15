@@ -2,7 +2,7 @@
 // ColourMapper_Green.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class ColourMapper_Green : ColourMapper 

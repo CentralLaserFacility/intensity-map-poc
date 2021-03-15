@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Common.ExtensionMethods ;
 using SkiaUtilities;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using IntensityMapViewer.ExtensionMethods;
+using IntensityProfileViewer.ExtensionMethods;
 using SkiaSharp;
 
 namespace NativeUwp_ViewerApp_01
@@ -25,27 +25,27 @@ namespace NativeUwp_ViewerApp_01
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
 
-    private IntensityMapViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+    private IntensityProfileViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(IntensityProfileViewer.ISourceViewModel), 
       typeof(HorizontalProfileGraph_UserControl), 
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
           var userControlThatOwnsThisViewModelProperty = dp as HorizontalProfileGraph_UserControl ;
           userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
-            propertyChangedEventArgs.OldValue as IntensityMapViewer.ISourceViewModel,
-            propertyChangedEventArgs.NewValue as IntensityMapViewer.ISourceViewModel
+            propertyChangedEventArgs.OldValue as IntensityProfileViewer.ISourceViewModel,
+            propertyChangedEventArgs.NewValue as IntensityProfileViewer.ISourceViewModel
           ) ;
         }
       )
     ) ;
 
-    public IntensityMapViewer.ISourceViewModel ViewModel
+    public IntensityProfileViewer.ISourceViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.ISourceViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
@@ -79,8 +79,8 @@ namespace NativeUwp_ViewerApp_01
     private System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     private void OnViewModelPropertyChanged ( 
-      IntensityMapViewer.ISourceViewModel? oldViewModel,
-      IntensityMapViewer.ISourceViewModel? newViewModel
+      IntensityProfileViewer.ISourceViewModel? oldViewModel,
+      IntensityProfileViewer.ISourceViewModel? newViewModel
     ) {
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
         DrawHorizontalProfileGraph_IndividualLines(
@@ -181,7 +181,7 @@ namespace NativeUwp_ViewerApp_01
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
       ).WithNormalisationApplied(
-        new IntensityMapViewer.Normaliser(
+        new IntensityProfileViewer.Normaliser(
           ViewModel.Parent.ImagePresentationSettings.NormalisationValue
         )
       ) ;

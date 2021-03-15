@@ -2,7 +2,7 @@
 // SourceViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
   public class IntensityMapViewModel 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject

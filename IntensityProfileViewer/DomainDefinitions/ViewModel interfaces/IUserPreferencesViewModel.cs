@@ -2,7 +2,7 @@
 // IUserPreferencesViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   // Useful to have for the POC, but needn't necessarily 

@@ -25,7 +25,7 @@ namespace NativeUwp_ViewerApp_01
         public MainPage()
         {
             this.InitializeComponent();
-            m_viewerPanel_UserControl.ViewModel = new IntensityMapViewer.DisplayPanelViewModel() ;
+            m_viewerPanel_UserControl.ViewModel = new IntensityProfileViewer.DisplayPanelViewModel() ;
             this.Loaded += (s,e) => {
             } ;
         }

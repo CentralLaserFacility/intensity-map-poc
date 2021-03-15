@@ -25,14 +25,14 @@ namespace NativeUwp_ViewerApp_01
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.IDisplayPanelViewModel), 
+      typeof(IntensityProfileViewer.IDisplayPanelViewModel), 
       typeof(ViewerPanel_UserControl), 
       new PropertyMetadata(0)
     ) ;
 
-    public IntensityMapViewer.IDisplayPanelViewModel ViewModel
+    public IntensityProfileViewer.IDisplayPanelViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.IDisplayPanelViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.IDisplayPanelViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 

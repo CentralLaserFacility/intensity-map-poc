@@ -2,7 +2,7 @@
 // HowToDrawProfileGraph.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

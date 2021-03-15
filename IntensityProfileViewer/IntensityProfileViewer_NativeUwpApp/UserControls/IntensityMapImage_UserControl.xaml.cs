@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
 using Common.ExtensionMethods;
-using IntensityMapViewer.ExtensionMethods ;
+using IntensityProfileViewer.ExtensionMethods ;
 
 using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
@@ -33,23 +33,23 @@ namespace NativeUwp_ViewerApp_01
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(IntensityProfileViewer.ISourceViewModel), 
       typeof(IntensityMapImage_UserControl), 
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
           var userControlThatOwnsThisViewModelProperty = dp as IntensityMapImage_UserControl ;
           userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
-            propertyChangedEventArgs.OldValue as IntensityMapViewer.ISourceViewModel,
-            propertyChangedEventArgs.NewValue as IntensityMapViewer.ISourceViewModel
+            propertyChangedEventArgs.OldValue as IntensityProfileViewer.ISourceViewModel,
+            propertyChangedEventArgs.NewValue as IntensityProfileViewer.ISourceViewModel
           ) ;
         }
       )
     ) ;
 
-    public IntensityMapViewer.ISourceViewModel ViewModel
+    public IntensityProfileViewer.ISourceViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.ISourceViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
@@ -65,8 +65,8 @@ namespace NativeUwp_ViewerApp_01
     // private SkiaSharp.SKCanvas? m_skiaCanvas ; // No no no ...
 
     private void OnViewModelPropertyChanged ( 
-      IntensityMapViewer.ISourceViewModel? oldViewModel,
-      IntensityMapViewer.ISourceViewModel? newViewModel
+      IntensityProfileViewer.ISourceViewModel? oldViewModel,
+      IntensityProfileViewer.ISourceViewModel? newViewModel
     ) {
       if ( SupportPanAndZoom )
       {
@@ -312,13 +312,13 @@ namespace NativeUwp_ViewerApp_01
           intensityMap.Dimensions.Height
         ) ;
         var colourMapOption = ViewModel.Parent.ImagePresentationSettings.ColourMapOption ;
-        var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
+        var colourMapper = IntensityProfileViewer.ColourMapper.InstanceFor(colourMapOption) ;
         #if true
           // Hmm, creating the pixels array typically takes 10-15mS for a 320x240 image,
           // so we should optimise this by using Span<> and amalgamating the Normalisation
           // with the Colour Mapping computations ...
           bitmap.Pixels = intensityMap.IntensityValues.WithNormalisationApplied(
-            new IntensityMapViewer.Normaliser(
+            new IntensityProfileViewer.Normaliser(
               ViewModel.Parent.ImagePresentationSettings.NormalisationValue
             )
           ).Select(

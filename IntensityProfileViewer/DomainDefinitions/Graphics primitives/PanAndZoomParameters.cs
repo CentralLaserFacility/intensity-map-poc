@@ -2,7 +2,7 @@
 // PanAndZoomParameters.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class PanAndZoomParameters

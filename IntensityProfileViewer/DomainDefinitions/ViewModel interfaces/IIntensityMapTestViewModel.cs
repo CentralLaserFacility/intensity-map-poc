@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IntensityMapViewer.ViewModel_interfaces
+namespace IntensityProfileViewer.ViewModel_interfaces
 {
     public interface IIntensityMapTestViewModel
     {

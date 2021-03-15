@@ -2,7 +2,7 @@
 // IDisplayPanelViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public interface IMotorViewModel : IViewModel

@@ -2,7 +2,7 @@
 // ISystemConstants.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public interface ISystemConstants

@@ -27,8 +27,8 @@ namespace UwpUtilities
     //
 
     public static Windows.UI.Xaml.Media.Imaging.BitmapSource BuildBitmapSource (
-      IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
+      IntensityProfileViewer.IIntensityMap   intensityMap,
+      IntensityProfileViewer.ColourMapOption colourMapOption = IntensityProfileViewer.ColourMapOption.JetColours,
       byte                               highestIntensityValue = (byte) 255
     ) { 
       return CreateWriteableBitmap(
@@ -39,15 +39,15 @@ namespace UwpUtilities
     }
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
-      IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption = IntensityMapViewer.ColourMapOption.JetColours,
+      IntensityProfileViewer.IIntensityMap   intensityMap,
+      IntensityProfileViewer.ColourMapOption colourMapOption = IntensityProfileViewer.ColourMapOption.JetColours,
       byte                               highestIntensityValue = (byte) 255
     ) { 
       var bitmap = new Windows.UI.Xaml.Media.Imaging.WriteableBitmap(
         intensityMap.Dimensions.Width,
         intensityMap.Dimensions.Height
       ) ;
-      var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
+      var colourMapper = IntensityProfileViewer.ColourMapper.InstanceFor(colourMapOption) ;
       var pixelBuffer = bitmap.PixelBuffer ;
       using var stream = pixelBuffer.AsStream() ;
       using var binaryWriter = new System.IO.BinaryWriter(stream) ;

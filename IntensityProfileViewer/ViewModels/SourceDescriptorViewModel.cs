@@ -4,7 +4,7 @@
 
 using System.Collections.Generic ;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class SourceDescriptorViewModel 
@@ -19,14 +19,14 @@ namespace IntensityMapViewer
       "But nice all the same"
     } ;
 
-    private CommsStatus? m_commsStatus = IntensityMapViewer.CommsStatus.Connected ;
+    private CommsStatus? m_commsStatus = IntensityProfileViewer.CommsStatus.Connected ;
 
     public CommsStatus? CommsStatus => m_commsStatus ;
 
     // Not mentioned in the 'ISourceDescriptorViewModel',
     // because setting the status would just be a simulation, for the POC
 
-    public void SetCommsStatus ( IntensityMapViewer.CommsStatus status )
+    public void SetCommsStatus ( IntensityProfileViewer.CommsStatus status )
     => SetProperty(
       ref m_commsStatus,
       status,

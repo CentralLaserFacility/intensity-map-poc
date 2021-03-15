@@ -24,14 +24,14 @@ namespace NativeUwp_ViewerApp_01
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.IImagePresentationSettingsViewModel), 
+      typeof(IntensityProfileViewer.IImagePresentationSettingsViewModel), 
       typeof(ImagePresentationSettings_UserControl), 
       new PropertyMetadata(0)
     ) ;
 
-    public IntensityMapViewer.IImagePresentationSettingsViewModel ViewModel
+    public IntensityProfileViewer.IImagePresentationSettingsViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.IImagePresentationSettingsViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.IImagePresentationSettingsViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
@@ -56,9 +56,9 @@ namespace NativeUwp_ViewerApp_01
       } ;
     }
 
-    public EnumBindingHelper<IntensityMapViewer.ColourMapOption> ColourMapBindingHelper { get ; }
+    public EnumBindingHelper<IntensityProfileViewer.ColourMapOption> ColourMapBindingHelper { get ; }
 
-    public EnumBindingHelper<IntensityMapViewer.NormalisationMode> NormalisationModeBindingHelper { get ; }
+    public EnumBindingHelper<IntensityProfileViewer.NormalisationMode> NormalisationModeBindingHelper { get ; }
 
     public SliderValueBindingHelper<byte> NormalisationValueBindingHelper { get ; }
 

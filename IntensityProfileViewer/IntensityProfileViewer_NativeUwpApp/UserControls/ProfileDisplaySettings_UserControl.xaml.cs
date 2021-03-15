@@ -2,7 +2,7 @@
 // ProfileDisplaySettings_UserControl.cs
 //
 
-using IntensityMapViewer;
+using IntensityProfileViewer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,23 +32,23 @@ namespace NativeUwp_ViewerApp_01
     // eg Dependency Injection ... it could be an 'ordinary' property ...
     //
 
-    public IntensityMapViewer.IProfileDisplaySettingsViewModel? ViewModel
+    public IntensityProfileViewer.IProfileDisplaySettingsViewModel? ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.IProfileDisplaySettingsViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.IProfileDisplaySettingsViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.IProfileDisplaySettingsViewModel), 
+      typeof(IntensityProfileViewer.IProfileDisplaySettingsViewModel), 
       typeof(ProfileDisplaySettings_UserControl), 
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
           var userControlThatOwnsThisViewModelProperty = dp as ProfileDisplaySettings_UserControl ;
           userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
-            propertyChangedEventArgs.OldValue as IntensityMapViewer.IProfileDisplaySettingsViewModel,
-            propertyChangedEventArgs.NewValue as IntensityMapViewer.IProfileDisplaySettingsViewModel
+            propertyChangedEventArgs.OldValue as IntensityProfileViewer.IProfileDisplaySettingsViewModel,
+            propertyChangedEventArgs.NewValue as IntensityProfileViewer.IProfileDisplaySettingsViewModel
           ) ;
         }
       )
@@ -85,8 +85,8 @@ namespace NativeUwp_ViewerApp_01
     }
 
     private void OnViewModelPropertyChanged ( 
-      IntensityMapViewer.IProfileDisplaySettingsViewModel? oldViewModel,
-      IntensityMapViewer.IProfileDisplaySettingsViewModel? newViewModel
+      IntensityProfileViewer.IProfileDisplaySettingsViewModel? oldViewModel,
+      IntensityProfileViewer.IProfileDisplaySettingsViewModel? newViewModel
     ) {
       // TODO : we should properly handle a change to a different view model,
       // by de-registering the event handler for a non-null 'oldViewModel' ...

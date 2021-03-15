@@ -16,7 +16,7 @@
     // TODO : Move to 'SkiaTransformHelpers'
 
     public static void LoadPanAndZoomParameters ( 
-      IntensityMapViewer.PanAndZoomParameters transformParameters,
+      IntensityProfileViewer.PanAndZoomParameters transformParameters,
       SkiaSharp.SKMatrix                      source 
     ) {
       transformParameters.ScaleXY    = source.ScaleX ;
@@ -25,7 +25,7 @@
     }
     
     public static SkiaSharp.SKMatrix GetTransformParameters_HorizontalOnly ( 
-      IntensityMapViewer.PanAndZoomParameters transformParameters
+      IntensityProfileViewer.PanAndZoomParameters transformParameters
     ) {
       var matrix = SkiaSharp.SKMatrix.Identity ;
       matrix.ScaleX = transformParameters.ScaleXY ;
@@ -34,7 +34,7 @@
     }
     
     public static SkiaSharp.SKMatrix GetTransformParameters_VerticalOnly ( 
-      IntensityMapViewer.PanAndZoomParameters transformParameters
+      IntensityProfileViewer.PanAndZoomParameters transformParameters
     ) {
       var matrix = SkiaSharp.SKMatrix.Identity ;
       matrix.ScaleY = transformParameters.ScaleXY ;

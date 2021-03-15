@@ -4,7 +4,7 @@
 
 using Common.ExtensionMethods ;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

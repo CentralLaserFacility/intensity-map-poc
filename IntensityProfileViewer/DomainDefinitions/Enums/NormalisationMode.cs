@@ -2,7 +2,7 @@
 // NormalisationMode.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public enum NormalisationMode {

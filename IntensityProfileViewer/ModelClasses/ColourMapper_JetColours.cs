@@ -2,7 +2,7 @@
 // ColourMapper_JetColours.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class ColourMapper_JetColours : ColourMapper 

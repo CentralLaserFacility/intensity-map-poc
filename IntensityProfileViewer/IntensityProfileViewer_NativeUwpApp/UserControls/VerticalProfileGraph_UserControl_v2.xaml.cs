@@ -33,23 +33,23 @@ namespace NativeUwp_ViewerApp_01
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.ISourceViewModel), 
+      typeof(IntensityProfileViewer.ISourceViewModel), 
       typeof(VerticalProfileGraph_UserControl), 
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
           var userControlThatOwnsThisViewModelProperty = dp as VerticalProfileGraph_UserControl_v2 ;
           userControlThatOwnsThisViewModelProperty.OnViewModelPropertyChanged(
-            propertyChangedEventArgs.OldValue as IntensityMapViewer.ISourceViewModel,
-            propertyChangedEventArgs.NewValue as IntensityMapViewer.ISourceViewModel
+            propertyChangedEventArgs.OldValue as IntensityProfileViewer.ISourceViewModel,
+            propertyChangedEventArgs.NewValue as IntensityProfileViewer.ISourceViewModel
           ) ;
         }
       )
     ) ;
 
-    public IntensityMapViewer.ISourceViewModel ViewModel
+    public IntensityProfileViewer.ISourceViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.ISourceViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.ISourceViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
@@ -67,8 +67,8 @@ namespace NativeUwp_ViewerApp_01
     }
 
     private void OnViewModelPropertyChanged ( 
-      IntensityMapViewer.ISourceViewModel? oldViewModel,
-      IntensityMapViewer.ISourceViewModel? newViewModel
+      IntensityProfileViewer.ISourceViewModel? oldViewModel,
+      IntensityProfileViewer.ISourceViewModel? newViewModel
     ) {
       m_skiaCanvas.PaintSurface += (s,paintSurfaceEventArgs) => {
         // UwpSkiaUtilities.DrawingHelpers.DrawBoundingBox(

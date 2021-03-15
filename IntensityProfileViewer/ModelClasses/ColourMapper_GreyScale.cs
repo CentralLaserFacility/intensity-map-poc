@@ -2,7 +2,7 @@
 // ColourMapper_GreyScale.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class ColourMapper_GreyScale : ColourMapper 

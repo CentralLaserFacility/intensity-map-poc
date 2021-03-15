@@ -2,7 +2,7 @@
 // ImagePresentationSettingsViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

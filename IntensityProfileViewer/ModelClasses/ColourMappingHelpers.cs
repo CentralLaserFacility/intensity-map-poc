@@ -2,7 +2,7 @@
 // ColourMappingHelpers.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public static class ColourMappingHelpers

@@ -14,7 +14,7 @@ namespace ModelClasses_UnitTests
     [Fact]
     public void CanCreateSystemConstants ( )
     {
-      var _ = IntensityMapViewer.SystemConstants.Default ;
+      var _ = IntensityProfileViewer.SystemConstants.Default ;
     }
 
   }

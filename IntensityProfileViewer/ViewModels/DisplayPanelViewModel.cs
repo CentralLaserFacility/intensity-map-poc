@@ -4,7 +4,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

@@ -2,7 +2,7 @@
 // CommsStatus.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public enum CommsStatus {

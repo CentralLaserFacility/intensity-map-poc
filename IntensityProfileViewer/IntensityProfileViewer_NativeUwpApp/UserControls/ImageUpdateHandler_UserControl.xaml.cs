@@ -1,4 +1,4 @@
-﻿using IntensityMapViewer;
+﻿using IntensityProfileViewer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,27 +29,27 @@ namespace NativeUwp_ViewerApp_01
     
     private System.Threading.Timer m_threadingTimer ;
     
-    public IntensityMapViewer.TimedUpdatesScheduler TimedUpdatesScheduler ;
+    public IntensityProfileViewer.TimedUpdatesScheduler TimedUpdatesScheduler ;
 
     public static int SequenceType = 1 ;
 
     public static int g_nIntensityMapsInSequence = 50 ;
 
-    private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
+    private Common.CyclicSelector<IntensityProfileViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
       SequenceType switch 
       {
-      1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+      1 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
           g_nIntensityMapsInSequence,
           sincFactor                       : 10.0,
           fractionalRadialOffsetFromCentre : 0.2
         ).IntensityMaps,
-      2 => IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+      2 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
           g_nIntensityMapsInSequence
         ).IntensityMaps,
-      3 => IntensityMapViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
+      3 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
           g_nIntensityMapsInSequence
         ).IntensityMaps,
-      4 => IntensityMapViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
+      4 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
           g_nIntensityMapsInSequence,
           sincFactor     : 10.0,
           noiseAmplitude : 30
@@ -60,12 +60,12 @@ namespace NativeUwp_ViewerApp_01
 
     private Dictionary<
       string,
-      Common.CyclicSelector<IntensityMapViewer.IIntensityMap>
+      Common.CyclicSelector<IntensityProfileViewer.IIntensityMap>
     > m_dynamicIntensityMapSequencesDictionary = new() {
       {
         "Rotating ripple",
         new(
-          IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
             g_nIntensityMapsInSequence,
             sincFactor                       : 10.0,
             fractionalRadialOffsetFromCentre : 0.2
@@ -75,7 +75,7 @@ namespace NativeUwp_ViewerApp_01
       {
         "Rotating blob",
         new(
-          IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
             g_nIntensityMapsInSequence
           ).IntensityMaps
         )
@@ -83,7 +83,7 @@ namespace NativeUwp_ViewerApp_01
       {
         "Expanding ripple",
         new(
-          IntensityMapViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
             g_nIntensityMapsInSequence
           ).IntensityMaps
         )
@@ -91,7 +91,7 @@ namespace NativeUwp_ViewerApp_01
       {
         "Noisy ripple",
         new(
-          IntensityMapViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
             g_nIntensityMapsInSequence,
             sincFactor     : 10.0,
             noiseAmplitude : 30
@@ -114,7 +114,7 @@ namespace NativeUwp_ViewerApp_01
 
     // private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_currentlySelectedSource ;
 
-    public StringBindingHelper<string> SourceOptionsBindingHelper { get ; }
+    public Common.StringBindingHelper<string> SourceOptionsBindingHelper { get ; }
 
     public IIntensityMap CurrentIntensityMap { get ; private set ; }
 
@@ -137,7 +137,7 @@ namespace NativeUwp_ViewerApp_01
     public ImageUpdateHandler_UserControl ( )
     {
       this.InitializeComponent() ;
-      TimedUpdatesScheduler = new IntensityMapViewer.TimedUpdatesScheduler(
+      TimedUpdatesScheduler = new IntensityProfileViewer.TimedUpdatesScheduler(
         () => {
           // CurrentIntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
           // CurrentIntensityMapChanged?.Invoke() ;

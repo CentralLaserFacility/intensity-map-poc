@@ -2,7 +2,7 @@
 // IViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

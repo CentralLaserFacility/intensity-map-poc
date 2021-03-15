@@ -2,7 +2,7 @@
 // ColourMapOption.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //
@@ -26,14 +26,6 @@ namespace IntensityMapViewer
     ShadesOfBlue,
     // As in LabView ; hmm, more like 'cyclic' ??
     // Binary 
-  }
-
-  public static class EnumTypeOptions
-  {
-
-    static System.Collections.Generic.List<Common.EnumItemsSource<ColourMapOption>> ColourMapOptions
-    => Common.EnumItemsSource<ColourMapOption>.ToList() ;
-
   }
 
 }

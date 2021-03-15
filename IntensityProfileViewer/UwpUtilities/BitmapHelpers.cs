@@ -57,17 +57,17 @@ namespace UwpUtilities
     //
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
-      IntensityMapViewer.IIntensityMap intensityMap
+      IntensityProfileViewer.IIntensityMap intensityMap
     ) { 
       return CreateWriteableBitmap(
         intensityMap,
-        IntensityMapViewer.ColourMapOption.JetColours
+        IntensityProfileViewer.ColourMapOption.JetColours
       ) ;
     }
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
-      IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption
+      IntensityProfileViewer.IIntensityMap   intensityMap,
+      IntensityProfileViewer.ColourMapOption colourMapOption
     ) { 
       return CreateWriteableBitmap(
         intensityMap,
@@ -77,8 +77,8 @@ namespace UwpUtilities
     }
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap CreateWriteableBitmap ( 
-      IntensityMapViewer.IIntensityMap   intensityMap,
-      IntensityMapViewer.ColourMapOption colourMapOption,
+      IntensityProfileViewer.IIntensityMap   intensityMap,
+      IntensityProfileViewer.ColourMapOption colourMapOption,
       double?                            gainFactorToApply
     ) { 
       Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap = null ;
@@ -119,8 +119,8 @@ namespace UwpUtilities
 
     public static Windows.UI.Xaml.Media.Imaging.WriteableBitmap LoadOrCreateWriteableBitmap (
       ref Windows.UI.Xaml.Media.Imaging.WriteableBitmap bitmap,
-      IntensityMapViewer.IIntensityMap                  intensityMap,
-      IntensityMapViewer.ColourMapOption                colourMapOption   = IntensityMapViewer.ColourMapOption.JetColours,
+      IntensityProfileViewer.IIntensityMap                  intensityMap,
+      IntensityProfileViewer.ColourMapOption                colourMapOption   = IntensityProfileViewer.ColourMapOption.JetColours,
       double?                                           gainFactorToApply = null
     ) { 
       if ( 
@@ -133,7 +133,7 @@ namespace UwpUtilities
         intensityMap.Dimensions.Width,
         intensityMap.Dimensions.Height
       ) ;
-      var colourMapper = IntensityMapViewer.ColourMapper.InstanceFor(colourMapOption) ;
+      var colourMapper = IntensityProfileViewer.ColourMapper.InstanceFor(colourMapOption) ;
       var pixelBuffer = bitmap.PixelBuffer ;
       // Hmm, is there a more efficient way to write to the pixel buffer
       // while applying a transformation ???

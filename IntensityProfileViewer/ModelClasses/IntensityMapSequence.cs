@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public class IntensityMapSequence

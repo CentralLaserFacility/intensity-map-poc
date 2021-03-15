@@ -2,7 +2,7 @@
 // ChangeHandler.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
  

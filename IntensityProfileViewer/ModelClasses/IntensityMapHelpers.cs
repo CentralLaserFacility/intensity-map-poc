@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.ExtensionMethods;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public static class IntensityMapHelpers

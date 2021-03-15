@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public interface IColourMapper 

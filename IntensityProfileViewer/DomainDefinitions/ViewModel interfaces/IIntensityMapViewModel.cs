@@ -2,7 +2,7 @@
 // ISourceViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
   //
   // Represets an 'actual' source of IntensityMap data

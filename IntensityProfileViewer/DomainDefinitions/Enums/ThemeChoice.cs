@@ -2,7 +2,7 @@
 // ThemeChoice.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   //

@@ -14,7 +14,7 @@ namespace ModelClasses_UnitTests
     [Fact]
     public void CanCreateIntensityMapForTesting_16x12 ( )
     {
-      var intensityMap = IntensityMapViewer.IntensityMapHelpers.CreateDummyInstanceForTesting_16x12() ;
+      var intensityMap = IntensityProfileViewer.IntensityMapHelpers.CreateDummyInstanceForTesting_16x12() ;
       intensityMap.Dimensions.Width.Should().Be(16) ;
       intensityMap.Dimensions.Height.Should().Be(12) ;
       intensityMap.IntensityValues[0].Should().Be(0x00) ; 

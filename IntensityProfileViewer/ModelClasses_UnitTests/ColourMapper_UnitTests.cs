@@ -15,8 +15,8 @@ namespace ModelClasses_UnitTests
     [Fact]
     public void ColourMappingWorksAsExpected_ForGreyScale ( )
     {
-      var mappedColours = IntensityMapViewer.ColourMapper.InstanceFor(
-        IntensityMapViewer.ColourMapOption.GreyScale
+      var mappedColours = IntensityProfileViewer.ColourMapper.InstanceFor(
+        IntensityProfileViewer.ColourMapOption.GreyScale
       ).MapByteValuesToEncodedARGB(
         new byte[]{0x00,0x7f,0xff}
       ) ;

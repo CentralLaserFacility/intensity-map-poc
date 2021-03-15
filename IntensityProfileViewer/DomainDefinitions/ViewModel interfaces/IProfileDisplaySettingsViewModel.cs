@@ -2,7 +2,7 @@
 // IProfileDisplaySettingsViewModel.cs
 //
 
-namespace IntensityMapViewer
+namespace IntensityProfileViewer
 {
 
   public interface IProfileDisplaySettingsViewModel : IViewModel
