@@ -20,23 +20,23 @@ using Windows.UI.Xaml.Navigation;
 namespace NativeUwp_ViewerApp_01
 {
 
-  public sealed partial class NumericValueEditor_UserControl_old_01 : UserControl
+  public sealed partial class NumericValueEditor_UserControl : UserControl
   {
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
-      typeof(IntensityMapViewer.NumericValueViewModel), 
-      typeof(NumericValueEditor_UserControl_old_01), 
+      typeof(IntensityProfileViewer.NumericValueViewModel), 
+      typeof(NumericValueEditor_UserControl), 
       new PropertyMetadata(0)
     ) ;
 
-    public IntensityMapViewer.NumericValueViewModel ViewModel
+    public IntensityProfileViewer.NumericValueViewModel ViewModel
     {
-      get => GetValue(ViewModelProperty) as IntensityMapViewer.NumericValueViewModel ;
+      get => GetValue(ViewModelProperty) as IntensityProfileViewer.NumericValueViewModel ;
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    public NumericValueEditor_UserControl_old_01 ( )
+    public NumericValueEditor_UserControl ( )
     {
       this.InitializeComponent() ;
     }

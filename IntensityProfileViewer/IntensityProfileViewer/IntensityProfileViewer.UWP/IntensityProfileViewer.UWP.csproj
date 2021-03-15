@@ -18,7 +18,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>f176df9d-f00c-41a1-8451-8aa3818cd277</ProjectGuid>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ProjectGuid>{F176DF9D-F00C-41A1-8451-8AA3818CD277}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IntensityProfileViewer</RootNamespace>
@@ -33,6 +35,8 @@
     <PackageCertificateKeyFile>IntensityProfileViewer.Uwp_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
@@ -44,6 +48,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
@@ -56,6 +62,8 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
@@ -67,6 +75,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
@@ -79,6 +89,8 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
@@ -91,6 +103,8 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <OutputPath>bin\ARM64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
@@ -103,6 +117,8 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
@@ -114,6 +130,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
@@ -127,8 +145,37 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{369022b0-c1cd-4dde-975a-f35bc77217c9}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DomainDefinitions\DomainDefinitions.csproj">
+      <Project>{02a086e0-1e08-427b-bfd8-e43a210cb61a}</Project>
+      <Name>DomainDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ModelClasses\ModelClasses.csproj">
+      <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
+      <Name>ModelClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SkiaUtilities\SkiaUtilities.csproj">
+      <Project>{8644c3a6-b151-42ce-97a2-bd5e70b096d1}</Project>
+      <Name>SkiaUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UwpSkiaUtilities\UwpSkiaUtilities.csproj">
+      <Project>{d4a7e121-5c92-4d0c-80fb-f97cf9b9f92b}</Project>
+      <Name>UwpSkiaUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UwpUtilities\UwpUtilities.csproj">
+      <Project>{45106ca8-d1ca-49f6-af00-725785966912}</Project>
+      <Name>UwpUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ViewModels\ViewModels.csproj">
+      <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IsExternalInit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
