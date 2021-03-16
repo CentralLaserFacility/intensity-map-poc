@@ -9,7 +9,7 @@
   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 >
 
-  <Grid>
+  <Grid Padding="10" RowSpacing="10" Margin="6">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>

@@ -25,7 +25,7 @@ namespace IntensityProfileViewer
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
 
-    private IntensityProfileViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
+    // private IntensityProfileViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
@@ -76,7 +76,7 @@ namespace IntensityProfileViewer
       m_executionTimingStopwatch.Start() ;
     }
 
-    private System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+    private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     private void OnViewModelPropertyChanged ( 
       IntensityProfileViewer.ISourceViewModel? oldViewModel,
@@ -180,7 +180,7 @@ namespace IntensityProfileViewer
       {
         return ;
       }
-      List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
+      List<SkiaSharp.SKPoint> points = new() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
       ).WithNormalisationApplied(
@@ -227,7 +227,7 @@ namespace IntensityProfileViewer
         SkiaSharp.SKMatrix.CreateIdentity()
       ) ;
       skiaCanvas.DrawText(
-        $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}",
+        $"Render time (mS) {renderTimeElapsed.TotalMilliseconds:F1}",
         new(2.0f,14.0f),
         normal
       ) ;

@@ -19,7 +19,7 @@
     -->
   </UserControl.Resources>
 
-  <Grid ColumnSpacing="10" RowSpacing="10" Padding="0" Margin="0" Background="Aquamarine">
+  <Grid ColumnSpacing="0" RowSpacing="0" Padding="0" Margin="0" Background="Blue">
 
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
@@ -60,8 +60,10 @@
 
       <StackPanel Orientation="Horizontal" Spacing="10" >
         <Button Content="Settings" />
+        <!-- 
         <Button Content="Reset" />
         <Button Content="Test" Click="TestButton_Click"/>
+        -->
       </StackPanel>
 
     </StackPanel>
