@@ -12,13 +12,13 @@
     x:DefaultBindMode="OneWay"
  >
 
-  <Grid Background="LightCyan">
+  <Grid>
 
     <skia:SKXamlCanvas 
           x:Name="m_skiaCanvas"
-          Background="LightYellow"
           Width="Auto"
-          Height="Auto"
+          Height="Auto" 
+          Background="LightCyan"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
         />

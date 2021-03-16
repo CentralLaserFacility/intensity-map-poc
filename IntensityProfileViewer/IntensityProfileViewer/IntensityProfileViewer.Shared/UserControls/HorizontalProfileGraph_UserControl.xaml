@@ -16,7 +16,6 @@
 
         <skia:SKXamlCanvas 
           x:Name="m_skiaCanvas"
-          Background="LightYellow"
           Width="Auto"
           Height="Auto"
           HorizontalAlignment="Stretch"
