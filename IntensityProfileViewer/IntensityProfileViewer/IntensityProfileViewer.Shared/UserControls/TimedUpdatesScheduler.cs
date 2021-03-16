@@ -139,7 +139,6 @@ namespace IntensityProfileViewer
       StartTimedUpdates = new Microsoft.Toolkit.Mvvm.Input.RelayCommand(
         () => {
           EnableTimedUpdates = true ;
-          // base.IntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
           StartTimedUpdates.NotifyCanExecuteChanged() ;
           StopTimedUpdates.NotifyCanExecuteChanged() ;
           PerformUpdate.NotifyCanExecuteChanged() ;
@@ -168,21 +167,6 @@ namespace IntensityProfileViewer
       // base.IntensityMapLabel = "This will cycle through 60 variants" ;
       // base.ColourMapOption = ColourMapOption.JetColours ;
     }
-
-    // private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-    //   1 switch 
-    //   {
-    //   1 => IntensityMapViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
-    //       nIntensityMaps                   : 60,
-    //       sincFactor                       : 10.0,
-    //       fractionalRadialOffsetFromCentre : 0.2
-    //     ).IntensityMaps,
-    //   2 => IntensityMapViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
-    //       60
-    //     ).IntensityMaps,
-    //   _ => throw new System.ApplicationException()
-    //   }
-    // ) ;
 
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand StartTimedUpdates { get ; }
 

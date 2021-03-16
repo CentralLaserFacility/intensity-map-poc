@@ -17,9 +17,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace IntensityProfileViewer
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
     sealed partial class App : Application
     {
         /// <summary>

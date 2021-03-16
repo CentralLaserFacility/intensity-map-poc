@@ -1,0 +1,17 @@
+Visual Studio issues :
+
+  Feedback ... too many thousands of items !!!
+  https://developercommunity.visualstudio.com/report?port=1027&fsid=83affe24-2f4b-4691-81db-ae17a8b346d3&entry=problem&space=8
+
+  GitHub. Checking out a repo, opening the available solutions from that repo ?? Have to do File/Open then remember the repo location
+
+  How to exclude projects from a 'build solution' ; Configuration Manager check boxes ignored ??
+
+  XAML designer is busy ...
+
+  Nuget Pckage Explorer ??
+
+  SkSwapChainPanel !!
+
+  UnoSkiaSharpFiddle ...
+

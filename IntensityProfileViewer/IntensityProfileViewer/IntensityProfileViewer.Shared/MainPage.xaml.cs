@@ -13,8 +13,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace IntensityProfileViewer
 {
 
@@ -23,7 +21,7 @@ namespace IntensityProfileViewer
 
     public MainPage ( )
     {
-      this.InitializeComponent();
+      this.InitializeComponent() ;
       m_viewerPanel_UserControl.ViewModel = new IntensityProfileViewer.DisplayPanelViewModel() ;
 
       m_imageUpdateHandler_UserControl.CurrentIntensityMapChanged = ()=> {

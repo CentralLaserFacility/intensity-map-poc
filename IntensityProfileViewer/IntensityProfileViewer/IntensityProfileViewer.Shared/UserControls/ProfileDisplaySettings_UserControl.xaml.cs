@@ -134,11 +134,6 @@ namespace IntensityProfileViewer
       }
     }
 
-    // private void OnProfileGraphsReferencePositionChanged ( )
-    // {
-    // 
-    // }
-
   }
 
 }

@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6CF8318-F1A8-459E-9A37-C97389CF821E}"
 	ProjectSection(SolutionItems) = preProject
 		_ConceptualModel_initial_rough_draft.cs = _ConceptualModel_initial_rough_draft.cs
+		_QuestionsForMatteo.txt = _QuestionsForMatteo.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitmapLoadTimingTest_UwpApp", "BitmapLoadTimingTest_UwpApp\BitmapLoadTimingTest_UwpApp.csproj", "{5964BB4F-2268-4DEB-A353-029AA39AB0D8}"

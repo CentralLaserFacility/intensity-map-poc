@@ -21,10 +21,6 @@ namespace IntensityProfileViewer
   public sealed partial class ImageUpdateHandler_UserControl : UserControl
   {
 
-    // public IntensityMapViewer.NumericValueViewModel UpdateRateViewModel { get ; set ; } 
-    // 
-    // public IntensityMapViewer.NumericValueViewModel UpdatePeriodViewModel { get ; set ; } 
-
     private Windows.UI.Xaml.DispatcherTimer m_dispatcherTimer ;
     
     private System.Threading.Timer m_threadingTimer ;
@@ -112,8 +108,6 @@ namespace IntensityProfileViewer
       }
     } 
 
-    // private Common.CyclicSelector<IntensityMapViewer.IIntensityMap> m_currentlySelectedSource ;
-
     public Common.StringBindingHelper<string> SourceOptionsBindingHelper { get ; }
 
     public IIntensityMap CurrentIntensityMap { get ; private set ; }
@@ -124,10 +118,9 @@ namespace IntensityProfileViewer
 
     public void PerformIntensityMapUpdate ( )
     {
-      CurrentIntensityMap = (
-        m_dynamicIntensityMapSequencesDictionary[CurrentlySelectedSource].GetCurrent_MoveNext()
-        // m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() 
-      ) ;
+      CurrentIntensityMap = m_dynamicIntensityMapSequencesDictionary[
+        CurrentlySelectedSource
+      ].GetCurrent_MoveNext() ;
       CurrentIntensityMapChanged?.Invoke() ;
       HowManyUpdatesPerformed++ ;
     }
@@ -139,8 +132,6 @@ namespace IntensityProfileViewer
       this.InitializeComponent() ;
       TimedUpdatesScheduler = new IntensityProfileViewer.TimedUpdatesScheduler(
         () => {
-          // CurrentIntensityMap = m_dynamicIntensityMapsSelector.GetCurrent_MoveNext() ;
-          // CurrentIntensityMapChanged?.Invoke() ;
           PerformIntensityMapUpdate() ;
           // Common.DebugHelpers.WriteDebugLines(
           //   $"Performed update #{HowManyUpdatesPerformed}"
@@ -176,7 +167,6 @@ namespace IntensityProfileViewer
             // Common.DebugHelpers.WriteDebugLines(
             //   "Threading timer fired !"
             // ) ;
-            // await Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher
             await this.Dispatcher.RunAsync(
               Windows.UI.Core.CoreDispatcherPriority.High,
               () => {
@@ -217,11 +207,6 @@ namespace IntensityProfileViewer
         }
       } ;
       m_dispatcherTimer.Start() ;
-    }
-
-    private void NextButton_Click ( object sender, RoutedEventArgs e )
-    {
-
     }
 
   }

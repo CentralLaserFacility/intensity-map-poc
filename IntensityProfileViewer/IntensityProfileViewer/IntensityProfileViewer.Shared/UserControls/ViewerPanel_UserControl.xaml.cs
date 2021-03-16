@@ -13,15 +13,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace IntensityProfileViewer
 {
 
   public sealed partial class ViewerPanel_UserControl : UserControl
   {
-
-    // private IntensityMapViewer.IDisplayPanelViewModel ViewModel => ViewModelBase as IntensityMapViewer.IDisplayPanelViewModel ;
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
@@ -57,11 +53,6 @@ namespace IntensityProfileViewer
       // this.Loaded += (s,e) => {
       //   m_imageUpdateHandler?.PerformIntensityMapUpdate() ;
       // } ;
-
-    }
-
-    private void TestButton_Click ( object sender, RoutedEventArgs e )
-    {
 
     }
 

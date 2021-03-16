@@ -3,13 +3,6 @@
 
   // Move this to SkiaUtils ???
 
-  // public class TransformParameters
-  // {
-  //   public float ScaleFactor = 1.0f ;
-  //   public float DeltaX      = 0.0f ;
-  //   public float DeltaY      = 0.0f ;
-  // }
-
   public class SkiaSceneRenderer : SkiaScene.ISKSceneRenderer
   {
 

@@ -25,8 +25,6 @@ namespace IntensityProfileViewer
   public sealed partial class HorizontalProfileGraph_UserControl : UserControl
   {
 
-    // private IntensityProfileViewer.IDisplayPanelViewModel RootViewModel => ViewModel.Parent ;
-
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityProfileViewer.ISourceViewModel), 
@@ -49,24 +47,11 @@ namespace IntensityProfileViewer
       set => SetValue(ViewModelProperty,value) ;
     }
 
-    // private UwpSkiaUtilities.PanAndZoomAndRotationGesturesHandler m_panAndZoomAndRotationGesturesHandler ;
-
     private ReferencePositionChangedMessage? m_latestReferencePositionChangedMessage = null ;
 
     public HorizontalProfileGraph_UserControl ( )
     {
       this.InitializeComponent();
-      // Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register<
-      //   HorizontalProfileGraph_UserControl,
-      //   ReferencePositionChangedMessage,
-      //   int
-      // >(
-      //   this,
-      //   0,
-      //   (self,message) => {
-      //     // m_latestReferencePositionChangedMessage = message ;
-      //   }
-      // ) ;
       Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Register(
         this,
         (HorizontalProfileGraph_UserControl self, ReferencePositionChangedMessage message) => {
@@ -175,7 +160,6 @@ namespace IntensityProfileViewer
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
 
-      // float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;      if ( nPoints < 2 )
       {
         return ;
@@ -192,16 +176,13 @@ namespace IntensityProfileViewer
         (value,i) => {
           float lineLength = (
             (
-              canvasRect.Height // - 1
-            //- spaceAtTopAndBottom * 2.0f
+              canvasRect.Height 
             )
           * value / 255.0f 
           ) ;
           var bottomAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
             bottomLeftPoint.MovedBy(0,1),
             bottomRightPoint.MovedBy(0,1),
-            // bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
-            // bottomRightPoint.MovedBy(-spaceAtTopAndBottom,-spaceAtTopAndBottom),
             i / (float) ( nPoints - 1 ) // ??????????????
           ) ;
           skiaCanvas.DrawVerticalLineUp(
