@@ -158,6 +158,21 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
+    <PackageReference Include="SkiaScene">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaScene.TouchManipulation">
+      <Version>2.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp">
+      <Version>2.80.3-preview.40</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp.Views">
+      <Version>2.80.3-preview.40</Version>
+    </PackageReference>
+    <PackageReference Include="TouchTracking">
+      <Version>1.2.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -171,18 +186,6 @@
     <ProjectReference Include="..\ModelClasses\ModelClasses.csproj">
       <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
       <Name>ModelClasses</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SkiaUtilities\SkiaUtilities.csproj">
-      <Project>{8644c3a6-b151-42ce-97a2-bd5e70b096d1}</Project>
-      <Name>SkiaUtilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UwpSkiaUtilities\UwpSkiaUtilities.csproj">
-      <Project>{d4a7e121-5c92-4d0c-80fb-f97cf9b9f92b}</Project>
-      <Name>UwpSkiaUtilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UwpUtilities\UwpUtilities.csproj">
-      <Project>{45106ca8-d1ca-49f6-af00-725785966912}</Project>
-      <Name>UwpUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
