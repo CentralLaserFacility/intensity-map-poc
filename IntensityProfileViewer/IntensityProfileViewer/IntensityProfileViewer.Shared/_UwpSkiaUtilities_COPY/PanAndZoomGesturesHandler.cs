@@ -16,11 +16,11 @@ namespace UwpSkiaUtilities
 
     #if __ANDROID__
       private TouchTracking.Droid.TouchHandler m_touchHandler = new() ;
-      private SkiaSharp.Views.Uno.SKXamlCanvas m_skiaXamlCanvas ; // ???????????? .Views.Uno ?????
     #elif NETFX_CORE
       private TouchTracking.UWP.TouchHandler m_touchHandler = new() ;
-      private SkiaSharp.Views.UWP.SKXamlCanvas m_skiaXamlCanvas ;
     #endif
+      
+    private SkiaSharp.Views.UWP.SKXamlCanvas m_skiaXamlCanvas ;
 
     public System.Func<
       TouchTracking.TouchActionType, 

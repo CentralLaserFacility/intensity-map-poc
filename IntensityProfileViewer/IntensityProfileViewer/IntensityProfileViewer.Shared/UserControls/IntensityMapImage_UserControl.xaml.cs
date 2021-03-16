@@ -259,13 +259,13 @@ namespace IntensityProfileViewer
       return handled ;
     }
 
+    #if __ANDROID__
+    #elif NETFX_CORE
+    #endif
+
     private void DrawSkiaContent ( 
       object                                      sender, 
-      #if __ANDROID__
-        SkiaSharp.Views.Uno.SKPaintSurfaceEventArgs paintSurfaceEventArgs
-      #elif NETFX_CORE
-        SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
-      #endif
+      SkiaSharp.Views.UWP.SKPaintSurfaceEventArgs paintSurfaceEventArgs
     ) {
       SkiaSharp.SKCanvas skiaCanvas = paintSurfaceEventArgs.Surface.Canvas ;
       SkiaSharp.SKRectI deviceClipBounds = skiaCanvas.DeviceClipBounds ;

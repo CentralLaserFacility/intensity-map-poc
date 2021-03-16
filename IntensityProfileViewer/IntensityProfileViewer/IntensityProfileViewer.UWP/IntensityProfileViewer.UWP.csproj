@@ -19,9 +19,6 @@
     <PackageReference Include="SkiaSharp">
       <Version>2.80.3-preview.40</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views">
-      <Version>2.80.3-preview.40</Version>
-    </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Uno">
       <Version>2.80.3-preview.40</Version>
     </PackageReference>

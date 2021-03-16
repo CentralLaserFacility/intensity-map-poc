@@ -70,9 +70,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers_ForTesting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\EnumToStringConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\MyUserControlEx.xaml.cs">
-      <DependentUpon>MyUserControlEx.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
@@ -128,10 +125,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_UserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\MyUserControlEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
