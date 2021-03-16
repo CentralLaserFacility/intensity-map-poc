@@ -11,8 +11,24 @@
 
   <Grid>
 
-    <local:ViewerPanel_UserControl x:Name="m_viewerPanel_UserControl"/>
-      
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="110"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+    </Grid.ColumnDefinitions>
+
+    <local:ViewerPanel_UserControl 
+      Grid.Row="0"
+      x:Name="m_viewerPanel_UserControl"
+    />
+
+    <local:ImageUpdateHandler_UserControl
+      Grid.Row="1"
+      x:Name="m_imageUpdateHandler_UserControl"
+    />
+
   </Grid>
 
 </Page>

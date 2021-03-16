@@ -9,6 +9,7 @@
   <Application.Resources>
 
     <ResourceDictionary>
+      <SolidColorBrush x:Key="BackgroundBrush_AliceBlue">AliceBlue</SolidColorBrush>
       <!-- 
       <uwpUtils:EnumToStringConverter x:Key="enumToStringConverter" />
       -->

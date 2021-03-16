@@ -11,12 +11,21 @@
   d:DesignWidth="1400"
   x:DefaultBindMode="OneWay"
 >
+  <UserControl.Resources>
+    <!-- 
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="BackgroundBrush_AliceBlue">AliceBlue</SolidColorBrush>
+    </ResourceDictionary>
+    -->
+  </UserControl.Resources>
 
   <Grid ColumnSpacing="10" RowSpacing="10" Padding="0" Margin="0" Background="Aquamarine">
 
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
+        <!-- 
         <RowDefinition Height="110"/>
+        -->
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
@@ -34,7 +43,7 @@
     <!-- Right hand column containing the adjustment panels -->
     <StackPanel 
       Orientation="Vertical" 
-      Background="AliceBlue"
+      Background="{StaticResource BackgroundBrush_AliceBlue}"
       Grid.Row="0" 
       Grid.Column="1" 
       Spacing="10"
@@ -57,6 +66,7 @@
 
     </StackPanel>
 
+    <!-- 
     <StackPanel 
       Orientation="Horizontal" 
       Background="AliceBlue"
@@ -65,12 +75,9 @@
       Padding="10" 
       Spacing="10"
     >
-      <!-- 
-      <Button Content="Next" />
-      <CheckBox Content="Free-run" />
-      -->
       <local:ImageUpdateHandler_UserControl x:Name="m_imageUpdateHandler" />
     </StackPanel>
+    -->
 
   </Grid>
 

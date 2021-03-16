@@ -48,14 +48,16 @@ namespace IntensityProfileViewer
       //   // bind its data context to the same ViewModel - but is that working ???
       //   // m_intensityMapImageAndProfileGraphs_UserControl.DataContext = ViewModel ;
       // } ;
-      m_imageUpdateHandler.CurrentIntensityMapChanged = ()=> {
-        ViewModel.CurrentSource.SetRecentlyAcquiredIntensityMap(
-          m_imageUpdateHandler.CurrentIntensityMap
-        ) ;
-      } ;
-      this.Loaded += (s,e) => {
-        m_imageUpdateHandler.PerformIntensityMapUpdate() ;
-      } ;
+
+      // m_imageUpdateHandler.CurrentIntensityMapChanged = ()=> {
+      //   ViewModel.CurrentSource.SetRecentlyAcquiredIntensityMap(
+      //     m_imageUpdateHandler.CurrentIntensityMap
+      //   ) ;
+      // } ;
+      // this.Loaded += (s,e) => {
+      //   m_imageUpdateHandler?.PerformIntensityMapUpdate() ;
+      // } ;
+
     }
 
     private void TestButton_Click ( object sender, RoutedEventArgs e )

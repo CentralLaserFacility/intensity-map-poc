@@ -17,17 +17,25 @@ using Windows.UI.Xaml.Navigation;
 
 namespace IntensityProfileViewer
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+
+  public sealed partial class MainPage : Page
+  {
+
+    public MainPage ( )
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-            m_viewerPanel_UserControl.ViewModel = new IntensityProfileViewer.DisplayPanelViewModel() ;
-            this.Loaded += (s,e) => {
-            } ;
-        }
+      this.InitializeComponent();
+      m_viewerPanel_UserControl.ViewModel = new IntensityProfileViewer.DisplayPanelViewModel() ;
+
+      m_imageUpdateHandler_UserControl.CurrentIntensityMapChanged = ()=> {
+        m_viewerPanel_UserControl.ViewModel.CurrentSource.SetRecentlyAcquiredIntensityMap(
+          m_imageUpdateHandler_UserControl.CurrentIntensityMap
+        ) ;
+      } ;
+      this.Loaded += (s,e) => {
+        m_imageUpdateHandler_UserControl?.PerformIntensityMapUpdate() ;
+      } ;
     }
+
+  }
+
 }
