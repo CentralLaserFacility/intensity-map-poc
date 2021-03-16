@@ -139,7 +139,7 @@ namespace IntensityProfileViewer
       {
         return ;
       }
-      List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
+      List<SkiaSharp.SKPoint> points = new() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X
       ).WithNormalisationApplied(
@@ -151,14 +151,14 @@ namespace IntensityProfileViewer
         (value,i) => {
           float lineLength = (
             (
-              canvasRect.Width // - 1
+              canvasRect.Width - 1
             // - spaceAtTopAndBottom * 2.0f
             )
           * value / 255.0f 
           ) ;
           var leftAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
-            topLeftPoint.MovedBy(1,0),
-            bottomLeftPoint.MovedBy(1,0),
+            topLeftPoint.MovedBy(0,0),
+            bottomLeftPoint.MovedBy(0,0),
             // topLeftPoint.MovedBy(spaceAtTopAndBottom,spaceAtTopAndBottom),
             // bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
             i / (float) ( nPoints - 1 )
