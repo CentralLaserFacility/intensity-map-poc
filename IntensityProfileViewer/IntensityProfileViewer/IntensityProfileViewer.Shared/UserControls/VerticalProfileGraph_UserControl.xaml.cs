@@ -133,8 +133,12 @@ namespace IntensityProfileViewer
       bottomLeftPoint.Y  = topLeftPoint.Y  + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
       bottomRightPoint.Y = topRightPoint.Y + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
 
-      float spaceAtTopAndBottom = 0.0f ;
+      // float spaceAtTopAndBottom = 0.0f ;
       int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
+      if ( nPoints < 2 )
+      {
+        return ;
+      }
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X
@@ -147,15 +151,17 @@ namespace IntensityProfileViewer
         (value,i) => {
           float lineLength = (
             (
-              canvasRect.Width - 1
-            - spaceAtTopAndBottom * 2.0f
+              canvasRect.Width // - 1
+            // - spaceAtTopAndBottom * 2.0f
             )
           * value / 255.0f 
           ) ;
           var leftAnchorPoint = SkiaUtilities.DrawingHelpers.GetPointAtFractionalPositionAlongLine(
-            topLeftPoint.MovedBy(spaceAtTopAndBottom,spaceAtTopAndBottom),
-            bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
-            i / (float) nPoints
+            topLeftPoint.MovedBy(1,0),
+            bottomLeftPoint.MovedBy(1,0),
+            // topLeftPoint.MovedBy(spaceAtTopAndBottom,spaceAtTopAndBottom),
+            // bottomLeftPoint.MovedBy(spaceAtTopAndBottom,-spaceAtTopAndBottom),
+            i / (float) ( nPoints - 1 )
           ) ;
           skiaCanvas.DrawHorizontalLineRight(
             leftAnchorPoint,

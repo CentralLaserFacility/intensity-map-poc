@@ -175,8 +175,11 @@ namespace IntensityProfileViewer
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
 
-      //float spaceAtTopAndBottom = 0.0f ;
-      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;
+      // float spaceAtTopAndBottom = 0.0f ;
+      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Width ;      if ( nPoints < 2 )
+      {
+        return ;
+      }
       List<SkiaSharp.SKPoint> points = new List<SkiaSharp.SKPoint>() ;
       var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
