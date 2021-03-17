@@ -32,6 +32,10 @@ namespace IntensityProfileViewer
       this.Loaded += (s,e) => {
         m_imageUpdateHandler_UserControl?.PerformIntensityMapUpdate() ;
       } ;
+
+      Common.DebugHelpers.WriteDebugLines(
+          $"UI thread is #{System.Environment.CurrentManagedThreadId}"
+      ) ;
     }
 
   }

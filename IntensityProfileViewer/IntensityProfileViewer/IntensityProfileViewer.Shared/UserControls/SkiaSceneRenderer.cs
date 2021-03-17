@@ -88,7 +88,8 @@
           $"{skiaCanvas.TotalMatrix.Values[3]:F2} {skiaCanvas.TotalMatrix.Values[4]:F2} {skiaCanvas.TotalMatrix.Values[5]:F2} ",
           // Note that these elements are always the same ...
           $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} ",
-          $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}"
+          $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}",
+          $"Thread #{System.Environment.CurrentManagedThreadId}"
         ) ;
         void DrawDebugTextLines ( params string[] textLines )
         {
