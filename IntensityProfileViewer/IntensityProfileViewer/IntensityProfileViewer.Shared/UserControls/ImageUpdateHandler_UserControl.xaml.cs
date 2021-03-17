@@ -21,9 +21,9 @@ namespace IntensityProfileViewer
   public sealed partial class ImageUpdateHandler_UserControl : UserControl
   {
 
-    private Windows.UI.Xaml.DispatcherTimer m_dispatcherTimer ;
+    private readonly Windows.UI.Xaml.DispatcherTimer m_dispatcherTimer ;
     
-    private System.Threading.Timer m_threadingTimer ;
+    private readonly System.Threading.Timer m_threadingTimer ;
     
     public IntensityProfileViewer.TimedUpdatesScheduler TimedUpdatesScheduler ;
 
@@ -31,30 +31,30 @@ namespace IntensityProfileViewer
 
     public static int g_nIntensityMapsInSequence = 50 ;
 
-    private Common.CyclicSelector<IntensityProfileViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
-      SequenceType switch 
-      {
-      1 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
-          g_nIntensityMapsInSequence,
-          sincFactor                       : 10.0,
-          fractionalRadialOffsetFromCentre : 0.2
-        ).IntensityMaps,
-      2 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
-          g_nIntensityMapsInSequence
-        ).IntensityMaps,
-      3 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
-          g_nIntensityMapsInSequence
-        ).IntensityMaps,
-      4 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
-          g_nIntensityMapsInSequence,
-          sincFactor     : 10.0,
-          noiseAmplitude : 30
-        ).IntensityMaps,
-      _ => throw new System.ApplicationException()
-      }
-    ) ;
+    // private Common.CyclicSelector<IntensityProfileViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
+    //   SequenceType switch 
+    //   {
+    //   1 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+    //       g_nIntensityMapsInSequence,
+    //       sincFactor                       : 10.0,
+    //       fractionalRadialOffsetFromCentre : 0.2
+    //     ).IntensityMaps,
+    //   2 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+    //       g_nIntensityMapsInSequence
+    //     ).IntensityMaps,
+    //   3 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
+    //       g_nIntensityMapsInSequence
+    //     ).IntensityMaps,
+    //   4 => IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
+    //       g_nIntensityMapsInSequence,
+    //       sincFactor     : 10.0,
+    //       noiseAmplitude : 30
+    //     ).IntensityMaps,
+    //   _ => throw new System.ApplicationException()
+    //   }
+    // ) ;
 
-    private Dictionary<
+    private readonly Dictionary<
       string,
       Common.CyclicSelector<IntensityProfileViewer.IIntensityMap>
     > m_dynamicIntensityMapSequencesDictionary = new() {

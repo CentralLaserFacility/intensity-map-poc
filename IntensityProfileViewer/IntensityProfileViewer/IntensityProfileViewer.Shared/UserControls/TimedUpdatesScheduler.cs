@@ -180,13 +180,13 @@ namespace IntensityProfileViewer
 
     private static bool MeasureTimerTickTimings = false ;
 
-    private List<long> m_actionExecutionTimesLog = new() ;
+    private readonly List<long> m_actionExecutionTimesLog = new() ;
 
-    private List<long> m_actualTimerWakeupIntervalsLog = new() ;
+    private readonly List<long> m_actualTimerWakeupIntervalsLog = new() ;
 
-    private System.Diagnostics.Stopwatch m_timerTickStopwatch = new() ;
+    private readonly System.Diagnostics.Stopwatch m_timerTickStopwatch = new() ;
 
-    private System.Diagnostics.Stopwatch m_timerTickReportStopwatch = new() ;
+    private readonly System.Diagnostics.Stopwatch m_timerTickReportStopwatch = new() ;
 
     private System.Diagnostics.Stopwatch m_executionTimingStopwatch = null ;
 

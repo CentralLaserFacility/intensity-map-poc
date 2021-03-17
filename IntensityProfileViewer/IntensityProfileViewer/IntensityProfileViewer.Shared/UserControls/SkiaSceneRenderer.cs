@@ -35,7 +35,7 @@
       return matrix ;
     }
     
-    private System.Action<SkiaSharp.SKCanvas> m_draw ;
+    private readonly System.Action<SkiaSharp.SKCanvas> m_drawOnCanvasAction ;
 
     public System.Action<SkiaSharp.SKCanvas> RenderHookAction = null ;
 
@@ -50,12 +50,12 @@
       RenderHookAction?.Invoke(skiaCanvas) ;
       System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
       skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
-      m_draw(skiaCanvas) ;
+      m_drawOnCanvasAction(skiaCanvas) ;
       System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
       System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
       if ( ShowTransformMatrixInfo )
       {
-        SkiaSharp.SKPaint redPaint = new SkiaSharp.SKPaint() { 
+        SkiaSharp.SKPaint redPaint = new() { 
           Color       = SkiaSharp.SKColors.Red,
           IsAntialias = true,
           Typeface    = SkiaSharp.SKTypeface.FromFamilyName(
@@ -108,11 +108,11 @@
       }
     }
 
-    private System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+    private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     public SkiaSceneRenderer ( System.Action<SkiaSharp.SKCanvas> draw )
     {
-      m_draw = draw ;
+      m_drawOnCanvasAction = draw ;
       m_executionTimingStopwatch.Start() ;
     }
 

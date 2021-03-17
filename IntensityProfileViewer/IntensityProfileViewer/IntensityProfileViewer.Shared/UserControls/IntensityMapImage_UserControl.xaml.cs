@@ -448,7 +448,7 @@ namespace IntensityProfileViewer
           m_horizontalLine = null ;
           m_verticalLine   = null ;
         }
-        SkiaSharp.SKPaint textPaint = new SkiaSharp.SKPaint() { 
+        SkiaSharp.SKPaint textPaint = new() { 
           Color       = SkiaSharp.SKColors.White,
           IsAntialias = true,
           TextSize    = zoomCompensationFactor * 16.0f,
