@@ -3,13 +3,23 @@ Visual Studio issues :
   Feedback ... too many thousands of items !!!
   https://developercommunity.visualstudio.com/report?port=1027&fsid=83affe24-2f4b-4691-81db-ae17a8b346d3&entry=problem&space=8
 
-  GitHub. Checking out a repo, opening the available solutions from that repo ?? Have to do File/Open then remember the repo location
+  GitHub. Checking out a repo, opening the available solutions from that repo ?? 
+  Have to do File/Open then remember the repo location.
 
   How to exclude projects from a 'build solution' ; Configuration Manager check boxes ignored ??
 
   XAML designer is busy ...
 
-  Nuget Pckage Explorer ??
+  Nuget Package Explorer ??
+
+  UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
+
+  Trigger binding change on resize, when a Bind target depends on panel size ...
+
+  Putting lots in the Shared project make the project files simpler, but is horrid for all sorts of reasons
+  Each UserControl should be independently testable in a 'demo' panel
+
+  --------------------------
 
   SkSwapChainPanel !!
 

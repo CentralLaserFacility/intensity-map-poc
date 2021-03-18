@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\ClipToBounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
       <DependentUpon>HorizontalProfileGraph_UserControl.xaml</DependentUpon>
     </Compile>
@@ -72,6 +73,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\TouchEventDescriptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers_ForTesting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\DrawingHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\EnumToStringConverter.cs" />
   </ItemGroup>
   <ItemGroup>
