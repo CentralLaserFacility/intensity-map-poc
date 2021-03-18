@@ -2,7 +2,7 @@
 // LiveImageAcquirer.cs
 //
 
-using EpicsSharp.ChannelAccess.Client ;
+using EpicsSharp.ChannelAccess.Client;
 using System;
 using System.Collections.Generic;
 

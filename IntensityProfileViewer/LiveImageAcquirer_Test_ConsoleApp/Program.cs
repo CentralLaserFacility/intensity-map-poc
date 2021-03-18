@@ -15,6 +15,24 @@ namespace LiveImageAcquirer_Test_ConsoleApp
 
       try
       {
+
+        int option = 1 ;
+        switch ( option )
+        {
+        case 1:
+          LiveImageAcquisition.PvAccessTest.TryConnecting<double>(
+            "130.246.71.56",
+            "CLFMCC:HA0:CH2"
+          ) ;
+          return ;
+        case 2:
+          LiveImageAcquisition.PvAccessTest.TryConnecting<string>(
+            "130.246.71.15",
+            "CDG:TEST_STR"
+          ) ;
+          return ;
+        }
+
         System.Console.WriteLine(
           $"Creating LiveImageAcquirer on thread #{System.Environment.CurrentManagedThreadId}"
         ) ;
@@ -39,9 +57,11 @@ namespace LiveImageAcquirer_Test_ConsoleApp
           $"Exception : {x}"
         ) ;
       }
-
-      System.Console.WriteLine("Press ENTER to exit ...") ;
-      System.Console.ReadLine() ;
+      finally
+      {
+        System.Console.WriteLine("Waiting for ENTER ...") ;
+        System.Console.ReadLine() ;
+      }
 
     }
 
