@@ -24,6 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
       <DependentUpon>HorizontalProfileGraph_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_XAML_UserControl.xaml.cs">
+      <DependentUpon>HorizontalProfileGraph_XAML_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ImagePresentationSettings_UserControl.xaml.cs">
       <DependentUpon>ImagePresentationSettings_UserControl.xaml</DependentUpon>
     </Compile>
@@ -77,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_XAML_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
