@@ -13,13 +13,75 @@ Visual Studio issues :
   Nuget Package Explorer ??
 
   UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
+  [ Aha ... this is the 'suggested width' ??? ]
 
   Trigger binding change on resize, when a Bind target depends on panel size ...
 
-  Putting lots in the Shared project make the project files simpler, but is horrid for all sorts of reasons
-  Each UserControl should be independently testable in a 'demo' panel
+  Putting 'library' code in the Shared project avoids the need to set up
+  multiply targeted project files, but is horrid for all sorts of reasons.
+  Roll on .Net 6 where this will be sorted :)
 
-  --------------------------
+  Each UserControl should be independently testable in a 'demo' panel.
+
+  Geometry class (in Microsoft.UI.Xaml.Media)
+    Specifies data for a Path (all rendered with same stroke/brush)
+    ??? How is the underlying information accessed ??
+    ??? Aha, just in terms of the properties that have been set up
+    Under the hood, something turns a Geometry into pixels etc
+
+  Shape class :
+    Line
+    Rectangle
+    Path ... etc
+    GeometryTransform (3x3 matrix ie 2D)
+    RenderTransform (3x3 matrix ie 2D)
+    IsHitTestVisible !!! PointerEntered etc
+    Stroke / Brush
+
+  Hit test : how to find whether an object is 'hit' at a given position ?
+  https://stackoverflow.com/questions/38625268/how-can-i-detect-the-control-under-a-point-in-uwp
+  You can use Windows.UI.Xaml.Media.VisualTreeHelper.FindElementsInHostCoordinates to find UIElements that intersect a specific coordinate.
+  To find a point relative to your Canvas you'll need to convert from the Canvas's coordinates to the app window's coordinates, which you can do with UIElement.TransformToVisual. This will take into account scaling as well as translations.
+
+  VisualTreeHelper.FindElementsInHostCoordinates
+  https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates?view=winrt-19041
+  Retrieves a set of objects that are located within a specified x-y coordinate point of an app UI. The set of objects represents the components of a visual tree that share that point.
+
+------------------
+
+  ?? Role of the 'Composition' API ??
+  Really for animation and 3D effects ?
+  Has 'rounded rectangle', nice
+  Points (eg for CompositionLineGeometry) specified as System.Numerics.Vector2.
+  Microsoft.UI.Composition.CompositionPath ... ??? no docs !!!
+  Visual, etc ; transformation matrix is 4x4 ???
+
+-------------------------
+
+  So many options for 'custom rendering' ...
+    XAML (and associated classes eg Geometry, Shape)
+    Composition ...
+    Visual ...
+    Win2D
+    Skia    *** Cross platform, Uno converts to this
+                Also runs on Windows, but not the 'native' API ...
+
+---------------------
+
+  For pan/zoom (eg in MachineSafety network diagram) need to apply
+  a Transform to *all* the elements in a container.
+
+  In WPF, we have DrawingVisuals in a ContainerVisual, apply Transform to container.
+
+  Is there a way to do this in UWP XAML, eg to all child elements of a Canvas ???
+  *** Aha, can apply ScaleTransform or whatever to the Canvas, no problem.
+
+  Visual layer geometric objects eg lines, shapes - but TEXT ???
+  https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/visual-layer-in-desktop-apps
+  The Visual Layer does not have a primitive for rendering text.
+  WTF ???
+
+--------------------------
 
   SkSwapChainPanel !!
 

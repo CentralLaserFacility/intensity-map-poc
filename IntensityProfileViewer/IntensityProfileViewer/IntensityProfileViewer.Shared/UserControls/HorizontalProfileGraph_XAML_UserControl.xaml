@@ -98,7 +98,13 @@
 
       <Path Data="{x:Bind MyPathData}" Stroke="Orange" StrokeThickness="2"/>
 
-      <Path x:Name="m_graphPath" Data="{x:Bind GetPathDataForGraph(ViewModel.MostRecentlyAcquiredIntensityMap)}" Stroke="Red" StrokeThickness="0.55"/>
+      <Path 
+        x:Name="m_graphPath" 
+        Data="{x:Bind GetPathDataForGraph(ViewModel.MostRecentlyAcquiredIntensityMap)}" 
+        Stroke="Red" 
+        StrokeThickness="0.55"
+        IsHitTestVisible="True"
+      />
 
     </Canvas>
 

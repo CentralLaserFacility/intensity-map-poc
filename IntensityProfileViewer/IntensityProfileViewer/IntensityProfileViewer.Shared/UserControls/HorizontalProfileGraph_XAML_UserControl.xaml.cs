@@ -55,8 +55,10 @@ namespace IntensityProfileViewer
         this.Bindings.Update() ;
       } ;
       this.SizeChanged += (s,e) => {
+        // https://www.domysee.com/blogposts/canvas-rendering-out-of-bounds
         // Matteo : HELP, THIS DOESN'T WORK EITHER !!!
         // Aha, it's because of the TRANSFORM we've applied ...
+        // It works when we apply the transform to the Path :)
         m_canvas.Clip = new RectangleGeometry() { 
           Rect = new Rect(
             0, 
@@ -65,13 +67,18 @@ namespace IntensityProfileViewer
             m_canvas.ActualHeight
           )
         } ;
-        // Surely there's an easier way to do this ???
-        System.Numerics.Matrix4x4 transform = m_canvas.TransformMatrix ;
-        System.Numerics.Vector3 v = new(1,1,0) ;
-        v = System.Numerics.Vector3.Transform(v,transform) ;
         this.Bindings.Update() ;
       } ;
+
+      // Surely there's an easier way to do this ???
+      System.Numerics.Matrix4x4 transform = m_canvas.TransformMatrix ;
+      System.Numerics.Vector3 v = new(1,1,0) ;
+      v = System.Numerics.Vector3.Transform(v,transform) ;
+
+      m_executionTimingStopwatch.Start() ;
     }
+
+    private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     // Nasty HACK ...
 
@@ -104,6 +111,9 @@ namespace IntensityProfileViewer
       var transform = SkiaSceneRenderer.GetTransformParameters_HorizontalOnly(
         ViewModel.Parent.PanAndZoomParameters
       ) ;
+
+      System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
+
       // this.Scale = new(
       //   transform.ScaleX,
       //   transform.ScaleY,
@@ -116,7 +126,7 @@ namespace IntensityProfileViewer
       // ) ;
       // Aha, this works !!! Applying the transform to
       // the graph data rather than to the Canvas itself ...
-      Windows.UI.Xaml.Media.Transform graphPathTransform = new TransformGroup(){
+      GraphPathTransform = new TransformGroup(){
         Children = {
           new ScaleTransform(){
             ScaleX = transform.ScaleX,
@@ -128,9 +138,27 @@ namespace IntensityProfileViewer
           }
         }
       } ;
-      m_graphPath.RenderTransform = graphPathTransform ;
+
+      System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
+
+      Common.DebugHelpers.WriteDebugLines(
+        $"Path data build time (mS) {renderTimeElapsed.TotalMilliseconds:F3}"
+      ) ;
+
+      // This works, but it's better to apply the transform
+      // to the PathData that we're binding to ...
+      // m_graphPath.RenderTransform = GraphPathTransform ;
       this.Bindings.Update() ;
     }
+
+    // https://docs.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4?view=net-5.0
+    // https://docs.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4.transform?view=net-5.0
+    // https://docs.microsoft.com/en-us/windows/uwp/design/layout/transforms
+    // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.transform
+
+    // In principle we could x:Bind the Path.RenderTransform to this ...
+    private Windows.UI.Xaml.Media.Transform GraphPathTransform = new ScaleTransform() ;
 
     // public Matrix TransformMatrix { get ; private set ; }
 
@@ -175,10 +203,11 @@ namespace IntensityProfileViewer
       // Point bottomLeftPoint  = new(0,panelHeight) ;    
       // Point bottomRightPoint = new(panelWidth,panelHeight) ;
 
+      // https://codedocu.com/Details?d=1549&a=9&f=181&l=0&v=d&t=UWP:-Determine-Point-Coordinates-of-elements-in-app-,-Position
       Point topLeftPoint     = m_canvas.TransformToVisual(this).TransformPoint(new(0,0)) ;   
       Point topRightPoint    = topLeftPoint.MovedBy(panelWidth,0) ;    
-      Point bottomLeftPoint  = topLeftPoint.MovedBy(0,panelHeight) ;    
-      Point bottomRightPoint = topLeftPoint.MovedBy(panelWidth,panelHeight) ;   
+      Point bottomLeftPoint  = topLeftPoint.MovedBy(0,panelHeight-1) ;    
+      Point bottomRightPoint = topLeftPoint.MovedBy(panelWidth,panelHeight-1) ;   
       
       // We only want to make our graph as wide as the rectangle in which we're drawing the Image
 
@@ -259,6 +288,7 @@ namespace IntensityProfileViewer
       // Yikes, after 'appending' segments the count is still zero !!!
       int nSegments = segmentsCollection.Count ;
       joinedOutlinePoints_pathGeometry.Figures.Add(
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathfigure?view=winrt-19041
         new PathFigure(){
           StartPoint = points[0],
           Segments   = segmentsCollection
@@ -268,7 +298,8 @@ namespace IntensityProfileViewer
         Children = {
           verticalLines_geometryGroup,
           joinedOutlinePoints_pathGeometry
-        } 
+        },
+        Transform = GraphPathTransform // Aha ! Better than applying transform to the Path element ...
       } ;
     }
 

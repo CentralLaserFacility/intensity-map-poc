@@ -1,0 +1,71 @@
+XamlBrewer/UWP-Elliptical-Arc-Sample
+https://github.com/XamlBrewer/UWP-Elliptical-Arc-Sample
+Demonstrates techniques to draw and bind to an Elliptical Arc path in UWP:
+{x:Bind} via a ViewModel to an ArcSegment XAML element, and
+{Binding} to a user control that uses Win2D and Composition.
+
+Creating Bindable Path Controls in UWP ****************
+https://xamlbrewer.wordpress.com/2018/12/06/creating-bindable-path-controls-in-uwp/
+
+Building a custom UWP control with XAML and the Composition API
+https://xamlbrewer.wordpress.com/2016/01/23/building-a-custom-uwp-control-with-xaml-and-the-composition-api/
+The upgraded version of the Modern Radial Gauge looks crisp again in any size and resolution. Its Visual Tree is a lot smaller, and the needle rotation is not done by the XAML engine anymore. That should result in better performance. That may be important e.g. in a dashboard with a huge amount of gauge instances.
+https://github.com/XamlBrewer/UWP-Composition-Radial-Gauge
+There's a newer version of this control in the UWP Community Toolkit: 
+https://github.com/Microsoft/UWPCommunityToolkit
+
+Ratish Philip's Blog (CompositionProToolkit)
+https://wpfspark.wordpress.com/
+I decided to used Win2d. I needed a way to call my geometry calculating method at 60 fps without getting affected by the UI thread. I used the CanvasAnimatedControl. If you set its IsFixedTimeStep to True, then its Draw event would be fired 60 times per second. Perfect!
+
+Geometry
+https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.geometry?view=winrt-19041
+Provides a base class for objects that define geometric shapes. Geometry objects can be used for clipping regions and as geometry definitions for rendering two-dimensional graphical data as a Path.
+Subclasses : EllipseGeometry, LineGeometry, RectangleGeometry, PathGeometry, GeometryGroup.
+  GeometryGroup combines other geometries that it holds as child objects.
+  PathGeometry uses a set of nested figure/segment path definition elements to describe a complex path for the geometry.
+Typically, a Geometry is provided as data for a Path (which is a kind of Shape ).
+Geometry versus Shape : 
+  The Geometry class simply defines the geometry as a graphics primitive, and cannot render itself. 
+  The Shape class has a Fill, Stroke, and other rendering properties that Geometry and its derived classes lack. The Shape class is a FrameworkElement and therefore participates in the layout system ; its derived classes can be used as the content of any element that supports UIElement children. 
+
+GeometryGroup 
+https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.geometrygroup?view=winrt-19041
+The GeometryGroup object creates an amalgamation of the Geometry objects it contains without combining their area.
+
+What's new and coming for Windows UI: XAML and composition (2017)
+https://channel9.msdn.com/Events/Build/2017/B8100
+Using the Visual Layer with XAML
+https://docs.microsoft.com/en-us/windows/uwp/composition/using-the-visual-layer-with-xaml
+XAML and Visual Layer interop functionality can be used to create advanced animations and effects not available using XAML APIs alone. 
+https://docs.microsoft.com/en-us/windows/uwp/composition/using-the-visual-layer-with-xaml#the-elementcompositionpreview-class
+ElementCompositionPreview is a static class that provides XAML and Visual Layer interop functionality.
+
+Visual layer (Composition)
+https://docs.microsoft.com/en-us/windows/uwp/composition/visual-layer
+The Visual layer provides a high performance, retained-mode API for graphics, effects and animations, and is the foundation for all UI across Windows devices. You define your UI in a declarative manner and the Visual layer relies on graphics hardware acceleration to ensure your content, effects and animations are rendered in a smooth, glitch-free manner independent of the app's UI thread.
+Your Windows UWP apps are already using the Visual layer via one of the UI frameworks. You can also take advantage of Visual layer directly for custom rendering, effects and animations with very little effort.
+The primary functions of the Visual layer are:
+- Content    : Lightweight compositing of custom drawn content
+               Visual types make up the visual tree structure for 2D UI and back most visible XAML FrameworkElements.
+- Effects    : Real-time UI effects system whose effects can be animated, chained and customized
+- Animations : Expressive, framework-agnostic animations running independent of the UI thread
+
+Composition visual *************
+https://docs.microsoft.com/en-us/windows/uwp/composition/composition-visual-tree
+There are several visual types that make up the visual tree structure plus a base brush class with multiple subclasses that affect the content of a visual:
+Visual
+  The majority of the properties are here, and inherited by the other Visual objects.
+  ContainerVisual
+  Adds the ability to create children.
+  SpriteVisual
+    Has the ability to associate a brush so that the Visual can render pixels including images, effects, or a solid color.
+    You can apply content and effects to SpriteVisuals using the CompositionBrush and its subclasses including the CompositionColorBrush, CompositionSurfaceBrush and CompositionEffectBrush.   
+  LayerVisual
+    Children of the visual are flattened into a single layer.
+  ShapeVisual
+    A visual tree node that is the root of a CompositionShape.
+  RedirectVisual
+    The visual gets its content from another visual.
+  SceneVisual
+    A container visual for the nodes of a 3D scene.

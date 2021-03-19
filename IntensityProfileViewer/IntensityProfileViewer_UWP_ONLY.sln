@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6CF8318-F1A8-459E-9A37-C97389CF821E}"
 	ProjectSection(SolutionItems) = preProject
 		_ConceptualModel_initial_rough_draft.cs = _ConceptualModel_initial_rough_draft.cs
+		_Notes on Visual layer and Composition.txt = _Notes on Visual layer and Composition.txt
 		_QuestionsForMatteo.txt = _QuestionsForMatteo.txt
 	EndProjectSection
 EndProject
@@ -31,9 +32,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityProfileViewer.UWP"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntensityProfileViewer.PlainUWP", "IntensityProfileViewer.PlainUWP\IntensityProfileViewer.PlainUWP.csproj", "{A2E0243D-AD59-4312-B554-891A89ED1FF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveImageAcquisition", "LiveImageAcquisition\LiveImageAcquisition.csproj", "{ED78DED0-2616-47EA-8CAA-0CAFA37D074F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveImageAcquisition", "LiveImageAcquisition\LiveImageAcquisition.csproj", "{ED78DED0-2616-47EA-8CAA-0CAFA37D074F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveImageAcquirer_Test_ConsoleApp", "LiveImageAcquirer_Test_ConsoleApp\LiveImageAcquirer_Test_ConsoleApp.csproj", "{9BE91F43-D199-40B1-85AB-C734FB6D3918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveImageAcquirer_Test_ConsoleApp", "LiveImageAcquirer_Test_ConsoleApp\LiveImageAcquirer_Test_ConsoleApp.csproj", "{9BE91F43-D199-40B1-85AB-C734FB6D3918}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

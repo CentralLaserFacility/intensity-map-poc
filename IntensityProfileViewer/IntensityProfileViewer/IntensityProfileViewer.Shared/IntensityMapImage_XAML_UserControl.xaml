@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="IntensityProfileViewer.IntensityMapImage_XAML_UserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IntensityProfileViewer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="400"
+>
+
+  <Grid Padding="10" RowSpacing="10" ColumnSpacing="10" Background="Beige">
+
+    <Grid.RenderTransform>
+      <!-- This scales the grid within its container -->
+      <!-- and the content scales by the same amount, excellent -->
+      <ScaleTransform ScaleX="1.0" ScaleY="1.0" />
+    </Grid.RenderTransform>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <!-- 
+      Hmm, we never see the Horizontal scroll bar if we specify 'Visible',
+      but it does appear (when necessary) if we use 'Auto' ... ???
+      Note that if we apply a scaling transform to the Scroll Viewer,
+      the scroll bar dimensions change, which is not ideal ...
+    -->
+    <ScrollViewer 
+      Grid.Row="0" 
+      VerticalScrollBarVisibility="Visible" 
+      HorizontalScrollBarVisibility="Auto"
+    >
+      <ScrollViewer.RenderTransform>
+        <!-- This scales the scroll viewer within its container -->
+        <!-- and the content scales by the same amount, excellent -->
+        <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+      </ScrollViewer.RenderTransform>
+      <StackPanel Orientation="Vertical" Spacing="10" Background="AliceBlue">
+        <Rectangle Width="200" Height="100" Fill="red" />
+        <Rectangle Width="800" Height="600" Fill="blue" />
+        <Rectangle Width="200" Height="100" Fill="red" />
+      </StackPanel>
+    </ScrollViewer>
+
+    <Canvas 
+      Grid.Row="1" 
+      Background="BlanchedAlmond" 
+      local:ClipToBoundsHelper.ClipToBounds="True"
+    >
+
+      <!-- This moves the canvas itself within its container -->
+      <!-- 
+        <TranslateTransform X="30" Y="30"/>
+      -->
+      <Canvas.RenderTransform>
+        <!-- This scales the canvas within its container -->
+        <!-- and the content scales by the same amount, excellent -->
+        <ScaleTransform ScaleX="0.2" ScaleY="0.2" />
+      </Canvas.RenderTransform>
+
+      <TextBlock Text="This is some text" FontSize="20"/>
+
+      <Rectangle Width="200" Height="100" Fill="red" Margin="20,40,0,0"/>
+
+      <Rectangle Width="200" Height="100" Fill="blue" Canvas.Left="20" Canvas.Top="160"/>
+
+      <!-- Hmm, clip-to-bounds doesn't work !! -->
+      <Rectangle Width="200" Height="200" Fill="Green" Canvas.Left="20" Canvas.Top="280"/>
+
+    </Canvas>
+    
+    <!-- 
+    <ScrollContentPresenter 
+      Grid.Row="1"
+    >
+      <StackPanel Orientation="Vertical">
+        <Rectangle Width="200" Height="100" Fill="red" />
+        <Rectangle Width="200" Height="600" Fill="blue" />
+        <Rectangle Width="200" Height="100" Fill="red" />
+      </StackPanel>
+    </ScrollContentPresenter>
+    -->
+
+    </Grid>
+</UserControl>
