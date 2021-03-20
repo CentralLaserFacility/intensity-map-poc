@@ -46,19 +46,20 @@ namespace IntensityProfileViewer
   {
 
     //
-    // Dictionary to maintain information about each active contact.
+    // This dictionary maintains information about each active contact.
     //
     // An entry is added during PointerPressed/PointerEntered events and removed
     // during PointerReleased/PointerCaptureLost/PointerCanceled/PointerExited events.
     //
 
-    Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_pointersDictionary = new() ;
+    Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
     public PointerHandlingPage ( )
     {
       this.InitializeComponent() ;
 
       // Declare the pointer event handlers
+
       Target.PointerPressed      += new PointerEventHandler(Target_PointerPressed) ;
       Target.PointerEntered      += new PointerEventHandler(Target_PointerEntered) ;
       Target.PointerReleased     += new PointerEventHandler(Target_PointerReleased) ;
@@ -76,69 +77,71 @@ namespace IntensityProfileViewer
       eventLog.Blocks.Clear() ;
     }
 
-    // Update the content of the pointer event log pane
+    // Update the content of the pointer-event-log panel
 
     private void UpdateEventLog ( string s )
     {
       Paragraph paragraph = new Paragraph() ;
-      Run run = new Run() ;
-      eventLog.TextWrapping = TextWrapping.Wrap ;
-      run.Text = s ;
+      Run run = new Run() {
+        // eventLog.TextWrapping = TextWrapping.Wrap ;
+        Text = s
+      } ;
       paragraph.Inlines.Add(run) ;
       eventLog.Blocks.Insert(0,paragraph) ;
     }
 
-    // Create the pointer info popup.
-    // <param name="ptrPt">Reference to the input pointer.
-    void CreateInfoPop(PointerPoint ptrPt)
+    // Create the pointer info popup
+
+    void CreateInfoPop ( PointerPoint pointerPoint )
     {
-      TextBlock pointerDetails = new TextBlock() ;
-      pointerDetails.Name = ptrPt.PointerId.ToString() ;
-      pointerDetails.Foreground = new SolidColorBrush(Windows.UI.Colors.White) ;
-      pointerDetails.Text = QueryPointer(ptrPt) ;
-
-      TranslateTransform x = new TranslateTransform() ;
-      x.X = ptrPt.Position.X + 20 ;
-      x.Y = ptrPt.Position.Y + 20 ;
-      pointerDetails.RenderTransform = x ;
-
-      Container.Children.Add(pointerDetails) ;
+      Container.Children.Add(
+        new TextBlock() {
+          Name            = pointerPoint.PointerId.ToString(),
+          Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
+          FontFamily      = new FontFamily("Consolas"),
+          Text            = QueryPointer(pointerPoint),
+          RenderTransform = new TranslateTransform() {
+            X = pointerPoint.Position.X + 20,
+            Y = pointerPoint.Position.Y + 20
+          }
+        }
+      ) ;
     }
 
     // Update the pointer info popup.
-    // <param name="ptrPt">Reference to the input pointer.
-    void UpdateInfoPop(PointerPoint ptrPt)
+
+    void UpdateInfoPop ( PointerPoint pointerPoint )
     {
-      foreach (var pointerDetails in Container.Children)
+      foreach ( var child in Container.Children )
       {
-        if (pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
+        if ( child.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock" )
         {
-          TextBlock textBlock = (TextBlock)pointerDetails ;
-          if (textBlock.Name == ptrPt.PointerId.ToString())
+          TextBlock textBlock = (TextBlock) child ;
+          if ( textBlock.Name == pointerPoint.PointerId.ToString() )
           {
             // To get pointer location details, we need extended pointer info.
-            // We get the pointer info through the getCurrentPoint method
+            // We get the pointer info through the 'GetCurrentPoint' method
             // of the event argument.
             TranslateTransform x = new TranslateTransform() ;
-            x.X = ptrPt.Position.X + 20 ;
-            x.Y = ptrPt.Position.Y + 20 ;
-            pointerDetails.RenderTransform = x ;
-            textBlock.Text = QueryPointer(ptrPt) ;
+            x.X = pointerPoint.Position.X + 20 ;
+            x.Y = pointerPoint.Position.Y + 20 ;
+            child.RenderTransform = x ;
+            textBlock.Text = QueryPointer(pointerPoint) ;
           }
         }
       }
     }
 
-    // Destroy the pointer info popup.
-    // <param name="ptrPt">Reference to the input pointer.
-    void DestroyInfoPop(PointerPoint ptrPt)
+    // Destroy the pointer info popup
+
+    void DestroyInfoPop(PointerPoint pointerPoint)
     {
-      foreach (var pointerDetails in Container.Children)
+      foreach ( var pointerDetails in Container.Children )
       {
-        if (pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
+        if ( pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
         {
-          TextBlock textBlock = (TextBlock)pointerDetails ;
-          if (textBlock.Name == ptrPt.PointerId.ToString())
+          TextBlock textBlock = (TextBlock) pointerDetails ;
+          if ( textBlock.Name == pointerPoint.PointerId.ToString() )
           {
             Container.Children.Remove(pointerDetails) ;
           }
@@ -146,177 +149,201 @@ namespace IntensityProfileViewer
       }
     }
 
-    // The pointer pressed event handler.
+    //
     // PointerPressed and PointerReleased don't always occur in pairs.
+    //
     // Your app should listen for and handle any event that can conclude
     // a pointer down (PointerExited, PointerCanceled, PointerCaptureLost).
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    void Target_PointerPressed(object sender,PointerRoutedEventArgs e)
+    // 
+
+    void Target_PointerPressed ( object sender, PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Down: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Down: " + pointerPoint.PointerId
+      ) ;
 
       // Lock the pointer to the target.
       Target.CapturePointer(e.Pointer) ;
 
-      // Update event log.
-      UpdateEventLog("Pointer captured: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Pointer captured: " + pointerPoint.PointerId
+      ) ;
 
-      // Check if pointer exists in dictionary (ie, enter occurred prior to press).
-      if (!m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+      // Check if the pointer exists in our dictionary,
+      // ie, did the 'Enter' occur prior to the 'Press'.
+
+      if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
         // Add contact to dictionary.
-        m_pointersDictionary[ptrPt.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
       }
 
-      // Change background color of target when pointer contact detected.
+      // Change the background color when pointer contact is detected.
+
       Target.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
 
-      // Display pointer details.
-      CreateInfoPop(ptrPt) ;
-       }
+      // Display pointer details
+      CreateInfoPop(pointerPoint) ;
 
-    // The pointer entered event handler.
-    // We do not capture pointer on this event.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    private void Target_PointerEntered(object sender,PointerRoutedEventArgs e)
+    }
+
+    // We do not capture the pointer on this event.
+
+    private void Target_PointerEntered ( object sender, PointerRoutedEventArgs e )
     {
       // Prevent most handlers along the event route from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Entered: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Entered: " + pointerPoint.PointerId
+      ) ;
 
       // Check if pointer already exists (if enter occurred prior to down).
-      if (!m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+      if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
         // Add contact to dictionary.
-        m_pointersDictionary[ptrPt.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
       }
 
-      if (m_pointersDictionary.Count == 0)
+      if ( m_activeContactsDictionary.Count == 0 )
       {
-        // Change background color of target when pointer contact detected.
+        // Change the background color when pointer contact is detected.
         Target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
 
       // Display pointer details.
-      CreateInfoPop(ptrPt) ;
+      CreateInfoPop(pointerPoint) ;
     }
 
-    // The pointer moved event handler.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    private void Target_PointerMoved(object sender,PointerRoutedEventArgs e)
+    private void Target_PointerMoved ( object sender, PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
+      //
       // Multiple, simultaneous mouse button inputs are processed here.
-      // Mouse input is associated with a single pointer assigned when
-      // mouse input is first detected.
+      //
+      // Mouse input is associated with a single pointer
+      // assigned when mouse input is first detected.
+      //
       // Clicking additional mouse buttons (left, wheel, or right) during
       // the interaction creates secondary associations between those buttons
-      // and the pointer through the pointer pressed event.
-      // The pointer released event is fired only when the last mouse button
+      // and the pointer through the 'pointer pressed' event.
+      //
+      // The 'pointer released' event is fired only when the last mouse button
       // associated with the interaction (not necessarily the initial button)
       // is released.
-      // Because of this exclusive association, other mouse button clicks are
-      // routed through the pointer move event.
-      if (ptrPt.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+      //
+      // Because of this exclusive association, other mouse button clicks
+      // are routed through the 'pointer move' event.
+      //
+
+      if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
-        if (ptrPt.Properties.IsLeftButtonPressed)
+        if ( pointerPoint.Properties.IsLeftButtonPressed )
         {
-          UpdateEventLog("Left button: " + ptrPt.PointerId) ;
+          UpdateEventLog("Left button: " + pointerPoint.PointerId) ;
         }
-        if (ptrPt.Properties.IsMiddleButtonPressed)
+        if ( pointerPoint.Properties.IsMiddleButtonPressed )
         {
-          UpdateEventLog("Wheel button: " + ptrPt.PointerId) ;
+          UpdateEventLog("Wheel button: " + pointerPoint.PointerId) ;
         }
-        if (ptrPt.Properties.IsRightButtonPressed)
+        if ( pointerPoint.Properties.IsRightButtonPressed )
         {
-          UpdateEventLog("Right button: " + ptrPt.PointerId) ;
+          UpdateEventLog("Right button: " + pointerPoint.PointerId) ;
         }
       }
 
-      // Display pointer details.
-      UpdateInfoPop(ptrPt) ;
+      UpdateInfoPop(pointerPoint) ;
     }
 
-    // The pointer wheel event handler.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    private void Target_PointerWheelChanged(object sender,PointerRoutedEventArgs e)
+    private void Target_PointerWheelChanged ( object sender,PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Mouse wheel: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Mouse wheel: " + pointerPoint.PointerId
+      ) ;
 
       // Check if pointer already exists (for example, enter occurred prior to wheel).
-      if (!m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+      if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
         // Add contact to dictionary.
-        m_pointersDictionary[ptrPt.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
       }
 
-      // Display pointer details.
-      CreateInfoPop(ptrPt) ;
+      CreateInfoPop(pointerPoint) ;
     }
 
+    //
     // The pointer released event handler.
+    //
     // PointerPressed and PointerReleased don't always occur in pairs.
-    // Your app should listen for and handle any event that can conclude
-    // a pointer down (PointerExited, PointerCanceled, PointerCaptureLost).
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    void Target_PointerReleased(object sender,PointerRoutedEventArgs e)
+    //
+    // Your app should listen for and handle
+    // any event that can conclude a pointer down :
+    // - PointerExited
+    // - PointerCanceled
+    // - PointerCaptureLost
+    //
+
+    void Target_PointerReleased ( object sender,PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Up: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Up: " + pointerPoint.PointerId
+      ) ;
 
+      //
       // If event source is mouse or touchpad and the pointer is still
       // over the target, retain pointer and pointer details.
+      //
       // Return without removing pointer from pointers dictionary.
+      //
       // For this example, we assume a maximum of one mouse pointer.
-      if (ptrPt.PointerDevice.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse)
+      //
+
+      if ( pointerPoint.PointerDevice.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse )
       {
-        // Update target UI.
         Target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
 
-        DestroyInfoPop(ptrPt) ;
+        DestroyInfoPop(pointerPoint) ;
 
         // Remove contact from dictionary.
-        if (m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+        if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
         {
-          m_pointersDictionary[ptrPt.PointerId] = null ;
-          m_pointersDictionary.Remove(ptrPt.PointerId) ;
+          m_activeContactsDictionary[pointerPoint.PointerId] = null ;
+          m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
         }
 
         // Release the pointer from the target.
+
         Target.ReleasePointerCapture(e.Pointer) ;
 
-        // Update event log.
-        UpdateEventLog("Pointer released: " + ptrPt.PointerId) ;
+        UpdateEventLog("Pointer released: " + pointerPoint.PointerId) ;
       }
       else
       {
@@ -324,142 +351,154 @@ namespace IntensityProfileViewer
       }
     }
 
+    //
     // The pointer capture lost event handler.
+    //
     // Fires for various reasons, including:
     // - User interactions
     // - Programmatic capture of another pointer
     // - Captured pointer was deliberately released
+    //
     // PointerCaptureLost can fire instead of PointerReleased.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
+    //
+
     private void Target_PointerCaptureLost(object sender,PointerRoutedEventArgs e)
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Pointer capture lost: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Pointer capture lost: " + pointerPoint.PointerId
+      ) ;
 
-      if (m_pointersDictionary.Count == 0)
+      if ( m_activeContactsDictionary.Count == 0 )
       {
         Target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
       // Remove contact from dictionary.
-      if (m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+      if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
-        m_pointersDictionary[ptrPt.PointerId] = null ;
-        m_pointersDictionary.Remove(ptrPt.PointerId) ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = null ;
+        m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
       }
 
-      DestroyInfoPop(ptrPt) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
-    // The pointer canceled event handler.
-    // Fires for for various reasons, including:
-    // - Touch contact canceled by pen coming into range of the surface.
-    // - The device doesn't report an active contact for more than 100ms.
-    // - The desktop is locked or the user logged off.
-    // - The number of simultaneous contacts exceeded the number supported by the device.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    private void Target_PointerCanceled(object sender,PointerRoutedEventArgs e)
+    //
+    // The pointer canceled event handler
+    // fires for for various reasons, including:
+    // - Touch contact canceled by pen coming into range of the surface
+    // - The device doesn't report an active contact for more than 100ms
+    // - The desktop is locked or the user logged off
+    // - The number of simultaneous contacts exceeded the number supported by the device
+    //
+
+    private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs e )
     {
       // Prevent most handlers along the event route from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Pointer canceled: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Pointer canceled: " + pointerPoint.PointerId
+      ) ;
 
       // Remove contact from dictionary.
-      if (m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+      if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
-        m_pointersDictionary[ptrPt.PointerId] = null ;
-        m_pointersDictionary.Remove(ptrPt.PointerId) ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = null ;
+        m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
       }
 
-      if (m_pointersDictionary.Count == 0)
+      if ( m_activeContactsDictionary.Count == 0 )
       {
         Target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
-      DestroyInfoPop(ptrPt) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
-    // The pointer exited event handler.
-    // <param name="sender">Source of the pointer event.
-    // <param name="e">Event args for the pointer routed event.
-    private void Target_PointerExited(object sender,PointerRoutedEventArgs e)
+    private void Target_PointerExited ( object sender,PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint ptrPt = e.GetCurrentPoint(Target) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      // Update event log.
-      UpdateEventLog("Pointer exited: " + ptrPt.PointerId) ;
+      UpdateEventLog(
+        "Pointer exited: " + pointerPoint.PointerId
+      ) ;
 
       // Remove contact from dictionary.
-      if (m_pointersDictionary.ContainsKey(ptrPt.PointerId))
+
+      if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
-        m_pointersDictionary[ptrPt.PointerId] = null ;
-        m_pointersDictionary.Remove(ptrPt.PointerId) ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = null ;
+        m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
       }
 
-      if (m_pointersDictionary.Count == 0)
+      if ( m_activeContactsDictionary.Count == 0 )
       {
         Target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
       }
 
-      // Update the UI and pointer details.
-      DestroyInfoPop(ptrPt) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
-    // Get pointer details.
-    // <param name="ptrPt">Reference to the input pointer.
-    // <returns>A string composed of pointer details.</returns>
-    String QueryPointer(PointerPoint ptrPt)
+    // Get pointer details
+
+    private string QueryPointer ( PointerPoint pointerPoint )
     {
       String details = "" ;
 
-      switch (ptrPt.PointerDevice.PointerDeviceType)
+      switch ( pointerPoint.PointerDevice.PointerDeviceType )
       {
-        case Windows.Devices.Input.PointerDeviceType.Mouse:
-          details += "\nPointer type: mouse" ;
-          break ;
-        case Windows.Devices.Input.PointerDeviceType.Pen:
-          details += "\nPointer type: pen" ;
-          if (ptrPt.IsInContact)
-          {
-            details += "\nPressure: " + ptrPt.Properties.Pressure ;
-            details += "\nrotation: " + ptrPt.Properties.Orientation ;
-            details += "\nTilt X: " + ptrPt.Properties.XTilt ;
-            details += "\nTilt Y: " + ptrPt.Properties.YTilt ;
-            details += "\nBarrel button pressed: " + ptrPt.Properties.IsBarrelButtonPressed ;
-          }
-          break ;
-        case Windows.Devices.Input.PointerDeviceType.Touch:
-          details += "\nPointer type: touch" ;
-          details += "\nrotation: " + ptrPt.Properties.Orientation ;
-          details += "\nTilt X: " + ptrPt.Properties.XTilt ;
-          details += "\nTilt Y: " + ptrPt.Properties.YTilt ;
-          break ;
-        default:
-          details += "\nPointer type: n/a" ;
-          break ;
+      case Windows.Devices.Input.PointerDeviceType.Mouse:
+        details += "\nPointer type : MOUSE" ;
+        break ;
+      case Windows.Devices.Input.PointerDeviceType.Pen:
+        details += "\nPointer type : PEN" ;
+        if ( pointerPoint.IsInContact )
+        {
+          details += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
+          details += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
+          details += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
+          details += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
+          details += $"\n  Barrel button pressed : {pointerPoint.Properties.IsBarrelButtonPressed}" ;
+        }
+        break ;
+      case Windows.Devices.Input.PointerDeviceType.Touch:
+        details += "\nPointer type : TOUCH" ;
+        details += "\n  Rotation : " + pointerPoint.Properties.Orientation ;
+        details += "\n  Tilt X   : " + pointerPoint.Properties.XTilt ;
+        details += "\n  Tilt Y   : " + pointerPoint.Properties.YTilt ;
+        break ;
+      default:
+        details += "\nPointer type: n/a" ;
+        break ;
       }
 
-      GeneralTransform gt = Target.TransformToVisual(this) ;
-      Point screenPoint ;
-
-      screenPoint = gt.TransformPoint(new Point(ptrPt.Position.X,ptrPt.Position.Y)) ;
-      details += "\nPointer Id: " + ptrPt.PointerId.ToString() +
-        "\nPointer location (target): " + Math.Round(ptrPt.Position.X) + "," + Math.Round(ptrPt.Position.Y) +
-        "\nPointer location (container): " + Math.Round(screenPoint.X) + "," + Math.Round(screenPoint.Y) ;
+      GeneralTransform transform_toScreenCoordinates = Target.TransformToVisual(this) ;
+      Point screenPoint = transform_toScreenCoordinates.TransformPoint(
+        new Point(
+          pointerPoint.Position.X,
+          pointerPoint.Position.Y
+        )
+      ) ;
+      details += (
+        $"\nPointer Id                   : {pointerPoint.PointerId}"
+      + $"\nPointer location (target)    : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
+      + $"\nPointer location (container) : [{screenPoint.X:F2},{screenPoint.Y:F2}]" 
+      ) ;
 
       return details ;
     }
