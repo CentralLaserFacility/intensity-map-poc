@@ -64,9 +64,9 @@ namespace IntensityProfileViewer
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(
-                      typeof(MainPage), 
+                      // typeof(MainPage), 
                       // typeof(TestPage_01), 
-                      // typeof(PointerHandlingPage), 
+                      typeof(PointerHandlingPage), 
                       e.Arguments
                     );
                 }
