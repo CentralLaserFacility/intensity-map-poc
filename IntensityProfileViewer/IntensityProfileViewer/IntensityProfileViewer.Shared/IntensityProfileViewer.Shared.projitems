@@ -24,7 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml.cs">
+      <DependentUpon>PointerHandlingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage_old_01.xaml.cs">
       <DependentUpon>PointerHandlingPage_old_01.xaml</DependentUpon>
     </Compile>
