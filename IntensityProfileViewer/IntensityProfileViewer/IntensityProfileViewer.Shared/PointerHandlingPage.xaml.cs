@@ -102,18 +102,20 @@ namespace IntensityProfileViewer
       ) ;
     }
 
+    private static double TextBlockOffsetXY = 20.0 ;
+
     private void AddPointerInfoTextToCanvas ( PointerPoint pointerPoint )
     {
       m_canvas.Children.Add(
         new TextBlock() {
-          Name            = pointerPoint.PointerId.ToString(),
+          // Name            = pointerPoint.PointerId.ToString(),
           Tag             = pointerPoint.PointerId, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
           FontFamily      = new FontFamily("Consolas"),
           Text            = GetPointerInfoToDisplay(pointerPoint),
           RenderTransform = new TranslateTransform() {
-            X = pointerPoint.Position.X + 20, // !!!!!!!!!!! CHANGING TO '10' PROVOKES REPAINT GLITCH !!!!!!!!!!!!!!
-            Y = pointerPoint.Position.Y + 20
+            X = pointerPoint.Position.X + TextBlockOffsetXY,
+            Y = pointerPoint.Position.Y + TextBlockOffsetXY
           }
         }
       ) ;
@@ -121,45 +123,16 @@ namespace IntensityProfileViewer
 
     private void UpdatePointerInfoTextOnCanvas ( PointerPoint pointerPoint )
     {
-      if ( false )
+      foreach ( var textBlock in m_canvas.Children.OfType<TextBlock>() )
       {
-        foreach ( var child in m_canvas.Children )
+        // if ( textBlock.Name == pointerPoint.PointerId.ToString() )
+        if ( (uint) textBlock.Tag == pointerPoint.PointerId )
         {
-          if ( child.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock" )
-          {
-            TextBlock textBlock = (TextBlock) child ;
-            if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-            {
-              // To get pointer location details, we need extended pointer info.
-              // We get the pointer info through the 'GetCurrentPoint' method
-              // of the event argument.
-              TranslateTransform x = new TranslateTransform() ;
-              x.X = pointerPoint.Position.X + 20 ;
-              x.Y = pointerPoint.Position.Y + 20 ;
-              child.RenderTransform = x ;
-              textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
-            }
-          } 
-        }
-      }
-      else
-      {
-        foreach ( var child in m_canvas.Children )
-        {
-          if ( child is TextBlock textBlock )
-          {
-            if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-            {
-              // To get pointer location details, we need extended pointer info.
-              // We get the pointer info through the 'GetCurrentPoint' method
-              // of the 'event' argument.
-              TranslateTransform x = new TranslateTransform() ;
-              x.X = pointerPoint.Position.X + 20 ;
-              x.Y = pointerPoint.Position.Y + 20 ;
-              child.RenderTransform = x ;
-              textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
-            }
-          }
+          textBlock.RenderTransform = new TranslateTransform() {
+            X = pointerPoint.Position.X + TextBlockOffsetXY,
+            Y = pointerPoint.Position.Y + TextBlockOffsetXY
+          } ;
+          textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
         }
       }
     }
@@ -168,17 +141,25 @@ namespace IntensityProfileViewer
 
     private void RemovePointerInfoTextFromCanvas ( PointerPoint pointerPoint )
     {
-      foreach ( var pointerDetails in m_canvas.Children )
+      foreach ( var textBlock in m_canvas.Children.OfType<TextBlock>() )
       {
-        if ( pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
+        // if ( textBlock.Name == pointerPoint.PointerId.ToString() )
+        if ( (uint) textBlock.Tag == pointerPoint.PointerId )
         {
-          TextBlock textBlock = (TextBlock) pointerDetails ;
-          if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-          {
-            m_canvas.Children.Remove(pointerDetails) ;
-          }
+          m_canvas.Children.Remove(textBlock) ;
         }
       }
+      // foreach ( var pointerDetails in m_canvas.Children )
+      // {
+      //   if ( pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
+      //   {
+      //     TextBlock textBlock = (TextBlock) pointerDetails ;
+      //     if ( textBlock.Name == pointerPoint.PointerId.ToString() )
+      //     {
+      //       m_canvas.Children.Remove(pointerDetails) ;
+      //     }
+      //   }
+      // }
     }
 
     //
