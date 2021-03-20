@@ -89,6 +89,7 @@ namespace IntensityProfileViewer
 
     private void AddLineToEventLogPanel ( string textLine )
     {
+      // return ;
       Paragraph newParagraph = new() ;
       newParagraph.Inlines.Add(
         new Run() {
@@ -106,13 +107,13 @@ namespace IntensityProfileViewer
       m_canvas.Children.Add(
         new TextBlock() {
           Name            = pointerPoint.PointerId.ToString(),
-          // Tag             = pointerPoint.PointerId, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          Tag             = pointerPoint.PointerId, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
           FontFamily      = new FontFamily("Consolas"),
           Text            = GetPointerInfoToDisplay(pointerPoint),
           RenderTransform = new TranslateTransform() {
-            X = pointerPoint.Position.X + 10,
-            Y = pointerPoint.Position.Y + 10
+            X = pointerPoint.Position.X + 20, // !!!!!!!!!!! CHANGING TO '10' PROVOKES REPAINT GLITCH !!!!!!!!!!!!!!
+            Y = pointerPoint.Position.Y + 20
           }
         }
       ) ;
@@ -120,7 +121,7 @@ namespace IntensityProfileViewer
 
     private void UpdatePointerInfoTextOnCanvas ( PointerPoint pointerPoint )
     {
-      if ( true )
+      if ( false )
       {
         foreach ( var child in m_canvas.Children )
         {
@@ -300,7 +301,7 @@ namespace IntensityProfileViewer
       UpdatePointerInfoTextOnCanvas(pointerPoint) ;
     }
 
-    private void Target_PointerWheelChanged ( object sender,PointerRoutedEventArgs e )
+    private void Target_PointerWheelChanged ( object sender, PointerRoutedEventArgs e )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
@@ -309,7 +310,7 @@ namespace IntensityProfileViewer
       PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Mouse wheel: " + pointerPoint.PointerId
+        $"Mouse wheel : {pointerPoint.PointerId} delta = {pointerPoint.Properties.MouseWheelDelta}"
       ) ;
 
       // Check if pointer already exists (for example, enter occurred prior to wheel).
@@ -344,25 +345,30 @@ namespace IntensityProfileViewer
       PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Up: " + pointerPoint.PointerId
+        "Released : " + pointerPoint.PointerId
       ) ;
 
       //
-      // If event source is mouse or touchpad and the pointer is still
-      // over the target, retain pointer and pointer details.
-      //
-      // Return without removing pointer from pointers dictionary.
+      // If the event source is a mouse or a touchpad, and the pointer
+      // is still over the target, we retain pointer and pointer details,
+      // and return without removing the pointer from the dictionary.
       //
       // For this example, we assume a maximum of one mouse pointer.
       //
 
-      if ( pointerPoint.PointerDevice.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse )
+      //
+      // HOW ARE DETECTING WHETHER THE POINTER IS STILL OVER THE TARGET ???
+      //
+
+      if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
+      {
+        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+      }
+      else
       {
         m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
 
         RemovePointerInfoTextFromCanvas(pointerPoint) ;
-
-        // Remove contact from dictionary.
 
         if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
         {
@@ -370,22 +376,16 @@ namespace IntensityProfileViewer
           m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
         }
 
-        // Release the pointer from the target.
-
         m_targetRectangle.ReleasePointerCapture(e.Pointer) ;
 
         AddLineToEventLogPanel("Pointer released: " + pointerPoint.PointerId) ;
       }
-      else
-      {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
-      }
     }
 
     //
-    // The pointer capture lost event handler.
+    // The 'pointer capture lost' event handler
+    // fires for various reasons, including:
     //
-    // Fires for various reasons, including:
     // - User interactions
     // - Programmatic capture of another pointer
     // - Captured pointer was deliberately released
@@ -422,7 +422,7 @@ namespace IntensityProfileViewer
     }
 
     //
-    // The pointer canceled event handler
+    // The 'pointer canceled' event handler
     // fires for for various reasons, including:
     // - Touch contact canceled by pen coming into range of the surface
     // - The device doesn't report an active contact for more than 100ms
@@ -432,7 +432,8 @@ namespace IntensityProfileViewer
 
     private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs e )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       e.Handled = true ;
 
       PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
@@ -440,8 +441,6 @@ namespace IntensityProfileViewer
       AddLineToEventLogPanel(
         "Pointer canceled: " + pointerPoint.PointerId
       ) ;
-
-      // Remove contact from dictionary.
 
       if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
@@ -451,6 +450,7 @@ namespace IntensityProfileViewer
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
+        // Hmm, this is never called ...
         m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
@@ -485,7 +485,7 @@ namespace IntensityProfileViewer
       RemovePointerInfoTextFromCanvas(pointerPoint) ;
     }
 
-    private string GetPointerInfoToDisplay_NEW ( PointerPoint pointerPoint )
+    private string GetPointerInfoToDisplay ( PointerPoint pointerPoint )
     {
       string pointerInfo = "" ;
 
@@ -532,52 +532,6 @@ namespace IntensityProfileViewer
       return pointerInfo ;
     }
 
-    private string GetPointerInfoToDisplay ( PointerPoint pointerPoint )
-    {
-      String details = "" ;
-
-      switch ( pointerPoint.PointerDevice.PointerDeviceType )
-      {
-      case Windows.Devices.Input.PointerDeviceType.Mouse:
-        details += "\nPointer type : MOUSE" ;
-        break ;
-      case Windows.Devices.Input.PointerDeviceType.Pen:
-        details += "\nPointer type : PEN" ;
-        if ( pointerPoint.IsInContact )
-        {
-          details += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
-          details += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
-          details += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
-          details += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
-          details += $"\n  Barrel button pressed : {pointerPoint.Properties.IsBarrelButtonPressed}" ;
-        }
-        break ;
-      case Windows.Devices.Input.PointerDeviceType.Touch:
-        details += "\nPointer type : TOUCH" ;
-        details += "\n  Rotation : " + pointerPoint.Properties.Orientation ;
-        details += "\n  Tilt X   : " + pointerPoint.Properties.XTilt ;
-        details += "\n  Tilt Y   : " + pointerPoint.Properties.YTilt ;
-        break ;
-      default:
-        details += "\nPointer type: n/a" ;
-        break ;
-      }
-
-      GeneralTransform transform_toScreenCoordinates = m_targetRectangle.TransformToVisual(this) ;
-      Point screenPoint = transform_toScreenCoordinates.TransformPoint(
-        new Point(
-          pointerPoint.Position.X,
-          pointerPoint.Position.Y
-        )
-      ) ;
-      details += (
-        $"\nPointer Id                   : {pointerPoint.PointerId}"
-      + $"\nPointer location (target)    : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
-      + $"\nPointer location (container) : [{screenPoint.X:F2},{screenPoint.Y:F2}]" 
-      ) ;
-
-      return details ;
-    }
   }
 
 }
