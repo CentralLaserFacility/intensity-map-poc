@@ -37,6 +37,8 @@ using Windows.UI.Xaml.Documents ;
 using Windows.UI.Xaml.Input ;
 using Windows.UI.Xaml.Media ;
 
+using Common.ExtensionMethods ;
+
 // For some devices, once the maximum number of contacts is reached,
 // additional contacts might be ignored (PointerPressed not fired).
 
@@ -108,8 +110,7 @@ namespace IntensityProfileViewer
     {
       m_canvas.Children.Add(
         new TextBlock() {
-          // Name            = pointerPoint.PointerId.ToString(),
-          Tag             = pointerPoint.PointerId, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          Tag             = pointerPoint.PointerId,
           Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
           FontFamily      = new FontFamily("Consolas"),
           Text            = GetPointerInfoToDisplay(pointerPoint),
@@ -123,50 +124,38 @@ namespace IntensityProfileViewer
 
     private void UpdatePointerInfoTextOnCanvas ( PointerPoint pointerPoint )
     {
-      foreach ( var textBlock in m_canvas.Children.OfType<TextBlock>() )
-      {
-        // if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-        if ( (uint) textBlock.Tag == pointerPoint.PointerId )
-        {
+      m_canvas.Children.OfType<TextBlock>().Where(
+        textBlock => (uint) textBlock.Tag == pointerPoint.PointerId
+      ).ToList().ForEach(
+        textBlock => {
           textBlock.RenderTransform = new TranslateTransform() {
             X = pointerPoint.Position.X + TextBlockOffsetXY,
             Y = pointerPoint.Position.Y + TextBlockOffsetXY
           } ;
           textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
         }
-      }
+      ) ;
     }
-
-    // Destroy the pointer info popup
 
     private void RemovePointerInfoTextFromCanvas ( PointerPoint pointerPoint )
     {
-      foreach ( var textBlock in m_canvas.Children.OfType<TextBlock>() )
-      {
-        // if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-        if ( (uint) textBlock.Tag == pointerPoint.PointerId )
-        {
+      m_canvas.Children.OfType<TextBlock>().Where(
+        textBlock => (uint) textBlock.Tag == pointerPoint.PointerId
+      ).ToList().ForEach(
+        textBlock => {
           m_canvas.Children.Remove(textBlock) ;
         }
-      }
-      // foreach ( var pointerDetails in m_canvas.Children )
-      // {
-      //   if ( pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
-      //   {
-      //     TextBlock textBlock = (TextBlock) pointerDetails ;
-      //     if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-      //     {
-      //       m_canvas.Children.Remove(pointerDetails) ;
-      //     }
-      //   }
-      // }
+      ) ;
     }
 
     //
     // PointerPressed and PointerReleased don't always occur in pairs.
     //
-    // Your app should listen for and handle any event that can conclude
-    // a pointer down (PointerExited, PointerCanceled, PointerCaptureLost).
+    // Your app should listen for and handle
+    // any event that can conclude a pointer down :
+    //   PointerExited
+    //   PointerCanceled
+    //   PointerCaptureLost
     // 
 
     private void Target_PointerPressed ( object sender, PointerRoutedEventArgs e )
