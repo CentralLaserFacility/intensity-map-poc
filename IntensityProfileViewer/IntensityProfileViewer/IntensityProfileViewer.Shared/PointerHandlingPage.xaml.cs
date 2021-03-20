@@ -84,7 +84,7 @@ namespace IntensityProfileViewer
       buttonClear.Click += new RoutedEventHandler(ButtonClear_Click) ;
     }
 
-    private void ButtonClear_Click ( object sender,RoutedEventArgs e )
+    private void ButtonClear_Click ( object sender,RoutedEventArgs pointerEventArgs )
     {
       m_eventLogPanel.Blocks.Clear() ;
     }
@@ -158,23 +158,23 @@ namespace IntensityProfileViewer
     //   PointerCaptureLost
     // 
 
-    private void Target_PointerPressed ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerPressed ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Down: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} pressed"
       ) ;
 
       // Lock the pointer to the target.
-      m_targetRectangle.CapturePointer(e.Pointer) ;
+      m_targetRectangle.CapturePointer(pointerEventArgs.Pointer) ;
 
       AddLineToEventLogPanel(
-        "Pointer captured: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} captured"
       ) ;
 
       // Check if the pointer exists in our dictionary,
@@ -183,7 +183,7 @@ namespace IntensityProfileViewer
       if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
         // Add contact to dictionary.
-        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
       }
 
       // Change the background color when pointer contact is detected.
@@ -195,17 +195,17 @@ namespace IntensityProfileViewer
 
     }
 
-    // We do not capture the pointer on this event.
+    // We don't capture the pointer on this event ...
 
-    private void Target_PointerEntered ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Entered: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} entered"
       ) ;
 
       // Check if pointer already exists (if enter occurred prior to down).
@@ -213,7 +213,7 @@ namespace IntensityProfileViewer
       if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
         // Add contact to dictionary.
-        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
       }
 
       if ( m_activeContactsDictionary.Count == 0 )
@@ -222,17 +222,16 @@ namespace IntensityProfileViewer
         m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
 
-      // Display pointer details.
       AddPointerInfoTextToCanvas(pointerPoint) ;
     }
 
-    private void Target_PointerMoved ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerMoved ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       //
       // Multiple, simultaneous mouse button inputs are processed here.
@@ -252,43 +251,51 @@ namespace IntensityProfileViewer
       // are routed through the 'pointer move' event.
       //
 
+      string movedMessage = "" ;
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
         if ( pointerPoint.Properties.IsLeftButtonPressed )
         {
-          AddLineToEventLogPanel("Left button: " + pointerPoint.PointerId) ;
+          movedMessage += "left " ;
+          // AddLineToEventLogPanel($"#{pointerPoint.PointerId} moved with left button pressed") ;
         }
         if ( pointerPoint.Properties.IsMiddleButtonPressed )
         {
-          AddLineToEventLogPanel("Wheel button: " + pointerPoint.PointerId) ;
+          movedMessage += "wheel " ;
+          // AddLineToEventLogPanel($"#{pointerPoint.PointerId} moved with wheel button pressed") ;
         }
         if ( pointerPoint.Properties.IsRightButtonPressed )
         {
-          AddLineToEventLogPanel("Right button: " + pointerPoint.PointerId) ;
+          movedMessage += "right " ;
+          // AddLineToEventLogPanel($"#{pointerPoint.PointerId} moved with right button pressed") ;
         }
+      }
+
+      if ( movedMessage.Length > 0 )
+      {
+        AddLineToEventLogPanel($"#{pointerPoint.PointerId} moved with {movedMessage}pressed") ;
       }
 
       UpdatePointerInfoTextOnCanvas(pointerPoint) ;
     }
 
-    private void Target_PointerWheelChanged ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerWheelChanged ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        $"Mouse wheel : {pointerPoint.PointerId} delta = {pointerPoint.Properties.MouseWheelDelta}"
+        $"#{pointerPoint.PointerId} mouse wheel, delta = {pointerPoint.Properties.MouseWheelDelta}"
       ) ;
 
       // Check if pointer already exists (for example, enter occurred prior to wheel).
 
       if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
       {
-        // Add contact to dictionary.
-        m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
+        m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
       }
 
       AddPointerInfoTextToCanvas(pointerPoint) ;
@@ -306,17 +313,17 @@ namespace IntensityProfileViewer
     // - PointerCaptureLost
     //
 
-    private void Target_PointerReleased ( object sender,PointerRoutedEventArgs e )
+    private void Target_PointerReleased ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
-      AddLineToEventLogPanel(
-        "Released : " + pointerPoint.PointerId
-      ) ;
+      // AddLineToEventLogPanel(
+      //   $"#{pointerPoint.PointerId} event ..."
+      // ) ;
 
       //
       // If the event source is a mouse or a touchpad, and the pointer
@@ -333,6 +340,7 @@ namespace IntensityProfileViewer
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
         m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+        AddLineToEventLogPanel($"#{pointerPoint.PointerId} release - NOT RELEASED (it's a mouse event)") ;
       }
       else
       {
@@ -346,9 +354,11 @@ namespace IntensityProfileViewer
           m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
         }
 
-        m_targetRectangle.ReleasePointerCapture(e.Pointer) ;
+        m_targetRectangle.ReleasePointerCapture(
+          pointerEventArgs.Pointer
+        ) ;
 
-        AddLineToEventLogPanel("Pointer released: " + pointerPoint.PointerId) ;
+        AddLineToEventLogPanel($"#{pointerPoint.PointerId} release - RELEASED") ;
       }
     }
 
@@ -363,16 +373,16 @@ namespace IntensityProfileViewer
     // PointerCaptureLost can fire instead of PointerReleased.
     //
 
-    private void Target_PointerCaptureLost ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerCaptureLost ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Pointer capture lost: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} capture lost: " + pointerPoint.PointerId
       ) ;
 
       if ( m_activeContactsDictionary.Count == 0 )
@@ -400,16 +410,16 @@ namespace IntensityProfileViewer
     // - The number of simultaneous contacts exceeded the number supported by the device
     //
 
-    private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Pointer canceled: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} canceled"
       ) ;
 
       if ( m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
@@ -427,16 +437,16 @@ namespace IntensityProfileViewer
       RemovePointerInfoTextFromCanvas(pointerPoint) ;
     }
 
-    private void Target_PointerExited ( object sender,PointerRoutedEventArgs e )
+    private void Target_PointerExited ( object sender,PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
-      e.Handled = true ;
+      pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
 
       AddLineToEventLogPanel(
-        "Pointer exited: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} exited"
       ) ;
 
       // Remove contact from dictionary.
@@ -494,7 +504,7 @@ namespace IntensityProfileViewer
         )
       ) ;
       pointerInfo += (
-        $"\nPointer Id                            : {pointerPoint.PointerId}"
+        $"\nPointer Id                            : #{pointerPoint.PointerId}"
       + $"\nPointer location (relative to target) : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
       + $"\nPointer location (relative to canvas) : [{pointOnPage.X:F2},{pointOnPage.Y:F2}]" 
       ) ;

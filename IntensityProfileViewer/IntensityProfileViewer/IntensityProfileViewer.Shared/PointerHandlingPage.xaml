@@ -35,7 +35,7 @@ THE SOFTWARE.
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="250"/>
+      <ColumnDefinition Width="350"/>
     </Grid.ColumnDefinitions>
 
     <Grid.RowDefinitions>
