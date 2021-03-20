@@ -485,7 +485,7 @@ namespace IntensityProfileViewer
       RemovePointerInfoTextFromCanvas(pointerPoint) ;
     }
 
-    private string GetPointerInfoToDisplay ( PointerPoint pointerPoint )
+    private string GetPointerInfoToDisplay_NEW ( PointerPoint pointerPoint )
     {
       string pointerInfo = "" ;
 
@@ -532,6 +532,52 @@ namespace IntensityProfileViewer
       return pointerInfo ;
     }
 
+    private string GetPointerInfoToDisplay ( PointerPoint pointerPoint )
+    {
+      String details = "" ;
+
+      switch ( pointerPoint.PointerDevice.PointerDeviceType )
+      {
+      case Windows.Devices.Input.PointerDeviceType.Mouse:
+        details += "\nPointer type : MOUSE" ;
+        break ;
+      case Windows.Devices.Input.PointerDeviceType.Pen:
+        details += "\nPointer type : PEN" ;
+        if ( pointerPoint.IsInContact )
+        {
+          details += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
+          details += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
+          details += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
+          details += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
+          details += $"\n  Barrel button pressed : {pointerPoint.Properties.IsBarrelButtonPressed}" ;
+        }
+        break ;
+      case Windows.Devices.Input.PointerDeviceType.Touch:
+        details += "\nPointer type : TOUCH" ;
+        details += "\n  Rotation : " + pointerPoint.Properties.Orientation ;
+        details += "\n  Tilt X   : " + pointerPoint.Properties.XTilt ;
+        details += "\n  Tilt Y   : " + pointerPoint.Properties.YTilt ;
+        break ;
+      default:
+        details += "\nPointer type: n/a" ;
+        break ;
+      }
+
+      GeneralTransform transform_toScreenCoordinates = m_targetRectangle.TransformToVisual(this) ;
+      Point screenPoint = transform_toScreenCoordinates.TransformPoint(
+        new Point(
+          pointerPoint.Position.X,
+          pointerPoint.Position.Y
+        )
+      ) ;
+      details += (
+        $"\nPointer Id                   : {pointerPoint.PointerId}"
+      + $"\nPointer location (target)    : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
+      + $"\nPointer location (container) : [{screenPoint.X:F2},{screenPoint.Y:F2}]" 
+      ) ;
+
+      return details ;
+    }
   }
 
 }
