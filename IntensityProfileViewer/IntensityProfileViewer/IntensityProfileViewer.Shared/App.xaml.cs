@@ -67,6 +67,7 @@ namespace IntensityProfileViewer
                       // typeof(MainPage), 
                       // typeof(TestPage_01), 
                       typeof(PointerHandlingPage), 
+                      // typeof(PointerHandlingPage_old_01), 
                       e.Arguments
                     );
                 }

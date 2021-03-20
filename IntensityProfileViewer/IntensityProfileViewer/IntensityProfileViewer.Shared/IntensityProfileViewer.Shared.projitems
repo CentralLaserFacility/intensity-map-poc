@@ -25,6 +25,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage_old_01.xaml.cs">
+      <DependentUpon>PointerHandlingPage_old_01.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)TestPage_01.xaml.cs">
       <DependentUpon>TestPage_01.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)PointerHandlingPage_old_01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

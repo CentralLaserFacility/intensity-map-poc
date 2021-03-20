@@ -22,7 +22,7 @@ THE SOFTWARE.
 -->
 
 <Page
-  x:Class="IntensityProfileViewer.PointerHandlingPage"
+  x:Class="IntensityProfileViewer.PointerHandlingPage_old_01"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="using:IntensityProfileViewer"
@@ -45,7 +45,7 @@ THE SOFTWARE.
     </Grid.RowDefinitions>
 
     <Canvas 
-      x:Name="m_canvas" 
+      Name="Container" 
       Grid.Column="0"
       Grid.Row="1"
       HorizontalAlignment="Center" 
@@ -54,7 +54,7 @@ THE SOFTWARE.
       Height="320"  
     >
       <Rectangle 
-        x:Name="m_targetRectangle" 
+        Name="Target" 
         Fill="#FF0000" 
         Stroke="Black" 
         StrokeThickness="0"
@@ -73,7 +73,7 @@ THE SOFTWARE.
 
       <Button 
         Grid.Row="0"
-        x:Name="buttonClear" 
+        Name="buttonClear" 
         Content="Clear"
         Foreground="White"
         HorizontalAlignment="Stretch" 
@@ -82,14 +82,14 @@ THE SOFTWARE.
 
       <ScrollViewer 
         Grid.Row="1" 
-        x:Name="eventLogScrollViewer" 
+        Name="eventLogScrollViewer" 
         VerticalScrollMode="Auto" 
         Background="Black"
       >
         <RichTextBlock 
           Grid.Column="0"
           Grid.ColumnSpan="2"
-          Name="m_eventLogPanel"  
+          Name="eventLog"  
           TextWrapping="Wrap" 
           Foreground="White" 
           FontFamily="Consolas"

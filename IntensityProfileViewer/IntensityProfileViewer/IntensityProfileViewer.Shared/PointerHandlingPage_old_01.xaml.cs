@@ -1,5 +1,5 @@
 //
-// PointerHandlingPage.xaml.cs
+// PointerHandlingPage_old_01.xaml.cs
 //
 
 //  ---------------------------------------------------------------------------------
@@ -28,7 +28,6 @@
 
 using System ;
 using System.Collections.Generic ;
-using System.Linq ;
 using Windows.Foundation ;
 using Windows.UI.Input ;
 using Windows.UI.Xaml ;
@@ -43,121 +42,91 @@ using Windows.UI.Xaml.Media ;
 namespace IntensityProfileViewer
 {
 
-  public sealed partial class PointerHandlingPage : Page
+  public sealed partial class PointerHandlingPage_old_01 : Page
   {
 
     //
-    // This dictionary maintains information about each active 'contact'.
+    // This dictionary maintains information about each active contact.
     //
-    // An entry is added during these events : 
-    //
-    //   PointerPressed
-    //   PointerEntered
-    //
-    // ... and removed during these events :
-    //
-    //   PointerReleased
-    //   PointerCaptureLost
-    //   PointerCanceled
-    //   PointerExited
+    // An entry is added during PointerPressed/PointerEntered events and removed
+    // during PointerReleased/PointerCaptureLost/PointerCanceled/PointerExited events.
     //
 
-    private Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
+    Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
-    public PointerHandlingPage ( )
+    public PointerHandlingPage_old_01 ( )
     {
       this.InitializeComponent() ;
 
       // Declare the pointer event handlers
 
-      m_targetRectangle.PointerPressed      += new PointerEventHandler(Target_PointerPressed) ;
-      m_targetRectangle.PointerEntered      += new PointerEventHandler(Target_PointerEntered) ;
-      m_targetRectangle.PointerReleased     += new PointerEventHandler(Target_PointerReleased) ;
-      m_targetRectangle.PointerExited       += new PointerEventHandler(Target_PointerExited) ;
-      m_targetRectangle.PointerCanceled     += new PointerEventHandler(Target_PointerCanceled) ;
-      m_targetRectangle.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
-      m_targetRectangle.PointerMoved        += new PointerEventHandler(Target_PointerMoved) ;
-      m_targetRectangle.PointerWheelChanged += new PointerEventHandler(Target_PointerWheelChanged) ;
+      Target.PointerPressed      += new PointerEventHandler(Target_PointerPressed) ;
+      Target.PointerEntered      += new PointerEventHandler(Target_PointerEntered) ;
+      Target.PointerReleased     += new PointerEventHandler(Target_PointerReleased) ;
+      Target.PointerExited       += new PointerEventHandler(Target_PointerExited) ;
+      Target.PointerCanceled     += new PointerEventHandler(Target_PointerCanceled) ;
+      Target.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
+      Target.PointerMoved        += new PointerEventHandler(Target_PointerMoved) ;
+      Target.PointerWheelChanged += new PointerEventHandler(Target_PointerWheelChanged) ;
 
       buttonClear.Click += new RoutedEventHandler(ButtonClear_Click) ;
     }
 
     private void ButtonClear_Click ( object sender,RoutedEventArgs e )
     {
-      m_eventLogPanel.Blocks.Clear() ;
+      eventLog.Blocks.Clear() ;
     }
 
-    private void AddLineToEventLogPanel ( string textLine )
+    // Update the content of the pointer-event-log panel
+
+    private void UpdateEventLog ( string s )
     {
-      Paragraph newParagraph = new() ;
-      newParagraph.Inlines.Add(
-        new Run() {
-          Text = textLine
-        }
-      ) ;
-      m_eventLogPanel.Blocks.Insert(
-        0,
-        newParagraph
-      ) ;
+      Paragraph paragraph = new Paragraph() ;
+      Run run = new Run() {
+        // eventLog.TextWrapping = TextWrapping.Wrap ;
+        Text = s
+      } ;
+      paragraph.Inlines.Add(run) ;
+      eventLog.Blocks.Insert(0,paragraph) ;
     }
 
-    private void AddPointerInfoTextToCanvas ( PointerPoint pointerPoint )
+    // Create the pointer info popup
+
+    void CreateInfoPop ( PointerPoint pointerPoint )
     {
-      m_canvas.Children.Add(
+      Container.Children.Add(
         new TextBlock() {
           Name            = pointerPoint.PointerId.ToString(),
-          // Tag             = pointerPoint.PointerId, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
           FontFamily      = new FontFamily("Consolas"),
-          Text            = GetPointerInfoToDisplay(pointerPoint),
+          Text            = QueryPointer(pointerPoint),
           RenderTransform = new TranslateTransform() {
-            X = pointerPoint.Position.X + 10,
-            Y = pointerPoint.Position.Y + 10
+            X = pointerPoint.Position.X + 20,
+            Y = pointerPoint.Position.Y + 20
           }
         }
       ) ;
     }
 
-    private void UpdatePointerInfoTextOnCanvas ( PointerPoint pointerPoint )
+    // Update the pointer info popup.
+
+    void UpdateInfoPop ( PointerPoint pointerPoint )
     {
-      if ( true )
+      foreach ( var child in Container.Children )
       {
-        foreach ( var child in m_canvas.Children )
+        if ( child.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock" )
         {
-          if ( child.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock" )
+          TextBlock textBlock = (TextBlock) child ;
+          if ( textBlock.Name == pointerPoint.PointerId.ToString() )
           {
-            TextBlock textBlock = (TextBlock) child ;
-            if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-            {
-              // To get pointer location details, we need extended pointer info.
-              // We get the pointer info through the 'GetCurrentPoint' method
-              // of the event argument.
-              TranslateTransform x = new TranslateTransform() ;
-              x.X = pointerPoint.Position.X + 20 ;
-              x.Y = pointerPoint.Position.Y + 20 ;
-              child.RenderTransform = x ;
-              textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
-            }
-          } 
-        }
-      }
-      else
-      {
-        foreach ( var child in m_canvas.Children )
-        {
-          if ( child is TextBlock textBlock )
-          {
-            if ( textBlock.Name == pointerPoint.PointerId.ToString() )
-            {
-              // To get pointer location details, we need extended pointer info.
-              // We get the pointer info through the 'GetCurrentPoint' method
-              // of the 'event' argument.
-              TranslateTransform x = new TranslateTransform() ;
-              x.X = pointerPoint.Position.X + 20 ;
-              x.Y = pointerPoint.Position.Y + 20 ;
-              child.RenderTransform = x ;
-              textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
-            }
+            // To get pointer location details, we need extended pointer info.
+            // We get the pointer info through the 'GetCurrentPoint' method
+            // of the event argument.
+            TranslateTransform x = new TranslateTransform() ;
+            x.X = pointerPoint.Position.X + 20 ;
+            x.Y = pointerPoint.Position.Y + 20 ;
+            child.RenderTransform = x ;
+            textBlock.Text = QueryPointer(pointerPoint) ;
           }
         }
       }
@@ -165,16 +134,16 @@ namespace IntensityProfileViewer
 
     // Destroy the pointer info popup
 
-    private void RemovePointerInfoTextFromCanvas ( PointerPoint pointerPoint )
+    void DestroyInfoPop(PointerPoint pointerPoint)
     {
-      foreach ( var pointerDetails in m_canvas.Children )
+      foreach ( var pointerDetails in Container.Children )
       {
         if ( pointerDetails.GetType().ToString() == "Windows.UI.Xaml.Controls.TextBlock")
         {
           TextBlock textBlock = (TextBlock) pointerDetails ;
           if ( textBlock.Name == pointerPoint.PointerId.ToString() )
           {
-            m_canvas.Children.Remove(pointerDetails) ;
+            Container.Children.Remove(pointerDetails) ;
           }
         }
       }
@@ -187,22 +156,22 @@ namespace IntensityProfileViewer
     // a pointer down (PointerExited, PointerCanceled, PointerCaptureLost).
     // 
 
-    private void Target_PointerPressed ( object sender, PointerRoutedEventArgs e )
+    void Target_PointerPressed ( object sender, PointerRoutedEventArgs e )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Down: " + pointerPoint.PointerId
       ) ;
 
       // Lock the pointer to the target.
-      m_targetRectangle.CapturePointer(e.Pointer) ;
+      Target.CapturePointer(e.Pointer) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Pointer captured: " + pointerPoint.PointerId
       ) ;
 
@@ -217,10 +186,10 @@ namespace IntensityProfileViewer
 
       // Change the background color when pointer contact is detected.
 
-      m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
+      Target.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
 
       // Display pointer details
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      CreateInfoPop(pointerPoint) ;
 
     }
 
@@ -231,9 +200,9 @@ namespace IntensityProfileViewer
       // Prevent most handlers along the event route from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Entered: " + pointerPoint.PointerId
       ) ;
 
@@ -248,11 +217,11 @@ namespace IntensityProfileViewer
       if ( m_activeContactsDictionary.Count == 0 )
       {
         // Change the background color when pointer contact is detected.
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
 
       // Display pointer details.
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      CreateInfoPop(pointerPoint) ;
     }
 
     private void Target_PointerMoved ( object sender, PointerRoutedEventArgs e )
@@ -261,7 +230,7 @@ namespace IntensityProfileViewer
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
       //
       // Multiple, simultaneous mouse button inputs are processed here.
@@ -285,19 +254,19 @@ namespace IntensityProfileViewer
       {
         if ( pointerPoint.Properties.IsLeftButtonPressed )
         {
-          AddLineToEventLogPanel("Left button: " + pointerPoint.PointerId) ;
+          UpdateEventLog("Left button: " + pointerPoint.PointerId) ;
         }
         if ( pointerPoint.Properties.IsMiddleButtonPressed )
         {
-          AddLineToEventLogPanel("Wheel button: " + pointerPoint.PointerId) ;
+          UpdateEventLog("Wheel button: " + pointerPoint.PointerId) ;
         }
         if ( pointerPoint.Properties.IsRightButtonPressed )
         {
-          AddLineToEventLogPanel("Right button: " + pointerPoint.PointerId) ;
+          UpdateEventLog("Right button: " + pointerPoint.PointerId) ;
         }
       }
 
-      UpdatePointerInfoTextOnCanvas(pointerPoint) ;
+      UpdateInfoPop(pointerPoint) ;
     }
 
     private void Target_PointerWheelChanged ( object sender,PointerRoutedEventArgs e )
@@ -306,9 +275,9 @@ namespace IntensityProfileViewer
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Mouse wheel: " + pointerPoint.PointerId
       ) ;
 
@@ -320,7 +289,7 @@ namespace IntensityProfileViewer
         m_activeContactsDictionary[pointerPoint.PointerId] = e.Pointer ;
       }
 
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      CreateInfoPop(pointerPoint) ;
     }
 
     //
@@ -335,15 +304,15 @@ namespace IntensityProfileViewer
     // - PointerCaptureLost
     //
 
-    private void Target_PointerReleased ( object sender,PointerRoutedEventArgs e )
+    void Target_PointerReleased ( object sender,PointerRoutedEventArgs e )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Up: " + pointerPoint.PointerId
       ) ;
 
@@ -358,9 +327,9 @@ namespace IntensityProfileViewer
 
       if ( pointerPoint.PointerDevice.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
 
-        RemovePointerInfoTextFromCanvas(pointerPoint) ;
+        DestroyInfoPop(pointerPoint) ;
 
         // Remove contact from dictionary.
 
@@ -372,13 +341,13 @@ namespace IntensityProfileViewer
 
         // Release the pointer from the target.
 
-        m_targetRectangle.ReleasePointerCapture(e.Pointer) ;
+        Target.ReleasePointerCapture(e.Pointer) ;
 
-        AddLineToEventLogPanel("Pointer released: " + pointerPoint.PointerId) ;
+        UpdateEventLog("Pointer released: " + pointerPoint.PointerId) ;
       }
       else
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
     }
 
@@ -393,21 +362,21 @@ namespace IntensityProfileViewer
     // PointerCaptureLost can fire instead of PointerReleased.
     //
 
-    private void Target_PointerCaptureLost ( object sender, PointerRoutedEventArgs e )
+    private void Target_PointerCaptureLost(object sender,PointerRoutedEventArgs e)
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Pointer capture lost: " + pointerPoint.PointerId
       ) ;
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
       // Remove contact from dictionary.
@@ -418,7 +387,7 @@ namespace IntensityProfileViewer
         m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
       }
 
-      RemovePointerInfoTextFromCanvas(pointerPoint) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
     //
@@ -435,9 +404,9 @@ namespace IntensityProfileViewer
       // Prevent most handlers along the event route from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Pointer canceled: " + pointerPoint.PointerId
       ) ;
 
@@ -451,10 +420,10 @@ namespace IntensityProfileViewer
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
-      RemovePointerInfoTextFromCanvas(pointerPoint) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
     private void Target_PointerExited ( object sender,PointerRoutedEventArgs e )
@@ -463,9 +432,9 @@ namespace IntensityProfileViewer
       // from handling the same event again.
       e.Handled = true ;
 
-      PointerPoint pointerPoint = e.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = e.GetCurrentPoint(Target) ;
 
-      AddLineToEventLogPanel(
+      UpdateEventLog(
         "Pointer exited: " + pointerPoint.PointerId
       ) ;
 
@@ -479,57 +448,59 @@ namespace IntensityProfileViewer
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
+        Target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
       }
 
-      RemovePointerInfoTextFromCanvas(pointerPoint) ;
+      DestroyInfoPop(pointerPoint) ;
     }
 
-    private string GetPointerInfoToDisplay ( PointerPoint pointerPoint )
+    // Get pointer details
+
+    private string QueryPointer ( PointerPoint pointerPoint )
     {
-      string pointerInfo = "" ;
+      String details = "" ;
 
       switch ( pointerPoint.PointerDevice.PointerDeviceType )
       {
       case Windows.Devices.Input.PointerDeviceType.Mouse:
-        pointerInfo += $"\nPointer type : MOUSE (#{pointerPoint.PointerId})" ;
+        details += "\nPointer type : MOUSE" ;
         break ;
       case Windows.Devices.Input.PointerDeviceType.Pen:
-        pointerInfo += $"\nPointer type : PEN" ;
+        details += "\nPointer type : PEN" ;
         if ( pointerPoint.IsInContact )
         {
-          pointerInfo += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
-          pointerInfo += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
-          pointerInfo += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
-          pointerInfo += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
-          pointerInfo += $"\n  Barrel button pressed : {pointerPoint.Properties.IsBarrelButtonPressed}" ;
+          details += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
+          details += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
+          details += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
+          details += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
+          details += $"\n  Barrel button pressed : {pointerPoint.Properties.IsBarrelButtonPressed}" ;
         }
         break ;
       case Windows.Devices.Input.PointerDeviceType.Touch:
-        pointerInfo += $"\nPointer type : TOUCH (#{pointerPoint.PointerId})" ;
-        pointerInfo += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
-        pointerInfo += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
-        pointerInfo += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
+        details += "\nPointer type : TOUCH" ;
+        details += "\n  Rotation : " + pointerPoint.Properties.Orientation ;
+        details += "\n  Tilt X   : " + pointerPoint.Properties.XTilt ;
+        details += "\n  Tilt Y   : " + pointerPoint.Properties.YTilt ;
         break ;
       default:
-        pointerInfo += "\nPointer type : OTHER" ;
+        details += "\nPointer type: n/a" ;
         break ;
       }
 
-      GeneralTransform transform_toPageCoordinates = m_targetRectangle.TransformToVisual(this) ;
-      Point pointOnPage = transform_toPageCoordinates.TransformPoint(
+      GeneralTransform transform_toScreenCoordinates = Target.TransformToVisual(this) ;
+      Point screenPoint = transform_toScreenCoordinates.TransformPoint(
         new Point(
           pointerPoint.Position.X,
           pointerPoint.Position.Y
         )
       ) ;
-      pointerInfo += (
-        $"\nPointer Id                            : {pointerPoint.PointerId}"
-      + $"\nPointer location (relative to target) : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
-      + $"\nPointer location (relative to canvas) : [{pointOnPage.X:F2},{pointOnPage.Y:F2}]" 
+      details += (
+        $"\nPointer Id                   : {pointerPoint.PointerId}"
+      + $"\nPointer location (target)    : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
+      + $"\nPointer location (container) : [{screenPoint.X:F2},{screenPoint.Y:F2}]" 
       ) ;
 
-      return pointerInfo ;
+      return details ;
     }
 
   }
