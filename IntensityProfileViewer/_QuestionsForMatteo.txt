@@ -81,6 +81,12 @@ Visual Studio issues :
   The Visual Layer does not have a primitive for rendering text.
   WTF ???
 
+--------------------------------
+
+Git issues - directory not seen as a Git repo ???
+
+Attempting to add TabView - failed, parameter is incorrect ('broken' branch)
+
 --------------------------
 
   SkSwapChainPanel !!

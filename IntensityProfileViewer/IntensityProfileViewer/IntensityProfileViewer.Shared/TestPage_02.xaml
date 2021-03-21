@@ -27,6 +27,14 @@
       </muxc:TabView.TabItems>
     </muxc:TabView>
     -->
+
+    <!-- 
+    <NavigationView>
+      <NavigationViewItem>
+      </NavigationViewItem>
+    </NavigationView>
+    -->
+
           <local:PointerHandlingDemo_UserControl />
 
   </Grid>
