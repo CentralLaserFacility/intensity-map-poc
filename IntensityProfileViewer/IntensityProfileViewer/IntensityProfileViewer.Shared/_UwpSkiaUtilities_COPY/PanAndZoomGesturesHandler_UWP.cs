@@ -13,6 +13,11 @@ namespace UwpSkiaUtilities
 
     // https://github.com/OndrejKunc/SkiaScene/blob/master/source/TouchTracking/TouchTracking.UWP/TouchHandler.cs
 
+    // Hmm, that code doesn't hande all the events it should, eg CaptureLost ...
+
+    // Aha ???
+    // https://github.com/microsoft/Windows-universal-samples/blob/master/Samples/BasicInput/cs/5-GestureRecognizer.xaml.cs
+
     private TouchTracking.UWP.TouchHandler m_touchHandler = new() ;
 
     public System.Func<
