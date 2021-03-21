@@ -15,7 +15,6 @@
       <local:PointerHandlingDemo_UserControl />
       -->
 
-    <!-- 
     <muxc:TabView>
       <muxc:TabView.TabItems>
         <muxc:TabViewItem Name="Pointer1">
@@ -26,8 +25,9 @@
         </muxc:TabViewItem>
       </muxc:TabView.TabItems>
     </muxc:TabView>
-    -->
+    <!-- 
           <local:PointerHandlingDemo_UserControl />
+    -->
 
   </Grid>
 </Page>

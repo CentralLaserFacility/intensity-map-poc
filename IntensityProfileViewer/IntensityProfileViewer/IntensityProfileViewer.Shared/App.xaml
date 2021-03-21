@@ -8,7 +8,6 @@
 >
 
   <Application.Resources>
-    <!-- 
     <controls:XamlControlsResources>
       <controls:XamlControlsResources.MergedDictionaries>
         <ResourceDictionary>
@@ -16,6 +15,7 @@
         </ResourceDictionary>
       </controls:XamlControlsResources.MergedDictionaries>
     </controls:XamlControlsResources>
+    <!-- 
     -->
   </Application.Resources>
 
