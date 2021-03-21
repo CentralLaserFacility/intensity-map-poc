@@ -33,6 +33,7 @@
       Grid.Row="0" 
       VerticalScrollBarVisibility="Visible" 
       HorizontalScrollBarVisibility="Auto"
+      ZoomMode="Enabled"
     >
       <ScrollViewer.RenderTransform>
         <!-- This scales the scroll viewer within its container -->

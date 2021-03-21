@@ -24,6 +24,9 @@ using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 namespace IntensityProfileViewer
 {
 
+  // ScrollView Zoom Mode !!!
+  // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.scrollviewer.changeview
+
   public sealed partial class IntensityMapImage_XAML_UserControl : UserControl
   {
 
