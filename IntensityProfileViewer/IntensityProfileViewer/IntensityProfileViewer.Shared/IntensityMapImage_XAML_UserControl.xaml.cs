@@ -27,6 +27,8 @@ namespace IntensityProfileViewer
   // ScrollView Zoom Mode !!!
   // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.scrollviewer.changeview
 
+  // https://www.goedware.com/index.php/blog/3-pinch-zoom-image-in-uwp-app
+
   public sealed partial class IntensityMapImage_XAML_UserControl : UserControl
   {
 

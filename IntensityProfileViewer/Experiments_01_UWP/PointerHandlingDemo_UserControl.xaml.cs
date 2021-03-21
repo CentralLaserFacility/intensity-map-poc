@@ -100,6 +100,14 @@ namespace Experiments_01_UWP
         0,
         newParagraph
       ) ;
+      // m_eventLogPanel.Blocks.Add(
+      //   newParagraph
+      // ) ;
+      // eventLogScrollViewer.ChangeView(
+      //   0.0,
+      //   double.MaxValue, // eventLogScrollViewer.ScrollableHeight, 
+      //   1.0f
+      // ) ;
     }
 
     private static double TextBlockOffsetXY = 20.0 ;
