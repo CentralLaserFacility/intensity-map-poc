@@ -13,9 +13,13 @@
 
       <muxc:TabView>
         <muxc:TabView.TabItems>
-          <muxc:TabViewItem Header="First item">
-          </muxc:TabViewItem>
-        </muxc:TabView.TabItems>
+        <muxc:TabViewItem Header="PointerHandlingDemo">
+          <local:PointerHandlingDemo_UserControl />
+        </muxc:TabViewItem>
+        <muxc:TabViewItem Header="Pointer1">
+          <local:Pointer1_UserControl />
+        </muxc:TabViewItem>
+      </muxc:TabView.TabItems>
       </muxc:TabView>
 
     </Grid>
