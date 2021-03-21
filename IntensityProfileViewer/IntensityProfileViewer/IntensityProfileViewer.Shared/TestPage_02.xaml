@@ -10,7 +10,11 @@
 
     <Grid>
 
+      <!-- 
       <local:PointerHandlingDemo_UserControl />
+      -->
+
+    <local:Pointer1_UserControl />
 
   </Grid>
 </Page>

@@ -39,6 +39,8 @@ using Windows.UI.Xaml.Media ;
 
 using Common.ExtensionMethods ;
 
+// https://docs.microsoft.com/en-us/windows/uwp/design/input/handle-pointer-input
+
 namespace IntensityProfileViewer
 {
 
