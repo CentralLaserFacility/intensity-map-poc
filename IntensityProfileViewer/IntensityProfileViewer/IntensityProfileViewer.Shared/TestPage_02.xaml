@@ -5,6 +5,7 @@
     xmlns:local="using:IntensityProfileViewer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -14,7 +15,19 @@
       <local:PointerHandlingDemo_UserControl />
       -->
 
-    <local:Pointer1_UserControl />
+    <!-- 
+    <muxc:TabView>
+      <muxc:TabView.TabItems>
+        <muxc:TabViewItem Name="Pointer1">
+          <local:Pointer1_UserControl />
+        </muxc:TabViewItem>
+        <muxc:TabViewItem Name="PointerHandlingDemo">
+          <local:PointerHandlingDemo_UserControl />
+        </muxc:TabViewItem>
+      </muxc:TabView.TabItems>
+    </muxc:TabView>
+    -->
+          <local:PointerHandlingDemo_UserControl />
 
   </Grid>
 </Page>

@@ -10,6 +10,9 @@
       -->
       <Version>6.2.11</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.6.0-prerelease.210315002</Version>
+    </PackageReference>
     <PackageReference Include="SkiaScene">
       <Version>1.0.0</Version>
     </PackageReference>
