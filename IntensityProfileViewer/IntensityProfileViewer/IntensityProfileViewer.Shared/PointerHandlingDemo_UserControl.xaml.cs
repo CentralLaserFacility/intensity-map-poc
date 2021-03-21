@@ -1,8 +1,4 @@
-//
-// PointerHandlingPage.xaml.cs
-//
-
-//  ---------------------------------------------------------------------------------
+﻿//  ---------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All rights reserved.
 //
 //  The MIT License (MIT)
@@ -39,10 +35,15 @@ using Windows.UI.Xaml.Media ;
 
 using Common.ExtensionMethods ;
 
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
 namespace IntensityProfileViewer
 {
 
-  public sealed partial class PointerHandlingPage : Page
+  // For some devices, once the maximum number of contacts is reached,
+  // additional contacts might be ignored (PointerPressed not fired).
+
+  public sealed partial class PointerHandlingDemo_UserControl : UserControl
   {
 
     //
@@ -63,7 +64,7 @@ namespace IntensityProfileViewer
 
     private Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
-    public PointerHandlingPage ( )
+    public PointerHandlingDemo_UserControl ( )
     {
       this.InitializeComponent() ;
 

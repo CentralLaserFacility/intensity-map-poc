@@ -24,6 +24,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingDemo_UserControl.xaml.cs">
+      <DependentUpon>PointerHandlingDemo_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml.cs">
       <DependentUpon>PointerHandlingPage.xaml</DependentUpon>
     </Compile>
@@ -32,6 +35,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)TestPage_01.xaml.cs">
       <DependentUpon>TestPage_01.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)TestPage_02.xaml.cs">
+      <DependentUpon>TestPage_02.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ClipToBounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
@@ -97,6 +103,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)PointerHandlingDemo_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)TestPage_01.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)TestPage_02.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
