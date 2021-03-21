@@ -7,20 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-      <muxc:TabView>
-        <muxc:TabView.TabItems>
-        <muxc:TabViewItem Header="PointerHandlingDemo">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+  >
+  <muxc:TabView>
+    <muxc:TabView.TabItems>
+      <muxc:TabViewItem Header="PointerHandlingDemo">
+        <Grid>
           <local:PointerHandlingDemo_UserControl />
-        </muxc:TabViewItem>
-        <muxc:TabViewItem Header="Pointer1">
-          <local:Pointer1_UserControl />
-        </muxc:TabViewItem>
-      </muxc:TabView.TabItems>
-      </muxc:TabView>
-
-    </Grid>
+        </Grid>
+      </muxc:TabViewItem>
+      <muxc:TabViewItem Header="Pointer1">
+        <local:Pointer1_UserControl />
+      </muxc:TabViewItem>
+    </muxc:TabView.TabItems>
+  </muxc:TabView>
 </Page>
