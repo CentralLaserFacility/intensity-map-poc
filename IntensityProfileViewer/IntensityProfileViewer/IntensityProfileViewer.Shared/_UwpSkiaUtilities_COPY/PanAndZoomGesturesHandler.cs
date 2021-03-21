@@ -1,5 +1,5 @@
 ﻿//
-// PanAndZoomAndRotationGesturesHandler.cs
+// PanAndZoomGesturesHandler.cs
 //
 
 namespace UwpSkiaUtilities

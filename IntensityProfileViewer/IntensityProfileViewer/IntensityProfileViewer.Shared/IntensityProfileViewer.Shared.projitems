@@ -90,6 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\DrawingHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\Line.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\PixelToSceneCoordinatesMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\PanAndZoomGesturesHandler_UWP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\PanAndZoomGesturesHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\TouchEventDescriptor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers.cs" />
