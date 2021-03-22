@@ -21,7 +21,7 @@
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="600"/>
-      <ColumnDefinition Width="100"/>
+      <ColumnDefinition Width="600"/>
     </Grid.ColumnDefinitions>
 
     <!-- Matteo : horizontal scroll bar never shows ?? -->
@@ -45,9 +45,10 @@
       </Canvas>
     </ScrollViewer>
 
-    <Rectangle Grid.Row="0" Grid.Column="1" Fill="CornflowerBlue" />
     <Rectangle Grid.Row="1" Grid.Column="0" Fill="CornflowerBlue" />
     <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
+
+    <local:CanvasPanAndZoomExperiment_UserControl Grid.Row="0" Grid.Column="1"/>
 
     <local:PanAndZoomSliders_UserControl 
       x:Name="m_panAndZoomSliders"

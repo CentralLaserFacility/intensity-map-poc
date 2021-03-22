@@ -129,6 +129,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CanvasPanAndZoomExperiment_UserControl.xaml.cs">
+      <DependentUpon>CanvasPanAndZoomExperiment_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClipToBounds.cs" />
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -174,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CanvasPanAndZoomExperiment_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
