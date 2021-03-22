@@ -15,12 +15,12 @@
   <Grid Background="AliceBlue" Padding="10" RowSpacing="10" ColumnSpacing="10" >
 
     <Grid.RowDefinitions>
-      <RowDefinition Height="300"/>
+      <RowDefinition Height="600"/>
       <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="300"/>
+      <ColumnDefinition Width="600"/>
       <ColumnDefinition Width="100"/>
     </Grid.ColumnDefinitions>
 
@@ -37,17 +37,22 @@
         x:Name="m_canvas"
         Height="500" 
         Background="BlanchedAlmond"
-        local:ClipToBoundsHelper.ClipToBounds="True"
+        local:ClipToBoundsHelper.ClipToBounds="False"
       >
         <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"/>
         <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"/>
-        <Rectangle Fill="LightGreen" Width="300" Height="100" Margin="10,230,0,0"/>
+        <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0"/>
       </Canvas>
     </ScrollViewer>
 
     <Rectangle Grid.Row="0" Grid.Column="1" Fill="CornflowerBlue" />
     <Rectangle Grid.Row="1" Grid.Column="0" Fill="CornflowerBlue" />
     <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
+
+    <local:PanAndZoomSliders_UserControl 
+      x:Name="m_panAndZoomSliders"
+      Grid.Row="1" Grid.Column="0" 
+    />
 
   </Grid>
 </UserControl>

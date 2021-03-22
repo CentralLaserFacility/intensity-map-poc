@@ -69,3 +69,9 @@ Visual
     The visual gets its content from another visual.
   SceneVisual
     A container visual for the nodes of a 3D scene.
+
+================================
+
+Transforms overview (UWP)
+https://docs.microsoft.com/en-us/windows/uwp/design/layout/transforms
+
