@@ -11,12 +11,15 @@
   >
   <muxc:TabView>
     <muxc:TabView.TabItems>
+      <muxc:TabViewItem Header="Scroll Viewer pan/zoom">
+        <local:ScrollViewerPanAndZoomExperiment_UserControl />
+      </muxc:TabViewItem>
       <muxc:TabViewItem Header="PointerHandlingDemo">
         <Grid>
           <local:PointerHandlingDemo_UserControl />
         </Grid>
       </muxc:TabViewItem>
-      <muxc:TabViewItem Header="Pointer1">
+      <muxc:TabViewItem Header="Pointer (original)">
         <local:Pointer1_UserControl />
       </muxc:TabViewItem>
     </muxc:TabView.TabItems>

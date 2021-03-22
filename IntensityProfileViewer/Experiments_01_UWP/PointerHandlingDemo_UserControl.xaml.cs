@@ -96,10 +96,17 @@ namespace Experiments_01_UWP
           Text = textLine
         }
       ) ;
+
       m_eventLogPanel.Blocks.Insert(
         0,
         newParagraph
       ) ;
+
+      // Hmm, new idea - perhaps add a blank line every time,
+      // which gets removed when we add the next line ???
+      // BUT THAT KIND OF HACK SHOULD NOT BE NECESSARY
+      // Matteo - help !!!
+
       // https://stackoverflow.com/questions/11171456/best-way-to-scroll-to-end-of-scrollviewer
       // Almost works, but THE LAST LINE ISN'T SHOWN ...
       //
@@ -111,6 +118,7 @@ namespace Experiments_01_UWP
       //   double.MaxValue, // eventLogScrollViewer.ScrollableHeight, 
       //   1.0f
       // ) ;
+
     }
 
     private static double TextBlockOffsetXY = 20.0 ;
