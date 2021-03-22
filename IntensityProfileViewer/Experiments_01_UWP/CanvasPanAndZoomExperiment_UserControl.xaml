@@ -15,7 +15,7 @@
         x:Name="m_canvas"
         Height="500" 
         Background="BlanchedAlmond"
-        local:ClipToBoundsHelper.ClipToBounds="False"
+        local:ClipToBoundsHelper.ClipToBounds="True"
       >
       <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"/>
       <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"/>

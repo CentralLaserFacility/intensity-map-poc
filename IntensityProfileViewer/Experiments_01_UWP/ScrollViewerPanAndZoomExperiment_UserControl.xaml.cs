@@ -25,6 +25,7 @@ namespace Experiments_01_UWP
     {
       this.InitializeComponent() ;
       m_panAndZoomSliders.Changed = (x,y,scale) => {
+
         m_scrollViewer.ChangeView(
           x,
           y,
@@ -70,7 +71,11 @@ namespace Experiments_01_UWP
           ) ;
         }
 
-        // Transform layoutTransform = m_scrollViewer.La ;
+        m_transformedCanvas.SetTransform(
+          x,
+          y,
+          scale
+        ) ;
 
       } ;
     }

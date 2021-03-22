@@ -24,6 +24,22 @@ namespace Experiments_01_UWP
       this.InitializeComponent() ;
     }
 
+    public void SetTransform ( double panX, double panY, double scale )
+    {
+      m_canvas.RenderTransform = new TransformGroup(){
+        Children = {
+          new TranslateTransform(){
+            X = panX,
+            Y = panY
+          },
+          new ScaleTransform(){
+            ScaleX = scale,
+            ScaleY = scale
+          }
+        }
+      } ;
+    }
+
   }
 
 }
