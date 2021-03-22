@@ -100,6 +100,9 @@ namespace Experiments_01_UWP
         0,
         newParagraph
       ) ;
+      // https://stackoverflow.com/questions/11171456/best-way-to-scroll-to-end-of-scrollviewer
+      // Almost works, but THE LAST LINE ISN'T SHOWN ...
+      //
       // m_eventLogPanel.Blocks.Add(
       //   newParagraph
       // ) ;
