@@ -146,6 +146,9 @@
     <Compile Include="Pointer1_UserControl.xaml.cs">
       <DependentUpon>Pointer1_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PointerEventHandler_UserControl.xaml.cs">
+      <DependentUpon>PointerEventHandler_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PointerHandlingDemo_UserControl.xaml.cs">
       <DependentUpon>PointerHandlingDemo_UserControl.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,10 @@
     <Page Include="Pointer1_UserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PointerEventHandler_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PointerHandlingDemo_UserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
