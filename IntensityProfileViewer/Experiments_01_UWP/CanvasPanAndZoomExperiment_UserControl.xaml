@@ -11,6 +11,11 @@
 >
   <Grid>
 
+    <!-- Matteo ?? Tradeoff between Canvas and Grid ?? -->
+    <!-- Canvas.Top vs Margin ?? -->
+    <!-- Margin might not be available on certain elements, so Canvas.Top is preferred -->
+
+    <!-- 
     <Canvas 
         x:Name="m_canvas"
         Height="500" 
@@ -21,6 +26,17 @@
       <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"/>
       <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0"/>
     </Canvas>
+    -->
+
+    <Grid 
+        x:Name="m_canvas"
+        Height="500" 
+        Background="BlanchedAlmond"
+      >
+      <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+      <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"        HorizontalAlignment="Left" VerticalAlignment="Top"/>
+      <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Grid>
 
   </Grid>
 </UserControl>

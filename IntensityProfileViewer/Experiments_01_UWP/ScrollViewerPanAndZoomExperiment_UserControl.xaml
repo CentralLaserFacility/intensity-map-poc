@@ -6,22 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="800"
-    d:DesignWidth="700"
+    d:DesignHeight="900"
+    d:DesignWidth="1200"
 >
 
   <!-- Matteo : designer is showing grid lines in odd places ?? -->
 
   <Grid Background="AliceBlue" Padding="10" RowSpacing="10" ColumnSpacing="10" >
 
+    <!-- Matteo : row #1 can be fixed height, but want row #0 to take all available space ... ???? -->
+
     <Grid.RowDefinitions>
-      <RowDefinition Height="600"/>
+      <RowDefinition Height="600" />
       <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="600"/>
-      <ColumnDefinition Width="600"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
     <!-- Matteo : horizontal scroll bar never shows ?? -->
@@ -35,7 +37,6 @@
     >
       <Canvas 
         x:Name="m_canvas"
-        Height="500" 
         Background="BlanchedAlmond"
         local:ClipToBoundsHelper.ClipToBounds="False"
       >
@@ -48,7 +49,12 @@
     <Rectangle Grid.Row="1" Grid.Column="0" Fill="CornflowerBlue" />
     <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
 
+    <!--
     <local:CanvasPanAndZoomExperiment_UserControl 
+    -->
+    <local:NestedCanvasPanAndZoomExperiment_UserControl 
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
       x:Name="m_transformedCanvas"
       Grid.Row="0" Grid.Column="1"
     />

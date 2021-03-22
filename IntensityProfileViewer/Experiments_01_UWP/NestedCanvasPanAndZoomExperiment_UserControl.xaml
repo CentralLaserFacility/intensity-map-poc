@@ -1,0 +1,36 @@
+﻿<UserControl
+  x:Class="Experiments_01_UWP.NestedCanvasPanAndZoomExperiment_UserControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:Experiments_01_UWP"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignHeight="600"
+  d:DesignWidth="700"
+>
+  <Grid>
+
+   <!-- Height="500"  -->
+
+   <Canvas 
+      x:Name="m_outerCanvas"
+      Background="BlanchedAlmond"
+      local:ClipToBoundsHelper.ClipToBounds="True"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+    >
+      <Canvas 
+          x:Name="m_innerCanvas"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          Background="LightYellow"
+        >
+        <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"  />
+        <Rectangle Fill="Red"        Width="200" Height="100" Margin="10,120,0,0" />
+        <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0" />
+      </Canvas>
+    </Canvas>
+
+  </Grid>
+</UserControl>
