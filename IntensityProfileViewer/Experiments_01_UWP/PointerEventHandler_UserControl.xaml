@@ -12,7 +12,7 @@
 
   <!-- Finally found a way to make this work !! -->
 
-  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+  <Grid x:Name="m_target" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
@@ -23,7 +23,6 @@
     </Grid.RowDefinitions>
 
     <Rectangle 
-      x:Name="m_targetRectangle" 
       Fill="LightSkyBlue" 
       HorizontalAlignment="Stretch" 
       VerticalAlignment="Stretch" 

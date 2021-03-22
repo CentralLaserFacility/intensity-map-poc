@@ -30,24 +30,24 @@ namespace Experiments_01_UWP
     //   PointerExited
     //
 
-    private Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
+    private readonly Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
     public PointerEventHandler_UserControl ( )
     {
       this.InitializeComponent() ;
 
-      m_targetRectangle.PointerPressed      += new PointerEventHandler(Target_PointerPressed) ;
-      m_targetRectangle.PointerEntered      += new PointerEventHandler(Target_PointerEntered) ;
-      m_targetRectangle.PointerReleased     += new PointerEventHandler(Target_PointerReleased) ;
-      m_targetRectangle.PointerExited       += new PointerEventHandler(Target_PointerExited) ;
-      m_targetRectangle.PointerCanceled     += new PointerEventHandler(Target_PointerCanceled) ;
-      m_targetRectangle.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
-      m_targetRectangle.PointerMoved        += new PointerEventHandler(Target_PointerMoved) ;
-      m_targetRectangle.PointerWheelChanged += new PointerEventHandler(Target_PointerWheelChanged) ;
+      m_target.PointerEntered      += new PointerEventHandler(Target_PointerEntered) ;
+      m_target.PointerMoved        += new PointerEventHandler(Target_PointerMoved) ;
+      m_target.PointerWheelChanged += new PointerEventHandler(Target_PointerWheelChanged) ;
+      m_target.PointerPressed      += new PointerEventHandler(Target_PointerPressed) ;
+      m_target.PointerReleased     += new PointerEventHandler(Target_PointerReleased) ;
+      m_target.PointerExited       += new PointerEventHandler(Target_PointerExited) ;
+      m_target.PointerCanceled     += new PointerEventHandler(Target_PointerCanceled) ;
+      m_target.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
 
     }
 
-    private void AddLineToEventLogPanel ( string textLine )
+    private void WriteLogMessage ( string textLine )
     {
       Common.DebugHelpers.WriteDebugLines(textLine) ;
     }
@@ -112,16 +112,16 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} pressed"
       ) ;
 
       // Lock the pointer to the target.
-      m_targetRectangle.CapturePointer(pointerEventArgs.Pointer) ;
+      m_target.CapturePointer(pointerEventArgs.Pointer) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} captured"
       ) ;
 
@@ -136,7 +136,7 @@ namespace Experiments_01_UWP
 
       // Change the background color when pointer contact is detected.
 
-      m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
+      //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
 
       // Display pointer details
       AddPointerInfoTextToCanvas(pointerPoint) ;
@@ -150,9 +150,9 @@ namespace Experiments_01_UWP
       // Prevent most handlers along the event route from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} entered"
       ) ;
 
@@ -167,7 +167,7 @@ namespace Experiments_01_UWP
       if ( m_activeContactsDictionary.Count == 0 )
       {
         // Change the background color when pointer contact is detected.
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
 
       AddPointerInfoTextToCanvas(pointerPoint) ;
@@ -179,7 +179,7 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       //
       // Multiple, simultaneous mouse button inputs are processed here.
@@ -221,7 +221,7 @@ namespace Experiments_01_UWP
 
       if ( movedMessage.Length > 0 )
       {
-        AddLineToEventLogPanel($"#{pointerPoint.PointerId} moved with {movedMessage}pressed") ;
+        WriteLogMessage($"#{pointerPoint.PointerId} moved with {movedMessage}pressed") ;
       }
 
       UpdatePointerInfoTextOnCanvas(pointerPoint) ;
@@ -233,9 +233,9 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} mouse wheel, delta = {pointerPoint.Properties.MouseWheelDelta}"
       ) ;
 
@@ -267,7 +267,7 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       // AddLineToEventLogPanel(
       //   $"#{pointerPoint.PointerId} event ..."
@@ -287,12 +287,12 @@ namespace Experiments_01_UWP
 
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
-        AddLineToEventLogPanel($"#{pointerPoint.PointerId} release - NOT RELEASED (it's a mouse event)") ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
+        WriteLogMessage($"#{pointerPoint.PointerId} release - NOT RELEASED (it's a mouse event)") ;
       }
       else
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
 
         RemovePointerInfoTextFromCanvas(pointerPoint) ;
 
@@ -302,11 +302,11 @@ namespace Experiments_01_UWP
           m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
         }
 
-        m_targetRectangle.ReleasePointerCapture(
+        m_target.ReleasePointerCapture(
           pointerEventArgs.Pointer
         ) ;
 
-        AddLineToEventLogPanel($"#{pointerPoint.PointerId} release - RELEASED") ;
+        WriteLogMessage($"#{pointerPoint.PointerId} release - RELEASED") ;
       }
     }
 
@@ -327,15 +327,15 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} capture lost: " + pointerPoint.PointerId
       ) ;
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
       // Remove contact from dictionary.
@@ -364,9 +364,9 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} canceled"
       ) ;
 
@@ -379,7 +379,7 @@ namespace Experiments_01_UWP
       if ( m_activeContactsDictionary.Count == 0 )
       {
         // Hmm, this is never called ...
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Black) ;
       }
 
       RemovePointerInfoTextFromCanvas(pointerPoint) ;
@@ -391,9 +391,9 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
-      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_targetRectangle) ;
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      AddLineToEventLogPanel(
+      WriteLogMessage(
         $"#{pointerPoint.PointerId} exited"
       ) ;
 
@@ -407,7 +407,7 @@ namespace Experiments_01_UWP
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
-        m_targetRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
+        //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Red) ;
       }
 
       RemovePointerInfoTextFromCanvas(pointerPoint) ;
@@ -444,7 +444,7 @@ namespace Experiments_01_UWP
         break ;
       }
 
-      GeneralTransform transform_toPageCoordinates = m_targetRectangle.TransformToVisual(this) ;
+      GeneralTransform transform_toPageCoordinates = m_target.TransformToVisual(this) ;
       Point pointOnPage = transform_toPageCoordinates.TransformPoint(
         new Point(
           pointerPoint.Position.X,

@@ -48,12 +48,6 @@
 
     <Rectangle Grid.Row="1" Grid.Column="0" Fill="CornflowerBlue" />
 
-    <!-- 
-    <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
-    -->
-
-    <local:PointerEventHandler_UserControl Grid.Row="1" Grid.Column="1" />
-
     <!--
     <local:CanvasPanAndZoomExperiment_UserControl 
     -->
@@ -68,6 +62,12 @@
       x:Name="m_panAndZoomSliders"
       Grid.Row="1" Grid.Column="0" 
     />
+
+    <!-- 
+    <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
+    -->
+
+    <local:PointerEventHandler_UserControl Grid.Row="1" Grid.Column="1" />
 
   </Grid>
 </UserControl>
