@@ -22,7 +22,13 @@
 //  THE SOFTWARE.
 //  ---------------------------------------------------------------------------------
 
+//
 // https://docs.microsoft.com/en-us/windows/uwp/design/input/handle-pointer-input
+//
+// Hmm, having gone into this the example seems half baked.
+// The dictionary it maintains is a step in the right direction
+// but it confuses 'entered' versus 'pressed' and so on ...
+//
 
 using System;
 using System.Collections.Generic;

@@ -8,6 +8,16 @@ using Windows.UI.Input ;
 
 using Common.ExtensionMethods ;
 
+//
+// Adapted from this sampe code which shows how to handle 'Pointer' events
+//   https://docs.microsoft.com/en-us/windows/uwp/design/input/handle-pointer-input
+//
+// Also see these examples, which also demonstrate Gesture handling ...
+//   https://github.com/microsoft/Windows-universal-samples/tree/master/Samples/BasicInput/cs
+//
+// Matteo : which of these are the most up to date ??
+//
+
 namespace Experiments_01_UWP
 {
 
@@ -29,6 +39,23 @@ namespace Experiments_01_UWP
     //   PointerCanceled
     //   PointerExited
     //
+
+    //
+    // A pointer raises various events :
+    //
+    //   PointerEntered      
+    //   PointerExited       
+    //
+    //   PointerMoved
+    //
+    //   PointerPressed      
+    //   PointerReleased     
+    //
+    //   PointerWheelChanged 
+    //   PointerCanceled
+    //
+    //   PointerCaptureLost
+    // 
 
     private readonly Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
@@ -64,9 +91,13 @@ namespace Experiments_01_UWP
       }
     }
 
+    private int m_messageNumber = 0 ;
+
     private void WriteLogMessage ( string textLine )
     {
-      Common.DebugHelpers.WriteDebugLines(textLine) ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"[{++m_messageNumber:D03}] {textLine}"
+      ) ;
     }
 
     private static double TextBlockOffsetXY = 20.0 ;
@@ -129,44 +160,40 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
         $"#{pointerPoint.PointerId} pressed"
       ) ;
 
-      // Lock the pointer to the target.
-      m_target.CapturePointer(pointerEventArgs.Pointer) ;
+      // Attempt to 'capture' the pointer, so that subsequent 'move' events
+      // will be sent to the target even though the pointer isn't over it.
+
+      bool captureSucceeded = m_target.CapturePointer(pointer) ;
 
       WriteLogMessage(
-        $"#{pointerPoint.PointerId} captured"
+        captureSucceeded
+        ? $"  capture succeeded"
+        : $"  capture failed"
       ) ;
 
       // Check if the pointer exists in our dictionary,
       // ie, did the 'Enter' occur prior to the 'Press'.
 
-      if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
-      {
-        // Add contact to dictionary.
-        m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
-      }
+      DeclarePointerContactStarted(pointer) ;
 
-      // Change the background color when pointer contact is detected.
-
-      //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Green) ;
-
-      // Display pointer details
       AddPointerInfoTextToCanvas(pointerPoint) ;
 
     }
 
-    // We don't capture the pointer on this event ...
-
     private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      // Prevent most handlers along the event route from handling the same event again.
+      // Prevent most handlers along the event route
+      // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
@@ -175,11 +202,11 @@ namespace Experiments_01_UWP
 
       // Check if pointer already exists (if enter occurred prior to down).
 
-      if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
-      {
-        // Add contact to dictionary.
-        m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
-      }
+      // if ( ! m_activeContactsDictionary.ContainsKey(pointerPoint.PointerId) )
+      // {
+      //   // Add contact to dictionary.
+      //   m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
+      // }
 
       if ( m_activeContactsDictionary.Count == 0 )
       {
@@ -190,19 +217,34 @@ namespace Experiments_01_UWP
       AddPointerInfoTextToCanvas(pointerPoint) ;
     }
 
+    //
+    // The docs say that ...
+    //   Occurs when a pointer moves while the pointer remains within the hit test area of this element.
+    //
+    // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.uielement.pointermoved?view=winrt-19041
+    //
+    // In practice :
+    //   WHEN A MOUSE BUTTON IS DOWN WHILE THE POINTER IS OVER THE TARGET,
+    //   THIS EVENT FIRES REPEATEDLY (ABOUT TWICE PER SECOND) EVEN WHEN THE MOUSE HASN'T MOVED.
+    //
+    //   BUT IT DOESN'T FIRE REPEATEDLY, EVEN IF THE POINTER HAS BEEN 'CAPTURED',
+    //   WHEN THE MOUSE IS MOVED AWAY FROM THE TARGET REGION.
+    // 
+
     private void Target_PointerMoved ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       //
       // Multiple, simultaneous mouse button inputs are processed here.
       //
       // Mouse input is associated with a single pointer
-      // assigned when mouse input is first detected.
+      // that is assigned when mouse input is first detected.
       //
       // Clicking additional mouse buttons (left, wheel, or right) during
       // the interaction creates secondary associations between those buttons
@@ -236,9 +278,10 @@ namespace Experiments_01_UWP
         }
       }
 
+      WriteLogMessage($"#{pointerPoint.PointerId} moved to [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]") ;
       if ( movedMessage.Length > 0 )
       {
-        WriteLogMessage($"#{pointerPoint.PointerId} moved with {movedMessage}pressed") ;
+        WriteLogMessage($"  with {movedMessage}pressed") ;
       }
 
       UpdatePointerInfoTextOnCanvas(pointerPoint) ;
@@ -250,6 +293,7 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
@@ -267,12 +311,12 @@ namespace Experiments_01_UWP
     }
 
     //
-    // The pointer released event handler.
+    // PointerReleased fires when a button ceases to be pressed.
     //
     // PointerPressed and PointerReleased don't always occur in pairs.
     //
     // Your app should listen for and handle
-    // any event that can conclude a pointer down :
+    // any event that can 'conclude' a 'pointer down' :
     // - PointerExited
     // - PointerCanceled
     // - PointerCaptureLost
@@ -284,11 +328,12 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
-      // AddLineToEventLogPanel(
-      //   $"#{pointerPoint.PointerId} event ..."
-      // ) ;
+      this.WriteLogMessage(
+        $"#{pointerPoint.PointerId} released"
+      ) ;
 
       //
       // If the event source is a mouse or a touchpad, and the pointer
@@ -305,7 +350,7 @@ namespace Experiments_01_UWP
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
         //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
-        WriteLogMessage($"#{pointerPoint.PointerId} release - NOT RELEASED (it's a mouse event)") ;
+        WriteLogMessage($"  NOT RELEASED (it's a mouse event)") ;
       }
       else
       {
@@ -323,7 +368,7 @@ namespace Experiments_01_UWP
           pointerEventArgs.Pointer
         ) ;
 
-        WriteLogMessage($"#{pointerPoint.PointerId} release - RELEASED") ;
+        WriteLogMessage($"  RELEASED") ;
       }
     }
 
@@ -344,10 +389,11 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
-        $"#{pointerPoint.PointerId} capture lost: " + pointerPoint.PointerId
+        $"#{pointerPoint.PointerId} capture lost"
       ) ;
 
       if ( m_activeContactsDictionary.Count == 0 )
@@ -381,6 +427,7 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
@@ -408,6 +455,7 @@ namespace Experiments_01_UWP
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
@@ -461,8 +509,8 @@ namespace Experiments_01_UWP
         break ;
       }
 
-      GeneralTransform transform_toPageCoordinates = m_target.TransformToVisual(this) ;
-      Point pointOnPage = transform_toPageCoordinates.TransformPoint(
+      GeneralTransform transform_toCanvasCoordinates = m_target.TransformToVisual(this) ;
+      Point pointOnCanvas = transform_toCanvasCoordinates.TransformPoint(
         new Point(
           pointerPoint.Position.X,
           pointerPoint.Position.Y
@@ -471,7 +519,7 @@ namespace Experiments_01_UWP
       pointerInfo += (
         $"\nPointer Id                            : #{pointerPoint.PointerId}"
       + $"\nPointer location (relative to target) : [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]" 
-      + $"\nPointer location (relative to canvas) : [{pointOnPage.X:F2},{pointOnPage.Y:F2}]" 
+      + $"\nPointer location (relative to canvas) : [{pointOnCanvas.X:F2},{pointOnCanvas.Y:F2}]" 
       ) ;
 
       return pointerInfo ;
