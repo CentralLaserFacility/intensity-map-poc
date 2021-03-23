@@ -1,4 +1,12 @@
-﻿//  ---------------------------------------------------------------------------------
+﻿//
+// https://docs.microsoft.com/en-us/windows/uwp/design/input/handle-pointer-input
+//
+// Hmm, having gone into this the example seems half baked.
+// The dictionary it maintains is a step in the right direction
+// but it confuses 'entered' versus 'pressed' and so on ...
+//
+
+//  ---------------------------------------------------------------------------------
 //  Copyright (c) Microsoft Corporation.  All rights reserved.
 // 
 //  The MIT License (MIT)
@@ -21,14 +29,6 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //  ---------------------------------------------------------------------------------
-
-//
-// https://docs.microsoft.com/en-us/windows/uwp/design/input/handle-pointer-input
-//
-// Hmm, having gone into this the example seems half baked.
-// The dictionary it maintains is a step in the right direction
-// but it confuses 'entered' versus 'pressed' and so on ...
-//
 
 using System;
 using System.Collections.Generic;

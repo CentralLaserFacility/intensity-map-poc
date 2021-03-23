@@ -21,7 +21,7 @@ using Common.ExtensionMethods ;
 namespace Experiments_01_UWP
 {
 
-  public sealed partial class PointerEventHandler_UserControl : UserControl
+  public sealed partial class PointerEventHandler_UserControl_old_02 : UserControl
   {
 
     //
@@ -59,7 +59,7 @@ namespace Experiments_01_UWP
 
     private readonly Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
-    public PointerEventHandler_UserControl ( )
+    public PointerEventHandler_UserControl_old_02 ( )
     {
       this.InitializeComponent() ;
 
