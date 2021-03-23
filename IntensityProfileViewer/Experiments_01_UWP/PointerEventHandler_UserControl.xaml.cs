@@ -169,16 +169,33 @@ namespace Experiments_01_UWP
         $"#{pointerPoint.PointerId} pressed at [{position.X:F3},{position.Y:F3}]"
       ) ;
 
-      // Attempt to 'capture' the pointer, so that subsequent 'move' events
-      // will be sent to the target even though the pointer isn't over it.
-
-      bool captureSucceeded = m_target.CapturePointer(pointer) ;
-
-      WriteLogMessage(
-        captureSucceeded
-        ? $"  capture succeeded"
-        : $"  capture failed"
+      // If the SHIFT key is down, we'll capture the pointer
+      bool shiftKeyIsDown = (
+        Windows.UI.Core.CoreWindow.GetForCurrentThread(
+        ).GetAsyncKeyState(
+          Windows.System.VirtualKey.Shift
+        ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
       ) ;
+      WriteLogMessage(
+        $"  shift-key-down is '{shiftKeyIsDown}'"
+      ) ;
+      if ( shiftKeyIsDown )
+      {
+        // Attempt to 'capture' the pointer, so that subsequent 'move' events
+        // will be sent to the target even though the pointer isn't over it.
+        bool captureSucceeded = m_target.CapturePointer(pointer) ;
+        WriteLogMessage(
+          captureSucceeded
+          ? $"  capture attempt succeeded"
+          : $"  capture attempt failed"
+        ) ;
+      }
+      else
+      {
+        WriteLogMessage(
+          "  so will not attempt to capture"
+        ) ;
+      }
 
       // Check if the pointer exists in our dictionary,
       // ie, did the 'Enter' occur prior to the 'Press'.
