@@ -11,7 +11,7 @@ using Common.ExtensionMethods ;
 namespace Experiments_01_UWP
 {
 
-  public sealed partial class PointerEventHandler_UserControl : UserControl
+  public sealed partial class PointerEventHandler_UserControl_old_01 : UserControl
   {
 
     //
@@ -32,7 +32,7 @@ namespace Experiments_01_UWP
 
     private readonly Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
-    public PointerEventHandler_UserControl ( )
+    public PointerEventHandler_UserControl_old_01 ( )
     {
       this.InitializeComponent() ;
 
@@ -45,23 +45,6 @@ namespace Experiments_01_UWP
       m_target.PointerCanceled     += new PointerEventHandler(Target_PointerCanceled) ;
       m_target.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
 
-    }
-
-    private void DeclarePointerContactStarted ( Windows.UI.Xaml.Input.Pointer pointer )
-    {
-      if ( ! m_activeContactsDictionary.ContainsKey(pointer.PointerId) )
-      {
-        m_activeContactsDictionary[pointer.PointerId] = pointer ;
-      }
-    }
-
-    private void DeclarePointerContactFinished ( Windows.UI.Xaml.Input.Pointer pointer )
-    {
-      if ( m_activeContactsDictionary.ContainsKey(pointer.PointerId) )
-      {
-        m_activeContactsDictionary[pointer.PointerId] = null ;
-        m_activeContactsDictionary.Remove(pointer.PointerId) ;
-      }
     }
 
     private void WriteLogMessage ( string textLine )
@@ -437,10 +420,10 @@ namespace Experiments_01_UWP
       switch ( pointerPoint.PointerDevice.PointerDeviceType )
       {
       case Windows.Devices.Input.PointerDeviceType.Mouse:
-        pointerInfo += $"Pointer type : MOUSE (#{pointerPoint.PointerId})" ;
+        pointerInfo += $"\nPointer type : MOUSE (#{pointerPoint.PointerId})" ;
         break ;
       case Windows.Devices.Input.PointerDeviceType.Pen:
-        pointerInfo += $"Pointer type : PEN" ;
+        pointerInfo += $"\nPointer type : PEN" ;
         if ( pointerPoint.IsInContact )
         {
           pointerInfo += $"\n  Pressure              : {pointerPoint.Properties.Pressure}" ;
@@ -451,13 +434,13 @@ namespace Experiments_01_UWP
         }
         break ;
       case Windows.Devices.Input.PointerDeviceType.Touch:
-        pointerInfo += $"Pointer type : TOUCH (#{pointerPoint.PointerId})" ;
+        pointerInfo += $"\nPointer type : TOUCH (#{pointerPoint.PointerId})" ;
         pointerInfo += $"\n  Rotation              : {pointerPoint.Properties.Orientation}" ;
         pointerInfo += $"\n  Tilt X                : {pointerPoint.Properties.XTilt}" ;
         pointerInfo += $"\n  Tilt Y                : {pointerPoint.Properties.YTilt}" ;
         break ;
       default:
-        pointerInfo += "Pointer type : OTHER" ;
+        pointerInfo += "\nPointer type : OTHER" ;
         break ;
       }
 
