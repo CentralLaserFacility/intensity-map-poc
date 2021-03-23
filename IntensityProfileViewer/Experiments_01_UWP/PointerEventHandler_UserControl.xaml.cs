@@ -230,6 +230,19 @@ namespace Experiments_01_UWP
     //   BUT IT DOESN'T FIRE REPEATEDLY, EVEN IF THE POINTER HAS BEEN 'CAPTURED',
     //   WHEN THE MOUSE IS MOVED AWAY FROM THE TARGET REGION.
     // 
+    // Aha ... explanation !!
+    //
+    //   Logging the exact positions reported by these 'move' events, we see that even though we've
+    //   made best efforts to hold the mouse stationary, the reported position can actually be changing
+    //   by a tiny amount, typically a fraction of a pixel.
+    //
+    //   However we do sometimes get multiple Moves reported even when the delta is absolutely zero.
+    //
+    //   And if the mouse has moved out of the 'target' region, we get an event that reports a coordinate
+    //   that is outside the region.
+    //
+
+    private Point? m_mostRecentlyReportedMousePosition = null ;
 
     private void Target_PointerMoved ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
@@ -239,6 +252,12 @@ namespace Experiments_01_UWP
 
       Pointer      pointer      = pointerEventArgs.Pointer ;
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
+      Point        position     = pointerPoint.Position ;
+
+      IList<PointerPoint> intermediatePoints = pointerEventArgs.GetIntermediatePoints(m_target) ;
+      IEnumerable<Point> intermediatePositions = intermediatePoints.Select(
+        pointerPoint => pointerPoint.Position
+      ) ;
 
       //
       // Multiple, simultaneous mouse button inputs are processed here.
@@ -278,11 +297,52 @@ namespace Experiments_01_UWP
         }
       }
 
-      WriteLogMessage($"#{pointerPoint.PointerId} moved to [{pointerPoint.Position.X:F2},{pointerPoint.Position.Y:F2}]") ;
+      double? DeltaFromLastKnownPosition ( )
+      {
+        if ( m_mostRecentlyReportedMousePosition is null )
+        {
+          return null ;
+        }
+        var dx = position.X - m_mostRecentlyReportedMousePosition.Value.X ;
+        var dy = position.Y - m_mostRecentlyReportedMousePosition.Value.Y ;
+        return System.Math.Sqrt(
+          dx * dx
+        + dy * dy
+        ) ;
+      }
+      var deltaFromLastKnownPosition = DeltaFromLastKnownPosition() ;
+      string delta = (
+        deltaFromLastKnownPosition.HasValue
+        ? $" delta {deltaFromLastKnownPosition:F6}"
+        : ""
+      ) ;
+      WriteLogMessage($"#{pointerPoint.PointerId} moved to [{pointerPoint.Position.X:F3},{pointerPoint.Position.Y:F3}]{delta}") ;
       if ( movedMessage.Length > 0 )
       {
         WriteLogMessage($"  with {movedMessage}pressed") ;
       }
+      if ( intermediatePositions.Any() )
+      {
+        //
+        // Hmm, we *always* get an 'intermediate position' reported.
+        // The FIRST item in the sequence seems to be the most recently reported position.
+        // In the case of a Mouse move, the first and only item has coordinates that are
+        // exactly the same as reported by 'GetCurrentPoint'.
+        // For a rapidly executed 'swipe' on a touch screen, a number of points are reported.
+        // THE DOCUMENTATION INCORRECTLY STATES -
+        //   The last item in the collection is equivalent to the PointerPoint object returned by GetCurrentPoint.
+        // IN FACT IT'S THE *FIRST* ITEM THAT REPRESENTS THE LATEST POSITION.
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.input.pointerroutedeventargs.getintermediatepoints
+        // The actual behaviour makes sense, the documentation has just got it back to front.
+        //
+        intermediatePositions.ForEachItem(
+          intermediatePosition => WriteLogMessage(
+            $"  with intermediate position [{intermediatePosition.X:F3},{intermediatePosition.Y:F3}]"
+          )
+        ) ;
+      }
+
+      m_mostRecentlyReportedMousePosition = position ;
 
       UpdatePointerInfoTextOnCanvas(pointerPoint) ;
     }
@@ -350,7 +410,7 @@ namespace Experiments_01_UWP
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
       {
         //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
-        WriteLogMessage($"  NOT RELEASED (it's a mouse event)") ;
+        //WriteLogMessage($"  NOT RELEASED (it's a mouse event)") ;
       }
       else
       {
@@ -364,11 +424,15 @@ namespace Experiments_01_UWP
           m_activeContactsDictionary.Remove(pointerPoint.PointerId) ;
         }
 
-        m_target.ReleasePointerCapture(
-          pointerEventArgs.Pointer
-        ) ;
+        // HMM, THIS SEEMS TO BE UNNECESSARY : WITH A PEN OR A TOUCH SCREEN
+        // WE DO GET THE EXPECTED 'CAPTURE-LOST' EVENT EVEN WITHOUT CALLING 'ReleasePointerCapture'
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.uielement.releasepointercapture
 
-        WriteLogMessage($"  RELEASED") ;
+        ///////////// m_target.ReleasePointerCapture(
+        /////////////   pointerEventArgs.Pointer
+        ///////////// ) ;
+        ///////////// 
+        ///////////// WriteLogMessage($"  NOT A MOUSE SO WE'VE CALLED 'ReleasePointerCapture'") ;
       }
     }
 
@@ -393,7 +457,7 @@ namespace Experiments_01_UWP
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       WriteLogMessage(
-        $"#{pointerPoint.PointerId} capture lost"
+        $"#{pointerPoint.PointerId} capture-lost"
       ) ;
 
       if ( m_activeContactsDictionary.Count == 0 )
@@ -419,6 +483,10 @@ namespace Experiments_01_UWP
     // - The device doesn't report an active contact for more than 100ms
     // - The desktop is locked or the user logged off
     // - The number of simultaneous contacts exceeded the number supported by the device
+    //
+
+    //
+    // HMM, HAVE NEVER SEEN THIS !!!
     //
 
     private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs pointerEventArgs )
