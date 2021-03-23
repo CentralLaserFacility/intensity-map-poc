@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Input ;
 
 using Common.ExtensionMethods ;
+using Windows.ApplicationModel.Appointments;
 
 //
 // Adapted from this sampe code which shows how to handle 'Pointer' events
@@ -188,13 +189,62 @@ namespace Experiments_01_UWP
 
     }
 
+    //
+    // This event fires under the following circumstances :
+    //
+    //   - Mouse pointer moved from 'outside' the target area to 'inside'.
+    //   - Touch on the target area, or swiped in from 'outside' the target area.
+    //   - Pen coming in directly to be in range over the target area, or swiped in from outside.
+    //
+    // All 'PointerXXX' event handlers have a 'pointerEventArgs' that tells us about the event :
+    //
+    //  
+
     private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
       // Prevent most handlers along the event route
       // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
+      //
+      // The 'Pointer' class has the following properties :
+      //
+      //  PointerId         integer
+      //  PointerDeviceType (Touch,Pen,Mouse)
+      //  IsInContact
+      //  IsInRange
+      //
+
       Pointer      pointer      = pointerEventArgs.Pointer ;
+
+      //
+      // The 'PointerPoint' class has the following properties :
+      //
+      //  PointerId         integer
+      //  Position          In 'client' coordinates relative to a specified UI element
+      //  Properties        PointerPointProperties - 'extended properties'
+      //                    - PointerUpdateKind
+      //                        Other                = 0,
+      //                        LeftButtonPressed    = 1,
+      //                        LeftButtonReleased   = 2,
+      //                        RightButtonPressed   = 3,
+      //                        RightButtonReleased  = 4,
+      //                        MiddleButtonPressed  = 5,
+      //                        MiddleButtonReleased = 6,
+      //                    - IsLeftButtonPressed
+      //                    - IsRightButtonPressed
+      //                    - IsMiddleButtonPressed
+      //                    - MouseWheelDelta
+      //                    - Pressure, Orientation, Twist,
+      //                      XTilt, YTilt, ZDistance,
+      //                      IsBarrelButtonPressed, IsEraser
+      //                    - IsLeftButtonPressed
+      //
+      // Also (not so interesting)
+      //  IsInContact
+      //  PointerDevice     Can report max number of contacts, for a Touch device
+      //  
+
       PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
       Point        position     = pointerPoint.Position ;
 
@@ -561,6 +611,7 @@ namespace Experiments_01_UWP
       {
       case Windows.Devices.Input.PointerDeviceType.Mouse:
         pointerInfo += $"Pointer type : MOUSE (#{pointerPoint.PointerId})" ;
+        pointerInfo += $"\n  PointerUpdateKind '{pointerPoint.Properties.PointerUpdateKind}'" ;
         break ;
       case Windows.Devices.Input.PointerDeviceType.Pen:
         pointerInfo += $"Pointer type : PEN" ;
