@@ -103,35 +103,42 @@ namespace Experiments_01_UWP
 
     private static double TextBlockOffsetXY = 20.0 ;
 
-    private void AddPointerInfoTextToCanvas ( PointerPoint pointerPoint )
-    {
-      m_canvas.Children.Add(
-        new TextBlock() {
-          Tag             = pointerPoint.PointerId,
-          Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
-          FontFamily      = new FontFamily("Consolas"),
-          Text            = GetPointerInfoToDisplay(pointerPoint),
-          RenderTransform = new TranslateTransform() {
-            X = pointerPoint.Position.X + TextBlockOffsetXY,
-            Y = pointerPoint.Position.Y + TextBlockOffsetXY
-          }
-        }
-      ) ;
-    }
+    // private void AddPointerInfoTextToCanvas ( PointerPoint pointerPoint )
+    // {
+    //   m_canvas.Children.Add(
+    //     new TextBlock() {
+    //       Tag             = pointerPoint.PointerId,
+    //       Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
+    //       FontFamily      = new FontFamily("Consolas"),
+    //       Text            = GetPointerInfoToDisplay(pointerPoint),
+    //       RenderTransform = new TranslateTransform() {
+    //         X = pointerPoint.Position.X + TextBlockOffsetXY,
+    //         Y = pointerPoint.Position.Y + TextBlockOffsetXY
+    //       }
+    //     }
+    //   ) ;
+    // }
 
     private void UpdatePointerInfoTextOnCanvas ( PointerPoint pointerPoint )
     {
-      m_canvas.Children.OfType<TextBlock>().Where(
+      TextBlock? textBlock = m_canvas.Children.OfType<TextBlock>().SingleOrDefault(
         textBlock => (uint) textBlock.Tag == pointerPoint.PointerId
-      ).ToList().ForEach(
-        textBlock => {
-          textBlock.RenderTransform = new TranslateTransform() {
-            X = pointerPoint.Position.X + TextBlockOffsetXY,
-            Y = pointerPoint.Position.Y + TextBlockOffsetXY
-          } ;
-          textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
-        }
       ) ;
+      if ( textBlock is null )
+      {
+        m_canvas.Children.Add(
+          textBlock = new TextBlock() {
+            Tag             = pointerPoint.PointerId,
+            Foreground      = new SolidColorBrush(Windows.UI.Colors.White),
+            FontFamily      = new FontFamily("Consolas")
+          }
+        ) ;
+      }
+      textBlock.RenderTransform = new TranslateTransform() {
+        X = pointerPoint.Position.X + TextBlockOffsetXY,
+        Y = pointerPoint.Position.Y + TextBlockOffsetXY
+      } ;
+      textBlock.Text = GetPointerInfoToDisplay(pointerPoint) ;
     }
 
     private void RemovePointerInfoTextFromCanvas ( PointerPoint pointerPoint )
@@ -202,7 +209,7 @@ namespace Experiments_01_UWP
 
       DeclarePointerContactStarted(pointer) ;
 
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      UpdatePointerInfoTextOnCanvas(pointerPoint) ;
 
     }
 
@@ -283,7 +290,7 @@ namespace Experiments_01_UWP
         //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
       }
 
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      UpdatePointerInfoTextOnCanvas(pointerPoint) ;
     }
 
     //
@@ -437,7 +444,7 @@ namespace Experiments_01_UWP
         m_activeContactsDictionary[pointerPoint.PointerId] = pointerEventArgs.Pointer ;
       }
 
-      AddPointerInfoTextToCanvas(pointerPoint) ;
+      UpdatePointerInfoTextOnCanvas(pointerPoint) ;
     }
 
     //
@@ -482,6 +489,7 @@ namespace Experiments_01_UWP
       {
         //m_target.Fill = new SolidColorBrush(Windows.UI.Colors.Blue) ;
         //WriteLogMessage($"  NOT RELEASED (it's a mouse event)") ;
+        RemovePointerInfoTextFromCanvas(pointerPoint) ;
       }
       else
       {
