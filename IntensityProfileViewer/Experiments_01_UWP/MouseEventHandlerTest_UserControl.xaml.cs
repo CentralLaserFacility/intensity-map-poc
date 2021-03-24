@@ -18,15 +18,47 @@ using Windows.UI.Xaml.Navigation;
 namespace Experiments_01_UWP
 {
 
+  public class MouseEventHandlerTest_ViewModel : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  {
+
+    private readonly MouseEventHandler m_mouseEventHandler ;
+
+    public MouseEventHandlerTest_ViewModel ( UIElement target )
+    {
+      m_mouseEventHandler = new MouseEventHandler(
+        target,
+        RespondToPanZoomGesture
+      ) {
+        IncomingMouseEventReceived = (mouseEventDescriptor) => {
+          Common.DebugHelpers.WriteDebugLines(
+            $"{mouseEventDescriptor}"
+          ) ;
+        }
+      } ;
+    }
+
+    private void RespondToPanZoomGesture ( Gesture panZoomGesture )
+    {
+      Common.DebugHelpers.WriteDebugLines(
+        $"{panZoomGesture}"
+      ) ;
+    }
+
+  }
+
   public sealed partial class MouseEventHandlerTest_UserControl : UserControl
   {
+
+    private MouseEventHandlerTest_ViewModel ViewModel ;
 
     private MouseEventHandler m_mouseEventHandler ;
 
     public MouseEventHandlerTest_UserControl ( )
     {
       this.InitializeComponent() ;
-      m_mouseEventHandler = new(m_target) ;
+      ViewModel = new MouseEventHandlerTest_ViewModel(
+        m_target
+      ) ;
     }
 
   }

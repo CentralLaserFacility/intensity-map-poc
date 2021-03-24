@@ -90,7 +90,7 @@ namespace Experiments_01_UWP
 
     private UIElement m_target ;
 
-    private enum MouseEventType {
+    public enum MouseEventType {
       Entered,
       Moved,
       WheelChanged,
@@ -101,10 +101,10 @@ namespace Experiments_01_UWP
       CaptureLost
     }
 
-    private record IncomingMouseEventDescriptor (
+    public record IncomingMouseEventDescriptor (
       MouseEventType       EventType,
-      MouseStateDescriptor CurrentMouseState,
-      MouseStateDescriptor PreviousMouseState
+      MouseStateDescriptor CurrentMouseState //,
+      // MouseStateDescriptor PreviousMouseState
     ) ;
 
     public record MouseStateDescriptor (
@@ -139,6 +139,8 @@ namespace Experiments_01_UWP
 
     private System.Action<Gesture> m_gestureRecognisedAction ;
 
+    public System.Action<IncomingMouseEventDescriptor>? IncomingMouseEventReceived = null ;
+
     public MouseStateDescriptor CurrentMouseState ;
 
     public MouseEventHandler ( UIElement target, System.Action<Gesture> gestureRecognisedAction )
@@ -157,6 +159,7 @@ namespace Experiments_01_UWP
 
     private void HandleMouseEvent ( IncomingMouseEventDescriptor mouseEventDescriptor )
     {
+      IncomingMouseEventReceived?.Invoke(mouseEventDescriptor) ;
     }
 
     private Point? m_mostRecentlyReportedMousePosition = null ;
@@ -164,52 +167,16 @@ namespace Experiments_01_UWP
     private void HandleMouseEvent ( object sender, PointerRoutedEventArgs pointerEventArgs, MouseEventType eventType )
     {
 
+      if ( pointerEventArgs.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse )
+      {
+        // We're only interested in mouse events ...
+        return ;
+      }
+
       // Prevent most handlers along the event route
       // from handling the same event again.
 
       pointerEventArgs.Handled = true ;
-
-      //
-      // The 'Pointer' class has the following properties :
-      //
-      //  PointerId         integer
-      //  PointerDeviceType (Touch,Pen,Mouse)
-      //  TimeStamp         microsecs since boot
-      //  IsInContact
-      //  IsInRange
-      //
-
-      // Pointer pointer = pointerEventArgs.Pointer ;
-
-      //
-      // The 'PointerPoint' class has the following properties :
-      //
-      //  PointerId         integer
-      //  Position          In 'client' coordinates relative to a specified UI element
-      //  Properties        PointerPointProperties - 'extended properties'
-      //                    - PointerUpdateKind
-      //                        Other                = 0,
-      //                        LeftButtonPressed    = 1,
-      //                        LeftButtonReleased   = 2,
-      //                        RightButtonPressed   = 3,
-      //                        RightButtonReleased  = 4,
-      //                        MiddleButtonPressed  = 5,
-      //                        MiddleButtonReleased = 6,
-      //                    - IsLeftButtonPressed
-      //                    - IsRightButtonPressed
-      //                    - IsMiddleButtonPressed
-      //                    - MouseWheelDelta
-      //                    - Pressure, Orientation, Twist,
-      //                      XTilt, YTilt, ZDistance,
-      //                      IsBarrelButtonPressed, IsEraser
-      //                    - IsLeftButtonPressed
-      //
-      // Also (not so interesting)
-      //  IsInContact
-      //  PointerDevice Can report max number of contacts, for a Touch device
-      //  
-
-      // PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(target) ;
 
       var previousMouseState = CurrentMouseState ;
       CurrentMouseState = MouseStateDescriptor.Create(
@@ -219,8 +186,8 @@ namespace Experiments_01_UWP
       HandleMouseEvent(
         new(
           eventType,
-          CurrentMouseState,
-          previousMouseState
+          CurrentMouseState// ,
+          // previousMouseState
         )
       ) ;
     }
@@ -265,9 +232,64 @@ namespace Experiments_01_UWP
     //   Because of this exclusive association, other mouse button clicks
     //   are routed through the 'pointer move' event.
     //
-    //
     // PointerReleased fires when a button ceases to be pressed.
     //
+    // PointerCaptureLost fires for various reasons, including :
+    //
+    //   - User interactions
+    //   - Programmatic capture of another pointer
+    //   - Captured pointer was deliberately released
+    //   
+    //   PointerCaptureLost can fire instead of PointerReleased.
+    //
+    //
+    // PointerCanceled fires for for various reasons, including:
+    //
+    //   - The desktop is locked or the user logged off
+    //   - Touch contact is canceled by a Pen coming into range of the surface
+    //   - The touch device doesn't report an active contact for more than 100ms
+    //   - The number of simultaneous touch contacts exceeded the number supported by the device
+    //
+
+    //
+    // In all the event handlers, 'pointerEventArgs' provides Pointer information
+    // with instances of the following classes :
+    //
+    //   Pointer      pointer      = pointerEventArgs.Pointer ;
+    //   PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(target) ;
+    //
+    // The 'Pointer' class has the following properties :
+    //
+    //   PointerId         Integer
+    //   PointerDeviceType Touch,Pen,Mouse
+    //   TimeStamp         Microsecs since boot
+    //   IsInContact       Touch only
+    //   IsInRange         Pen only
+    //
+    // The 'PointerPoint' class has the following properties :
+    //
+    //   PointerId         Integer
+    //   Position          In 'client' coordinates relative to a specified UI element
+    //   PointerDevice     For a Touch device, report max number of contacts
+    //   IsInContact
+    //   Properties        PointerPointProperties : 'extended properties'
+    //                     - PointerUpdateKind
+    //                         Other                = 0
+    //                         LeftButtonPressed    = 1
+    //                         LeftButtonReleased   = 2
+    //                         RightButtonPressed   = 3
+    //                         RightButtonReleased  = 4
+    //                         MiddleButtonPressed  = 5
+    //                         MiddleButtonReleased = 6
+    //                     - IsLeftButtonPressed
+    //                     - IsRightButtonPressed
+    //                     - IsMiddleButtonPressed
+    //                     - MouseWheelDelta
+    //                     - Pressure, Orientation, Twist,
+    //                       XTilt, YTilt, ZDistance,
+    //                       IsBarrelButtonPressed, IsEraser
+    //                     - IsLeftButtonPressed
+    //  
 
     private void Target_PointerPressed ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {

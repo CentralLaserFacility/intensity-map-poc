@@ -67,7 +67,11 @@
     <Rectangle Grid.Row="1" Grid.Column="1" Fill="CornflowerBlue" />
     -->
 
+    <!-- 
     <local:PointerEventHandler_UserControl Grid.Row="1" Grid.Column="1" />
+    -->
+
+    <local:MouseEventHandlerTest_UserControl Grid.Row="1" Grid.Column="1" />
 
   </Grid>
 </UserControl>
