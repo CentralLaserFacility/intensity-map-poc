@@ -213,21 +213,12 @@ namespace Experiments_01_UWP
 
     }
 
-    //
-    // This event fires under the following circumstances :
-    //
-    //   - Mouse pointer moved from 'outside' the target area to 'inside'.
-    //   - Touch on the target area, or swiped in from 'outside' the target area.
-    //   - Pen coming in directly to be in range over the target area, or swiped in from outside.
-    //
     // All 'PointerXXX' event handlers have a 'pointerEventArgs' that tells us about the event :
     //
     //  
 
     private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      // Prevent most handlers along the event route
-      // from handling the same event again.
       pointerEventArgs.Handled = true ;
 
       //
@@ -262,7 +253,6 @@ namespace Experiments_01_UWP
       //                    - Pressure, Orientation, Twist,
       //                      XTilt, YTilt, ZDistance,
       //                      IsBarrelButtonPressed, IsEraser
-      //                    - IsLeftButtonPressed
       //
       // Also (not so interesting)
       //  IsInContact
@@ -334,24 +324,6 @@ namespace Experiments_01_UWP
       IEnumerable<Point> intermediatePositions = intermediatePoints.Select(
         pointerPoint => pointerPoint.Position
       ) ;
-
-      //
-      // Multiple, simultaneous mouse button inputs are processed here.
-      //
-      // Mouse input is associated with a single pointer
-      // that is assigned when mouse input is first detected.
-      //
-      // Clicking additional mouse buttons (left, wheel, or right) during
-      // the interaction creates secondary associations between those buttons
-      // and the pointer through the 'pointer pressed' event.
-      //
-      // The 'pointer released' event is fired only when the last mouse button
-      // associated with the interaction (not necessarily the initial button)
-      // is released.
-      //
-      // Because of this exclusive association, other mouse button clicks
-      // are routed through the 'pointer move' event.
-      //
 
       string movedMessage = "" ;
       if ( pointerPoint.PointerDevice.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse )
