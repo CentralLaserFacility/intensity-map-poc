@@ -11,10 +11,13 @@
 >
 
   <!-- Matteo : designer is showing grid lines in odd places ?? -->
+  <!-- Matteo : what determines the size assigned ?? (OK, yes, it's complicated !!!) -->
+  <!-- Is there a default DesignHeight of 1000 ??? That seems to be that value taken if I remove the definition above -->
 
   <Grid Background="AliceBlue" Padding="10" RowSpacing="10" ColumnSpacing="10" >
 
-    <!-- Matteo : row #1 can be fixed height, but want row #0 to take all available space ... ???? -->
+    <!-- Matteo !!! : row #1 can be fixed height, but want row #0 to take all available space ... ???? -->
+    <!-- Matteo : defaults for XAML properties ... documented anywhere ??? -->
 
     <Grid.RowDefinitions>
       <RowDefinition Height="600" />
@@ -26,7 +29,7 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <!-- Matteo : horizontal scroll bar never shows ?? -->
+    <!-- Matteo : Name vs x:Name ??? -->
 
     <ScrollViewer 
       x:Name="m_scrollViewer"
@@ -35,15 +38,27 @@
       HorizontalScrollBarVisibility="Visible"
       ZoomMode="Enabled"
     >
-      <Canvas 
-        x:Name="m_canvas"
-        Background="BlanchedAlmond"
-        local:ClipToBoundsHelper.ClipToBounds="False"
-      >
-        <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"/>
-        <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"/>
-        <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0"/>
-      </Canvas>
+      <!-- 
+        Aha, need to embed the Canvas inside something 
+        that has a well defined Size, such as this Grid.
+        Curiously, without a Grid we get the Vertical scroll bar
+        showing, but not the Horizontal one ...
+
+        *** In this scenario we're specifying the size of the Grid.
+        *** In other scenarios, the Grid gets its Size from its Children ???
+        *** What are the rues here ???
+      -->
+      <Grid Width="800" Height="800">
+        <Canvas 
+          x:Name="m_canvas"
+          Background="BlanchedAlmond"
+          local:ClipToBoundsHelper.ClipToBounds="False"
+        >
+          <Rectangle Fill="LightGreen" Width="100" Height="100" Margin="10,10,0,0"/>
+          <Rectangle Fill="Red" Width="200" Height="100" Margin="10,120,0,0"/>
+          <Rectangle Fill="LightGreen" Width="700" Height="100" Margin="10,230,0,0"/>
+        </Canvas>
+      </Grid>
     </ScrollViewer>
 
     <Rectangle Grid.Row="1" Grid.Column="0" Fill="CornflowerBlue" />
@@ -68,10 +83,10 @@
     -->
 
     <!-- 
-    <local:PointerEventHandler_UserControl Grid.Row="1" Grid.Column="1" />
+    <local:MouseEventHandlerTest_UserControl Grid.Row="1" Grid.Column="1" />
     -->
 
-    <local:MouseEventHandlerTest_UserControl Grid.Row="1" Grid.Column="1" />
+    <local:PointerEventHandler_UserControl Grid.Row="1" Grid.Column="1" />
 
   </Grid>
 </UserControl>

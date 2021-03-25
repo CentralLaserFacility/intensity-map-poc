@@ -9,6 +9,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
   >
+
+  <!-- Matteo : what determines the size assigned by the designer ?? -->
   <muxc:TabView>
     <muxc:TabView.TabItems>
       <muxc:TabViewItem Header="Scroll Viewer pan/zoom">

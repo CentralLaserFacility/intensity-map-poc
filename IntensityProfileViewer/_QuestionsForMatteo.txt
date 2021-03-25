@@ -71,10 +71,11 @@ Visual Studio issues :
   For pan/zoom (eg in MachineSafety network diagram) need to apply
   a Transform to *all* the elements in a container.
 
-  In WPF, we have DrawingVisuals in a ContainerVisual, apply Transform to container.
+  In WPF, we have DrawingVisuals in a ContainerVisual, can apply a Transform 
+  to the container and all the children are affected.
 
   Is there a way to do this in UWP XAML, eg to all child elements of a Canvas ???
-  *** Aha, can apply ScaleTransform or whatever to the Canvas, no problem.
+  *** Aha, can apply a ScaleTransform or whatever to the Canvas, no problem.
 
   Visual layer geometric objects eg lines, shapes - but TEXT ???
   https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/visual-layer-in-desktop-apps
@@ -100,4 +101,9 @@ Attempting to add TabView - failed, parameter is incorrect ('broken' branch)
 
   UIElement / FrameworkElement / subclasses ...
 
+----------------------------------------
 
+XAML scrolling, panning, and zooming sample
+https://github.com/microsoftarchive/msdn-code-gallery-microsoft/tree/411c271e537727d737a53fa2cbe99eaecac00cc0/Official%20Windows%20Platform%20Sample/Universal%20Windows%20app%20samples/111487-Universal%20Windows%20app%20samples/XAML%20scrolling%2C%20panning%2C%20and%20zooming%20sample/C%23/Shared
+Hmm, this is now ARCHIVED.
+And not very useful, because the only feature shown in 'Scenario3_Zooming.xaml' is setting 'ZoomMode' in the ScrollViewer, to enable pinch gestures.
