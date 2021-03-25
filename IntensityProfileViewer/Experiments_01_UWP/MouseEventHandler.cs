@@ -65,20 +65,28 @@ namespace Experiments_01_UWP
   // to which the pan/zoom settings will be applied (typically via a Transform).
   //
 
-  public class MouseEventHandler
+  public partial class MouseEventHandler
   {
 
     private UIElement m_target ;
 
     public enum MouseEventType {
-      Entered,
+      // Physical events
+      EnteredActiveRegion,
       Moved,
       WheelChanged,
-      Pressed,
-      Released,
-      Exited,
+      ButtonPressed,
+      ButtonReleased,
+      ExitedActiveRegion,
       Canceled,
-      CaptureLost
+      CaptureLost,
+      // Synthetic events ?
+      CatureGained,
+      MovedSignificantly,
+      LeftButtonPressed,
+      LeftButtonReleased,
+      RightButtonPressed,
+      RightButtonReleased
     }
 
     public record IncomingMouseEventDescriptor (
@@ -316,12 +324,12 @@ namespace Experiments_01_UWP
 
     private void Target_PointerPressed ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Pressed) ;
+      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ButtonPressed) ;
     }
 
     private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Entered) ;
+      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.EnteredActiveRegion) ;
     }
 
     private void Target_PointerMoved ( object sender, PointerRoutedEventArgs pointerEventArgs )
@@ -336,7 +344,7 @@ namespace Experiments_01_UWP
 
     private void Target_PointerReleased ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Released) ;
+      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ButtonReleased) ;
     }
 
     private void Target_PointerCaptureLost ( object sender, PointerRoutedEventArgs pointerEventArgs )
@@ -351,7 +359,7 @@ namespace Experiments_01_UWP
 
     private void Target_PointerExited ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Exited) ;
+      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ExitedActiveRegion) ;
     }
 
   }
