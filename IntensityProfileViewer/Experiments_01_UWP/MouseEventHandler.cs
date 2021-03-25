@@ -9,9 +9,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Input ;
+using Windows.UI.Input;
 
-using Common.ExtensionMethods ;
+using Common.ExtensionMethods;
 
 namespace Experiments_01_UWP
 {
@@ -65,26 +65,6 @@ namespace Experiments_01_UWP
   // to which the pan/zoom settings will be applied (typically via a Transform).
   //
 
-  public record Gesture ( ) ;
-
-  public record PanGesture ( ) : Gesture ;
-
-  public record ZoomGesture ( ) : Gesture ;
-
-  public record PanGesture_Starting ( ) : PanGesture ;
-
-  public record PanGesture_Changing ( FractionalXY deltaFromStartPoint ) : PanGesture ;
-
-  public record PanGesture_Finished ( ) : PanGesture ;
-
-  public record ZoomInGesture ( FractionalXY AnchorPoint ) : ZoomGesture ;
-
-  public record ZoomOutGesture ( FractionalXY AnchorPoint ) : ZoomGesture ;
-
-  public record PositionChangeNotification ( FractionalXY? CurrentPosition ) : Gesture ;
-
-  public record FractionalXY ( double X, double Y ) ;
-
   public class MouseEventHandler
   {
 
@@ -105,13 +85,22 @@ namespace Experiments_01_UWP
       MouseEventType       EventType,
       MouseStateDescriptor CurrentMouseState //,
       // MouseStateDescriptor PreviousMouseState
-    ) ;
+    ) {
+      public override string ToString ( ) => $"{EventType}, new state is {CurrentMouseState}" ;
+    } ;
 
     public record MouseStateDescriptor (
         FractionalXY FractionalPosition,
-        bool         IsLeftButtonPressed,
-        bool         IsShiftKeyDown
+        bool         WasLeftButtonPressed,
+        bool         WasShiftKeyDown,
+        bool         WasCtrlKeyDown
     ) {
+      public override string ToString ( ) => (
+        $"XY : {FractionalPosition}"
+      + $"{(WasLeftButtonPressed?" LEFT-PRESSED":"")}"
+      + $"{(WasShiftKeyDown?" SHIFT-PRESSED":"")}" 
+      ) ;
+
       public static MouseStateDescriptor Create ( 
         PointerRoutedEventArgs pointerEventArgs,
         UIElement              target
@@ -126,24 +115,31 @@ namespace Experiments_01_UWP
         bool isShiftKeyDown = (
           Windows.UI.Core.CoreWindow.GetForCurrentThread(
           ).GetAsyncKeyState(
+            Windows.System.VirtualKey.Control
+          ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
+        ) ;
+        bool isCtrlKeyDown = (
+          Windows.UI.Core.CoreWindow.GetForCurrentThread(
+          ).GetAsyncKeyState(
             Windows.System.VirtualKey.Shift
           ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
         ) ;
         return new(
           fractionalPosition,
           isLeftButtonPressed,
-          isShiftKeyDown
+          isShiftKeyDown,
+          isCtrlKeyDown
         ) ;
       }
     }
 
-    private System.Action<Gesture> m_gestureRecognisedAction ;
+    private System.Action<MouseGesture> m_gestureRecognisedAction ;
 
     public System.Action<IncomingMouseEventDescriptor>? IncomingMouseEventReceived = null ;
 
     public MouseStateDescriptor CurrentMouseState ;
 
-    public MouseEventHandler ( UIElement target, System.Action<Gesture> gestureRecognisedAction )
+    public MouseEventHandler ( UIElement target, System.Action<MouseGesture> gestureRecognisedAction )
     {
       m_target                  = target ;
       m_gestureRecognisedAction = gestureRecognisedAction ;
@@ -157,9 +153,27 @@ namespace Experiments_01_UWP
       m_target.PointerCaptureLost  += new PointerEventHandler(Target_PointerCaptureLost) ;
     }
 
+    private IncomingMouseEventDescriptor? m_previousMouseEvent ;
+
     private void HandleMouseEvent ( IncomingMouseEventDescriptor mouseEventDescriptor )
     {
       IncomingMouseEventReceived?.Invoke(mouseEventDescriptor) ;
+      var gesture = DoGestureRecognition(
+        mouseEventDescriptor,
+        m_previousMouseEvent ?? mouseEventDescriptor
+      ) ;
+      m_previousMouseEvent = mouseEventDescriptor ;
+      if ( gesture != null )
+      {
+        m_gestureRecognisedAction(gesture) ;
+      }
+    }
+
+    private static MouseGesture? DoGestureRecognition (
+      IncomingMouseEventDescriptor latestMouseEventDescriptor,
+      IncomingMouseEventDescriptor previousMouseEventDescriptor
+    ) {
+      return null ;
     }
 
     private Point? m_mostRecentlyReportedMousePosition = null ;
@@ -173,18 +187,27 @@ namespace Experiments_01_UWP
         return ;
       }
 
-      // Prevent most handlers along the event route
-      // from handling the same event again.
+      // Let's prevent most other handlers along the event route
+      // from handling thisevent again ...
 
       pointerEventArgs.Handled = true ;
 
-      var previousMouseState = CurrentMouseState ;
+      //
+      // Raise a Mouse Event with an appropriate 'IncomingMouseEventDescriptor'
+      // that describes (A) what happened, and (B) the current state at the time
+      // the event occurred .
+      // The 'state' includes not only mouse-related information such as
+      // the mouse pointer position and whether the left and/or right buttons
+      // were down, but also other information that might influence how we
+      // respond to the event, eg whether the keyboard 'shift' key was depressed.
+      //
+
       CurrentMouseState = MouseStateDescriptor.Create(
         pointerEventArgs,
         m_target
       ) ;
       HandleMouseEvent(
-        new(
+        new IncomingMouseEventDescriptor(
           eventType,
           CurrentMouseState// ,
           // previousMouseState

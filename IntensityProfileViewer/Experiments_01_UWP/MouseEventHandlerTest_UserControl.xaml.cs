@@ -37,7 +37,7 @@ namespace Experiments_01_UWP
       } ;
     }
 
-    private void RespondToPanZoomGesture ( Gesture panZoomGesture )
+    private void RespondToPanZoomGesture ( MouseGesture panZoomGesture )
     {
       Common.DebugHelpers.WriteDebugLines(
         $"{panZoomGesture}"

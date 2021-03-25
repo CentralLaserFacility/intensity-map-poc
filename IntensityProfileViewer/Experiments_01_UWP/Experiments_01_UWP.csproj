@@ -133,6 +133,7 @@
       <DependentUpon>CanvasPanAndZoomExperiment_UserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClipToBounds.cs" />
+    <Compile Include="FractionalXY.cs" />
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -141,6 +142,8 @@
     <Compile Include="MouseEventHandlerTest_UserControl.xaml.cs">
       <DependentUpon>MouseEventHandlerTest_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseGesture.cs" />
+    <Compile Include="MouseGestureRecogniser.cs" />
     <Compile Include="NestedCanvasPanAndZoomExperiment_UserControl.xaml.cs">
       <DependentUpon>NestedCanvasPanAndZoomExperiment_UserControl.xaml</DependentUpon>
     </Compile>

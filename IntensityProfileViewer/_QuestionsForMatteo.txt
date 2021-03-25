@@ -93,3 +93,11 @@ Attempting to add TabView - failed, parameter is incorrect ('broken' branch)
 
   UnoSkiaSharpFiddle ...
 
+-------------------------------------
+
+  Confusion about LAYOUT - WHAT DETERMINES SIZES ???
+  Is there a sccince description anywhere ? It's complicated ...
+
+  UIElement / FrameworkElement / subclasses ...
+
+
