@@ -112,8 +112,6 @@ namespace IntensityProfileViewer
         ViewModel.Parent.PanAndZoomParameters
       ) ;
 
-      System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
-
       // this.Scale = new(
       //   transform.ScaleX,
       //   transform.ScaleY,
@@ -138,13 +136,6 @@ namespace IntensityProfileViewer
           }
         }
       } ;
-
-      System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
-      System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
-
-      Common.DebugHelpers.WriteDebugLines(
-        $"Path data build time (mS) {renderTimeElapsed.TotalMilliseconds:F3}"
-      ) ;
 
       // This works, but it's better to apply the transform
       // to the PathData that we're binding to ...
@@ -178,13 +169,19 @@ namespace IntensityProfileViewer
     public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph ( 
       IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
     ) {
-      GeometryGroup verticalLines_geometryGroup = new() ;
-      // GeometryGroup joinedOutlinePoints_geometryGroup = new() ;
-      PathGeometry joinedOutlinePoints_pathGeometry = new() ;
-      int nPoints = mostRecentlyAcquiredIntensityMap.Dimensions.Width ;      
+
+
+      IReadOnlyList<byte> intensityValues = mostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
+        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+      ).WithNormalisationApplied(
+        new IntensityProfileViewer.Normaliser(
+          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+        )
+      ) ;
+      int nPoints = intensityValues.Count ;      
       if ( nPoints < 2 )
       {
-        return null ; //////////////////////////////////
+        return null ;
       }
 
       // if ( double.IsNaN(this.Width) )
@@ -195,7 +192,7 @@ namespace IntensityProfileViewer
       // HACK - should get these from the Panel !!!
       // var panelWidth = 400.0 ;
       // var panelHeight = 100.0 ;
-      var panelWidth = m_canvas.ActualWidth ;
+      var panelWidth  = m_canvas.ActualWidth ;
       var panelHeight = m_canvas.ActualHeight ;
 
       // Point topLeftPoint     = new(0,0) ;    
@@ -204,7 +201,10 @@ namespace IntensityProfileViewer
       // Point bottomRightPoint = new(panelWidth,panelHeight) ;
 
       // https://codedocu.com/Details?d=1549&a=9&f=181&l=0&v=d&t=UWP:-Determine-Point-Coordinates-of-elements-in-app-,-Position
-      Point topLeftPoint     = m_canvas.TransformToVisual(this).TransformPoint(new(0,0)) ;   
+      Point topLeftPoint = m_canvas.TransformToVisual(this).TransformPoint(
+        new Point(0,0)
+      ) ;
+
       Point topRightPoint    = topLeftPoint.MovedBy(panelWidth,0) ;    
       Point bottomLeftPoint  = topLeftPoint.MovedBy(0,panelHeight-1) ;    
       Point bottomRightPoint = topLeftPoint.MovedBy(panelWidth,panelHeight-1) ;   
@@ -214,14 +214,13 @@ namespace IntensityProfileViewer
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
 
+      System.TimeSpan timeBeforePathDataBuildStarted = m_executionTimingStopwatch.Elapsed ;
+
+      GeometryGroup verticalLines_geometryGroup = new() ;
+      // GeometryGroup joinedOutlinePoints_geometryGroup = new() ;
+      PathGeometry joinedOutlinePoints_pathGeometry = new() ;
+
       List<Point> points = new() ;
-      var intensityValues = mostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
-        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
-      ).WithNormalisationApplied(
-        new IntensityProfileViewer.Normaliser(
-          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
-        )
-      ) ;
       Point GetPointAtFractionalPositionAlongLine(
         Point  startPoint,
         Point  endPoint,
@@ -265,42 +264,56 @@ namespace IntensityProfileViewer
           ) ;
         }
       ) ;
-      // Surely there's a better way to build the Segments ???
-      var segmentsCollection = new PathSegmentCollection() ;
-      var segments = points.Skip(1).Select(
-        p => new LineSegment(){
-          Point = p
-        }
-      ) ;
-      segments.ForEachItem(
-        segment => {
-          // Yay, CRAP !! The F1 help mentions an Append method
-          // that returns void, but it doesn't mention 'Add'.
-          // So you'd suppose that Append would be the one to use.
-          // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathsegmentcollection.append?view=winrt-19041
-          // However, in reality 'Append' is an extension method on IEnumerable
-          // that returns a new collection without modifying the original.
-          // Turns out that 'Add' IS AVAILABLE AND DOES WORK !!!
-          // segmentsCollection.Append(segment) ;
-          segmentsCollection.Add(segment) ;
-        }
-      ) ;
-      // Yikes, after 'appending' segments the count is still zero !!!
-      int nSegments = segmentsCollection.Count ;
-      joinedOutlinePoints_pathGeometry.Figures.Add(
-        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathfigure?view=winrt-19041
-        new PathFigure(){
-          StartPoint = points[0],
-          Segments   = segmentsCollection
-        }
-      ) ;
-      return new GeometryGroup() {
+
+      bool drawOutline = false ;
+      if ( drawOutline )
+      {
+        // Surely there's a better way to build the Segments ???
+        var segmentsCollection = new PathSegmentCollection() ;
+        var segments = points.Skip(1).Select(
+          p => new LineSegment(){
+            Point = p
+          }
+        ) ;
+        segments.ForEachItem(
+          segment => {
+            // Yay, CRAP !! The F1 help mentions an Append method
+            // that returns void, but it doesn't mention 'Add'.
+            // So you'd suppose that Append would be the one to use.
+            // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathsegmentcollection.append?view=winrt-19041
+            // However, in reality 'Append' is an extension method on IEnumerable
+            // that returns a new collection without modifying the original.
+            // Turns out that 'Add' IS AVAILABLE AND DOES WORK !!!
+            // segmentsCollection.Append(segment) ;
+            segmentsCollection.Add(segment) ;
+          }
+        ) ;
+        // Yikes, after 'appending' segments the count is still zero !!!
+        int nSegments = segmentsCollection.Count ;
+        joinedOutlinePoints_pathGeometry.Figures.Add(
+          // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathfigure?view=winrt-19041
+          new PathFigure(){
+            StartPoint = points[0],
+            Segments   = segmentsCollection
+          }
+        ) ;
+      }
+
+      var result = new GeometryGroup() {
         Children = {
           verticalLines_geometryGroup,
           joinedOutlinePoints_pathGeometry
         },
         Transform = GraphPathTransform // Aha ! Better than applying transform to the Path element ...
       } ;
+
+      System.TimeSpan timeAfterPathDataBuildCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan pathDataBuildTimeElapsed = timeAfterPathDataBuildCompleted - timeBeforePathDataBuildStarted ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Path data build time (mS) {pathDataBuildTimeElapsed.TotalMilliseconds:F3}"
+      ) ;
+
+      return result ;
     }
 
   }

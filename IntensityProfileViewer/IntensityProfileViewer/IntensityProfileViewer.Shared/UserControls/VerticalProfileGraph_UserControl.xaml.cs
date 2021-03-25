@@ -57,7 +57,10 @@ namespace IntensityProfileViewer
           m_latestReferencePositionChangedMessage = message ;
         }
       ) ;
+      m_executionTimingStopwatch.Start() ;
     }
+
+    private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
 
     private void OnViewModelPropertyChanged ( 
       IntensityProfileViewer.ISourceViewModel? oldViewModel,
@@ -88,6 +91,21 @@ namespace IntensityProfileViewer
     private void DrawVerticalProfileGraph_IndividualLines (
       SkiaSharp.SKCanvas skiaCanvas
     ) {
+
+      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
+      if ( nPoints < 2 )
+      {
+        return ;
+      }
+      var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
+        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X
+      ).WithNormalisationApplied(
+        new IntensityProfileViewer.Normaliser(
+          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+        )
+      ) ;
+
+      System.TimeSpan timeBeforeDrawingStarted = m_executionTimingStopwatch.Elapsed ;
 
       skiaCanvas.SetMatrix(
         SkiaSceneRenderer.GetTransformParameters_VerticalOnly(
@@ -133,19 +151,7 @@ namespace IntensityProfileViewer
       bottomLeftPoint.Y  = topLeftPoint.Y  + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
       bottomRightPoint.Y = topRightPoint.Y + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
 
-      int nPoints = ViewModel.MostRecentlyAcquiredIntensityMap.Dimensions.Height ;
-      if ( nPoints < 2 )
-      {
-        return ;
-      }
       List<SkiaSharp.SKPoint> points = new() ;
-      var intensityValues = ViewModel.MostRecentlyAcquiredIntensityMap.VerticalSliceAtColumn(
-        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X
-      ).WithNormalisationApplied(
-        new IntensityProfileViewer.Normaliser(
-          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
-        )
-      ) ;
       intensityValues.ForEachItem(
         (value,i) => {
           float lineLength = (
@@ -174,6 +180,13 @@ namespace IntensityProfileViewer
         points.ToArray(),
         normal
       ) ;
+
+      System.TimeSpan timeAfterDrawingCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan drawingTimeElapsed = timeAfterDrawingCompleted - timeBeforeDrawingStarted ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Skia drawing time (mS) {drawingTimeElapsed.TotalMilliseconds:F3}"
+      ) ;
+
     }
 
   }
