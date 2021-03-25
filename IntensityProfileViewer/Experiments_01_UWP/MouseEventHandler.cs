@@ -70,27 +70,28 @@ namespace Experiments_01_UWP
 
     private UIElement m_target ;
 
-    public enum MouseEventType {
+    public enum MousePhysicalEventType {
       // Physical events
-      EnteredActiveRegion,
+      Entered,
       Moved,
       WheelChanged,
-      ButtonPressed,
-      ButtonReleased,
-      ExitedActiveRegion,
+      Pressed,
+      Released,
+      Exited,
       Canceled,
       CaptureLost,
       // Synthetic events ?
-      CatureGained,
-      MovedSignificantly,
-      LeftButtonPressed,
-      LeftButtonReleased,
-      RightButtonPressed,
-      RightButtonReleased
+      // CaptureGained,
+      // MovedSignificantly,
+      // LeftButtonPressed,
+      // LeftButtonReleased,
+      // RightButtonPressed,
+      // RightButtonReleased
     }
 
     public record IncomingMouseEventDescriptor (
-      MouseEventType       EventType,
+      MousePhysicalEventType       EventType,
+      MouseDeltaDescriptor MouseDeltaDescriptor,
       MouseStateDescriptor CurrentMouseState //,
       // MouseStateDescriptor PreviousMouseState
     ) {
@@ -98,15 +99,19 @@ namespace Experiments_01_UWP
     } ;
 
     public record MouseStateDescriptor (
-        FractionalXY FractionalPosition,
-        bool         WasLeftButtonPressed,
-        bool         WasShiftKeyDown,
-        bool         WasCtrlKeyDown
+      FractionalXY FractionalPosition,
+      bool         WasLeftButtonDown,
+      bool         WasShiftKeyDown,
+      bool         WasCtrlKeyDown
     ) {
+
+      public bool InsideTargetRegion => FractionalPosition.IsInsideNominalBounds ;
+
       public override string ToString ( ) => (
         $"XY : {FractionalPosition}"
-      + $"{(WasLeftButtonPressed?" LEFT-PRESSED":"")}"
-      + $"{(WasShiftKeyDown?" SHIFT-PRESSED":"")}" 
+      + $"{(WasLeftButtonDown?" LEFT-DOWN":"")}"
+      + $"{(WasShiftKeyDown?" SHIFT-DOWN":"")}" 
+      + $"{(WasCtrlKeyDown?" CTRL-DOWN":"")}" 
       ) ;
 
       public static MouseStateDescriptor Create ( 
@@ -184,10 +189,17 @@ namespace Experiments_01_UWP
       return null ;
     }
 
-    private Point? m_mostRecentlyReportedMousePosition = null ;
+    private MouseStateDescriptor? m_previousMouseState ;
 
-    private void HandleMouseEvent ( object sender, PointerRoutedEventArgs pointerEventArgs, MouseEventType eventType )
+    private void HandleMouseEvent ( object sender, PointerRoutedEventArgs pointerEventArgs, MousePhysicalEventType eventType )
     {
+
+      //
+      // Here we map the low level 'physical' events into higher level events.
+      // Yeah it's a bit complicated and somewhat messy, but better to deal with
+      // the messiness all in one place than have complicated tests sprinkled around
+      // in other places ...
+      //
 
       if ( pointerEventArgs.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse )
       {
@@ -199,6 +211,11 @@ namespace Experiments_01_UWP
       // from handling thisevent again ...
 
       pointerEventArgs.Handled = true ;
+
+      // This 'PointerPoint' object will give us detailed information
+      // about the event, eg button states and so on ...
+
+      PointerPoint pointerPoint = pointerEventArgs.GetCurrentPoint(m_target) ;
 
       //
       // Raise a Mouse Event with an appropriate 'IncomingMouseEventDescriptor'
@@ -214,13 +231,59 @@ namespace Experiments_01_UWP
         pointerEventArgs,
         m_target
       ) ;
-      HandleMouseEvent(
-        new IncomingMouseEventDescriptor(
-          eventType,
-          CurrentMouseState// ,
-          // previousMouseState
-        )
-      ) ;
+
+      var previousMouseState = m_previousMouseState ?? CurrentMouseState ;
+
+      var currentPosition = CurrentMouseState.FractionalPosition ;
+
+      //FractionalXY delta = (
+      //  m_previouslyReportedMousePosition is null
+      //  ? FractionalXY.Zero
+      //  : currentPosition - m_previouslyReportedMousePosition
+      //) ;
+      //m_previouslyReportedMousePosition = currentPosition ;
+
+      MouseDeltaDescriptor? mouseDeltaDescriptor = eventType switch {
+        MousePhysicalEventType.Entered => new EnteredActiveRegion(),
+        MousePhysicalEventType.Moved => new PositionChanged(
+          CurrentMouseState.FractionalPosition
+        - previousMouseState.FractionalPosition
+        ),
+        MousePhysicalEventType.WheelChanged => (
+          pointerPoint.Properties.MouseWheelDelta > 0
+          ? new WheelNudgedForwards()
+          : new WheelNudgedBackwards()
+        ),
+        MousePhysicalEventType.Pressed => (
+          // Hmm, just a quick HACK !!!
+          // Need to diff with previous ...
+          pointerPoint.Properties.IsLeftButtonPressed
+          ? new LeftButtonPressed()
+          : pointerPoint.Properties.IsRightButtonPressed
+            ? new RightButtonPressed()
+            : null
+        ),
+        MousePhysicalEventType.Released => new LeftButtonReleased(), // new RightButtonReleased()
+        MousePhysicalEventType.Exited => new ExitedActiveRegion(),
+        MousePhysicalEventType.Canceled => null,
+        MousePhysicalEventType.CaptureLost => null,
+        _ => null
+      } ;
+
+      if ( mouseDeltaDescriptor is not null )
+      {
+        HandleMouseEvent(
+          new IncomingMouseEventDescriptor(
+            eventType,
+            mouseDeltaDescriptor,
+            CurrentMouseState// ,
+            // previousMouseState
+          )
+        ) ;
+      }
+
+      m_previousMouseState = CurrentMouseState ;
+
     }
 
     // 
@@ -324,42 +387,42 @@ namespace Experiments_01_UWP
 
     private void Target_PointerPressed ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ButtonPressed) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Pressed) ;
     }
 
     private void Target_PointerEntered ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.EnteredActiveRegion) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Entered) ;
     }
 
     private void Target_PointerMoved ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Moved) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Moved) ;
     }
 
     private void Target_PointerWheelChanged ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.WheelChanged) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.WheelChanged) ;
     }
 
     private void Target_PointerReleased ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ButtonReleased) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Released) ;
     }
 
     private void Target_PointerCaptureLost ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.CaptureLost) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.CaptureLost) ;
     }
 
     private void Target_PointerCanceled ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.Canceled) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Canceled) ;
     }
 
     private void Target_PointerExited ( object sender, PointerRoutedEventArgs pointerEventArgs )
     {
-      HandleMouseEvent(sender,pointerEventArgs,MouseEventType.ExitedActiveRegion) ;
+      HandleMouseEvent(sender,pointerEventArgs,MousePhysicalEventType.Exited) ;
     }
 
   }
