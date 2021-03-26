@@ -74,7 +74,10 @@
           Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
         />
 
+        <!--
         <local:HorizontalProfileGraph_XAML_UserControl 
+        -->
+        <local:HorizontalProfileGraph_UserControl 
           x:Name="m_horizontalProfileGraph_UserControl" 
           Grid.Row="1" Grid.Column="1" 
           ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"

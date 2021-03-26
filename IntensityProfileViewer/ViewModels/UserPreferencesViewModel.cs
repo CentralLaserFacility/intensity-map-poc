@@ -41,6 +41,11 @@ namespace IntensityProfileViewer
       set => throw new System.NotImplementedException() ;
     }
 
+    public bool ShowDebugInfo { 
+      get => true ; 
+      set => throw new System.NotImplementedException() ; 
+    }
+
     public IDisplayPanelViewModel Parent { get ; }
 
     public UserPreferencesViewModel ( IDisplayPanelViewModel parent )

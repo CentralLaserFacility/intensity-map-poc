@@ -128,13 +128,13 @@ namespace Experiments_01_UWP
         bool isShiftKeyDown = (
           Windows.UI.Core.CoreWindow.GetForCurrentThread(
           ).GetAsyncKeyState(
-            Windows.System.VirtualKey.Control
+            Windows.System.VirtualKey.Shift
           ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
         ) ;
         bool isCtrlKeyDown = (
           Windows.UI.Core.CoreWindow.GetForCurrentThread(
           ).GetAsyncKeyState(
-            Windows.System.VirtualKey.Shift
+            Windows.System.VirtualKey.Control
           ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
         ) ;
         return new(

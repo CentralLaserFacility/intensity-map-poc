@@ -57,10 +57,14 @@ namespace IntensityProfileViewer
           m_latestReferencePositionChangedMessage = message ;
         }
       ) ;
+      #if DO_RENDER_TIMING_MEASUREMENTS
       m_executionTimingStopwatch.Start() ;
+      #endif
     }
 
+    #if DO_RENDER_TIMING_MEASUREMENTS
     private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+    #endif
 
     private void OnViewModelPropertyChanged ( 
       IntensityProfileViewer.ISourceViewModel? oldViewModel,
@@ -105,7 +109,9 @@ namespace IntensityProfileViewer
         )
       ) ;
 
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeBeforeDrawingStarted = m_executionTimingStopwatch.Elapsed ;
+      #endif
 
       skiaCanvas.SetMatrix(
         SkiaSceneRenderer.GetTransformParameters_VerticalOnly(
@@ -183,11 +189,13 @@ namespace IntensityProfileViewer
         normal
       ) ;
 
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeAfterDrawingCompleted = m_executionTimingStopwatch.Elapsed ;
       System.TimeSpan drawingTimeElapsed = timeAfterDrawingCompleted - timeBeforeDrawingStarted ;
       Common.DebugHelpers.WriteDebugLines(
         $"Skia drawing time (mS) {drawingTimeElapsed.TotalMilliseconds:F3}"
       ) ;
+      #endif
 
     }
 

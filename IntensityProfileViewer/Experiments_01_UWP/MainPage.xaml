@@ -24,8 +24,8 @@
       <muxc:TabViewItem Header="Pointer (original)">
         <local:Pointer1_UserControl />
       </muxc:TabViewItem>
-      <muxc:TabViewItem Header="Gesture recogniser (original)">
-        <local:GestureRecogniserSample_Original_UserControl />
+      <muxc:TabViewItem Header="Gesture recogniser">
+        <local:GestureRecogniserSample_Simplified_UserControl />
       </muxc:TabViewItem>
     </muxc:TabView.TabItems>
   </muxc:TabView>

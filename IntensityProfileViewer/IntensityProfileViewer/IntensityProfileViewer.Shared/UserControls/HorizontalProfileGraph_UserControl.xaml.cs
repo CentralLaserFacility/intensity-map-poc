@@ -58,10 +58,14 @@ namespace IntensityProfileViewer
           m_latestReferencePositionChangedMessage = message ;
         }
       ) ;
+      #if DO_RENDER_TIMING_MEASUREMENTS
       m_executionTimingStopwatch.Start() ;
+      #endif
     }
 
+    #if DO_RENDER_TIMING_MEASUREMENTS
     private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+    #endif
 
     private void OnViewModelPropertyChanged ( 
       IntensityProfileViewer.ISourceViewModel? oldViewModel,
@@ -106,7 +110,9 @@ namespace IntensityProfileViewer
         )
       ) ;
 
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
+      #endif
 
       skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
 
@@ -201,9 +207,9 @@ namespace IntensityProfileViewer
         normal
       ) ;
 
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
       System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
-
       skiaCanvas.SetMatrix(
         SkiaSharp.SKMatrix.CreateIdentity()
       ) ;
@@ -212,6 +218,7 @@ namespace IntensityProfileViewer
         new(2.0f,14.0f),
         normal
       ) ;
+      #endif
 
     }
 

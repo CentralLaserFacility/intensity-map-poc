@@ -21,6 +21,8 @@ namespace IntensityProfileViewer
 
     bool ShowHorizontalAndVerticalScrollBarsOnImagePanel { get ; set ; }
 
+    bool ShowDebugInfo { get ; set ; } 
+
     IDisplayPanelViewModel Parent { get ; }
 
   }

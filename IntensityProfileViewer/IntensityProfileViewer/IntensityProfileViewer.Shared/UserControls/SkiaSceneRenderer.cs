@@ -48,11 +48,15 @@
       float              scaleFactor
     ) {
       RenderHookAction?.Invoke(skiaCanvas) ;
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
+      #endif
       skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
       m_drawOnCanvasAction(skiaCanvas) ;
+      #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;
       System.TimeSpan renderTimeElapsed = timeAfterRenderCompleted - timeBeforeRenderStarted ;
+      #endif
       if ( ShowTransformMatrixInfo )
       {
         SkiaSharp.SKPaint redPaint = new() { 
@@ -87,9 +91,11 @@
           $"{skiaCanvas.TotalMatrix.Values[0]:F2} {skiaCanvas.TotalMatrix.Values[1]:F2} {skiaCanvas.TotalMatrix.Values[2]:F2} ",
           $"{skiaCanvas.TotalMatrix.Values[3]:F2} {skiaCanvas.TotalMatrix.Values[4]:F2} {skiaCanvas.TotalMatrix.Values[5]:F2} ",
           // Note that these elements are always the same ...
-          $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} ",
-          $"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}",
+          $"{skiaCanvas.TotalMatrix.Values[6]:F2} {skiaCanvas.TotalMatrix.Values[7]:F2} {skiaCanvas.TotalMatrix.Values[8]:F2} "
+          #if DO_RENDER_TIMING_MEASUREMENTS
+          ,$"Render time (mS) {renderTimeElapsed.TotalMilliseconds.ToString("F1")}",
           $"Thread #{System.Environment.CurrentManagedThreadId}"
+          #endif
         ) ;
         void DrawDebugTextLines ( params string[] textLines )
         {
@@ -108,12 +114,16 @@
       }
     }
 
+    #if DO_RENDER_TIMING_MEASUREMENTS
     private readonly System.Diagnostics.Stopwatch m_executionTimingStopwatch = new() ;
+    #endif
 
     public SkiaSceneRenderer ( System.Action<SkiaSharp.SKCanvas> draw )
     {
       m_drawOnCanvasAction = draw ;
+      #if DO_RENDER_TIMING_MEASUREMENTS
       m_executionTimingStopwatch.Start() ;
+      #endif
     }
 
   }
