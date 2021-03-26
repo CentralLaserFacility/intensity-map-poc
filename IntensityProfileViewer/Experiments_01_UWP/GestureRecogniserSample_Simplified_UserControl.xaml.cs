@@ -43,9 +43,9 @@ namespace Experiments_01_UWP
 
       private UIElement m_referenceElement ;
 
-      private TransformGroup m_cumulativeTransform ;
+      private TransformGroup m_renderTransform ;
 
-      private MatrixTransform m_previousTransform ;
+      private MatrixTransform m_nominalTransform ;
 
       private CompositeTransform m_deltaTransform ;
 
@@ -97,25 +97,29 @@ namespace Experiments_01_UWP
         //
         // Our manipulations are going to affect the RenderTransform
         // that is being applied to the target element.
+        // 
+        // The RenderTransform, and the individual elements in its tree of Child transforms,
+        // are all Dependency Properties. Consequently, any change we make in the tree
+        // will immediately be reflected in the UI.
         //
         // We treat this as a group of two transforms that are applied in sequence,
-        // first the 'cumulative transform so far', and secondly the 'delta' transform
+        // first the 'nominal transform so far', and secondly the 'delta' transform
         // associated with the most recent manipulation.
         //
         // Since we need to access these two transforms individually, it's convenient
         // to maintain reference variables that refer to the two 'Child' elements
-        // of the render transform.
+        // of the render transform, and the overall transform value.
         //
 
-        m_cumulativeTransform = new TransformGroup() ;
-        m_previousTransform   = new MatrixTransform() { 
-          Matrix = Matrix.Identity 
-        } ;
-        m_deltaTransform = new CompositeTransform() ;
-        m_cumulativeTransform.Children.Add(m_previousTransform) ;
-        m_cumulativeTransform.Children.Add(m_deltaTransform) ;
-        
-        m_targetElement.RenderTransform = m_cumulativeTransform ;
+        m_targetElement.RenderTransform = m_renderTransform = new TransformGroup() ;
+        m_renderTransform.Children.Add(
+          m_nominalTransform = new MatrixTransform() {
+            // Matrix = Matrix.Identity
+          }
+        ) ;
+        m_renderTransform.Children.Add(
+          m_deltaTransform = new CompositeTransform()
+        ) ;
 
         // m_targetElement.RenderTransform = m_cumulativeTransform = new TransformGroup(){
         //   Children = {
@@ -136,14 +140,12 @@ namespace Experiments_01_UWP
 
       void OnManipulationUpdated ( object sender, ManipulationUpdatedEventArgs updateArgs )
       {
-        m_previousTransform.Matrix = (
+        m_nominalTransform.Matrix = (
           // (m_targetElement.RenderTransform as TransformGroup).Value
-          m_cumulativeTransform.Value 
+          m_renderTransform.Value 
         ) ;
         m_deltaTransform.CenterX = updateArgs.Position.X ;
         m_deltaTransform.CenterY = updateArgs.Position.Y ;
-        // Look at the Delta property of the ManipulationDeltaRoutedEventArgs
-        // to retrieve the rotation, X, and Y changes
         m_deltaTransform.Rotation   = updateArgs.Delta.Rotation ;
         m_deltaTransform.TranslateX = updateArgs.Delta.Translation.X ;
         m_deltaTransform.TranslateY = updateArgs.Delta.Translation.Y ;
@@ -163,13 +165,14 @@ namespace Experiments_01_UWP
         {
         case DraggingState.Started:
           m_dragStartPoint = args.Position ;
-          m_previousTransform.Matrix = (
-            m_cumulativeTransform.Value 
+          m_nominalTransform.Matrix = (
+            m_renderTransform.Value 
           ) ;
           m_deltaTransform.TranslateX = 0.0 ;
           m_deltaTransform.TranslateY = 0.0 ;
-          m_deltaTransform.ScaleX = 1.0 ;
-          m_deltaTransform.ScaleY = 1.0 ;
+          m_deltaTransform.Rotation   = 0.0 ;
+          m_deltaTransform.ScaleX     = 1.0 ;
+          m_deltaTransform.ScaleY     = 1.0 ;
           break ;
         case DraggingState.Continuing:
           m_deltaTransform.TranslateX = args.Position.X - m_dragStartPoint.X ;
