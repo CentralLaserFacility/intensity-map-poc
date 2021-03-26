@@ -15,11 +15,12 @@ namespace Experiments_01_UWP
 
     public GestureRecogniserSample_Simplified_UserControl ( )
     {
+
       this.InitializeComponent() ;
 
       m_manipulationInputProcessor = new ManipulationInputProcessor(
         target         : manipulateMe, 
-        referenceFrame : mainCanvas
+        referenceElement : mainCanvas
       ) ;
     }
 
@@ -29,13 +30,14 @@ namespace Experiments_01_UWP
     }
 
     // Our ManipulationInputProcessor listens for events on the 'target' element
-    // process them, and update the target's position, size, and rotation.
+    // process them, and updates the target's position, size, and rotation
+    // by manipulating its RenderTransform.
 
     class ManipulationInputProcessor
     {
 
       // Create a GestureRecognizer which will
-      // process the manipulations done on the rectangle
+      // process the manipulations done on the target
 
       private GestureRecognizer m_gestureRecognizer = new GestureRecognizer() ;
 
@@ -51,10 +53,10 @@ namespace Experiments_01_UWP
 
       public ManipulationInputProcessor (
         UIElement target, 
-        UIElement referenceFrame
+        UIElement referenceElement
       ) {
         m_targetElement    = target ;
-        m_referenceElement = referenceFrame ;
+        m_referenceElement = referenceElement ;
 
         // Initialize the transforms that will be used to manipulate the shape
 
@@ -62,6 +64,8 @@ namespace Experiments_01_UWP
 
         // GestureSettings dictate what manipulation events
         // the Gesture Recognizer will listen to
+        // There are other properties that fine tune the behaviour,
+        // but we're leavng those at the default settings.
 
         m_gestureRecognizer.GestureSettings = (
           GestureSettings.ManipulationTranslateX
@@ -73,8 +77,8 @@ namespace Experiments_01_UWP
         // | GestureSettings.ManipulationRotateInertia 
         // | GestureSettings.ManipulationScaleInertia 
         ) ;
-
-        // These event handlers receive input events that are used by the gesture recognizer.
+        
+        // These event handlers receive input events that are used by the gesture recognizer :
 
         m_targetElement.PointerPressed      += OnPointerPressed ;
         m_targetElement.PointerMoved        += OnPointerMoved ;
@@ -82,13 +86,20 @@ namespace Experiments_01_UWP
         m_targetElement.PointerCanceled     += OnPointerCanceled ;
         m_targetElement.PointerWheelChanged += OnPointerWheelChanged ;
 
-        // These event handlers to respond to the gesture recognizer's output
+        // These event handlers respond to the Gesture Recognizer's output :
 
         m_gestureRecognizer.ManipulationStarted         += OnManipulationStarted ;
         m_gestureRecognizer.ManipulationUpdated         += OnManipulationUpdated ;
         m_gestureRecognizer.ManipulationCompleted       += OnManipulationCompleted ;
         m_gestureRecognizer.ManipulationInertiaStarting += OnManipulationInertiaStarting ;
         m_gestureRecognizer.Dragging                    += Dragging ;
+
+        // Other event we could hook into :
+        // m_gestureRecognizer.CrossSliding += (s,e) => { } ;
+        // m_gestureRecognizer.Holding      += (s,e) => { } ;
+        // m_gestureRecognizer.RightTapped  += (s,e) => { } ;
+        // m_gestureRecognizer.Tapped       += (s,e) => { } ;
+
       }
 
       public void InitializeTransforms ( )
@@ -196,9 +207,9 @@ namespace Experiments_01_UWP
       void OnPointerPressed ( object sender, PointerRoutedEventArgs args )
       {
         // Set the pointer capture to the element being interacted with
-        // so that only it will fire pointer-related events
+        // so that only this element will fire pointer-related events
         m_targetElement.CapturePointer(args.Pointer) ;
-        // Feed the current point into the gesture recognizer as a down event
+        // Feed the current point into the gesture recognizer as a 'down' event
         m_gestureRecognizer.ProcessDownEvent(
           args.GetCurrentPoint(m_referenceElement)
         ) ;
@@ -206,7 +217,7 @@ namespace Experiments_01_UWP
 
       void OnPointerMoved ( object sender, PointerRoutedEventArgs args )
       {
-        // Feed the set of points into the gesture recognizer as a move event
+        // Feed the set of points into the gesture recognizer as a 'move' event
         m_gestureRecognizer.ProcessMoveEvents(
           args.GetIntermediatePoints(m_referenceElement)
         ) ;
@@ -214,7 +225,7 @@ namespace Experiments_01_UWP
 
       void OnPointerReleased ( object sender, PointerRoutedEventArgs args )
       {
-        // Feed the current point into the gesture recognizer as an up event
+        // Feed the current point into the gesture recognizer as an 'up' event
         m_gestureRecognizer.ProcessUpEvent(
           args.GetCurrentPoint(m_referenceElement)
         ) ;
@@ -254,6 +265,13 @@ namespace Experiments_01_UWP
             Windows.System.VirtualKey.Control
           ).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)
         ) ;
+        //
+        // With neither SHIFT of CTRL pressed, the default behaviour
+        // is to scroll up and down. However that's not very successful
+        // if you scroll to a position where the pointer is no longer
+        // above the target element, as the target ceases to receive
+        // further wheel events. Hmm, could do better ...
+        //
         m_gestureRecognizer.ProcessMouseWheelEvent(
           args.GetCurrentPoint(m_referenceElement),
           isShiftKeyDown,
@@ -265,8 +283,8 @@ namespace Experiments_01_UWP
         ) ;
       }
 
-      // When a manipulation begins, change the color of the object
-      // to reflect that a manipulation is in progress.
+      // When a manipulation begins, we change the color of the target
+      // to indicate that a manipulation is in progress.
 
       void OnManipulationStarted ( object sender, ManipulationStartedEventArgs e )
       {
@@ -275,7 +293,7 @@ namespace Experiments_01_UWP
       }
 
       // When a manipulation that's a result of inertia begins,
-      // change the color of the the object to reflect that inertia has taken over.
+      // we change the color of the the object to indicate that inertia has taken over.
 
       void OnManipulationInertiaStarting ( object sender, ManipulationInertiaStartingEventArgs e )
       {
@@ -283,7 +301,7 @@ namespace Experiments_01_UWP
         b.Background = new SolidColorBrush(Windows.UI.Colors.RoyalBlue) ;
       }
 
-      // When a manipulation has finished, reset the color of the object
+      // When a manipulation has finished, we reset the color of the target
 
       void OnManipulationCompleted ( object sender, ManipulationCompletedEventArgs e )
       {
