@@ -17,61 +17,19 @@ namespace Experiments_01_UWP
     {
       this.InitializeComponent() ;
 
-      InitOptions() ;
-
-      // Create a ManipulationInputProcessor which will listen for events on the
-      // rectangle, process them, and update the rectangle's position, size, and rotation
-
       m_manipulationInputProcessor = new ManipulationInputProcessor(
-        manipulateMe, 
-        mainCanvas
+        target         : manipulateMe, 
+        referenceFrame : mainCanvas
       ) ;
-    }
-
-    private void InitOptions ( )
-    {
-      movementAxis.SelectedIndex = 0 ;
-      InertiaSwitch.IsOn = true ;
-    }
-
-    private void movementAxis_Changed ( object sender, SelectionChangedEventArgs e )
-    {
-      if ( m_manipulationInputProcessor == null )
-      {
-        return ;
-      }
-
-      ComboBoxItem selectedItem = (ComboBoxItem) (
-        (ComboBox) sender
-      ).SelectedItem ;
-      switch ( selectedItem.Content.ToString() )
-      {
-      case "X only":
-        m_manipulationInputProcessor.LockToXAxis() ;
-        break ;
-      case "Y only":
-        m_manipulationInputProcessor.LockToYAxis() ;
-        break ;
-      default:
-        m_manipulationInputProcessor.MoveOnXAndYAxes() ;
-        break ;
-      }
-    }
-
-    private void InertiaSwitch_Toggled ( object sender, RoutedEventArgs e )
-    {
-      if ( m_manipulationInputProcessor == null)
-      {
-      return ;
-      }
-      m_manipulationInputProcessor.UseInertia(InertiaSwitch.IsOn) ;
     }
 
     void resetButton_Pressed ( object sender, RoutedEventArgs e )
     {
-      InitOptions() ;
       m_manipulationInputProcessor.Reset() ;
     }
+
+    // Our ManipulationInputProcessor listens for events on the 'target' element
+    // process them, and update the target's position, size, and rotation.
 
     class ManipulationInputProcessor
     {
@@ -102,15 +60,21 @@ namespace Experiments_01_UWP
 
         InitializeTransforms() ;
 
-        // The GestureSettings property dictates what manipulation events
-        // the Gesture Recognizer will listen to. Here we set it to a limited
-        // subset of these events.
+        // GestureSettings dictate what manipulation events
+        // the Gesture Recognizer will listen to
 
-        m_gestureRecognizer.GestureSettings = GenerateDefaultSettings() ;
+        m_gestureRecognizer.GestureSettings = (
+          GestureSettings.ManipulationTranslateX
+        | GestureSettings.ManipulationTranslateY 
+        | GestureSettings.ManipulationRotate 
+        | GestureSettings.ManipulationScale 
+        | GestureSettings.Drag
+        // | GestureSettings.ManipulationTranslateInertia 
+        // | GestureSettings.ManipulationRotateInertia 
+        // | GestureSettings.ManipulationScaleInertia 
+        ) ;
 
-        // Set up pointer event handlers.
-        // These receive input events
-        // that are used by the gesture recognizer.
+        // These event handlers receive input events that are used by the gesture recognizer.
 
         m_targetElement.PointerPressed      += OnPointerPressed ;
         m_targetElement.PointerMoved        += OnPointerMoved ;
@@ -118,47 +82,113 @@ namespace Experiments_01_UWP
         m_targetElement.PointerCanceled     += OnPointerCanceled ;
         m_targetElement.PointerWheelChanged += OnPointerWheelChanged ;
 
-        // Set up event handlers to respond to gesture recognizer output
+        // These event handlers to respond to the gesture recognizer's output
 
         m_gestureRecognizer.ManipulationStarted         += OnManipulationStarted ;
         m_gestureRecognizer.ManipulationUpdated         += OnManipulationUpdated ;
         m_gestureRecognizer.ManipulationCompleted       += OnManipulationCompleted ;
         m_gestureRecognizer.ManipulationInertiaStarting += OnManipulationInertiaStarting ;
+        m_gestureRecognizer.Dragging                    += Dragging ;
       }
 
       public void InitializeTransforms ( )
       {
+
+        //
+        // Our manipulations are going to affect the RenderTransform
+        // that is being applied to the target element.
+        //
+        // We treat this as a group of two transforms that are applied in sequence,
+        // first the 'cumulative transform so far', and secondly the 'delta' transform
+        // associated with the most recent manipulation.
+        //
+        // Since we need to access these two transforms individually, it's convenient
+        // to maintain reference variables that refer to the two 'Child' elements
+        // of the render transform.
+        //
+
         m_cumulativeTransform = new TransformGroup() ;
-        m_deltaTransform      = new CompositeTransform() ;
         m_previousTransform   = new MatrixTransform() { 
           Matrix = Matrix.Identity 
         } ;
-
+        m_deltaTransform = new CompositeTransform() ;
         m_cumulativeTransform.Children.Add(m_previousTransform) ;
         m_cumulativeTransform.Children.Add(m_deltaTransform) ;
-
+        
         m_targetElement.RenderTransform = m_cumulativeTransform ;
+
+        // m_targetElement.RenderTransform = m_cumulativeTransform = new TransformGroup(){
+        //   Children = {
+        //     (
+        //       m_previousTransform = new MatrixTransform() { 
+        //         Matrix = Matrix.Identity 
+        //       }
+        //     ),
+        //     (
+        //       m_deltaTransform = new CompositeTransform()
+        //     )
+        //   }
+        // } ;
+
       }
 
-      // Return the default GestureSettings for this sample
+      // Process the change resulting from a manipulation
 
-      GestureSettings GenerateDefaultSettings ( )
+      void OnManipulationUpdated ( object sender, ManipulationUpdatedEventArgs updateArgs )
       {
-        return (
-          GestureSettings.ManipulationTranslateX
-        | GestureSettings.ManipulationTranslateY 
-        | GestureSettings.ManipulationTranslateInertia 
-        | GestureSettings.ManipulationRotate 
-        | GestureSettings.ManipulationRotateInertia 
-        // STEVET
-        | GestureSettings.ManipulationScale 
-        | GestureSettings.ManipulationScaleInertia 
-        | GestureSettings.Drag
+        m_previousTransform.Matrix = (
+          // (m_targetElement.RenderTransform as TransformGroup).Value
+          m_cumulativeTransform.Value 
         ) ;
+        m_deltaTransform.CenterX = updateArgs.Position.X ;
+        m_deltaTransform.CenterY = updateArgs.Position.Y ;
+        // Look at the Delta property of the ManipulationDeltaRoutedEventArgs
+        // to retrieve the rotation, X, and Y changes
+        m_deltaTransform.Rotation   = updateArgs.Delta.Rotation ;
+        m_deltaTransform.TranslateX = updateArgs.Delta.Translation.X ;
+        m_deltaTransform.TranslateY = updateArgs.Delta.Translation.Y ;
+        // Hmm, the description of Scale is WRONG ??? (Matteo??)
+        m_deltaTransform.ScaleX = updateArgs.Delta.Scale ;
+        m_deltaTransform.ScaleY = updateArgs.Delta.Scale ;
       }
 
-      // Route the pointer pressed event to the gesture recognizer.
-      // The points are in the reference frame of the canvas that contains the rectangle element.
+      private Point m_dragStartPoint ;
+
+      private void Dragging ( GestureRecognizer sender, DraggingEventArgs args )
+      {
+        System.Diagnostics.Debug.WriteLine(
+          $"{args.DraggingState} [{args.Position.X:F3},{args.Position.Y:F3}"
+        ) ;
+        switch ( args.DraggingState )
+        {
+        case DraggingState.Started:
+          m_dragStartPoint = args.Position ;
+          m_previousTransform.Matrix = (
+            m_cumulativeTransform.Value 
+          ) ;
+          m_deltaTransform.TranslateX = 0.0 ;
+          m_deltaTransform.TranslateY = 0.0 ;
+          m_deltaTransform.ScaleX = 1.0 ;
+          m_deltaTransform.ScaleY = 1.0 ;
+          break ;
+        case DraggingState.Continuing:
+          m_deltaTransform.TranslateX = args.Position.X - m_dragStartPoint.X ;
+          m_deltaTransform.TranslateY = args.Position.Y - m_dragStartPoint.Y ;
+          break ;
+        case DraggingState.Completed:
+          break ;
+        }
+      }
+
+      public void Reset ( )
+      {
+        m_gestureRecognizer.CompleteGesture() ;
+        InitializeTransforms() ;
+      }
+
+      // Route the pointer events to the gesture recognizer.
+      // The points are in the reference frame of the canvas
+      // that contains the target element.
 
       void OnPointerPressed ( object sender, PointerRoutedEventArgs args )
       {
@@ -171,10 +201,6 @@ namespace Experiments_01_UWP
         ) ;
       }
 
-      // Route the pointer moved event to the gesture recognizer.
-      // The points are in the reference frame of the canvas
-      // that contains the rectangle element.
-
       void OnPointerMoved ( object sender, PointerRoutedEventArgs args )
       {
         // Feed the set of points into the gesture recognizer as a move event
@@ -182,9 +208,6 @@ namespace Experiments_01_UWP
           args.GetIntermediatePoints(m_referenceElement)
         ) ;
       }
-
-      // Route the pointer released event to the gesture recognizer.
-      // The points are in the reference frame of the canvas that contains the rectangle element.
 
       void OnPointerReleased ( object sender, PointerRoutedEventArgs args )
       {
@@ -195,9 +218,6 @@ namespace Experiments_01_UWP
         // Release the pointer
         m_targetElement.ReleasePointerCapture(args.Pointer) ;
       }
-
-      // Route the pointer canceled event to the gesture recognizer.
-      // The points are in the reference frame of the canvas that contains the rectangle element.
 
       void OnPointerCanceled ( object sender, PointerRoutedEventArgs args )
       {
@@ -236,40 +256,19 @@ namespace Experiments_01_UWP
           isShiftKeyDown,
           isCtrlKeyDown
         ) ;
+        // Matteo : which method is preferred ???
         System.Diagnostics.Debug.WriteLine(
           $"SHIFT {isShiftKeyDown} {isShiftKeyDown_ASYNC} ; CTRL {isCtrlKeyDown} {isCtrlKeyDown_ASYNC}"
         ) ;
       }
 
       // When a manipulation begins, change the color of the object
-      // to reflect that a manipulation is in progress
+      // to reflect that a manipulation is in progress.
 
       void OnManipulationStarted ( object sender, ManipulationStartedEventArgs e )
       {
         Border b = m_targetElement as Border ;
         b.Background = new SolidColorBrush(Windows.UI.Colors.DeepSkyBlue) ;
-      }
-
-      // Process the change resulting from a manipulation
-
-      void OnManipulationUpdated ( object sender, ManipulationUpdatedEventArgs e )
-      {
-        m_previousTransform.Matrix = m_cumulativeTransform.Value ;
-        // Get the center point of the manipulation for rotation
-        Point center = new Point(
-          e.Position.X, 
-          e.Position.Y
-        ) ;
-        m_deltaTransform.CenterX = center.X ;
-        m_deltaTransform.CenterY = center.Y ;
-        // Look at the Delta property of the ManipulationDeltaRoutedEventArgs
-        // to retrieve the rotation, X, and Y changes
-        m_deltaTransform.Rotation   = e.Delta.Rotation ;
-        m_deltaTransform.TranslateX = e.Delta.Translation.X ;
-        m_deltaTransform.TranslateY = e.Delta.Translation.Y ;
-        // Hmm, the description of Scale is WRONG ???
-        m_deltaTransform.ScaleX     = e.Delta.Scale ;
-        m_deltaTransform.ScaleY     = e.Delta.Scale ;
       }
 
       // When a manipulation that's a result of inertia begins,
@@ -287,71 +286,6 @@ namespace Experiments_01_UWP
       {
         Border b = m_targetElement as Border ;
         b.Background = new SolidColorBrush(Windows.UI.Colors.LightGray) ;
-      }
-
-      // Modify the GestureSettings property to only allow movement on the X axis
-
-      public void LockToXAxis ( )
-      {
-        m_gestureRecognizer.CompleteGesture() ;
-        m_gestureRecognizer.GestureSettings |= (
-          GestureSettings.ManipulationTranslateY 
-        | GestureSettings.ManipulationTranslateX 
-        ) ;
-        m_gestureRecognizer.GestureSettings ^= GestureSettings.ManipulationTranslateY ;
-      }
-
-      // Modify the GestureSettings property to only allow movement on the Y axis
-
-      public void LockToYAxis()
-      {
-        m_gestureRecognizer.CompleteGesture() ;
-        m_gestureRecognizer.GestureSettings |= (
-          GestureSettings.ManipulationTranslateY 
-        | GestureSettings.ManipulationTranslateX 
-        ) ;
-        m_gestureRecognizer.GestureSettings ^= GestureSettings.ManipulationTranslateX ;
-      }
-
-      // Modify the GestureSettings property
-      // to allow movement on both the the X and Y axes
-
-      public void MoveOnXAndYAxes()
-      {
-        m_gestureRecognizer.CompleteGesture() ;
-        m_gestureRecognizer.GestureSettings |= (
-          GestureSettings.ManipulationTranslateX 
-        | GestureSettings.ManipulationTranslateY 
-        ) ;
-      }
-
-      // Modify the GestureSettings property to enable or disable inertia based on the passed-in value
-
-      public void UseInertia ( bool inertia )
-      {
-        if ( ! inertia )
-        {
-          m_gestureRecognizer.CompleteGesture() ;
-          m_gestureRecognizer.GestureSettings ^= (
-            GestureSettings.ManipulationTranslateInertia 
-          | GestureSettings.ManipulationRotateInertia 
-          ) ;
-        }
-        else
-        {
-          m_gestureRecognizer.GestureSettings |= (
-            GestureSettings.ManipulationTranslateInertia 
-          | GestureSettings.ManipulationRotateInertia 
-          ) ;
-        }
-      }
-
-      public void Reset ( )
-      {
-        m_targetElement.RenderTransform = null ;
-        m_gestureRecognizer.CompleteGesture() ;
-        InitializeTransforms() ;
-        m_gestureRecognizer.GestureSettings = GenerateDefaultSettings() ;
       }
 
     }
