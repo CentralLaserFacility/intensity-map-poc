@@ -166,10 +166,11 @@ namespace IntensityProfileViewer
       }
     } ;
 
+    // private GeometryCollection m_geometryCollection ;
+
     public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph ( 
       IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
     ) {
-
 
       IReadOnlyList<byte> intensityValues = mostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
         ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
@@ -195,6 +196,14 @@ namespace IntensityProfileViewer
       var panelWidth  = m_canvas.ActualWidth ;
       var panelHeight = m_canvas.ActualHeight ;
 
+      if ( 
+         panelWidth  == 0.0 
+      || panelHeight == 0.0 
+      ) {
+        // Hmm, this can happen !
+        return null ;
+      }
+
       // Point topLeftPoint     = new(0,0) ;    
       // Point topRightPoint    = new(panelWidth,0) ;    
       // Point bottomLeftPoint  = new(0,panelHeight) ;    
@@ -211,6 +220,12 @@ namespace IntensityProfileViewer
       
       // We only want to make our graph as wide as the rectangle in which we're drawing the Image
 
+      if ( IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width == 0.0 )
+      {
+        // This can happen !!
+        return null ;
+      }
+
       bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
       topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
 
@@ -220,7 +235,39 @@ namespace IntensityProfileViewer
       // GeometryGroup joinedOutlinePoints_geometryGroup = new() ;
       PathGeometry joinedOutlinePoints_pathGeometry = new() ;
 
-      List<Point> points = new() ;
+      // if ( m_geometryCollection.Count != nPoints )
+      // {
+      //   m_geometryCollection.Clear() ;
+      //   for ( int iLine = 0 ; iLine < nPoints ; iLine++ )
+      //   {
+      //     m_geometryCollection.Add(
+      //       new LineGeometry()
+      //     ) ;
+      //   }
+      // }
+      // verticalLines_geometryGroup.Children = m_geometryCollection ;
+
+      // LineGeometry[] lineGeometry = new LineGeometry[nPoints] ;
+      // for ( int iLine = 0 ; iLine < nPoints ; iLine++ )
+      // {
+      //   lineGeometry[iLine] = new() ;
+      // }
+
+      // GeometryCollection geometryCollection = new() ;
+      // LineGeometry[] lineGeometry = new LineGeometry[nPoints] ;
+      // for ( int iLine = 0 ; iLine < nPoints ; iLine++ )
+      // {
+      //   lineGeometry[iLine] = new() ;
+      // }
+
+      ///////////////// verticalLines_geometryGroup.Children.Add(
+      /////////////////   new LineGeometry() {
+      /////////////////     StartPoint = bottomAnchorPoint,
+      /////////////////     EndPoint   = bottomAnchorPoint.MovedBy(0,-lineLength)
+      /////////////////   }
+      ///////////////// ) ;
+
+      List<Point> points = new(nPoints) ;
       Point GetPointAtFractionalPositionAlongLine(
         Point  startPoint,
         Point  endPoint,
@@ -229,6 +276,9 @@ namespace IntensityProfileViewer
         startPoint.X + frac01 * ( endPoint.X - startPoint.X ),
         startPoint.Y + frac01 * ( endPoint.Y - startPoint.Y )
       ) ;
+      // for ( int i = 0 ; i < intensityValues.Count ; i++ )
+      // {
+      //  var value = intensityValues[i] ;
       intensityValues.ForEachItem(
         (value,i) => {
           double lineLength = (
@@ -242,12 +292,30 @@ namespace IntensityProfileViewer
             bottomRightPoint.MovedBy(0,1),
             i / (double) ( nPoints - 1 ) // ??????????????
           ) ;
+          // Hmm, 'Children' is a GeometryCollection,
+          // and there's no API that lets you Add multiple items,
+          // we have to add them one at a time ...
+
+          // TIMING TESTS ...
+          // verticalLines_geometryGroup.Children.Add(new LineGeometry()) ;
+          //geometryCollection.Add(lineGeometry[i]) ;
+
+          // var line = (LineGeometry) m_geometryCollection[i] ;
+          // line.StartPoint = bottomAnchorPoint ;
+          // line.EndPoint   = bottomAnchorPoint.MovedBy(0,-lineLength) ;
+
+          // This works, but it's VERY SLOW.
+          // Just adding to a GeometryGroup is very slow.
+          // Better to access the existing GeometryGroup
+          // and change the lines' start and end points.
           verticalLines_geometryGroup.Children.Add(
             new LineGeometry() {
               StartPoint = bottomAnchorPoint,
               EndPoint   = bottomAnchorPoint.MovedBy(0,-lineLength)
             }
           ) ;
+
+          ///
           // joinedOutlinePoints_geometryGroup.Children.Add(
           //   new PointCollection() {
           //     StartPoint = bottomAnchorPoint,
@@ -265,7 +333,7 @@ namespace IntensityProfileViewer
         }
       ) ;
 
-      bool drawOutline = false ;
+      bool drawOutline = true ;
       if ( drawOutline )
       {
         // Surely there's a better way to build the Segments ???
@@ -313,8 +381,17 @@ namespace IntensityProfileViewer
         $"Path data build time (mS) {pathDataBuildTimeElapsed.TotalMilliseconds:F3}"
       ) ;
 
-      return result ;
+      if ( m_savedResult is null )
+      {
+        m_savedResult = result ;
+      }
+      return (
+        // result 
+        m_savedResult 
+      ) ;
     }
+
+    GeometryGroup m_savedResult ;
 
   }
 

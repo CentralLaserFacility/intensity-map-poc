@@ -134,6 +134,9 @@
     </Compile>
     <Compile Include="ClipToBounds.cs" />
     <Compile Include="FractionalXY.cs" />
+    <Compile Include="GestureRecogniserSample_Original_UserControl.xaml.cs">
+      <DependentUpon>GestureRecogniserSample_Original_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -198,6 +201,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="CanvasPanAndZoomExperiment_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GestureRecogniserSample_Original_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

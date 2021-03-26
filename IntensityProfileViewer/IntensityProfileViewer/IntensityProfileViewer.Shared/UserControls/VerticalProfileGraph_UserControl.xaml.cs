@@ -151,9 +151,10 @@ namespace IntensityProfileViewer
       bottomLeftPoint.Y  = topLeftPoint.Y  + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
       bottomRightPoint.Y = topRightPoint.Y + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Height ;
 
-      List<SkiaSharp.SKPoint> points = new() ;
+      List<SkiaSharp.SKPoint> points = new(nPoints) ;
       intensityValues.ForEachItem(
         (value,i) => {
+          // Draw horizontal lines as we scan the values
           float lineLength = (
             (
               canvasRect.Width - 1
@@ -175,6 +176,7 @@ namespace IntensityProfileViewer
           ) ;
         }
       ) ;
+      // Now draw a line connecting all the points
       skiaCanvas.DrawPoints(
         SkiaSharp.SKPointMode.Polygon,
         points.ToArray(),
