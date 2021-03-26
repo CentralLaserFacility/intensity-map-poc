@@ -166,11 +166,174 @@ namespace IntensityProfileViewer
       }
     } ;
 
-    // Hmm, instead of returning a freshy built result every time :
-    // For a given number of points, cache the result.
     private GeometryGroup m_savedResult ;
+    private GeometryGroup m_verticalLines_geometryGroup ;
+    // private PathGeometry  m_joinedOutlinePoints_pathGeometry ;
 
     public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph ( 
+      IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
+    ) {
+
+      IReadOnlyList<byte> intensityValues = mostRecentlyAcquiredIntensityMap.HorizontalSliceAtRow(
+        ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+      ).WithNormalisationApplied(
+        new IntensityProfileViewer.Normaliser(
+          ViewModel.Parent.ImagePresentationSettings.NormalisationValue
+        )
+      ) ;
+      int nPoints = intensityValues.Count ;      
+      if ( nPoints < 2 )
+      {
+        return null ;
+      }
+
+      // if ( double.IsNaN(this.Width) )
+      // {
+      //   return null ; //////////////////////////////////
+      // }
+
+      // HACK - should get these from the Panel !!!
+      // var panelWidth = 400.0 ;
+      // var panelHeight = 100.0 ;
+      var panelWidth  = m_canvas.ActualWidth ;
+      var panelHeight = m_canvas.ActualHeight ;
+
+      if ( 
+         panelWidth  == 0.0 
+      || panelHeight == 0.0 
+      ) {
+        // Hmm, this can happen !
+        return null ;
+      }
+
+      Point topLeftPoint = m_canvas.TransformToVisual(this).TransformPoint(
+        new Point(0,0)
+      ) ;
+
+      Point topRightPoint    = topLeftPoint.MovedBy(panelWidth,0) ;    
+      Point bottomLeftPoint  = topLeftPoint.MovedBy(0,panelHeight-1) ;    
+      Point bottomRightPoint = topLeftPoint.MovedBy(panelWidth,panelHeight-1) ;   
+      
+      // We only want to make our graph as wide as the rectangle in which we're drawing the Image
+
+      if ( IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width == 0.0 )
+      {
+        // This can happen !!
+        return null ;
+      }
+
+      bottomRightPoint.X = bottomLeftPoint.X + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
+      topRightPoint.X    = topLeftPoint.X    + IntensityMapImage_UserControl.RectInWhichToDrawBitmap.Width ;
+
+      System.TimeSpan timeBeforePathDataBuildStarted = m_executionTimingStopwatch.Elapsed ;
+
+      // It's expensive to build the tree of 'Path.Data' elements,
+      // so we create it once, and then 'draw' the lines by updating
+      // the start and/or end points.
+      // Hmm, even if we do this, performance isn't great
+      // because (??) the EndPoint is a DependencyProperty ...
+      bool isFirstPass = m_savedResult is null ;
+      if ( m_savedResult is null )
+      {
+        m_verticalLines_geometryGroup = new() ;
+        for ( int iLine = 0 ; iLine < nPoints ; iLine++ )
+        {
+          m_verticalLines_geometryGroup.Children.Add(
+            new LineGeometry()
+          ) ;
+        }
+        // m_joinedOutlinePoints_pathGeometry = new() ;
+        m_savedResult = new GeometryGroup() {
+          Children = {
+            m_verticalLines_geometryGroup//,
+            // m_joinedOutlinePoints_pathGeometry
+          }
+        } ;
+      }
+
+      List<Point> points = new(nPoints) ;
+      Point GetPointAtFractionalPositionAlongLine(
+        Point  startPoint,
+        Point  endPoint,
+        double frac01
+      ) => new Point(
+        startPoint.X + frac01 * ( endPoint.X - startPoint.X ),
+        startPoint.Y + frac01 * ( endPoint.Y - startPoint.Y )
+      ) ;
+      intensityValues.ForEachItem(
+        (value,i) => {
+          double lineLength = (
+            (
+              (double) panelHeight 
+            )
+          * value / 255.0
+          ) ;
+          var bottomAnchorPoint = GetPointAtFractionalPositionAlongLine(
+            bottomLeftPoint.MovedBy(0,1),
+            bottomRightPoint.MovedBy(0,1),
+            i / (double) ( nPoints - 1 )
+          ) ;
+          var line = (LineGeometry) m_verticalLines_geometryGroup.Children[i] ;
+          // if ( isFirstPass )
+          {
+            line.StartPoint = bottomAnchorPoint ;
+          }
+          var endPoint = bottomAnchorPoint.MovedBy(0,-lineLength) ;
+          line.EndPoint = endPoint ;
+          points.Add(
+            endPoint
+          ) ;
+        }
+      ) ;
+
+      // For this experiment, we won't attempt to draw the profile
+      // because setting up the data structure is pretty complicated
+      // bool drawOutline = false ;
+      // if ( drawOutline )
+      // {
+      //   // Surely there's a better way to build the Segments ???
+      //   var segmentsCollection = new PathSegmentCollection() ;
+      //   var segments = points.Skip(1).Select(
+      //     p => new LineSegment(){
+      //       Point = p
+      //     }
+      //   ) ;
+      //   segments.ForEachItem(
+      //     segment => {
+      //       // Yay, CRAP !! The F1 help mentions an Append method
+      //       // that returns void, but it doesn't mention 'Add'.
+      //       // So you'd suppose that Append would be the one to use.
+      //       // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathsegmentcollection.append?view=winrt-19041
+      //       // However, in reality 'Append' is an extension method on IEnumerable
+      //       // that returns a new collection without modifying the original.
+      //       // Turns out that 'Add' IS AVAILABLE AND DOES WORK !!!
+      //       // segmentsCollection.Append(segment) ;
+      //       segmentsCollection.Add(segment) ;
+      //     }
+      //   ) ;
+      //   // Yikes, after 'appending' segments the count is still zero !!!
+      //   int nSegments = segmentsCollection.Count ;
+      //   m_joinedOutlinePoints_pathGeometry.Figures.Add(
+      //     // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.pathfigure?view=winrt-19041
+      //     new PathFigure(){
+      //       StartPoint = points[0],
+      //       Segments   = segmentsCollection
+      //     }
+      //   ) ;
+      // }
+
+      m_savedResult.Transform = GraphPathTransform ; // Aha ! Better than applying transform to the Path element ...
+
+      System.TimeSpan timeAfterPathDataBuildCompleted = m_executionTimingStopwatch.Elapsed ;
+      System.TimeSpan pathDataBuildTimeElapsed = timeAfterPathDataBuildCompleted - timeBeforePathDataBuildStarted ;
+      Common.DebugHelpers.WriteDebugLines(
+        $"Path data build time (mS) {pathDataBuildTimeElapsed.TotalMilliseconds:F3}"
+      ) ;
+
+      return m_savedResult ;
+    }
+
+    public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph_OLD_01 ( 
       IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
     ) {
 
