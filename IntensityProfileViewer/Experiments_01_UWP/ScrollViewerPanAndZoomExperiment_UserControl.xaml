@@ -31,6 +31,17 @@
 
     <!-- Matteo : Name vs x:Name ??? -->
 
+    <!-- 
+      Hmm, Tine reckons this pan/zoom behaviour is 'good enough' ... 
+      The limitations are :
+        You can pan, but only using the scroll bars - mouse dragging has no effect.
+        Can zoom in and out (around the mouse position) using CTRL-WHEEL,
+        and this works fine for zooming in ; but when you zoom out, 
+        the reference point moves away from the expected position.
+      Matteo : Would a GestureRecogniser give us the flexibility to fix this,
+      or would we be fighting 'standard behaviour' that's built into UWP ??
+    -->
+
     <ScrollViewer 
       x:Name="m_scrollViewer"
       Grid.Row="0" Grid.Column="0" 
@@ -44,9 +55,10 @@
         Curiously, without a Grid we get the Vertical scroll bar
         showing, but not the Horizontal one ...
 
+        *** Matteo ...
         *** In this scenario we're specifying the size of the Grid.
         *** In other scenarios, the Grid gets its Size from its Children ???
-        *** What are the rues here ???
+        *** What are the rules here ???
       -->
       <Grid Width="800" Height="800">
         <Canvas 

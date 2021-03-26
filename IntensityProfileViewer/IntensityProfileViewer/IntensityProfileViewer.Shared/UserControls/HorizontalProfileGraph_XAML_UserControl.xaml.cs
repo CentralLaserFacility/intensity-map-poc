@@ -166,7 +166,9 @@ namespace IntensityProfileViewer
       }
     } ;
 
-    // private GeometryCollection m_geometryCollection ;
+    // Hmm, instead of returning a freshy built result every time :
+    // For a given number of points, cache the result.
+    private GeometryGroup m_savedResult ;
 
     public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph ( 
       IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
@@ -232,7 +234,7 @@ namespace IntensityProfileViewer
       System.TimeSpan timeBeforePathDataBuildStarted = m_executionTimingStopwatch.Elapsed ;
 
       GeometryGroup verticalLines_geometryGroup = new() ;
-      // GeometryGroup joinedOutlinePoints_geometryGroup = new() ;
+      GeometryGroup joinedOutlinePoints_geometryGroup = new() ;
       PathGeometry joinedOutlinePoints_pathGeometry = new() ;
 
       // if ( m_geometryCollection.Count != nPoints )
@@ -381,17 +383,15 @@ namespace IntensityProfileViewer
         $"Path data build time (mS) {pathDataBuildTimeElapsed.TotalMilliseconds:F3}"
       ) ;
 
-      if ( m_savedResult is null )
-      {
-        m_savedResult = result ;
-      }
+      // if ( m_savedResult is null )
+      // {
+      //   m_savedResult = result ;
+      // }
       return (
-        // result 
-        m_savedResult 
+        result 
+        // m_savedResult 
       ) ;
     }
-
-    GeometryGroup m_savedResult ;
 
   }
 
