@@ -31,14 +31,14 @@ namespace Common.old
   //   />
   //
 
-  public class EnumValueDescriptor
+  public class EnumValueDescriptor_OLD_DO_NOT_USE
   {
 
     public string Name { get ; protected set ; } = "" ;
 
     public object ValueAsObject { get ; protected set ; }
 
-    protected EnumValueDescriptor (
+    protected EnumValueDescriptor_OLD_DO_NOT_USE (
       string name,
       object valueAsObject
     ) {
@@ -50,7 +50,7 @@ namespace Common.old
 
   }
 
-  public class EnumValueDescriptor<TEnum> : EnumValueDescriptor where TEnum : struct
+  public class EnumValueDescriptor<TEnum> : EnumValueDescriptor_OLD_DO_NOT_USE where TEnum : struct
   {
 
     public EnumValueDescriptor ( TEnum value ) :

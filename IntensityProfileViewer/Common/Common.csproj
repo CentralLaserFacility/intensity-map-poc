@@ -7,4 +7,14 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Utils\EnumItemsSource_OLD_DO_NOT_USE.cs" />
+    <Compile Remove="Utils\EnumValueDescriptor_OLD_DO_NOT_USE.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Utils\EnumItemsSource_OLD_DO_NOT_USE.cs" />
+    <None Include="Utils\EnumValueDescriptor_OLD_DO_NOT_USE.cs" />
+  </ItemGroup>
+
 </Project>

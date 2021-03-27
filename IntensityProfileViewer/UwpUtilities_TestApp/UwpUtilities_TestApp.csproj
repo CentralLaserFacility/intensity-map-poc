@@ -198,15 +198,12 @@
       <Project>{01882d21-4280-4781-9b8f-23647de18e39}</Project>
       <Name>ModelClasses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UwpUtilities\UwpUtilities.csproj">
-      <Project>{45106ca8-d1ca-49f6-af00-725785966912}</Project>
-      <Name>UwpUtilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{2fd9b88c-d9eb-41ae-99ee-c8681d222e0d}</Project>
       <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\IntensityProfileViewer\IntensityProfileViewer.Shared\IntensityProfileViewer.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -8,8 +8,8 @@ namespace Common
   public class SliderValueBindingHelper<TActualValue> 
   {
 
-    private System.Func<TActualValue,double> m_getActualValueAsDouble ;
-    private System.Action<double>            m_setActualValueFromDouble ;
+    private readonly System.Func<TActualValue,double> m_getActualValueAsDouble ;
+    private readonly System.Action<double>            m_setActualValueFromDouble ;
 
     public SliderValueBindingHelper (
       System.Func<TActualValue,double> getActualValueAsDouble,

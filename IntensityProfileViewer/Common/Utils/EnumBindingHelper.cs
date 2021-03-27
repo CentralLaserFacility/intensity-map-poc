@@ -10,16 +10,14 @@ namespace Common
 
   // TODO : Add support for [Description]
 
-  // MATTEO - Code review ??
-
   public class EnumBindingHelper<T> where T : System.Enum
   {
 
-    private System.Action<T> m_valueChanged ;
+    private readonly System.Action<T> m_valueChanged ;
     
-    private System.Func<T,string> m_valueToStringFunc ;
+    private readonly System.Func<T,string> m_valueToStringFunc ;
 
-    private IEnumerable<T> m_options ;
+    private readonly IEnumerable<T> m_options ;
 
     public EnumBindingHelper ( 
       System.Action<T>       valueChanged, 
@@ -27,7 +25,7 @@ namespace Common
     ) {
       m_valueChanged = valueChanged ;
       m_valueToStringFunc = valueToString ?? ( (value) => value.ToString() ) ;
-      List<T> options = new List<T>() ;
+      List<T> options = new() ;
       foreach ( 
         T option in System.Enum.GetValues(
           typeof(T)

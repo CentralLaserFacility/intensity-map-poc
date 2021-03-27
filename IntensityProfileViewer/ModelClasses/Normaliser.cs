@@ -25,7 +25,7 @@ namespace IntensityProfileViewer
 
     public Normaliser ( byte normalisationValue, byte desiredBrightestIntensityValue = 255 )
     {
-      // If the normalisationValue is 127, and the desired brightest value is 255,
+      // If the 'normalisationValue' is 127, and the desired brightest value is 255,
       // we'll apply a gain of 255/127 to each pixel ie a gain of approximately 2.
       m_gainToApply = ( (float) desiredBrightestIntensityValue ) / normalisationValue ;
     }
@@ -63,7 +63,7 @@ namespace IntensityProfileViewer
         }
         return scaledResult ;
       }
-      catch ( System.Exception x )
+      catch ( System.Exception _ )
       {
         throw ;
       }

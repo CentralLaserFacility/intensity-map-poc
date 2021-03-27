@@ -13,9 +13,9 @@ namespace Common
 
     private readonly IEnumerable<T> m_options ;
 
-    private System.Func<T,string> m_valueToStringFunc ;
+    private readonly System.Func<T,string> m_valueToStringFunc ;
 
-    private System.Action<T> m_valueChanged ;
+    private readonly System.Action<T> m_valueChanged ;
     
     public StringBindingHelper ( 
       IEnumerable<T>         options,

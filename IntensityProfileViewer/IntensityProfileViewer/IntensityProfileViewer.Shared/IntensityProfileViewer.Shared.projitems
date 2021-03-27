@@ -18,29 +18,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)IntensityMapImage_XAML_UserControl.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\IntensityMapImage_XAML_UserControl.xaml.cs">
       <DependentUpon>IntensityMapImage_XAML_UserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pointer1_UserControl.xaml.cs">
-      <DependentUpon>Pointer1_UserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingDemo_UserControl.xaml.cs">
-      <DependentUpon>PointerHandlingDemo_UserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml.cs">
-      <DependentUpon>PointerHandlingPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)PointerHandlingPage_old_01.xaml.cs">
-      <DependentUpon>PointerHandlingPage_old_01.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)TestPage_01.xaml.cs">
       <DependentUpon>TestPage_01.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)TestPage_02.xaml.cs">
-      <DependentUpon>TestPage_02.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ClipToBounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\HorizontalProfileGraph_UserControl.xaml.cs">
@@ -87,19 +72,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_UserControl.xaml.cs">
       <DependentUpon>ViewerPanel_UserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\DrawingHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\Line.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities_COPY\PixelToSceneCoordinatesMapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\PanAndZoomGesturesHandler_UWP.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\PanAndZoomGesturesHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities_COPY\TouchEventDescriptor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\BitmapHelpers_ForTesting.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\DrawingHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities_COPY\EnumToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\DrawingHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\Line.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\PixelToSceneCoordinatesMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities\PanAndZoomGesturesHandler_UWP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities\PanAndZoomGesturesHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities\TouchEventDescriptor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\BitmapHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\BitmapHelpers_ForTesting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\DrawingHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\EnumToStringConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)IntensityMapImage_XAML_UserControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\IntensityMapImage_XAML_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,27 +92,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pointer1_UserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)PointerHandlingDemo_UserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)PointerHandlingPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)PointerHandlingPage_old_01.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="$(MSBuildThisFileDirectory)TestPage_01.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TestPage_02.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

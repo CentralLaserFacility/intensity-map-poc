@@ -26,8 +26,10 @@ namespace Common
   //     SelectedValue="{Binding Path=Account.Type, Mode=TwoWay}"
   //   />
   //
+  // Hmm, this wasn't as successful as you'd hope ...
+  //
 
-  public class EnumItemsSource<T> where T : struct, System.IConvertible
+  public class EnumItemsSource_OLD_DO_NOT_USE<T> where T : struct, System.IConvertible
   {
 
     public string Name { get ; }
@@ -36,7 +38,7 @@ namespace Common
 
     // public string FullTypeString { get ; }
 
-    public EnumItemsSource ( 
+    public EnumItemsSource_OLD_DO_NOT_USE ( 
       string name, 
       T value
       // , string fullTypeString 
@@ -54,7 +56,7 @@ namespace Common
     // Create a list of EnumItemsSource from an enum type.
     //
 
-    public static List<EnumItemsSource<T>> ToList ( )
+    public static List<EnumItemsSource_OLD_DO_NOT_USE<T>> ToList ( )
     {
       var namesList = System.Enum.GetNames(
         typeof(T)
@@ -62,11 +64,11 @@ namespace Common
       var valuesList = System.Enum.GetValues(
         typeof(T)
       ).Cast<T>().ToList() ;
-      var enumItemsSourceList = new List<EnumItemsSource<T>>() ;
+      var enumItemsSourceList = new List<EnumItemsSource_OLD_DO_NOT_USE<T>>() ;
       for ( int i = 0 ; i < namesList.Length ; i++ )
       {
         enumItemsSourceList.Add(
-          new EnumItemsSource<T>(
+          new EnumItemsSource_OLD_DO_NOT_USE<T>(
             namesList[i], 
             valuesList[i]
             // , $"{typeof(T).Name}.{namesList[i]}"
