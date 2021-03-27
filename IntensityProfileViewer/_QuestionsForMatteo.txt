@@ -67,11 +67,10 @@ Visual Studio issues :
 
   Bugs ... XAML designer is busy ... sometimes VS freezes ...
 
-  Nuget Package Explorer ?? Is it useful ??
-
   On 'references', sometimes see a yellow triangle ; how to get info about what's wrong ???
 
   Is there a way to 'open' a Nuget package and see what classes etc are provided ?
+  Nuget Package Explorer ?? Is it useful ??
 
   UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
   [ Aha ... Width property is the 'suggested width' ??? ]
@@ -82,12 +81,10 @@ Visual Studio issues :
     Specifies data for a Path (all rendered with same stroke/brush)
     ??? How is the underlying information accessed ??
     ??? Aha, just in terms of the properties that have been set up
-    Under the hood, something turns a Geometry into pixels etc
+    Under the hood, something turns a Geometry into pixels
 
   Shape class :
-    Line
-    Rectangle
-    Path ... etc
+    Line, Rectangle, Path ... etc
     GeometryTransform (3x3 matrix ie 2D)
     RenderTransform (3x3 matrix ie 2D)
     IsHitTestVisible !!! PointerEntered etc
