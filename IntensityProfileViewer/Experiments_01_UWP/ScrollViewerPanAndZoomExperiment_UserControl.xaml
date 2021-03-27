@@ -40,6 +40,7 @@
         the reference point moves away from the expected position.
       Matteo : Would a GestureRecogniser give us the flexibility to fix this,
       or would we be fighting 'standard behaviour' that's built into UWP ??
+      Matteo : Is there an easy way to make this work the way we want ??
     -->
 
     <ScrollViewer 
@@ -58,7 +59,7 @@
         *** Matteo ...
         *** In this scenario we're specifying the size of the Grid.
         *** In other scenarios, the Grid gets its Size from its Children ???
-        *** What are the rules here ???
+        *** What are the rules here ??? OK, it's complicated !!
       -->
       <Grid Width="800" Height="800">
         <Canvas 

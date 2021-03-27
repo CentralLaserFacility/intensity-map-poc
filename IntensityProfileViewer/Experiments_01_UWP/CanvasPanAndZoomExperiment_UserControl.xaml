@@ -11,7 +11,6 @@
 >
   <Grid>
 
-    <!-- Matteo ?? Tradeoff between Canvas and Grid ?? -->
     <!-- Canvas.Top vs Margin ?? -->
     <!-- Margin might not be available on certain elements, so Canvas.Top is preferred -->
 

@@ -9,7 +9,24 @@
 
   <Application.Resources>
     <ResourceDictionary>
+      <!-- Usage :
+        Background="{StaticResource BackgroundBrush_AliceBlue}"
+        Fill="{StaticResource Brush_LightYellow}"
+      -->
       <SolidColorBrush x:Key="BackgroundBrush_AliceBlue">AliceBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="FillBrush_LightYellow">AliceBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Beige">AliceBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightCyan">LightCyan</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightYellow">LightYellow</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightGray">LightGray</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Bisque">Bisque</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightBlue">LightBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightSeaGreen">LightSeaGreen</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Cornsilk">Cornsilk</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Pink">Pink</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightGreen">LightGreen</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Gainsboro">Gainsboro</SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Blue">Blue</SolidColorBrush>
     </ResourceDictionary>
     <!-- 
     <controls:XamlControlsResources>

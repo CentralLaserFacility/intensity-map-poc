@@ -12,78 +12,84 @@
     x:DefaultBindMode="OneWay"
   >
 
-    <Grid Background="LightBlue" Padding="6" ColumnSpacing="10" RowSpacing="10" >
+  <Grid 
+    Padding="10" 
+    ColumnSpacing="10" 
+    RowSpacing="10" 
+    Background="{StaticResource Brush_LightBlue}" 
+  >
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="4*"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="4*"/>
-        </Grid.ColumnDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="4*"/>
+    </Grid.ColumnDefinitions>
 
-        <local:VerticalProfileGraph_UserControl
-          x:Name="m_verticalProfileGraph_UserControl" 
-          Grid.Row="0" Grid.Column="0" 
-          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
-          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-        />
+    <local:VerticalProfileGraph_UserControl
+      x:Name="m_verticalProfileGraph_UserControl" 
+      Grid.Row="0" Grid.Column="0" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
 
-        <local:IntensityMapImage_UserControl 
-          x:Name="m_intensityMapImage_UserControl" 
-          Grid.Row="0"
-          Grid.Column="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,0)}" 
-          Grid.RowSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
-          Grid.ColumnSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
-          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
-        />
+    <local:IntensityMapImage_UserControl 
+      x:Name="m_intensityMapImage_UserControl" 
+      Grid.Row="0"
+      Grid.Column="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,0)}" 
+      Grid.RowSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
+      Grid.ColumnSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+    />
 
-        <!-- 
-          <Rectangle 
-            Grid.Row="1" Grid.Column="0" 
-            Fill="LightGray" 
-            Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-          />
-        -->
+    <!-- 
+      <Rectangle 
+        Grid.Row="1" Grid.Column="0" 
+        Fill="LightGray" 
+        Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+      />
+    -->
 
-        <!-- 
-        <Image 
-          Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,ViewModel.ImagePresentationSettings.ColourMapOption), Mode=OneWay}"
-          Grid.Row="1" Grid.Column="0" 
-          Stretch="UniformToFill"
-          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-        />
-        -->
+    <!-- 
+    <Image 
+      Source="{x:Bind uwpUtils:BitmapHelpers.CreateWriteableBitmap(ViewModel.CurrentSource.MostRecentlyAcquiredIntensityMap,ViewModel.ImagePresentationSettings.ColourMapOption), Mode=OneWay}"
+      Grid.Row="1" Grid.Column="0" 
+      Stretch="UniformToFill"
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
+    -->
 
     <Rectangle 
       Width="Auto" 
       Height="Auto" 
       Grid.Row="1" 
       Grid.Column="0" 
-      Fill="LightYellow" 
+      Fill="{StaticResource FillBrush_LightYellow}" 
     />
 
     <Button 
-          HorizontalAlignment="Center"
-          Grid.Row="1" Grid.Column="0" 
-          Background="LightGray" 
-          Content="Reset Pan/Zoom"
-          Click="ResetPanZoomButton_Click"
-          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-        />
+      HorizontalAlignment="Center"
+      Grid.Row="1" Grid.Column="0" 
+      Background="{StaticResource Brush_LightGray}"
+      Content="Reset Pan/Zoom"
+      Click="ResetPanZoomButton_Click"
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
 
-        <!--
-        <local:HorizontalProfileGraph_XAML_UserControl 
-        -->
-        <local:HorizontalProfileGraph_UserControl 
-          x:Name="m_horizontalProfileGraph_UserControl" 
-          Grid.Row="1" Grid.Column="1" 
-          ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
-          Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-        />
+    <!--
+    <local:HorizontalProfileGraph_XAML_UserControl 
+    -->
+    <local:HorizontalProfileGraph_UserControl 
+      x:Name="m_horizontalProfileGraph_UserControl" 
+      Grid.Row="1" Grid.Column="1" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
 
-    </Grid>
+  </Grid>
 
 </UserControl>
+

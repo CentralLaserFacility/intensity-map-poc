@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
   >
 
-  <!-- Matteo : what determines the size assigned by the designer ?? -->
+  <!-- Matteo : what determines the size assigned by the designer view ?? -->
   <muxc:TabView>
     <muxc:TabView.TabItems>
       <muxc:TabViewItem Header="Scroll Viewer pan/zoom">

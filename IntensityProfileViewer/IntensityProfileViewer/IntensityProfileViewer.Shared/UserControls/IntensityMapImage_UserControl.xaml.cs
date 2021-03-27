@@ -31,10 +31,15 @@ namespace IntensityProfileViewer
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
 
+    // MATTEO - please review ... as a general way of setting up the ViewModel
+    // We also need to be able to set the ViewModel from the DataContext
+    // eg if the UserControl is specified in a DataTemplate for a ListView etc.
+    // See below ...
+
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-      "ViewModel", 
+      nameof(ViewModel), 
       typeof(IntensityProfileViewer.ISourceViewModel), 
-      typeof(IntensityMapImage_UserControl), 
+      typeof(IntensityMapImage_UserControl), // Matteo : is there a way to get the class type that owns the Property ?? Reflection ...
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
@@ -60,6 +65,10 @@ namespace IntensityProfileViewer
     public IntensityMapImage_UserControl ( )
     {
       InitializeComponent() ;
+      // MATTEO - is this the right way ??
+      // this.DataContextChanged += (s,e) => {
+      //   ViewModel = e.NewValue as IntensityProfileViewer.ISourceViewModel ;
+      // } ;
     }
 
     // private SkiaSharp.SKCanvas? m_skiaCanvas ; // No no no ...

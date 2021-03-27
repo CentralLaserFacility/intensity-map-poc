@@ -50,8 +50,13 @@ namespace IntensityProfileViewer
     public Brush GetErrorIndicationBrush ( bool error )
     => (
       error
-      ? new SolidColorBrush(Windows.UI.Colors.Pink)
-      : new SolidColorBrush(Windows.UI.Colors.LightGreen)
+      // ? new SolidColorBrush(Windows.UI.Colors.Pink)
+      // : new SolidColorBrush(Windows.UI.Colors.LightGreen)
+      // Matteo : this fails to find the resources !!!
+      // ? this.Resources["Brush_Pink"] as Brush
+      // : this.Resources["Brush_LightGreen"] as Brush
+      ? Application.Current.Resources["Brush_Pink"] as Brush
+      : Application.Current.Resources["Brush_LightGreen"] as Brush
     ) ;
 
   }

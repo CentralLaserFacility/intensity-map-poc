@@ -17,7 +17,7 @@
 
   <Grid>
 
-    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="LightYellow">
+    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="{StaticResource Brush_LightYellow}">
 
       <!-- 
         Matteo : 
@@ -29,7 +29,7 @@
         Grid.Row="0"
         Grid.Column="0"
         HorizontalAlignment="Center"
-        Background="Bisque" 
+        Background="{StaticResource Brush_Bisque}" 
       >
         <TextBlock 
           Text="Image presentation settings" 
@@ -46,7 +46,7 @@
         VerticalContentAlignment="Center"
         BorderThickness="0"
         IsReadOnly="true" 
-        Background="Bisque"
+        Background="{StaticResource Brush_Bisque}" 
       />
       -->
 

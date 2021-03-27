@@ -12,7 +12,7 @@
     x:DefaultBindMode="OneWay"
 >
 
-    <Grid Background="LightCyan">
+  <Grid Background="{StaticResource Brush_LightCyan}">
 
         <skia:SKXamlCanvas 
           x:Name="m_skiaCanvas"

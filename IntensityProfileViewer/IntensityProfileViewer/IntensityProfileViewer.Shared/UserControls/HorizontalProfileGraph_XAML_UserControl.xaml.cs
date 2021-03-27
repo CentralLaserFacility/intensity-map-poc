@@ -170,6 +170,11 @@ namespace IntensityProfileViewer
     private GeometryGroup m_verticalLines_geometryGroup ;
     // private PathGeometry  m_joinedOutlinePoints_pathGeometry ;
 
+    // MATTEO : Fastest way to set up time-varying Path data,
+    // but still not as performant as Skia - because we're setting
+    // LineGeometry StartPoint and EndPoint which are Dependency Properties ???
+    // Visual Layer wouldn't have this overhead - but no Text support !!!
+
     public Windows.UI.Xaml.Media.Geometry GetPathDataForGraph ( 
       IntensityProfileViewer.IIntensityMap mostRecentlyAcquiredIntensityMap 
     ) {
@@ -227,11 +232,14 @@ namespace IntensityProfileViewer
 
       System.TimeSpan timeBeforePathDataBuildStarted = m_executionTimingStopwatch.Elapsed ;
 
+      // MATTEO - fasest way to build Path data
       // It's expensive to build the tree of 'Path.Data' elements,
       // so we create it once, and then 'draw' the lines by updating
-      // the start and/or end points.
+      // the start and/or end points on subsequent calls.
       // Hmm, even if we do this, performance isn't great
       // because (??) the EndPoint is a DependencyProperty ...
+      // NOTE : THIS ASSUMES THAT THE NUMBER OF POINTS IS NEVER GOING TO CHANGE
+      // SO WE NEED TO ALSO ACCOMMODATE THIS CASE ... TODO ...
       bool isFirstPass = m_savedResult is null ;
       if ( m_savedResult is null )
       {
@@ -279,7 +287,7 @@ namespace IntensityProfileViewer
             line.StartPoint = bottomAnchorPoint ;
           }
           var endPoint = bottomAnchorPoint.MovedBy(0,-lineLength) ;
-          line.EndPoint = endPoint ;
+          line.EndPoint = endPoint ; // MATTEO : THIS IS A DEPENDENCY PROPERTY
           points.Add(
             endPoint
           ) ;

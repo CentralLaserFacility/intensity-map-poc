@@ -241,6 +241,7 @@ namespace Experiments_01_UWP
 
       void OnPointerWheelChanged ( object sender, PointerRoutedEventArgs args )
       {
+        // Matteo : which method is preferred ??? GetKeyState or GetAsyncKeyState ???
         bool isShiftKeyDown = (
           Windows.UI.Core.CoreWindow.GetForCurrentThread(
           ).GetKeyState(
@@ -277,7 +278,6 @@ namespace Experiments_01_UWP
           isShiftKeyDown,
           isCtrlKeyDown
         ) ;
-        // Matteo : which method is preferred ???
         System.Diagnostics.Debug.WriteLine(
           $"SHIFT {isShiftKeyDown} {isShiftKeyDown_ASYNC} ; CTRL {isCtrlKeyDown} {isCtrlKeyDown_ASYNC}"
         ) ;

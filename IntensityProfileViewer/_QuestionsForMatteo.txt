@@ -107,3 +107,15 @@ XAML scrolling, panning, and zooming sample
 https://github.com/microsoftarchive/msdn-code-gallery-microsoft/tree/411c271e537727d737a53fa2cbe99eaecac00cc0/Official%20Windows%20Platform%20Sample/Universal%20Windows%20app%20samples/111487-Universal%20Windows%20app%20samples/XAML%20scrolling%2C%20panning%2C%20and%20zooming%20sample/C%23/Shared
 Hmm, this is now ARCHIVED.
 And not very useful, because the only feature shown in 'Scenario3_Zooming.xaml' is setting 'ZoomMode' in the ScrollViewer, to enable pinch gestures.
+
+========================
+
+WinUI docs & books ?
+
+Microsoft docs
+  Make sense when you already understand, poor for tutorial purposes.
+  Talk about surface level features, underlying concepts not explained well.
+
+===================
+
+How to set things up so that graphics is refreshed at the 60Hz rate ?

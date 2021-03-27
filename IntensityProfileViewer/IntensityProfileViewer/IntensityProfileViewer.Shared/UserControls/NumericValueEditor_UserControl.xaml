@@ -11,7 +11,7 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <Grid Background="LightSeaGreen" Padding="10" ColumnSpacing="10" RowSpacing="10">
+  <Grid Background="{StaticResource Brush_LightSeaGreen}" Padding="10" ColumnSpacing="10" RowSpacing="10">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -29,7 +29,7 @@
       Grid.Row="0"
       Grid.Column="0"
       Grid.ColumnSpan="2"
-      Background="Cornsilk" 
+      Background="{StaticResource Brush_Cornsilk}" 
     >
       <TextBlock Height="Auto" Text="{x:Bind ViewModel.DisplayName}" Margin="4"/>
     </Border>

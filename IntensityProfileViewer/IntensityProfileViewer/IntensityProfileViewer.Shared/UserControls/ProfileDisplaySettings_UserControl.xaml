@@ -11,7 +11,7 @@
   x:DefaultBindMode="OneWay"
 >
 
-  <Grid Background="Gainsboro" Padding="10" RowSpacing="10">
+  <Grid Background="{StaticResource Brush_Gainsboro}" Padding="10" RowSpacing="10">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -31,7 +31,7 @@
     <Border 
       Grid.Row="0"
       Grid.Column="0"
-      Background="Cornsilk" 
+      Background="{StaticResource Brush_Cornsilk}" 
     >
       <TextBlock 
         Text="Profile graph display settings" 
