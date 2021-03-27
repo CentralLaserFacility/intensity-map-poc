@@ -16,7 +16,7 @@ using Windows.ApplicationModel.Appointments;
 // Also see these examples, which also demonstrate Gesture handling ...
 //   https://github.com/microsoft/Windows-universal-samples/tree/master/Samples/BasicInput/cs
 //
-// Matteo : which of these are the most up to date ??
+// Matteo : which of these examples is the most up to date ??
 //
 
 namespace Experiments_01_UWP

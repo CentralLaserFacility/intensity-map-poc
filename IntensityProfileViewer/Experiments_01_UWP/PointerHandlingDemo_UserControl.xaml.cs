@@ -89,7 +89,6 @@ namespace Experiments_01_UWP
 
     private void AddLineToEventLogPanel ( string textLine )
     {
-      // return ;
       Paragraph newParagraph = new() ;
       newParagraph.Inlines.Add(
         new Run() {
@@ -97,15 +96,17 @@ namespace Experiments_01_UWP
         }
       ) ;
 
+      // This adds a new line AT THE TOP ...
       m_eventLogPanel.Blocks.Insert(
         0,
         newParagraph
       ) ;
 
+      // MATTEO - help !!! How to add entries that appear 
+      // at the bottom of the panel, rather than at the top ???
       // Hmm, new idea - perhaps add a blank line every time,
       // which gets removed when we add the next line ???
       // BUT THAT KIND OF HACK SHOULD NOT BE NECESSARY
-      // Matteo - help !!!
 
       // https://stackoverflow.com/questions/11171456/best-way-to-scroll-to-end-of-scrollviewer
       // Almost works, but THE LAST LINE ISN'T SHOWN ...

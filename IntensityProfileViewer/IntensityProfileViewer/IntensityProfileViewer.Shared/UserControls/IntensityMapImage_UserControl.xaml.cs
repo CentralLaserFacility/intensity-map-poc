@@ -31,15 +31,19 @@ namespace IntensityProfileViewer
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
 
-    // MATTEO - please review ... as a general way of setting up the ViewModel
-    // We also need to be able to set the ViewModel from the DataContext
+    // MATTEO - please review ... as a general way of setting up the ViewModel.
+    // We sometimes also need to be able to set the ViewModel from the DataContext
     // eg if the UserControl is specified in a DataTemplate for a ListView etc.
     // See below ...
+
+    // Note : this seems like an ideal candidate for Source Generation,
+    // where you could specify a [DependencyProperty] attribute on a partial declaration
+    // and have the generator create the boilerplate code ...
 
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
       nameof(ViewModel), 
       typeof(IntensityProfileViewer.ISourceViewModel), 
-      typeof(IntensityMapImage_UserControl), // Matteo : is there a way to get the class type that owns the Property ?? Reflection ...
+      typeof(IntensityMapImage_UserControl), // Matteo : is there a neat way to get the class type that owns the Property ?? OK, Reflection ...
       new PropertyMetadata(
         defaultValue : null,
         propertyChangedCallback : (dp,propertyChangedEventArgs) => {
@@ -65,7 +69,8 @@ namespace IntensityProfileViewer
     public IntensityMapImage_UserControl ( )
     {
       InitializeComponent() ;
-      // MATTEO - is this the right way ??
+      // MATTEO - is this the right way to assign the ViewModel
+      // From a DataContext that would be specified via a DataTemplate ??
       // this.DataContextChanged += (s,e) => {
       //   ViewModel = e.NewValue as IntensityProfileViewer.ISourceViewModel ;
       // } ;

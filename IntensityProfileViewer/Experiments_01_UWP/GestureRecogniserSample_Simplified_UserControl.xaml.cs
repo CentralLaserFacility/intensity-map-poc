@@ -161,6 +161,8 @@ namespace Experiments_01_UWP
         m_deltaTransform.TranslateX = updateArgs.Delta.Translation.X ;
         m_deltaTransform.TranslateY = updateArgs.Delta.Translation.Y ;
         // Hmm, the description of Scale is WRONG ??? (Matteo??)
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.input.manipulationdelta.scale
+        // 'The change in distance between touch contacts, as a percentage.' NO, AS A FRACTION !!! 
         m_deltaTransform.ScaleX = updateArgs.Delta.Scale ;
         m_deltaTransform.ScaleY = updateArgs.Delta.Scale ;
       }
@@ -241,7 +243,11 @@ namespace Experiments_01_UWP
 
       void OnPointerWheelChanged ( object sender, PointerRoutedEventArgs args )
       {
-        // Matteo : which method is preferred ??? GetKeyState or GetAsyncKeyState ???
+        // MATTEO : which method is preferred ??? GetKeyState or GetAsyncKeyState ???
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.core.corewindow.getasynckeystate?view=winrt-19041
+        // https://docs.microsoft.com/en-us/uwp/api/windows.ui.core.corewindow.getkeystate?view=winrt-19041
+        // The docs for both flavours are identical, but ...
+        // https://stackoverflow.com/questions/17770753/getkeystate-vs-getasynckeystate-vs-getch
         bool isShiftKeyDown = (
           Windows.UI.Core.CoreWindow.GetForCurrentThread(
           ).GetKeyState(

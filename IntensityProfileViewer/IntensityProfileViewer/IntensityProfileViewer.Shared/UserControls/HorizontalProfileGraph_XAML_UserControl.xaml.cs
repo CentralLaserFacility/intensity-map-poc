@@ -56,9 +56,7 @@ namespace IntensityProfileViewer
       } ;
       this.SizeChanged += (s,e) => {
         // https://www.domysee.com/blogposts/canvas-rendering-out-of-bounds
-        // Matteo : HELP, THIS DOESN'T WORK EITHER !!!
-        // Aha, it's because of the TRANSFORM we've applied ...
-        // It works when we apply the transform to the Path :)
+        // Aha, this works when we apply the transform to the Path :)
         m_canvas.Clip = new RectangleGeometry() { 
           Rect = new Rect(
             0, 
@@ -67,6 +65,7 @@ namespace IntensityProfileViewer
             m_canvas.ActualHeight
           )
         } ;
+        // MATTEO : Is this the right way to trigger a repaint ???
         this.Bindings.Update() ;
       } ;
 
@@ -238,7 +237,7 @@ namespace IntensityProfileViewer
       // the start and/or end points on subsequent calls.
       // Hmm, even if we do this, performance isn't great
       // because (??) the EndPoint is a DependencyProperty ...
-      // NOTE : THIS ASSUMES THAT THE NUMBER OF POINTS IS NEVER GOING TO CHANGE
+      // NOTE : THIS CODE ASSUMES THAT THE NUMBER OF POINTS IS NEVER GOING TO CHANGE
       // SO WE NEED TO ALSO ACCOMMODATE THIS CASE ... TODO ...
       bool isFirstPass = m_savedResult is null ;
       if ( m_savedResult is null )
@@ -284,10 +283,11 @@ namespace IntensityProfileViewer
           var line = (LineGeometry) m_verticalLines_geometryGroup.Children[i] ;
           // if ( isFirstPass )
           {
+            // Could avoid setting this in some circumstances ...
             line.StartPoint = bottomAnchorPoint ;
           }
           var endPoint = bottomAnchorPoint.MovedBy(0,-lineLength) ;
-          line.EndPoint = endPoint ; // MATTEO : THIS IS A DEPENDENCY PROPERTY
+          line.EndPoint = endPoint ; // MATTEO : ENDPOINT IS A DEPENDENCY PROPERTY - IS THERE AN INHERENT OVERHEAD WHEN WE SET THE VALUE ??
           points.Add(
             endPoint
           ) ;

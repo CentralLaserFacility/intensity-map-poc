@@ -11,9 +11,9 @@
     x:DefaultBindMode="OneWay"
   >
 
-  <!-- Matteo : is it recommended to *always* have a grid at the root ?? -->
-  <!-- Matteo : How come the height turns out OK at runtime ?? -->
-  <!-- Matteo : What determines the Width at runtime ?? -->
+  <!-- MATTEO : is it recommended to *always* have a grid at the root ?? -->
+  <!-- MATTEO : How come the Height turns out OK at runtime ?? -->
+  <!-- MATTEO : What determines the Width at runtime ?? -->
 
   <Grid>
 
@@ -21,7 +21,7 @@
 
       <!-- 
         Matteo : 
-        TextBlock with border is verbose, but it works
+        TextBlock with border is verbose, but it works - pity there isn't a Background property as there is in TextBox
         TextBox in 'read-only' mode is misaligned ???
       -->
 

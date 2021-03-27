@@ -55,6 +55,7 @@ namespace IntensityProfileViewer
       // Matteo : this fails to find the resources !!!
       // ? this.Resources["Brush_Pink"] as Brush
       // : this.Resources["Brush_LightGreen"] as Brush
+      // THIS WORKS ...
       ? Application.Current.Resources["Brush_Pink"] as Brush
       : Application.Current.Resources["Brush_LightGreen"] as Brush
     ) ;

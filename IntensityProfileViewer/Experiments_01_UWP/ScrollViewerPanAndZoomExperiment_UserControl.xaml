@@ -16,8 +16,9 @@
 
   <Grid Background="AliceBlue" Padding="10" RowSpacing="10" ColumnSpacing="10" >
 
-    <!-- Matteo !!! : row #1 can be fixed height, but want row #0 to take all available space ... ???? -->
-    <!-- Matteo : defaults for XAML properties ... documented anywhere ??? -->
+    <!-- MATTEO !!! : row #1 can be fixed height, but want row #0 to take all available space ... ???? -->
+    <!-- MATTEO : defaults for XAML properties ... documented anywhere ??? -->
+    <!-- For example, what is the default for Height in a RowDefinition ??? Is it * or Auto or what ??? -->
 
     <Grid.RowDefinitions>
       <RowDefinition Height="600" />
@@ -29,7 +30,8 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <!-- Matteo : Name vs x:Name ??? -->
+    <!-- Matteo : 'Name' vs 'x:Name' ??? -->
+    <!-- Should we use x:Name everywhere, or is Name still relevant ??? -->
 
     <!-- 
       Hmm, Tine reckons this pan/zoom behaviour is 'good enough' ... 
@@ -40,7 +42,9 @@
         the reference point moves away from the expected position.
       Matteo : Would a GestureRecogniser give us the flexibility to fix this,
       or would we be fighting 'standard behaviour' that's built into UWP ??
-      Matteo : Is there an easy way to make this work the way we want ??
+      [ OK, I've now got the Gesture Recogniser sussed ... ]
+      MATTEO : Is there an easy way to make this work the way we want ??
+      Effectively with an 'infinite' canvas that you can pan and zoom
     -->
 
     <ScrollViewer 
@@ -56,7 +60,7 @@
         Curiously, without a Grid we get the Vertical scroll bar
         showing, but not the Horizontal one ...
 
-        *** Matteo ...
+        *** MATTEO ...
         *** In this scenario we're specifying the size of the Grid.
         *** In other scenarios, the Grid gets its Size from its Children ???
         *** What are the rules here ??? OK, it's complicated !!

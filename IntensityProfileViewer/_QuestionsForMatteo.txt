@@ -1,25 +1,80 @@
-Visual Studio issues :
 
-  Feedback ... too many thousands of items !!!
-  https://developercommunity.visualstudio.com/report?port=1027&fsid=83affe24-2f4b-4691-81db-ae17a8b346d3&entry=problem&space=8
+Some specific questions / topics ...
 
-  GitHub. Checking out a repo, opening the available solutions from that repo ?? 
-  Have to do File/Open then remember the repo location.
+  Visual layer geometric objects eg lines, shapes - but TEXT ???
+  https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/visual-layer-in-desktop-apps
+  The Visual Layer does not have a primitive for rendering text.
+  WTF ???
 
-  How to exclude projects from a 'build solution' ; Configuration Manager check boxes ignored ??
-
-  XAML designer is busy ...
-
-  Nuget Package Explorer ??
-
-  UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
-  [ Aha ... this is the 'suggested width' ??? ]
-
-  Trigger binding change on resize, when a Bind target depends on panel size ...
+  ?? Role of the 'Composition' API ??
+  Really for animation and 3D effects ?
+  Has 'rounded rectangle', nice
+  Points (eg for CompositionLineGeometry) specified as System.Numerics.Vector2.
+  Microsoft.UI.Composition.CompositionPath ... ??? no docs !!!
+  Visual, etc ; transformation matrix is 4x4 ??? ie for 3D manipulations
 
   Putting 'library' code in the Shared project avoids the need to set up
   multiply targeted project files, but is horrid for all sorts of reasons.
   Roll on .Net 6 where this will be sorted :)
+
+  How to set things up so that graphics is refreshed at the maximum 60Hz rate ?
+  DispatcherTimer can only work at up to 20Hz, fair enough.
+  Can trigger events at faster rates (eg 50Hz) via a System.Threading.Timer,
+  but that seems wrong, and need to marshall to the UI thread anyway.
+
+  Even when using DispatcherTimer at 20mS : what happens if a UI update
+  takes longer than 20mS ? Are Tick events discarded ??
+
+  General point : Confusion about LAYOUT - WHAT DETERMINES SIZES ???
+  Is there a succinct description anywhere ? It's complicated ...
+
+  WPF had a LayoutTransform, and routed events that could be previewed (tunnelling/bubbling).
+  Also 'DrawingVisuals' that were lightweight, drawing text as well as shapes.
+  Are there any notes that explain how to work around these omissions in UWP ?
+
+  UIElement / FrameworkElement / subclasses ... 
+  WOULD LIKE BETTER DOCUMENTATION OF THE XAML OBJECT MODEL !!!
+
+  Reasons to HATE XAML !!!
+    - Comments can't be nested, so hard to use commenting <!-- --> 
+      to try out alternatives or keep old versions around
+    - Can't document Attributes with comments ...
+    - Too verbose
+    - Intellisense is flakey, often lags behind (needs rebuild to get rid of all squigglies)
+    - Linking to definitions in a different XAML file is really ugly (StaticResource etc)
+    - NO WAY TO FIND OUT WHAT THE DEFAULTS ARE FOR UNSPECIFIED 
+    - The designer doesn't work very well, runtime results are not what you see in the designer (aha, hence hot reload, but that's flakey too)
+    - XML is an interchange format, never intended to be written by humans :) :)
+    ROLL ON C# FOR MARKUP !!!
+
+-------------------------------------
+
+Reminders of topics to maybe talk about ...
+
+Visual Studio issues :
+
+  Feedback ... nice to offer this, but too many thousands of items !!!
+  https://developercommunity.visualstudio.com/report?port=1027&fsid=83affe24-2f4b-4691-81db-ae17a8b346d3&entry=problem&space=8
+
+  Quirks using GitHub integration. Checking out a repo, opening the available solutions from that repo ?? 
+  Have to do File/Open then remember the repo location.
+
+  Git issues - directory not being seen as a Git repo even though it has a .git directory ???
+
+  Is it worthwhile to use 16.10 preview these days, or best to stick with 16.9.x (which Jerome is using for Uno)
+
+  How to exclude projects from a 'build solution' ; Configuration Manager check boxes are being ignored ??
+
+  Bugs ... XAML designer is busy ... sometimes VS freezes ...
+
+  Nuget Package Explorer ?? Is it useful ??
+
+  On 'references', sometimes see a yellow triangle ; how to get info about what's wrong ???
+
+  Is there a way to 'open' a Nuget package and see what classes etc are provided ?
+
+  UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
+  [ Aha ... Width property is the 'suggested width' ??? ]
 
   Each UserControl should be independently testable in a 'demo' panel.
 
@@ -38,24 +93,6 @@ Visual Studio issues :
     IsHitTestVisible !!! PointerEntered etc
     Stroke / Brush
 
-  Hit test : how to find whether an object is 'hit' at a given position ?
-  https://stackoverflow.com/questions/38625268/how-can-i-detect-the-control-under-a-point-in-uwp
-  You can use Windows.UI.Xaml.Media.VisualTreeHelper.FindElementsInHostCoordinates to find UIElements that intersect a specific coordinate.
-  To find a point relative to your Canvas you'll need to convert from the Canvas's coordinates to the app window's coordinates, which you can do with UIElement.TransformToVisual. This will take into account scaling as well as translations.
-
-  VisualTreeHelper.FindElementsInHostCoordinates
-  https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates?view=winrt-19041
-  Retrieves a set of objects that are located within a specified x-y coordinate point of an app UI. The set of objects represents the components of a visual tree that share that point.
-
-------------------
-
-  ?? Role of the 'Composition' API ??
-  Really for animation and 3D effects ?
-  Has 'rounded rectangle', nice
-  Points (eg for CompositionLineGeometry) specified as System.Numerics.Vector2.
-  Microsoft.UI.Composition.CompositionPath ... ??? no docs !!!
-  Visual, etc ; transformation matrix is 4x4 ???
-
 -------------------------
 
   So many options for 'custom rendering' ...
@@ -70,23 +107,14 @@ Visual Studio issues :
 
   For pan/zoom (eg in MachineSafety network diagram) need to apply
   a Transform to *all* the elements in a container.
-
   In WPF, we have DrawingVisuals in a ContainerVisual, can apply a Transform 
   to the container and all the children are affected.
-
   Is there a way to do this in UWP XAML, eg to all child elements of a Canvas ???
-  *** Aha, can apply a ScaleTransform or whatever to the Canvas, no problem.
-
-  Visual layer geometric objects eg lines, shapes - but TEXT ???
-  https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/visual-layer-in-desktop-apps
-  The Visual Layer does not have a primitive for rendering text.
-  WTF ???
+  *** Aha, OF COURSE, can apply a ScaleTransform or whatever to the Canvas, no problem.
 
 --------------------------------
 
-Git issues - directory not seen as a Git repo ???
-
-Attempting to add TabView - failed, parameter is incorrect ('broken' branch)
+  Uno issue ?? Attempting to add TabView in Shared project - failed, parameter is incorrect ('broken' branch)
 
 --------------------------
 
@@ -95,13 +123,6 @@ Attempting to add TabView - failed, parameter is incorrect ('broken' branch)
   UnoSkiaSharpFiddle ...
 
 -------------------------------------
-
-  Confusion about LAYOUT - WHAT DETERMINES SIZES ???
-  Is there a sccince description anywhere ? It's complicated ...
-
-  UIElement / FrameworkElement / subclasses ...
-
-----------------------------------------
 
 XAML scrolling, panning, and zooming sample
 https://github.com/microsoftarchive/msdn-code-gallery-microsoft/tree/411c271e537727d737a53fa2cbe99eaecac00cc0/Official%20Windows%20Platform%20Sample/Universal%20Windows%20app%20samples/111487-Universal%20Windows%20app%20samples/XAML%20scrolling%2C%20panning%2C%20and%20zooming%20sample/C%23/Shared
@@ -114,8 +135,7 @@ WinUI docs & books ?
 
 Microsoft docs
   Make sense when you already understand, poor for tutorial purposes.
-  Talk about surface level features, underlying concepts not explained well.
+  They talk about surface level features, but underlying concepts not explained well.
+  Easily get stuck when trying to do things that you'd expect to be straightforward.
 
 ===================
-
-How to set things up so that graphics is refreshed at the 60Hz rate ?

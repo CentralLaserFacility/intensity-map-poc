@@ -10,6 +10,8 @@ namespace Common
 
   // TODO : Add support for [Description]
 
+  // MATTEO - Code review ??
+
   public class EnumBindingHelper<T> where T : System.Enum
   {
 

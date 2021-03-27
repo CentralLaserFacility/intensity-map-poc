@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="90"
-    d:DesignWidth="700"
+    d:DesignWidth="900"
     x:DefaultBindMode="OneWay"
 >
 
@@ -20,7 +20,10 @@
      />
     -->
 
-    <ComboBox Header="Image Source (simulation)" Width="160" 
+    <!-- MATTEO : how to get these to be more nicely aligned ??? -->
+
+    <ComboBox Header="Image Source (simulation)" 
+       Width="180" 
        ItemsSource="{x:Bind SourceOptions}"
        SelectedItem="{x:Bind CurrentlySelectedSource, Mode=TwoWay}"
      />
@@ -34,6 +37,11 @@
     <!-- 
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />
     -->
+
+    <!-- Matteo : Would like these two to take up the remaining space -->
+    <!-- Presumably just put them in a Grid ?? -->
+    <!-- In WPF a Docking panel would have made this easy -->
+    <!-- Hmm, would be nice to have some design time Header text !! -->
 
     <Slider 
       Header  ="{x:Bind TimedUpdatesScheduler.UpdatesPerSecond_AsString,}"
