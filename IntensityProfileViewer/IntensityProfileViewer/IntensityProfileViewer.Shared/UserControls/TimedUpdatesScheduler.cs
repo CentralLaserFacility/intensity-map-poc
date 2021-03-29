@@ -121,7 +121,7 @@ namespace IntensityProfileViewer
     public double TimerPeriod_Min     { get ; } = 20.0 ;
     public double TimerPeriod_Max     { get ; } = 1000.0 ;
 
-    public double TimerPeriod_Default { get ; } = 500.0 ;
+    public double TimerPeriod_Default { get ; } = 100.0 ;
 
     public double UpdatesPerSecond_Max => 1000.0 / TimerPeriod_Min ; // 20mS => 50 fps
     public double UpdatesPerSecond_Min => 1000.0 / TimerPeriod_Max ; // 500mS => 2 fps

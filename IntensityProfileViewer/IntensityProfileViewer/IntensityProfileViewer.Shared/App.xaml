@@ -26,7 +26,18 @@
       <SolidColorBrush x:Key="Brush_Pink">Pink</SolidColorBrush>
       <SolidColorBrush x:Key="Brush_LightGreen">LightGreen</SolidColorBrush>
       <SolidColorBrush x:Key="Brush_Gainsboro">Gainsboro</SolidColorBrush>
+
       <SolidColorBrush x:Key="Brush_Blue">Blue</SolidColorBrush>
+
+      <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorValidValueBrush">LightGreen</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
+      <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="008_Brush">Red</SolidColorBrush>
+
     </ResourceDictionary>
     <!-- 
     <controls:XamlControlsResources>

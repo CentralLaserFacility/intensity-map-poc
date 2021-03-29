@@ -72,7 +72,7 @@ namespace IntensityProfileViewer
       ) ;
     }
 
-    private void m_normalisationValueSlider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )
+    private void NormalisationValueSlider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )
     {
       ViewModel.SetNormalisationValue(
         (byte) e.NewValue 

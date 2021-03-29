@@ -54,6 +54,12 @@ namespace IntensityProfileViewer
       //   m_imageUpdateHandler?.PerformIntensityMapUpdate() ;
       // } ;
 
+      // MATTEO : At which point can we be certain that the entire tree of UI elements
+      // has been instantiated ? Should we hook into the 'Loaded' event ??
+      this.Loaded += (s,e) => {
+
+      } ;
+
     }
 
   }

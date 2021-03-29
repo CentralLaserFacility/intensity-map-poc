@@ -17,7 +17,11 @@
 
   <Grid>
 
-    <StackPanel Orientation="Vertical" Padding="10" Spacing="10" Background="{StaticResource Brush_LightYellow}">
+    <StackPanel 
+      Orientation="Vertical" 
+      Padding="10" Spacing="10" 
+      Background="{StaticResource SettingsPanelBackgroundBrush}"
+    >
 
       <!-- 
         Matteo : 
@@ -25,11 +29,11 @@
         TextBox in 'read-only' mode is misaligned ???
       -->
 
+      <!-- HorizontalAlignment="Center" ???? -->
       <Border 
         Grid.Row="0"
         Grid.Column="0"
-        HorizontalAlignment="Center"
-        Background="{StaticResource Brush_Bisque}" 
+        Background="{StaticResource LabelBackgroundBrush}" 
       >
         <TextBlock 
           Text="Image presentation settings" 

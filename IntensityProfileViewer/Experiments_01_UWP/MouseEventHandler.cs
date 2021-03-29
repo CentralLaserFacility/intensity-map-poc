@@ -146,7 +146,7 @@ namespace Experiments_01_UWP
       }
     }
 
-    private System.Action<MouseGesture> m_gestureRecognisedAction ;
+    private readonly System.Action<MouseGesture> m_gestureRecognisedAction ;
 
     public System.Action<IncomingMouseEventDescriptor>? IncomingMouseEventReceived = null ;
 
@@ -191,8 +191,11 @@ namespace Experiments_01_UWP
 
     private MouseStateDescriptor? m_previousMouseState ;
 
-    private void HandleMouseEvent ( object sender, PointerRoutedEventArgs pointerEventArgs, MousePhysicalEventType eventType )
-    {
+    private void HandleMouseEvent ( 
+      object                 sender, 
+      PointerRoutedEventArgs pointerEventArgs, 
+      MousePhysicalEventType eventType 
+    ) {
 
       //
       // Here we map the low level 'physical' events into higher level events.

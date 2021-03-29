@@ -62,7 +62,7 @@ namespace Experiments_01_UWP
     //   PointerExited
     //
 
-    private Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
+    private readonly Dictionary<uint,Windows.UI.Xaml.Input.Pointer> m_activeContactsDictionary = new() ;
 
     public PointerHandlingDemo_UserControl ( )
     {

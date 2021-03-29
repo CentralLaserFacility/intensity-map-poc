@@ -11,13 +11,6 @@
   d:DesignWidth="1400"
   x:DefaultBindMode="OneWay"
 >
-  <UserControl.Resources>
-    <!-- 
-    <ResourceDictionary>
-      <SolidColorBrush x:Key="BackgroundBrush_AliceBlue">AliceBlue</SolidColorBrush>
-    </ResourceDictionary>
-    -->
-  </UserControl.Resources>
 
   <Grid 
     ColumnSpacing="0" RowSpacing="0" Padding="0" 
@@ -44,9 +37,10 @@
     />
 
     <!-- Right hand column containing the adjustment panels -->
+
     <StackPanel 
       Orientation="Vertical" 
-      Background="{StaticResource Brush_LightBlue}"
+      Background="{StaticResource ViewerPanelBackgroundBrush}"
       Grid.Row="0" 
       Grid.Column="1" 
       Spacing="10"

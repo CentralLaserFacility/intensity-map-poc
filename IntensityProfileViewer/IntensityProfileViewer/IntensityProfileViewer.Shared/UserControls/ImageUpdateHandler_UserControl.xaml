@@ -11,7 +11,11 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <StackPanel Orientation="Horizontal" Padding="10" Spacing="10" Background="{StaticResource Brush_Bisque}">
+  <StackPanel 
+    Orientation="Horizontal" 
+    Padding="10" Spacing="10" 
+    Background="{StaticResource ImageSourcePanelBackgroundBrush}"
+  >
 
     <!--
     <ComboBox Header="Image Source" Width="160" 

@@ -56,8 +56,8 @@ namespace IntensityProfileViewer
       // ? this.Resources["Brush_Pink"] as Brush
       // : this.Resources["Brush_LightGreen"] as Brush
       // THIS WORKS ...
-      ? Application.Current.Resources["Brush_Pink"] as Brush
-      : Application.Current.Resources["Brush_LightGreen"] as Brush
+      ? Application.Current.Resources["NumericEditorInValidValueBrush"] as Brush
+      : Application.Current.Resources["NumericEditorValidValueBrush"] as Brush
     ) ;
 
   }

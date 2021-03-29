@@ -17,32 +17,32 @@ namespace IntensityProfileViewer
 
     // Nasty hack to to make ComboBox work ...
 
-    private bool m_colourMapOptionNameIsBeingSet = false ;
-
-    public string ColourMapOptionName {
-      get => m_colourMapOption.ToString() ;
-      set {
-        // Gotta manually protect against infinite recursion, yuk.
-        if ( m_colourMapOptionNameIsBeingSet is false )
-        {
-          m_colourMapOptionNameIsBeingSet = true ;
-          m_colourMapOption = (ColourMapOption) System.Enum.Parse(
-            typeof(ColourMapOption),
-            value
-          ) ;
-          OnPropertyChanged(
-            nameof(ColourMapOptionName)
-          ) ;
-          OnPropertyChanged(
-            nameof(ColourMapOption)
-          ) ;
-          m_colourMapOptionNameIsBeingSet = false ;
-        }
-      }
-    }
-
-    public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
-    = System.Enum.GetNames(typeof(ColourMapOption)) ;
+    // private bool m_colourMapOptionNameIsBeingSet = false ;
+    // 
+    // public string ColourMapOptionName {
+    //   get => m_colourMapOption.ToString() ;
+    //   set {
+    //     // Gotta manually protect against infinite recursion, yuk.
+    //     if ( m_colourMapOptionNameIsBeingSet is false )
+    //     {
+    //       m_colourMapOptionNameIsBeingSet = true ;
+    //       m_colourMapOption = (ColourMapOption) System.Enum.Parse(
+    //         typeof(ColourMapOption),
+    //         value
+    //       ) ;
+    //       OnPropertyChanged(
+    //         nameof(ColourMapOptionName)
+    //       ) ;
+    //       OnPropertyChanged(
+    //         nameof(ColourMapOption)
+    //       ) ;
+    //       m_colourMapOptionNameIsBeingSet = false ;
+    //     }
+    //   }
+    // }
+    // 
+    // public System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; } 
+    // = System.Enum.GetNames(typeof(ColourMapOption)) ;
 
     private ColourMapOption m_colourMapOption = (
       ColourMapOption.GreyScale 
@@ -56,9 +56,9 @@ namespace IntensityProfileViewer
           ref m_colourMapOption,
           value
         ) ;
-        OnPropertyChanged(
-          nameof(ColourMapOptionName)
-        ) ;
+        // OnPropertyChanged(
+        //   nameof(ColourMapOptionName)
+        // ) ;
       }
     }
 

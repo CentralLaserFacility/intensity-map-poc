@@ -40,7 +40,8 @@
         <!-- and the content scales by the same amount, excellent -->
         <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
       </ScrollViewer.RenderTransform>
-      <StackPanel Orientation="Vertical" Spacing="10" Background="{StaticResource BackgroundBrush_AliceBlue}">
+      <StackPanel Orientation="Vertical" Spacing="10" 
+        Background="AliceBlue">
         <Rectangle Width="200" Height="100" Fill="red" />
         <Rectangle Width="800" Height="600" Fill="blue" />
         <Rectangle Width="200" Height="100" Fill="red" />

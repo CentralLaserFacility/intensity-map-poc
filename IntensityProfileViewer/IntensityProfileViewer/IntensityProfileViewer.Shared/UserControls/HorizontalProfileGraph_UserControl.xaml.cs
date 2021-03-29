@@ -89,9 +89,44 @@ namespace IntensityProfileViewer
       m_skiaCanvas.Invalidate() ;
     }
 
+    //
     // Nasty HACK ...
+    // Currently this gets set up in the IntensityMapImageAndProfileGraphs_UserControl ctor.
+    //
+    // Necessary because this control needs to know the 'RectInWhichToDrawBitmap' property
+    // which is maintained by the IntensityMapImageImage control.
+    //
+    // See also the Vertical graph, same issue ...
+    //
 
     public IntensityMapImage_UserControl IntensityMapImage_UserControl ;
+
+    //
+    // BETTER WAY ... ???
+    //
+    // In the Horizontal control, we could navigate back through the Parent properties
+    // until we find our parent 'IntensityMapImageAndProfileGraphs' control, and then
+    // access its 'IntensityMapImageImage' child control and from there get its
+    // 'RectInWhichToDrawBitmap' property.
+    //
+    // MATTEO : Is zipping around the visual tree a reasonable idea ?
+    //
+    // A BETTER WAY THAT'S REALLY BETTER - USE MEDIATOR ??
+    //
+    // Hmm, instead of having UserControls access each others' properties, a better approach
+    // might be to have the IntensityMapImageImage publish updates to its 'RectInWhichToDrawBitmap' property
+    // and have interested parties (such as this control) register their interest, and maintain 
+    // local copies of the latest value.
+    //
+    // public IntensityMapImage_UserControl IntensityMapImage_UserControl_XX
+    // {
+    //   get
+    //   {
+    //     // Matteo - is there a nice helper library for this kind of thing ?
+    //     // Want to find ultimate parent of a specified type ...
+    //     VisualTreeHelper.GetParent() ; ... etc
+    //   }
+    // }
 
     private void DrawHorizontalProfileGraph_IndividualLines (
       SkiaSharp.SKCanvas skiaCanvas

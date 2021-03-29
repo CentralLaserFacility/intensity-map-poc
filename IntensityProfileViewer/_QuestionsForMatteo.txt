@@ -39,13 +39,19 @@ Some specific questions / topics ...
     - Comments can't be nested, so hard to use commenting <!-- --> 
       to try out alternatives or keep old versions around
     - Can't document Attributes with comments ...
-    - Too verbose
+    - Too verbose, lots of cermonial syntax that gets in the way of comprehension
     - Intellisense is flakey, often lags behind (needs rebuild to get rid of all squigglies)
     - Linking to definitions in a different XAML file is really ugly (StaticResource etc)
-    - NO WAY TO FIND OUT WHAT THE DEFAULTS ARE FOR UNSPECIFIED 
-    - The designer doesn't work very well, runtime results are not what you see in the designer (aha, hence hot reload, but that's flakey too)
+    - NO WAY TO FIND OUT WHAT THE DEFAULTS ARE FOR UNSPECIFIED ATTRIBUTES
+    - The designer doesn't work very well, runtime results are not what you see in the designer (aha, hence hot reload, but that's flakey too, hopefully will work better in .Net 6)
     - XML is an interchange format, never intended to be written by humans :) :)
     ROLL ON C# FOR MARKUP !!!
+
+  Best tool for creating assets eg splash screen, logo ; from a single file, ideally.
+
+  How to show a splash screen that indicates progress getting the app ready to run (eg creating simulated images)
+  ?? Better, start the app as soon as poss and build the example images in the background.
+  ?? Is there an equivalent of 'OnIdle' ?? Or just set off an async operation to build images and add them.
 
 -------------------------------------
 

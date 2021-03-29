@@ -16,9 +16,9 @@ namespace IntensityProfileViewer
 
     // Nasty hack in an attempt to make ComboBox binding work ...
 
-    string ColourMapOptionName { get ; set ; }
-
-    System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; }
+    // string ColourMapOptionName { get ; set ; }
+    // 
+    // System.Collections.Generic.IEnumerable<string> ColourMapOptionNames { get ; }
 
     // ----------------------
 

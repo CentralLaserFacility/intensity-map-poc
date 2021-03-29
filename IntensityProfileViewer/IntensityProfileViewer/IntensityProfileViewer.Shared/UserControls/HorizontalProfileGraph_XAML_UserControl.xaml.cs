@@ -191,14 +191,6 @@ namespace IntensityProfileViewer
         return null ;
       }
 
-      // if ( double.IsNaN(this.Width) )
-      // {
-      //   return null ; //////////////////////////////////
-      // }
-
-      // HACK - should get these from the Panel !!!
-      // var panelWidth = 400.0 ;
-      // var panelHeight = 100.0 ;
       var panelWidth  = m_canvas.ActualWidth ;
       var panelHeight = m_canvas.ActualHeight ;
 
@@ -259,7 +251,7 @@ namespace IntensityProfileViewer
       }
 
       List<Point> points = new(nPoints) ;
-      Point GetPointAtFractionalPositionAlongLine(
+      static Point GetPointAtFractionalPositionAlongLine(
         Point  startPoint,
         Point  endPoint,
         double frac01

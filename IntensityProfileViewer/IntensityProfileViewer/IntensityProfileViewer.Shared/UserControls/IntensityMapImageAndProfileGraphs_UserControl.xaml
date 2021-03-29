@@ -16,7 +16,7 @@
     Padding="10" 
     ColumnSpacing="10" 
     RowSpacing="10" 
-    Background="{StaticResource Brush_LightBlue}" 
+    Background="{StaticResource ViewerPanelBackgroundBrush}" 
   >
 
     <Grid.RowDefinitions>
@@ -67,7 +67,7 @@
       Height="Auto" 
       Grid.Row="1" 
       Grid.Column="0" 
-      Fill="{StaticResource FillBrush_LightYellow}" 
+      Fill="{StaticResource SettingsPanelBackgroundBrush}" 
     />
 
     <Button 

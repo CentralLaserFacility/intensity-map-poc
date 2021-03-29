@@ -77,7 +77,7 @@ namespace IntensityProfileViewer
         )
       },
       {
-        "Expanding ripple",
+        "Contracting ripple",
         new(
           IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
             g_nIntensityMapsInSequence
