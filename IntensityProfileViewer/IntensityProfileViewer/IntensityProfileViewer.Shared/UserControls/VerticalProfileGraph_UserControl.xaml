@@ -18,7 +18,7 @@
           x:Name="m_skiaCanvas"
           Width="Auto"
           Height="Auto" 
-          Background="{StaticResource Brush_LightCyan}"
+          Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
         />

@@ -62,7 +62,7 @@ namespace IntensityProfileViewer
       : valueWhenFalse 
     ) ;
 
-    private void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
+    public void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
     {
       m_intensityMapImage_UserControl.ResetPanAndZoom() ;
     }

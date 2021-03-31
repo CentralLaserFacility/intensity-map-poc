@@ -1,34 +1,62 @@
 ﻿<Application
-    x:Class="IntensityProfileViewer.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:uwpUtils="using:UwpUtilities"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:local="using:IntensityProfileViewer"
+  x:Class="IntensityProfileViewer.App"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:uwpUtils="using:UwpUtilities"
+  xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+  xmlns:local="using:IntensityProfileViewer"
 >
 
   <Application.Resources>
     <ResourceDictionary>
+
       <!-- Usage :
-        Background="{StaticResource BackgroundBrush_AliceBlue}"
-        Fill="{StaticResource Brush_LightYellow}"
+        Background="{StaticResource XXX}"
+        Fill="{StaticResource XXX}"
       -->
-      <SolidColorBrush x:Key="BackgroundBrush_AliceBlue">AliceBlue</SolidColorBrush>
-      <SolidColorBrush x:Key="FillBrush_LightYellow">AliceBlue</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_Beige">AliceBlue</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightCyan">LightCyan</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightYellow">LightYellow</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightGray">LightGray</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_Bisque">Bisque</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightBlue">LightBlue</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightSeaGreen">LightSeaGreen</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_Cornsilk">Cornsilk</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_Pink">Pink</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_LightGreen">LightGreen</SolidColorBrush>
-      <SolidColorBrush x:Key="Brush_Gainsboro">Gainsboro</SolidColorBrush>
 
-      <SolidColorBrush x:Key="Brush_Blue">Blue</SolidColorBrush>
+      <!-- 
+        When experimenting with colours, best to define a colour in XAML here 
+        and reference as a {StaticResource Brush_XXX} - as that makes it easier
+        to search for occurrences in the code.
+      -->
 
+      <!-- 
+      <SolidColorBrush x:Key="Brush_AliceBlue">     AliceBlue     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightYellow">   AliceBlue     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Beige">         AliceBlue     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightCyan">     LightCyan     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightYellow">   LightYellow   </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightGray">     LightGray     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Bisque">        Bisque        </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightBlue">     LightBlue     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightSeaGreen"> LightSeaGreen </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Cornsilk">      Cornsilk      </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Pink">          Pink          </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_LightGreen">    LightGreen    </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Gainsboro">     Gainsboro     </SolidColorBrush>
+      <SolidColorBrush x:Key="Brush_Blue">          Blue          </SolidColorBrush>
+      -->
+
+      <!-- This lurid colour can be used in places where we expect that -->
+      <!-- a background is not going to be visible, or will be overridden -->
+      <SolidColorBrush x:Key="Brush_SHOULD_NOT_BE_VISIBLE">DeepPink</SolidColorBrush>
+
+      <!-- 
+        FEEL FREE TO EXPERIMENT WITH THESE DEFINITIONS !!
+        https://docs.microsoft.com/en-us/dotnet/api/system.windows.media.colors?view=net-5.0
+      -->
+
+      <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
+      <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorValidValueBrush">Bisque</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
+      <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
+
+      <!-- THESE ARE 'DEFAULT' PASTEL COLOURS THAT SEEM TO WORK -->
+      <!-- 
       <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
       <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
       <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
@@ -36,9 +64,10 @@
       <SolidColorBrush x:Key="NumericEditorValidValueBrush">LightGreen</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
       <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
-      <SolidColorBrush x:Key="008_Brush">Red</SolidColorBrush>
+      -->
 
     </ResourceDictionary>
+
     <!-- 
     <controls:XamlControlsResources>
       <controls:XamlControlsResources.MergedDictionaries>

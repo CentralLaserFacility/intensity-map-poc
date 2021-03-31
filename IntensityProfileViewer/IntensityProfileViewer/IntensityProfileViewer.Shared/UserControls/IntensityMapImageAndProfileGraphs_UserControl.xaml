@@ -31,18 +31,36 @@
 
     <local:VerticalProfileGraph_UserControl
       x:Name="m_verticalProfileGraph_UserControl" 
-      Grid.Row="0" Grid.Column="0" 
       ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Grid.Row="0" Grid.Column="0" 
       Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
     />
 
+    <!--
+    <local:HorizontalProfileGraph_XAML_UserControl 
+    -->
+    <local:HorizontalProfileGraph_UserControl 
+      x:Name="m_horizontalProfileGraph_UserControl" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Grid.Row="1" Grid.Column="1" 
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
+
+    <!-- 
+      Matteo : because we're using x:Bind to set Grid.Column etc, the value is defaulting to 0 
+      which means that the Image control is 'overwriting' the VerticalProfile graph that we expect to see
+      in the left hand column. In x:Bind, the FallbackValue or TargetNull properties don't provide a way
+      of declaring our desired 'default' to be Column=1.
+      Could make the VerticalProfile graph appear by moving this declaration to be earlier in the list
+      of children, but that would just be papering over the issue ...
+    -->
     <local:IntensityMapImage_UserControl 
       x:Name="m_intensityMapImage_UserControl" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
       Grid.Row="0"
       Grid.Column="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,0)}" 
       Grid.RowSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
       Grid.ColumnSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
-      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
     />
 
     <!-- 
@@ -62,32 +80,20 @@
     />
     -->
 
-    <Rectangle 
-      Width="Auto" 
-      Height="Auto" 
+    <Grid 
       Grid.Row="1" 
       Grid.Column="0" 
-      Fill="{StaticResource SettingsPanelBackgroundBrush}" 
-    />
-
-    <Button 
-      HorizontalAlignment="Center"
-      Grid.Row="1" Grid.Column="0" 
-      Background="{StaticResource Brush_LightGray}"
-      Content="Reset Pan/Zoom"
-      Click="ResetPanZoomButton_Click"
+      Background="{StaticResource SettingsPanelBackgroundBrush}" 
       Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-    />
-
-    <!--
-    <local:HorizontalProfileGraph_XAML_UserControl 
+    >
+    <!-- 
+      <Button 
+        HorizontalAlignment="Center"
+        Content="Reset Pan/Zoom"
+        Click="ResetPanZoomButton_Click"
+      />
     -->
-    <local:HorizontalProfileGraph_UserControl 
-      x:Name="m_horizontalProfileGraph_UserControl" 
-      Grid.Row="1" Grid.Column="1" 
-      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
-      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
-    />
+    </Grid>
 
   </Grid>
 

@@ -13,8 +13,9 @@
 >
 
   <Grid 
-    ColumnSpacing="0" RowSpacing="0" Padding="0" 
-    Margin="0" Background="{StaticResource Brush_Blue}"
+    Margin="0" 
+    Padding="0" 
+    ColumnSpacing="0" RowSpacing="0" 
   >
 
     <Grid.RowDefinitions>
@@ -56,9 +57,10 @@
       />
 
       <StackPanel Orientation="Horizontal" Spacing="10" >
+        <Button Content="Reset Pan/Zoom" Click="ResetPanZoomButton_Click"/>
         <!-- MATTEO : best way to create a 'Settings' page ?? -->
         <!-- Modal dialog ?? Flyout ??? Modeless ?? -->
-        <Button Content="Settings" />
+        <Button Content="Settings" IsEnabled="False"/>
         <!-- 
         <Button Content="Reset" />
         <Button Content="Test" Click="TestButton_Click"/>
@@ -68,9 +70,10 @@
     </StackPanel>
 
     <!-- 
+    EMBED AN IMAGE SELECTOR INSIDE THE VIEWER ???
+    HMM, BETTER TO KEEP IT AS A DISTINCT CONTROL ...
     <StackPanel 
       Orientation="Horizontal" 
-      Background="{StaticResource Brush_AliceBlue}"
       Grid.Row="1" 
       Grid.Column="0" Grid.ColumnSpan="2" 
       Padding="10" 

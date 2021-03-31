@@ -12,16 +12,19 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <Grid Background="{StaticResource Brush_LightCyan}">
+  <!-- MATTEO : Is it worthwhile to have a 'Grid' here as the parent ?? -->
 
-        <skia:SKXamlCanvas 
-          x:Name="m_skiaCanvas"
-          Width="Auto"
-          Height="Auto"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-        />
+  <Grid>
 
-    </Grid>
+    <skia:SKXamlCanvas 
+      x:Name="m_skiaCanvas"
+      Width="Auto"
+      Height="Auto"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
+    />
+
+  </Grid>
 
 </UserControl>

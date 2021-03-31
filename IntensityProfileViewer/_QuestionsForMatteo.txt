@@ -5,11 +5,12 @@ Some specific questions / topics ...
   https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/visual-layer-in-desktop-apps
   The Visual Layer does not have a primitive for rendering text.
   WTF ???
+  Aha - is the new DWriteCore relevant here ?
 
   ?? Role of the 'Composition' API ??
   Really for animation and 3D effects ?
   Has 'rounded rectangle', nice
-  Points (eg for CompositionLineGeometry) specified as System.Numerics.Vector2.
+  Points (eg for CompositionLineGeometry) are specified as System.Numerics.Vector2.
   Microsoft.UI.Composition.CompositionPath ... ??? no docs !!!
   Visual, etc ; transformation matrix is 4x4 ??? ie for 3D manipulations
 
@@ -36,14 +37,18 @@ Some specific questions / topics ...
   WOULD LIKE BETTER DOCUMENTATION OF THE XAML OBJECT MODEL !!!
 
   Reasons to HATE XAML !!!
-    - Comments can't be nested, so hard to use commenting <!-- --> 
-      to try out alternatives or keep old versions around
+    - Comments can't be nested, so it's impossible to use commenting <!-- --> 
+      to try out alternatives or keep previous versions around. This is especially annoying
+      given that one often needs to 'experiment' with various combinations
+      of attributes etc to 'see what works' ...
     - Can't document Attributes with comments ...
     - Too verbose, lots of cermonial syntax that gets in the way of comprehension
     - Intellisense is flakey, often lags behind (needs rebuild to get rid of all squigglies)
     - Linking to definitions in a different XAML file is really ugly (StaticResource etc)
-    - NO WAY TO FIND OUT WHAT THE DEFAULTS ARE FOR UNSPECIFIED ATTRIBUTES
-    - The designer doesn't work very well, runtime results are not what you see in the designer (aha, hence hot reload, but that's flakey too, hopefully will work better in .Net 6)
+    - NO WAY TO FIND OUT WHAT THE DEFAULTS ARE FOR ATTRIBUTES that AREN'T EXPLICITLY MENTIONED.
+      This is not the fault of XAML, but the poor documentation of the object model.
+    - The designer doesn't work very well, runtime results are not what you see in the designer.
+      Aha, hence hot reload, but that's flakey too, hopefully will work better in .Net 6
     - XML is an interchange format, never intended to be written by humans :) :)
     ROLL ON C# FOR MARKUP !!!
 
@@ -52,6 +57,17 @@ Some specific questions / topics ...
   How to show a splash screen that indicates progress getting the app ready to run (eg creating simulated images)
   ?? Better, start the app as soon as poss and build the example images in the background.
   ?? Is there an equivalent of 'OnIdle' ?? Or just set off an async operation to build images and add them.
+
+  Lack of a Designer for WinUI ? Not really a problem :
+  - Hot Reload is a great alternative
+  - The designer (even in UWP) never worked well anyhow
+  BUT :
+    When working on a specific piece of the UI (eg a UserControl),
+    need a convenient way of running a skeleton app that creates an instance
+    of that UserControl, with some 'typical' dummy data (ie a default ViewModel).
+    Not hard to do (was about to write a little app that would 'host' any UserControl)
+    provided the UserControls are in a separate project ; but am unsure about the best way
+    to package shareable UserControls (including their required resources).
 
 -------------------------------------
 

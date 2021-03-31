@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Settings_UserControl.xaml.cs">
       <DependentUpon>Settings_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\SkiaRenderingChoices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\SkiaSceneRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\TimedUpdatesScheduler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\VerticalProfileGraph_UserControl.xaml.cs">

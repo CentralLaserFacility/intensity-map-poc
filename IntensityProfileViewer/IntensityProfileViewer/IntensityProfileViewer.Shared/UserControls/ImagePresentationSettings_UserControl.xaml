@@ -50,19 +50,25 @@
         VerticalContentAlignment="Center"
         BorderThickness="0"
         IsReadOnly="true" 
-        Background="{StaticResource Brush_Bisque}" 
+        Background="{StaticResource LabelBackgroundBrush}" 
       />
       -->
 
-      <ComboBox Header="Colour map" HorizontalAlignment="Stretch" 
-         ItemsSource="{x:Bind ColourMapBindingHelper.OptionNames}"
-         SelectedValue="{x:Bind ColourMapBindingHelper.GetOptionName(ViewModel.ColourMapOption), BindBack=ColourMapBindingHelper.SetOptionFromName, Mode=TwoWay}"
-       />
+      <ComboBox 
+        Header="Colour map" 
+        HorizontalAlignment="Stretch" 
+        Background="{StaticResource LabelBackgroundBrush}" 
+        ItemsSource="{x:Bind ColourMapBindingHelper.OptionNames}"
+        SelectedValue="{x:Bind ColourMapBindingHelper.GetOptionName(ViewModel.ColourMapOption), BindBack=ColourMapBindingHelper.SetOptionFromName, Mode=TwoWay}"
+      />
 
-      <ComboBox Header="Normalisation mode" HorizontalAlignment="Stretch" 
-         ItemsSource="{x:Bind NormalisationModeBindingHelper.OptionNames}"
-         SelectedValue="{x:Bind NormalisationModeBindingHelper.GetOptionName(ViewModel.NormalisationMode), BindBack=NormalisationModeBindingHelper.SetOptionFromName, Mode=TwoWay}"
-       />
+      <ComboBox 
+        Header="Normalisation mode" 
+        HorizontalAlignment="Stretch" 
+        Background="{StaticResource LabelBackgroundBrush}" 
+        ItemsSource="{x:Bind NormalisationModeBindingHelper.OptionNames}"
+        SelectedValue="{x:Bind NormalisationModeBindingHelper.GetOptionName(ViewModel.NormalisationMode), BindBack=NormalisationModeBindingHelper.SetOptionFromName, Mode=TwoWay}"
+      />
 
        <!-- Matteo : how to get some 'header' text shown at design time ?? -->
        <!-- TargetNullValue ?? -->

@@ -24,7 +24,7 @@
     </Grid.ColumnDefinitions>
 
     <!-- To set the background colour, have to use a Border ... -->
-    <!-- And without a Margin, the text is scrunched up aginst the edges -->
+    <!-- And without a Margin, the text is scrunched up against the edges -->
     <Border 
       Grid.Row="0"
       Grid.Column="0"

@@ -149,7 +149,9 @@ namespace IntensityProfileViewer
       System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
       #endif
 
-      skiaCanvas.Clear(SkiaSharp.SKColors.LightYellow) ;
+      skiaCanvas.Clear(
+        SkiaColourChoices.ProfileGraphBackgroundColour // SkiaSharp.SKColors.LightYellow
+      ) ;
 
       if (
          ViewModel.MostRecentlyAcquiredIntensityMap == null
@@ -158,13 +160,14 @@ namespace IntensityProfileViewer
         return ;
       }
 
-      var normal = new SkiaSharp.SKPaint(){
-        Color = SkiaSharp.SKColors.Red
-      } ;
       float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
+      var normal = new SkiaSharp.SKPaint(){
+        Color = SkiaColourChoices.ProfileGraphLineColour//, // SkiaSharp.SKColors.Red
+        //StrokeWidth = zoomCompensationFactor * SkiaColourChoices.ProfileGraphNominalLineWidth
+      } ;
       var special = new SkiaSharp.SKPaint(){
-        Color = SkiaSharp.SKColors.Blue,
-        StrokeWidth = zoomCompensationFactor * 3
+        Color = SkiaColourChoices.ProfileGraphHighlightedLineColour, // SkiaSharp.SKColors.Blue
+        StrokeWidth = zoomCompensationFactor * SkiaColourChoices.ProfileGraphHighlightedLineWidth
       } ;
       int iSpecial = m_latestReferencePositionChangedMessage?.X ?? -1 ;
 

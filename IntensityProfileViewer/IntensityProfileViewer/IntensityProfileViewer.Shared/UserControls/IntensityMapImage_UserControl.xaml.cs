@@ -399,13 +399,13 @@ namespace IntensityProfileViewer
           RectInWhichToDrawBitmap
         ) ;
         var dragMarkerStyle = new SkiaSharp.SKPaint(){
-          Color       = SkiaSharp.SKColors.Blue,
-          StrokeWidth = 3
+          Color       = SkiaColourChoices.ImageDragMarkerColour // SkiaSharp.SKColors.Blue// ,
+          // StrokeWidth = 3
         } ;
         float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
         if ( m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.HasValue )
         {
-          float ovalDiameter = 4.0f ;
+          float ovalDiameter = SkiaColourChoices.ImageDragMarkerDiameter ; // 4.0f ;
           skiaCanvas.DrawOval(
             m_mostRecentlyNotifiedPointerPosition_sceneCoordinates.Value,
             new SkiaSharp.SKSize(
@@ -439,19 +439,19 @@ namespace IntensityProfileViewer
             RectInWhichToDrawBitmap.Height
           ) ;
           var horizontalLineStyle = new SkiaSharp.SKPaint(){
-            Color       = SkiaSharp.SKColors.Red,
+            Color       = SkiaColourChoices.ImageReferenceLineColour, // SkiaSharp.SKColors.Red,
             StrokeWidth = zoomCompensationFactor * (
               m_horizontalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)  
-              ? 2
-              : 1 
+              ? SkiaColourChoices.ImageReferenceLineHighlightedWidth
+              : SkiaColourChoices.ImageReferenceLineNominalWidth 
             )
           } ;        
           var verticalLineStyle = new SkiaSharp.SKPaint(){
-            Color       = SkiaSharp.SKColors.Red,
+            Color       = SkiaColourChoices.ImageReferenceLineColour, // SkiaSharp.SKColors.Red,
             StrokeWidth = zoomCompensationFactor * (
               m_verticalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)   
-              ? 2
-              : 1
+              ? SkiaColourChoices.ImageReferenceLineHighlightedWidth
+              : SkiaColourChoices.ImageReferenceLineNominalWidth 
             )
           } ;
           m_horizontalLine.Draw(skiaCanvas,horizontalLineStyle) ;
@@ -463,7 +463,7 @@ namespace IntensityProfileViewer
           m_verticalLine   = null ;
         }
         SkiaSharp.SKPaint textPaint = new() { 
-          Color       = SkiaSharp.SKColors.White,
+          Color       = SkiaColourChoices.ReferencePositionTextColour, // SkiaSharp.SKColors.White,
           IsAntialias = true,
           TextSize    = zoomCompensationFactor * 16.0f,
           Typeface    = SkiaSharp.SKTypeface.FromFamilyName(

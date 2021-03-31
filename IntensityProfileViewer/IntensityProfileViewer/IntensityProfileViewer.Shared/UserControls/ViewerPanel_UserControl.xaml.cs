@@ -62,6 +62,12 @@ namespace IntensityProfileViewer
 
     }
 
+    private void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
+    {
+      // HACK ...
+      m_intensityMapImageAndProfileGraphs_UserControl.ResetPanZoomButton_Click(sender,e) ;
+    }
+
   }
 
 }
