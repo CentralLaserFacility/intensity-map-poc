@@ -127,7 +127,7 @@ namespace IntensityProfileViewer
       ) ;
 
       skiaCanvas.Clear(
-        SkiaColourChoices.ProfileGraphBackgroundColour // SkiaSharp.SKColors.LightYellow
+        SkiaColourChoices.ProfileGraphBackgroundColour
       ) ;
 
       if (

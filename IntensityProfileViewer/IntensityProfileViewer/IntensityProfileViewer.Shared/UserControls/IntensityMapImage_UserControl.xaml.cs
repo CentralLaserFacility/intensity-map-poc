@@ -399,7 +399,7 @@ namespace IntensityProfileViewer
           RectInWhichToDrawBitmap
         ) ;
         var dragMarkerStyle = new SkiaSharp.SKPaint(){
-          Color       = SkiaColourChoices.ImageDragMarkerColour // SkiaSharp.SKColors.Blue// ,
+          Color       = SkiaColourChoices.ImageDragMarkerColour
           // StrokeWidth = 3
         } ;
         float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
@@ -439,7 +439,7 @@ namespace IntensityProfileViewer
             RectInWhichToDrawBitmap.Height
           ) ;
           var horizontalLineStyle = new SkiaSharp.SKPaint(){
-            Color       = SkiaColourChoices.ImageReferenceLineColour, // SkiaSharp.SKColors.Red,
+            Color       = SkiaColourChoices.ImageReferenceLineColour,
             StrokeWidth = zoomCompensationFactor * (
               m_horizontalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)  
               ? SkiaColourChoices.ImageReferenceLineHighlightedWidth
@@ -447,7 +447,7 @@ namespace IntensityProfileViewer
             )
           } ;        
           var verticalLineStyle = new SkiaSharp.SKPaint(){
-            Color       = SkiaColourChoices.ImageReferenceLineColour, // SkiaSharp.SKColors.Red,
+            Color       = SkiaColourChoices.ImageReferenceLineColour,
             StrokeWidth = zoomCompensationFactor * (
               m_verticalLine.CoincidesWithMousePosition(m_mostRecentlyNotifiedPointerPosition_sceneCoordinates)   
               ? SkiaColourChoices.ImageReferenceLineHighlightedWidth
@@ -463,7 +463,7 @@ namespace IntensityProfileViewer
           m_verticalLine   = null ;
         }
         SkiaSharp.SKPaint textPaint = new() { 
-          Color       = SkiaColourChoices.ReferencePositionTextColour, // SkiaSharp.SKColors.White,
+          Color       = SkiaColourChoices.ReferencePositionTextColour,
           IsAntialias = true,
           TextSize    = zoomCompensationFactor * 16.0f,
           Typeface    = SkiaSharp.SKTypeface.FromFamilyName(

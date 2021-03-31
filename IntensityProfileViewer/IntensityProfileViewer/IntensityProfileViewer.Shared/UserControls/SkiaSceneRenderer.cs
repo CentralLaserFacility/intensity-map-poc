@@ -51,7 +51,9 @@
       #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeBeforeRenderStarted = m_executionTimingStopwatch.Elapsed ;
       #endif
-      skiaCanvas.Clear(SkiaSharp.SKColors.LightGray) ;
+      skiaCanvas.Clear(
+        SkiaColourChoices.ImageBlankAreaColour // SkiaSharp.SKColors.LightGray
+      ) ;
       m_drawOnCanvasAction(skiaCanvas) ;
       #if DO_RENDER_TIMING_MEASUREMENTS
       System.TimeSpan timeAfterRenderCompleted = m_executionTimingStopwatch.Elapsed ;

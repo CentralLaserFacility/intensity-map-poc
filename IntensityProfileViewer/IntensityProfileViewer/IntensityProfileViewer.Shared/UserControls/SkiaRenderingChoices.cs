@@ -23,6 +23,8 @@ namespace IntensityProfileViewer
 
     // Colours etc used in the Image renderer
 
+    public static SkiaSharp.SKColor ImageBlankAreaColour               = SkiaSharp.SKColors.LightGray ;
+ 
     public static SkiaSharp.SKColor ImageDragMarkerColour              = SkiaSharp.SKColors.Blue ;
     public static float             ImageDragMarkerDiameter            = 4.0f ;
 

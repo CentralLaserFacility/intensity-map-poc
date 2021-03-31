@@ -150,7 +150,7 @@ namespace IntensityProfileViewer
       #endif
 
       skiaCanvas.Clear(
-        SkiaColourChoices.ProfileGraphBackgroundColour // SkiaSharp.SKColors.LightYellow
+        SkiaColourChoices.ProfileGraphBackgroundColour
       ) ;
 
       if (
@@ -162,11 +162,11 @@ namespace IntensityProfileViewer
 
       float zoomCompensationFactor = 1.0f / skiaCanvas.TotalMatrix.ScaleX ; 
       var normal = new SkiaSharp.SKPaint(){
-        Color = SkiaColourChoices.ProfileGraphLineColour//, // SkiaSharp.SKColors.Red
-        //StrokeWidth = zoomCompensationFactor * SkiaColourChoices.ProfileGraphNominalLineWidth
+        Color = SkiaColourChoices.ProfileGraphLineColour
+        // , StrokeWidth = zoomCompensationFactor * SkiaColourChoices.ProfileGraphNominalLineWidth
       } ;
       var special = new SkiaSharp.SKPaint(){
-        Color = SkiaColourChoices.ProfileGraphHighlightedLineColour, // SkiaSharp.SKColors.Blue
+        Color = SkiaColourChoices.ProfileGraphHighlightedLineColour,
         StrokeWidth = zoomCompensationFactor * SkiaColourChoices.ProfileGraphHighlightedLineWidth
       } ;
       int iSpecial = m_latestReferencePositionChangedMessage?.X ?? -1 ;
