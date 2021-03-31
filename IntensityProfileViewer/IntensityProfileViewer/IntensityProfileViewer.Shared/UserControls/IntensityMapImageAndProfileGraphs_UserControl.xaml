@@ -51,8 +51,8 @@
       which means that the Image control is 'overwriting' the VerticalProfile graph that we expect to see
       in the left hand column. In x:Bind, the FallbackValue or TargetNull properties don't provide a way
       of declaring our desired 'default' to be Column=1.
-      Could make the VerticalProfile graph appear by moving this declaration to be earlier in the list
-      of children, but that would just be papering over the issue ...
+      We could make the VerticalProfile graph appear, by moving this declaration to be earlier
+      in the list of children, but that would just be papering over the issue ...
     -->
     <local:IntensityMapImage_UserControl 
       x:Name="m_intensityMapImage_UserControl" 
@@ -83,7 +83,7 @@
     <Grid 
       Grid.Row="1" 
       Grid.Column="0" 
-      Background="{StaticResource SettingsPanelBackgroundBrush}" 
+      Background="{StaticResource ProfileGraphBackgroundColour}" 
       Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
     >
     <!-- 

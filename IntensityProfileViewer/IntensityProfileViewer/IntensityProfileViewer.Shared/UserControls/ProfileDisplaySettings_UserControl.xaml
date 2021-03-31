@@ -43,12 +43,14 @@
     <local:NumericValueEditor_UserControl 
       ViewModel="{x:Bind XPositionViewModel}"
       HorizontalAlignment="Stretch"
+      IsEnabled="{x:Bind ViewModel.ShouldShowProfileGraphs}"
       Grid.Row="1" 
     />
 
     <local:NumericValueEditor_UserControl 
       ViewModel="{x:Bind YPositionViewModel}"
       HorizontalAlignment="Stretch"
+      IsEnabled="{x:Bind ViewModel.ShouldShowProfileGraphs}"
       Grid.Row="2" 
     />
 

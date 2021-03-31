@@ -51,6 +51,7 @@
       <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
       <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
+      <SolidColorBrush x:Key="ProfileGraphBackgroundColour">LightYellow</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorValidValueBrush">Bisque</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
       <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>

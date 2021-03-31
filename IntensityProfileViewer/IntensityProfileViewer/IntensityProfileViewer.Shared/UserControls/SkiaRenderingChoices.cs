@@ -12,20 +12,22 @@ namespace IntensityProfileViewer
   public static class SkiaColourChoices
   {
 
-    // Colours etc used in the Profile graphs
+    // Colours etc used in the Profile graphs.
+
+    // Hmm, would be nicer to define these in XAL and look them up as Application Resources ???
 
     public static SkiaSharp.SKColor ProfileGraphBackgroundColour      = SkiaSharp.SKColors.LightYellow ;
 
     public static SkiaSharp.SKColor ProfileGraphLineColour            = SkiaSharp.SKColors.Red ;
     public static SkiaSharp.SKColor ProfileGraphHighlightedLineColour = SkiaSharp.SKColors.Blue ;
-    public static float             ProfileGraphNominalLineWidth       = 1.0f ;
+    public static float             ProfileGraphNominalLineWidth      = 1.0f ;
     public static float             ProfileGraphHighlightedLineWidth  = 3.0f ;
 
     // Colours etc used in the Image renderer
 
     public static SkiaSharp.SKColor ImageBlankAreaColour               = SkiaSharp.SKColors.LightGray ;
  
-    public static SkiaSharp.SKColor ImageDragMarkerColour              = SkiaSharp.SKColors.Blue ;
+    public static SkiaSharp.SKColor ImageDragMarkerColour              = SkiaSharp.SKColors.Red ;
     public static float             ImageDragMarkerDiameter            = 4.0f ;
 
     public static SkiaSharp.SKColor ReferencePositionTextColour        = SkiaSharp.SKColors.White ;

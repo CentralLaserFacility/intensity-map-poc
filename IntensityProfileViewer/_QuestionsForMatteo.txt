@@ -51,23 +51,29 @@ Some specific questions / topics ...
       Aha, hence hot reload, but that's flakey too, hopefully will work better in .Net 6
     - XML is an interchange format, never intended to be written by humans :) :)
     ROLL ON C# FOR MARKUP !!!
+      Aha, Hot Reload is going to work throughout .Net 6, even in WinForms etc.
+      So this means one could define the UI markup in C#, edit it on-the-fly
+      and have the UI update, without losing the application state ?
+      Is Hot Reload meant to work with *any* change in the application logic ??
+      Hmm, great if it works - but surely that's a very hard problem ?
 
-  Best tool for creating assets eg splash screen, logo ; from a single file, ideally.
+  Best tool for creating assets eg splash screen, logo etc ? from a single 'master' file, ideally.
 
-  How to show a splash screen that indicates progress getting the app ready to run (eg creating simulated images)
+  How to show a splash screen that indicates progress getting the app ready to run (eg creating our simulated images)
   ?? Better, start the app as soon as poss and build the example images in the background.
   ?? Is there an equivalent of 'OnIdle' ?? Or just set off an async operation to build images and add them.
 
   Lack of a Designer for WinUI ? Not really a problem :
   - Hot Reload is a great alternative
-  - The designer (even in UWP) never worked well anyhow
+  - The designer (even in UWP) never worked well anyhow :)
   BUT :
     When working on a specific piece of the UI (eg a UserControl),
     need a convenient way of running a skeleton app that creates an instance
     of that UserControl, with some 'typical' dummy data (ie a default ViewModel).
-    Not hard to do (was about to write a little app that would 'host' any UserControl)
-    provided the UserControls are in a separate project ; but am unsure about the best way
-    to package shareable UserControls (including their required resources).
+    Not hard to do provided the UserControls are in a separate project ?
+    I was about to write a little app that would 'host' any UserControl, 
+    but am unsure about the best way to package shareable UserControls 
+    including their required XAML resources.
 
 -------------------------------------
 
