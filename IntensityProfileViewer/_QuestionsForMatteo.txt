@@ -7,6 +7,8 @@ Some specific questions / topics ...
   WTF ???
   Aha - is the new DWriteCore relevant here ?
 
+  => DWrite provides very-high-quality text rendering ; not used in XAML.
+
   ?? Role of the 'Composition' API ??
   Really for animation and 3D effects ?
   Has 'rounded rectangle', nice
@@ -57,11 +59,17 @@ Some specific questions / topics ...
       Is Hot Reload meant to work with *any* change in the application logic ??
       Hmm, great if it works - but surely that's a very hard problem ?
 
+  => Hot Reload ... aim is to replicate the experience provided with React Native
+
   Best tool for creating assets eg splash screen, logo etc ? from a single 'master' file, ideally.
+
+  => Manifest editor, just select the 'source' ...
 
   How to show a splash screen that indicates progress getting the app ready to run (eg creating our simulated images)
   ?? Better, start the app as soon as poss and build the example images in the background.
   ?? Is there an equivalent of 'OnIdle' ?? Or just set off an async operation to build images and add them.
+
+  => Can replace the default 'static' splash screen with one defined in XAML, eg showing an animation to indicate 'loading ...'
 
   Lack of a Designer for WinUI ? Not really a problem :
   - Hot Reload is a great alternative
@@ -84,6 +92,8 @@ Visual Studio issues :
   Feedback ... nice to offer this, but too many thousands of items !!!
   https://developercommunity.visualstudio.com/report?port=1027&fsid=83affe24-2f4b-4691-81db-ae17a8b346d3&entry=problem&space=8
 
+  => As we're in the TAP programme, can use 'Collaborate' feature to report issues ...
+
   Quirks using GitHub integration. Checking out a repo, opening the available solutions from that repo ?? 
   Have to do File/Open then remember the repo location.
 
@@ -97,8 +107,12 @@ Visual Studio issues :
 
   On 'references', sometimes see a yellow triangle ; how to get info about what's wrong ???
 
+  => Yes, it's a problem !!
+
   Is there a way to 'open' a Nuget package and see what classes etc are provided ?
   Nuget Package Explorer ?? Is it useful ??
+
+  => Just use a decompilation tool ... hmm, not good !!
 
   UserControl : 'Width' can be NaN even when ActualWidth is a valid number ?
   [ Aha ... Width property is the 'suggested width' ??? ]
