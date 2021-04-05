@@ -30,13 +30,14 @@
 
     <Border 
       Grid.Row="0"
-      Grid.Column="0"
       Background="{StaticResource LabelBackgroundBrush}" 
+      Padding="6"
     >
+      <!-- Matteo : is 'Auto' the default here ? Is that always the case ?? -->
+      <!-- Which is better - a Margin here, vs a Padding in the Border ??? -->
       <TextBlock 
         Text="Profile graph display settings" 
         Height="Auto" 
-        Margin="6"
       />
     </Border>
 

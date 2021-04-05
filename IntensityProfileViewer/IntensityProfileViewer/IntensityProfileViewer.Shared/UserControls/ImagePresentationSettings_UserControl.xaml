@@ -25,11 +25,15 @@
 
       <!-- 
         Matteo : 
-        TextBlock with border is verbose, but it works - pity there isn't a Background property as there is in TextBox
+        TextBlock with border is verbose, but it works.
+        Pity there isn't a Background property as there is in TextBox.
         TextBox in 'read-only' mode is misaligned ???
       -->
 
       <!-- HorizontalAlignment="Center" ???? -->
+
+      <!-- #### TextBlock with a background -->
+
       <Border 
         Grid.Row="0"
         Grid.Column="0"

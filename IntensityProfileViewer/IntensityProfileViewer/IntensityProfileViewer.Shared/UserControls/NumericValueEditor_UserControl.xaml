@@ -11,7 +11,10 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <Grid Background="{StaticResource NumericEditorBackgroundBrush}" Padding="10" ColumnSpacing="10" RowSpacing="10">
+  <Grid 
+    Background="{StaticResource NumericEditorBackgroundBrush}" 
+    Padding="10" ColumnSpacing="10" RowSpacing="10"
+  >
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -31,7 +34,11 @@
       Grid.ColumnSpan="2"
       Background="{StaticResource LabelBackgroundBrush}" 
     >
-      <TextBlock Height="Auto" Text="{x:Bind ViewModel.DisplayName}" Margin="4"/>
+      <TextBlock 
+        Height="Auto" 
+        Text="{x:Bind ViewModel.DisplayName}" 
+        Margin="4"
+      />
     </Border>
 
     <!-- 

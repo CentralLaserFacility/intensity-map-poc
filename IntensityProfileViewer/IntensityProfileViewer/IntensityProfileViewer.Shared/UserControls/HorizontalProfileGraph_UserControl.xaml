@@ -16,12 +16,13 @@
 
   <Grid>
 
+
+    <!-- #### With Auto width, default is 'Stretch' ?? -->
+
     <skia:SKXamlCanvas 
       x:Name="m_skiaCanvas"
-      Width="Auto"
-      Height="Auto"
-      HorizontalAlignment="Stretch"
-      VerticalAlignment="Stretch"
+      Width="Auto"  HorizontalAlignment="Stretch"
+      Height="Auto" VerticalAlignment="Stretch"
       Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
     />
 

@@ -12,12 +12,15 @@
   x:DefaultBindMode="OneWay"
 >
 
+  <!-- Hmm, might be better to flatten the structure ... ??? -->
+
   <Grid 
     Margin="0" 
     Padding="0" 
     ColumnSpacing="0" RowSpacing="0" 
   >
 
+    <!-- Matteo - is this Height necessary ?? -->
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
         <!-- 
@@ -25,12 +28,14 @@
         -->
     </Grid.RowDefinitions>
 
+    <!-- Matteo - is * better than Auto here ?? -->
+    <!-- Works better a design time ... -->
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="300"/>
     </Grid.ColumnDefinitions>
 
-    <!-- Large 'main' panel with the image and the profile graphs -->
+    <!-- Large 'main' panel on the left with the image and the profile graphs -->
     <local:IntensityMapImageAndProfileGraphs_UserControl 
       x:Name="m_intensityMapImageAndProfileGraphs_UserControl"
       Grid.Row="0" Grid.Column="0" 

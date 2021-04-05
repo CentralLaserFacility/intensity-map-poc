@@ -34,7 +34,7 @@
 
     <Button Content="Next" Command="{x:Bind TimedUpdatesScheduler.PerformUpdate}" />
 
-    <!-- Hmm, what determines the width ?? It seems to have a minimum value of 120 ... -->
+    <!-- Matteo : What determines the width ?? It seems to have a minimum value of 120 ??? -->
 
     <CheckBox Content="Free-run" Width="65" IsChecked="{x:Bind TimedUpdatesScheduler.EnableTimedUpdates, Mode=TwoWay}"/>
 
@@ -43,8 +43,10 @@
     -->
 
     <!-- Matteo : Would like these two to take up the remaining space -->
-    <!-- Presumably just put them in a Grid ?? -->
-    <!-- In WPF a Docking panel would have made this easy -->
+    <!-- Presumably put them in a Grid ?? -->
+    <!-- But that means specifying Grid.Column etc which is a pain. -->
+    <!-- In WPF, a Docking panel would have made this easy -->
+
     <!-- Hmm, would be nice to have some design time Header text !! -->
 
     <Slider 
