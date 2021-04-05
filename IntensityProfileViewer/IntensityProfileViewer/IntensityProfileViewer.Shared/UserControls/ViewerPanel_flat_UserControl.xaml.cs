@@ -35,13 +35,35 @@ namespace IntensityProfileViewer
     public ViewerPanel_flat_UserControl ( )
     {
       this.InitializeComponent() ;
+      // Hmm, NASTY HACK ... there's gotta be a better way of setting up this relationship.
+      // In the Horizontal control, we could navigate back through the Parent properties
+      // until we find this 'IntensityMapImageAndProfileGraphs' control, and then access
+      // the 'Image' control and its 'RectInWhichToDrawBitmap' property.
+      m_horizontalProfileGraph_UserControl .IntensityMapImage_UserControl = m_intensityMapImage_UserControl ;
+      m_verticalProfileGraph_UserControl   .IntensityMapImage_UserControl = m_intensityMapImage_UserControl ;
     }
 
-    private void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
+    public void ResetPanZoomButton_Click ( object sender, RoutedEventArgs e )
     {
-      // HACK ...
-      // m_intensityMapImageAndProfileGraphs_UserControl.ResetPanZoomButton_Click(sender,e) ;
+      m_intensityMapImage_UserControl.ResetPanAndZoom() ;
     }
+
+    public Visibility VisibleWhen ( bool visible )
+    => (
+      visible
+      ? Visibility.Visible
+      : Visibility.Collapsed
+    ) ;
+
+    public int ChooseIntegerValue ( 
+      bool condition, 
+      int  valueWhenTrue, 
+      int  valueWhenFalse 
+    ) => (
+      condition 
+      ? valueWhenTrue 
+      : valueWhenFalse 
+    ) ;
 
   }
 

@@ -12,8 +12,6 @@
   x:DefaultBindMode="OneWay"
 >
 
-  <!-- Hmm, might be better to flatten the structure ... ??? -->
-
   <Grid 
     Margin="0" 
     Padding="0" 
@@ -23,32 +21,66 @@
     <!-- Matteo - is this Height necessary ?? -->
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
-      <!-- 
-        <RowDefinition Height="110"/>
-        -->
+      <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
     <!-- Matteo - is * better than Auto here ?? -->
     <!-- Works better a design time ... -->
     <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="200"/>
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="300"/>
     </Grid.ColumnDefinitions>
 
-    <!-- Large 'main' panel on the left with the image and the profile graphs -->
-    <local:IntensityMapImageAndProfileGraphs_UserControl 
-      x:Name="m_intensityMapImageAndProfileGraphs_UserControl"
-      Grid.Row="0" Grid.Column="0" 
-      ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+    <!-- 
+      Matteo : because we're using x:Bind to set Grid.Column etc, the value is defaulting to 0 
+      which means that the Image control is 'overwriting' the VerticalProfile graph that we expect to see
+      in the left hand column. In x:Bind, the FallbackValue or TargetNull properties don't provide a way
+      of declaring our desired 'default' to be Column=1.
+      We could make the VerticalProfile graph appear, by moving this declaration to be earlier
+      in the list of children, but that would just be papering over the issue ...
+    -->
+    <local:IntensityMapImage_UserControl 
+      x:Name="m_intensityMapImage_UserControl" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Grid.Row="0"
+      Grid.Column="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,0)}" 
+      Grid.RowSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
+      Grid.ColumnSpan="{x:Bind ChooseIntegerValue(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs,1,2)}" 
     />
+
+    <local:VerticalProfileGraph_UserControl
+      x:Name="m_verticalProfileGraph_UserControl" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Grid.Row="0" Grid.Column="0" 
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
+
+    <!--
+    <local:HorizontalProfileGraph_XAML_UserControl 
+    -->
+    <local:HorizontalProfileGraph_UserControl 
+      x:Name="m_horizontalProfileGraph_UserControl" 
+      ViewModel="{x:Bind ViewModel.CurrentSource, Mode=OneWay}"
+      Grid.Row="1" Grid.Column="1" 
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
+
+    <Grid 
+      Grid.Row="1" 
+      Grid.Column="0" 
+      Background="{StaticResource ProfileGraphBackgroundColour}" 
+      Visibility="{x:Bind VisibleWhen(ViewModel.CurrentSource.ProfileDisplaySettings.ShouldShowProfileGraphs)}"
+    />
+
 
     <!-- Right hand column containing the adjustment panels -->
 
     <StackPanel 
       Orientation="Vertical" 
       Background="{StaticResource ViewerPanelBackgroundBrush}"
-      Grid.Row="0" 
-      Grid.Column="1" 
+      Grid.Row="0"  Grid.RowSpan="2"
+      Grid.Column="2" 
       Spacing="10"
       Padding="0,10,10,10"
     >
@@ -73,20 +105,6 @@
       </StackPanel>
 
     </StackPanel>
-
-    <!-- 
-    EMBED AN IMAGE SELECTOR INSIDE THE VIEWER ???
-    HMM, BETTER TO KEEP IT AS A DISTINCT CONTROL ...
-    <StackPanel 
-      Orientation="Horizontal" 
-      Grid.Row="1" 
-      Grid.Column="0" Grid.ColumnSpan="2" 
-      Padding="10" 
-      Spacing="10"
-    >
-      <local:ImageUpdateHandler_UserControl x:Name="m_imageUpdateHandler" />
-    </StackPanel>
-    -->
 
   </Grid>
 
