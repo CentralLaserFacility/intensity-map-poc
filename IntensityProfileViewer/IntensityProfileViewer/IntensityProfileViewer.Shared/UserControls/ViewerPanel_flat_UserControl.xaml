@@ -1,0 +1,93 @@
+﻿<UserControl
+  x:Class="IntensityProfileViewer.ViewerPanel_flat_UserControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:IntensityProfileViewer"
+  xmlns:uwpUtils="using:UwpUtilities"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignHeight="900"
+  d:DesignWidth="1400"
+  x:DefaultBindMode="OneWay"
+>
+
+  <!-- Hmm, might be better to flatten the structure ... ??? -->
+
+  <Grid 
+    Margin="0" 
+    Padding="0" 
+    ColumnSpacing="0" RowSpacing="0" 
+  >
+
+    <!-- Matteo - is this Height necessary ?? -->
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <!-- 
+        <RowDefinition Height="110"/>
+        -->
+    </Grid.RowDefinitions>
+
+    <!-- Matteo - is * better than Auto here ?? -->
+    <!-- Works better a design time ... -->
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="300"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Large 'main' panel on the left with the image and the profile graphs -->
+    <local:IntensityMapImageAndProfileGraphs_UserControl 
+      x:Name="m_intensityMapImageAndProfileGraphs_UserControl"
+      Grid.Row="0" Grid.Column="0" 
+      ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+    />
+
+    <!-- Right hand column containing the adjustment panels -->
+
+    <StackPanel 
+      Orientation="Vertical" 
+      Background="{StaticResource ViewerPanelBackgroundBrush}"
+      Grid.Row="0" 
+      Grid.Column="1" 
+      Spacing="10"
+      Padding="0,10,10,10"
+    >
+
+      <local:ImagePresentationSettings_UserControl
+        ViewModel="{x:Bind ViewModel.ImagePresentationSettings, Mode=OneWay}"
+      />
+
+      <local:ProfileDisplaySettings_UserControl
+        ViewModel="{x:Bind ViewModel.CurrentSource.ProfileDisplaySettings, Mode=OneWay}"
+      />
+
+      <StackPanel Orientation="Horizontal" Spacing="10" >
+        <Button Content="Reset Pan/Zoom" Click="ResetPanZoomButton_Click"/>
+        <!-- MATTEO : best way to create a 'Settings' page ?? -->
+        <!-- Modal dialog ?? Flyout ??? Modeless ?? -->
+        <Button Content="Settings" IsEnabled="False"/>
+        <!-- 
+        <Button Content="Reset" />
+        <Button Content="Test" Click="TestButton_Click"/>
+        -->
+      </StackPanel>
+
+    </StackPanel>
+
+    <!-- 
+    EMBED AN IMAGE SELECTOR INSIDE THE VIEWER ???
+    HMM, BETTER TO KEEP IT AS A DISTINCT CONTROL ...
+    <StackPanel 
+      Orientation="Horizontal" 
+      Grid.Row="1" 
+      Grid.Column="0" Grid.ColumnSpan="2" 
+      Padding="10" 
+      Spacing="10"
+    >
+      <local:ImageUpdateHandler_UserControl x:Name="m_imageUpdateHandler" />
+    </StackPanel>
+    -->
+
+  </Grid>
+
+</UserControl>

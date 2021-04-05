@@ -73,6 +73,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_UserControl.xaml.cs">
       <DependentUpon>ViewerPanel_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_flat_UserControl.xaml.cs">
+      <DependentUpon>ViewerPanel_flat_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\DrawingHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\Line.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_SkiaUtilities\PixelToSceneCoordinatesMapper.cs" />
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\ViewerPanel_flat_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

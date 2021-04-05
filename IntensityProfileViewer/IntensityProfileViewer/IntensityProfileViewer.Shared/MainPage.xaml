@@ -19,7 +19,7 @@
     <Grid.ColumnDefinitions>
     </Grid.ColumnDefinitions>
 
-    <local:ViewerPanel_UserControl 
+    <local:ViewerPanel_flat_UserControl 
       Grid.Row="0"
       x:Name="m_viewerPanel_UserControl"
     />
