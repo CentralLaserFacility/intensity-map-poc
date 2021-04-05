@@ -14,20 +14,30 @@
 
   <Grid 
     Margin="0" 
-    Padding="0" 
-    ColumnSpacing="0" RowSpacing="0" 
+    Padding="10" 
+    ColumnSpacing="10" RowSpacing="10" 
+    Background="{StaticResource ViewerPanelBackgroundBrush}"
   >
+
+    <Grid.Resources>
+      <ResourceDictionary>
+        <!-- We want both graphs to be the same size -->
+        <!-- so let's define a common size for the grid cells. -->
+        <!-- MATTEO : Is there a better way to do this, eg binding the column value -->
+        <!-- to the value that's defined in the Row ?? -->
+        <!-- WOULD BE NICE TO USE A GRIDSPLITTER TO LET THE USER RESIZE THE GRAPHS -->
+        <GridLength x:Key="GraphSize">150</GridLength>
+      </ResourceDictionary>
+    </Grid.Resources>
 
     <!-- Matteo - is this Height necessary ?? -->
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
-      <RowDefinition Height="200"/>
+      <RowDefinition Height="{StaticResource GraphSize}"/>
     </Grid.RowDefinitions>
 
-    <!-- Matteo - is * better than Auto here ?? -->
-    <!-- Works better a design time ... -->
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="200"/>
+      <ColumnDefinition Width="{StaticResource GraphSize}"/>
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="300"/>
     </Grid.ColumnDefinitions>
@@ -82,7 +92,6 @@
       Grid.Row="0"  Grid.RowSpan="2"
       Grid.Column="2" 
       Spacing="10"
-      Padding="0,10,10,10"
     >
 
       <local:ImagePresentationSettings_UserControl
