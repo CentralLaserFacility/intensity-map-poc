@@ -178,3 +178,19 @@ Microsoft docs
   Easily get stuck when trying to do things that you'd expect to be straightforward.
 
 ===================
+===================
+
+Events to Commands, in XAML, with Community Toolkit ?
+Does it work in Uno ?
+
+Not Uno-related, but ...
+  What's the cleanest way to call a Javascript function from C# ?
+  Microsoft.JSInterop.JSRuntime ... from ASP.Net.Core 5.0
+  Can call from a Blazor app, of course ...
+  But from a WinUI app ? 
+  In order to use a graphical layout package called 'Dagre'.
+  And can JSRuntime invoke a WebAssembly module ?
+
+Nice post about the WVVM Toolkit, from the XamlBrewer people ...
+https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
+
