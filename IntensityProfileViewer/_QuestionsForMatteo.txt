@@ -191,6 +191,14 @@ Not Uno-related, but ...
   In order to use a graphical layout package called 'Dagre'.
   And can JSRuntime invoke a WebAssembly module ?
 
-Nice post about the WVVM Toolkit, from the XamlBrewer people ...
+WinUI question ...
+  We use TCP/IP and UDP for network comms, and it'll be useful to be able
+  to run a Server and a Client on the same machine, for development and testing.
+  With WinUI, this 'loopback' comms is permitted provided you make an appropriate
+  declaration in the Package Manifest, but the docs say that UDP isn't supported.
+  Would that apply even while debugging in Visual Studio ?
+  Workaround would be to run Server and Client on different PC's ?
+
+By the way, nice post about the WVVM Toolkit, from the XamlBrewer people ...
 https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
 
