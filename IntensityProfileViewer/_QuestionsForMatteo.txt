@@ -228,5 +228,15 @@ at least twice, even in a very simple test app. Is there some other lifecycle ev
 thay we can hook into to initialise things ? Not advisable to do initialisation in the constructor
 if the main window, because shouldn't call async methods in a constructor ...
 
+****** AN IMPORTANT ONE !!!!!!!
+The traditional way to access C code is via P/Invoke. Does that work with Linux, when you want
+to kick down to functionality in a C library ? How would you access C++ (name mangling hassles etc).
+On Windows the modern way is to use C++/WinRT instead of P/Invoke (??) but that isn't supported on 
+other platforms ?
+---------
+The library we need to access has callbacks on worker threads created in the C code,
+and uses fairly complex 'structs'.
+
+
 
 
