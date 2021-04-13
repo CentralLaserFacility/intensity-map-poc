@@ -202,6 +202,7 @@ WinUI question ...
   BETWEEN A WINUI CLIENT APP AND A WINUI SERVER APP. DESPITE THE DOCS SAYING
   THAT UDP IS NOT SUPPORTED !!!
   IN WINUI, IS THE SYSTEM TAKING NOTICE OF THE PERMISSIONS DECLARED IN THE MANIFEST ??
+  MY COMMS EXPERIMENT WORKS EVEN WHEN I REMOVE THE NETWORKING PERMISSIONS ...
 
 By the way, nice post about the WVVM Toolkit, from the XamlBrewer people ...
 https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
@@ -220,4 +221,12 @@ In the Preview, the process for building a WinUI app seems broken ? Have to manu
 and then manually 'run' the Package project.
 
 *** Is there any reason to be using 16.10 preview ? Better to work with 16.9 ??
+
+Another WinUI question : the Window class doesn't have a 'Loaded' event, which would be 
+a useful place to put code that should be executed once only (??). Activated gets invoked
+at least twice, even in a very simple test app. Is there some other lifecycle event (eg in the App class?)
+thay we can hook into to initialise things ? Not advisable to do initialisation in the constructor
+if the main window, because shouldn't call async methods in a constructor ...
+
+
 
