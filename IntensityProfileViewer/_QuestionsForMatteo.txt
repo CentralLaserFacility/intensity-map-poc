@@ -226,7 +226,7 @@ Another WinUI question : the Window class doesn't have a 'Loaded' event, which w
 a useful place to put code that should be executed once only (??). Activated gets invoked
 at least twice, even in a very simple test app. Is there some other lifecycle event (eg in the App class?)
 thay we can hook into to initialise things ? Not advisable to do initialisation in the constructor
-if the main window, because shouldn't call async methods in a constructor ...
+of the main window, because one shouldn't call async methods in a constructor ...
 
 ****** AN IMPORTANT ONE !!!!!!!
 The traditional way to access C code is via P/Invoke. Does that work with Linux, when you want
@@ -234,8 +234,14 @@ to kick down to functionality in a C library ? How would you access C++ (name ma
 On Windows the modern way is to use C++/WinRT instead of P/Invoke (??) but that isn't supported on 
 other platforms ?
 ---------
-The library we need to access has callbacks on worker threads created in the C code,
-and uses fairly complex 'structs'.
+The C library we need to access has callbacks on worker threads created in the C code,
+and uses fairly complex 'structs'. On Windows we can compile it with MSVC, on Linux it's compiled
+with GCC etc (?).
+
+--------------------
+
+With latest Uno, is it still necessary to use 'old' Logging library ??
+
 
 
 
