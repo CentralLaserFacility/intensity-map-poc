@@ -59,6 +59,8 @@
       />
       -->
 
+    <!-- AHA, x:Bind with whitespace is the culprit !! -->
+    
     <TextBox 
       Grid.Row="1"
       Grid.Column="0"
