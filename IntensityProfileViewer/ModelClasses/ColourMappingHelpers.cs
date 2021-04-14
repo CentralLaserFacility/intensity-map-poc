@@ -18,39 +18,83 @@ namespace IntensityProfileViewer
     // ViewModel classes that can't have a dependency on platform-specific API's,
     // but need to efficiently build representations of coloured images.
     //
+
+    //
+    // Hmm, this will work but won't be particularly fast ...
+
+    public static bool UseLinuxCompatibleByteOrder = false ;
     
     public static uint EncodeARGB ( byte red, byte green, byte blue )
     => (uint) (
-      ( 0xff  << 24 ) // A : most significant byte is 'alpha'
-    | ( red   << 16 ) // R
-    | ( green << 8  ) // G
-    | ( blue  << 0  ) // B
+      UseLinuxCompatibleByteOrder
+      ? (
+        ( 0xff  << 24 ) // A : most significant byte is 'alpha'
+      | ( red   << 16 ) // R
+      | ( green <<  8 ) // G     NOT YET SET UP FOR LINUX !!!
+      | ( blue  <<  0 ) // B
+      )
+      : (
+        ( 0xff  << 24 ) // A : most significant byte is 'alpha'
+      | ( red   << 16 ) // R
+      | ( green <<  8 ) // G
+      | ( blue  <<  0 ) // B
+      )
     ) ;
 
     public static uint EncodeARGB_Grey ( byte greyValue )
     => (uint) (
-      ( 0xff      << 24 ) // A : most significant byte is 'alpha'
-    | ( greyValue << 16 ) // R
-    | ( greyValue << 8  ) // G
-    | ( greyValue << 0  ) // B
+      UseLinuxCompatibleByteOrder
+      ? (
+        ( 0xff      << 24 )  // A : most significant byte is 'alpha'
+      | ( greyValue << 16 ) // R
+      | ( greyValue <<  8 ) // G     NOT YET SET UP FOR LINUX !!!
+      | ( greyValue <<  0 ) // B
+      )
+      : (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue << 16 ) // R
+      | ( greyValue <<  8 ) // G
+      | ( greyValue <<  0 ) // B
+      )
     ) ;
 
     public static uint EncodeARGB_Red ( byte greyValue )
     => (uint) (
-      ( 0xff      << 24 ) // A : most significant byte is 'alpha'
-    | ( greyValue << 16 ) // R
+      UseLinuxCompatibleByteOrder
+      ? (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue << 16 ) // R    NOT YET SET UP FOR LINUX !!!
+      )
+      : (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue << 16 ) // R
+      )
     ) ;
 
     public static uint EncodeARGB_Green ( byte greyValue )
     => (uint) (
-      ( 0xff      << 24 ) // A : most significant byte is 'alpha'
-    | ( greyValue << 8  ) // G
+      UseLinuxCompatibleByteOrder
+      ? (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue <<  8 ) // G    NOT YET SET UP FOR LINUX !!!
+      )
+      : (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue <<  8 ) // G
+      )
     ) ;
 
     public static uint EncodeARGB_Blue ( byte greyValue )
     => (uint) (
-      ( 0xff      << 24 ) // A : most significant byte is 'alpha'
-    | ( greyValue << 0  ) // B
+      UseLinuxCompatibleByteOrder
+      ? (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue <<  0 ) // B
+      )
+      : (
+        ( 0xff      << 24 ) // A : most significant byte is 'alpha'
+      | ( greyValue <<  0 ) // B
+      )
     ) ;
 
     //
