@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace IntensityProfileViewer
 {
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -25,8 +26,13 @@ namespace IntensityProfileViewer
         /// </summary>
         public App()
         {
+            InitializeLogging();
+
             this.InitializeComponent();
+
+#if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
+#endif
         }
 
         /// <summary>
@@ -36,7 +42,21 @@ namespace IntensityProfileViewer
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                // this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
+
+#if NET5_0 && WINDOWS
+            var window = new Window();
+            window.Activate();
+#else
+            var window = Windows.UI.Xaml.Window.Current;
+#endif
+
+            var rootFrame = window.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -53,24 +73,22 @@ namespace IntensityProfileViewer
                 }
 
                 // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                window.Content = rootFrame;
             }
 
+#if !(NET5_0 && WINDOWS)
             if (e.PrelaunchActivated == false)
+#endif
             {
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(
-                      typeof(MainPage), 
-                      // typeof(TestPage_01), 
-                      e.Arguments
-                    );
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 // Ensure the current window is active
-                Window.Current.Activate();
+                window.Activate();
             }
         }
 
@@ -96,6 +114,59 @@ namespace IntensityProfileViewer
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private static void InitializeLogging()
+        {
+            var factory = LoggerFactory.Create(builder =>
+            {
+#if __WASM__
+                builder.AddProvider(new global::Uno.Extensions.Logging.WebAssembly.WebAssemblyConsoleLoggerProvider());
+#elif __IOS__
+                builder.AddProvider(new global::Uno.Extensions.Logging.OSLogLoggerProvider());
+#elif NETFX_CORE
+                builder.AddDebug();
+#else
+                builder.AddConsole();
+#endif
+
+                // Exclude logs below this level
+                builder.SetMinimumLevel(LogLevel.Information);
+
+                // Default filters for Uno Platform namespaces
+                builder.AddFilter("Uno", LogLevel.Warning);
+                builder.AddFilter("Windows", LogLevel.Warning);
+                builder.AddFilter("Microsoft", LogLevel.Warning);
+
+                // Generic Xaml events
+                // builder.AddFilter("Windows.UI.Xaml", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.UIElement", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.FrameworkElement", LogLevel.Trace );
+
+                // Layouter specific messages
+                // builder.AddFilter("Windows.UI.Xaml.Controls", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Controls.Panel", LogLevel.Debug );
+
+                // builder.AddFilter("Windows.Storage", LogLevel.Debug );
+
+                // Binding related messages
+                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+                // builder.AddFilter("Windows.UI.Xaml.Data", LogLevel.Debug );
+
+                // Binder memory references tracking
+                // builder.AddFilter("Uno.UI.DataBinding.BinderReferenceHolder", LogLevel.Debug );
+
+                // RemoteControl and HotReload related
+                // builder.AddFilter("Uno.UI.RemoteControl", LogLevel.Information);
+
+                // Debug JS interop
+                // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
+            });
+
+            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
         }
     }
 }

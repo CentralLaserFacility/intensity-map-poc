@@ -11,16 +11,21 @@ namespace UwpSkiaUtilities
   public class PanAndZoomGesturesHandler_UWP
   {
 
-    // https://github.com/OndrejKunc/SkiaScene/blob/master/source/TouchTracking/TouchTracking.UWP/TouchHandler.cs
+        // https://github.com/OndrejKunc/SkiaScene/blob/master/source/TouchTracking/TouchTracking.UWP/TouchHandler.cs
 
-    // Hmm, that code doesn't hande all the events it should, eg CaptureLost ...
+        // Hmm, that code doesn't hande all the events it should, eg CaptureLost ...
 
-    // Aha ???
-    // https://github.com/microsoft/Windows-universal-samples/blob/master/Samples/BasicInput/cs/5-GestureRecognizer.xaml.cs
+        // Aha ???
+        // https://github.com/microsoft/Windows-universal-samples/blob/master/Samples/BasicInput/cs/5-GestureRecognizer.xaml.cs
 
-    private TouchTracking.UWP.TouchHandler m_touchHandler = new() ;
+#if NETFX_CORE
+        private TouchTracking.UWP.TouchHandler m_touchHandler = new() ;
+#elif __ANDROID__
+        private TouchTracking.Droid.TouchHandler m_touchHandler = new();
+#endif
 
-    public System.Func<
+
+      public System.Func<
       TouchTracking.TouchActionType, 
       Point,             // positionInSceneCoordinates
       bool,                          // inContact
@@ -53,6 +58,7 @@ namespace UwpSkiaUtilities
 
     public void OnWindowSizeChanged ( )
     {
+        
     }
 
     private void HandleTouchEvent ( object sender, TouchTracking.TouchActionEventArgs args )

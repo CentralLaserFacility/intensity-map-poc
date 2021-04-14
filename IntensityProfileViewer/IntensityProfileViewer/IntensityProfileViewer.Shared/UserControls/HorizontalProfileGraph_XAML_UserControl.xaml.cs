@@ -52,7 +52,7 @@ namespace IntensityProfileViewer
       this.Loaded += (s,e) => {
         // Hmm, expected the Height and Width to be available at this point ?
         // IS THERE A RENDER-COMPLETE EVENT THAT WE COULD HOOK INTO ???
-        this.Bindings.Update() ;
+        //this.Bindings.Update() ;
       } ;
       this.SizeChanged += (s,e) => {
         // https://www.domysee.com/blogposts/canvas-rendering-out-of-bounds
@@ -66,7 +66,7 @@ namespace IntensityProfileViewer
           )
         } ;
         // MATTEO : Is this the right way to trigger a repaint ???
-        this.Bindings.Update() ;
+        //this.Bindings.Update() ;
       } ;
 
       // Surely there's an easier way to do this ???
@@ -139,7 +139,7 @@ namespace IntensityProfileViewer
       // This works, but it's better to apply the transform
       // to the PathData that we're binding to ...
       // m_graphPath.RenderTransform = GraphPathTransform ;
-      this.Bindings.Update() ;
+      //this.Bindings.Update() ;
     }
 
     // https://docs.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4?view=net-5.0

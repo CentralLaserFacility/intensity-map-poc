@@ -96,7 +96,7 @@
         </Path.Data>
       </Path>
 
-      <Path Data="{x:Bind MyPathData}" Stroke="Orange" StrokeThickness="2"/>
+      <!--<Path Data="{x:Bind MyPathData}" Stroke="Orange" StrokeThickness="2"/>
 
       <Path 
         x:Name="m_graphPath" 
@@ -104,7 +104,7 @@
         Stroke="Red" 
         StrokeThickness="0.55"
         IsHitTestVisible="True"
-      />
+      />-->
 
     </Canvas>
 

@@ -64,11 +64,7 @@
       Grid.Column="0"
       Height="Auto"
       Background="{x:Bind GetErrorIndicationBrush(ViewModel.MostRecentSetAttemptFailed)}"
-      Text="{
-        x:Bind ViewModel.CurrentValueAsString, 
-        Mode=TwoWay, 
-        UpdateSourceTrigger=PropertyChanged
-      }" 
+      Text="{x:Bind ViewModel.CurrentValueAsString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
       ToolTipService.ToolTip="{x:Bind ViewModel.ToolTipInfo}"
     />
 
