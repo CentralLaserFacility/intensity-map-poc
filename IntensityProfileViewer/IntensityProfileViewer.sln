@@ -17,6 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelClasses_UnitTests", "M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6CF8318-F1A8-459E-9A37-C97389CF821E}"
 	ProjectSection(SolutionItems) = preProject
+		_Android hints and tips.txt = _Android hints and tips.txt
 		_Notes on Visual layer and Composition.txt = _Notes on Visual layer and Composition.txt
 		_QuestionsForMatteo.txt = _QuestionsForMatteo.txt
 	EndProjectSection
@@ -536,6 +537,7 @@ Global
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.AppStore|x86.Deploy.0 = Debug|Any CPU
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|ARM.Build.0 = Debug|Any CPU
 		{E57D09FB-FF2B-40DA-9434-A2E31B3C15F3}.Debug|ARM.Deploy.0 = Debug|Any CPU
