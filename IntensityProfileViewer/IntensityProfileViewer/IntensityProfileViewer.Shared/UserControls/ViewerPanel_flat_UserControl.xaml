@@ -39,7 +39,7 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="{StaticResource GraphSize}"/>
       <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="300"/>
+      <ColumnDefinition Width="250"/>
     </Grid.ColumnDefinitions>
 
     <local:VerticalProfileGraph_UserControl

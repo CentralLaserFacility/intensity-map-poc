@@ -35,6 +35,7 @@
       <!-- #### TextBlock with a background -->
 
       <Border 
+        Visibility="Collapsed"
         Grid.Row="0"
         Grid.Column="0"
         Background="{StaticResource LabelBackgroundBrush}" 

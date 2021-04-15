@@ -16,6 +16,7 @@ Here's my shortlist of things to look out for.
   in the menu strip, and this indicates the API level. You can change it via 
   the drop-down, which as well as offering various alternative targets, has an option
   to open the Android Device Manager.
+  https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/android-api-levels?tabs=windows
 
 - You can deploy to a physical device, but you have to first adjust its settings 
   to enable debugging via USB. Go to the Settings screen, find the 'About Phone'
@@ -44,6 +45,67 @@ Here's my shortlist of things to look out for.
   and eventually a 'Deploy succeeded', but the app itself doesn't start. If your
   target is an emulator, the emulator will have fired up, but that's all.
   https://forums.xamarin.com/discussion/64088/android-emulator-opens-but-project-does-not-deploy-and-start
+
+Hmm, trouble is, this ain't totally reliable.
+
+Sometimes things just stop working :
+  Emulated app runs really slowly
+  Emulated app fails to start
+  Visual Studio hangs up
+  Emulator crashes ('quemu-system-x86_64.exe')
+
+A restart of Visual Studio isn't sufficient, you need to reboot.
+
+===================================
+
+Viewer App - stuff that doesn't work properly in Droid :
+
+  [ in the emulator, tablet_m-dpi_10_1_in_q_10_0_0_-api_29:5554 ]
+
+  - When the Normalisation Mode is Automatic, the slider that adjusts
+    the Normalisation value should be greyed-out. It doesn't respond
+    to drags on the slider, but there's no visual indication.
+
+  - When you enter an inappropriate value into a text field such as 'X position',
+    the background should change colour to indicate the error.
+
+  - If the virtual keyboard comes up, there's no way of dismissing it
+    apart from disabling it from the 'keyboard' button
+
+  - There are no tooltips (fair enough ?)
+
+  - Dragging the cross hairs works fine.
+
+  - Panning works fine.
+
+  - Dragging and panning work fine with touch input as well as with the mouse.
+  
+  - Zooming with the mouse wheel is broken.
+    Stepping the scroll wheel slowly, eg with a whole second between notches,
+    has the effect of scrolling up or down. If you step the scroll wheel rapidly,
+    quickly forward-and-back, you zoom in by a factor of 2x. You can repeat this
+    a further two times to get a total magnification of 8x. 
+
+  - To zoom in, another method is to double-click (or double-tap on a touch screen)
+    which zooms you in by 2x centred on the touch point.
+
+  - A two-finger 'pinch' gesture has no effect (you'd expect this to zoom in ?)
+
+  - There seems to be no way to zoom back out via a mouse or touch gesture.
+    The 'Reset Pan/Zoom' button works though.
+
+  - ### BUG ?? When you drag the cross hairs, the blue highlighted lines on the profile graphs
+    track the position ; but when you change the cross hair position via the sliders, 
+    the blue lines don't track. 
+
+  - ### The 'Reset Pan/Zoom' button is partly obscured, need to tweak the layout.
+
+
+
+
+    
+
+  
 
 
 

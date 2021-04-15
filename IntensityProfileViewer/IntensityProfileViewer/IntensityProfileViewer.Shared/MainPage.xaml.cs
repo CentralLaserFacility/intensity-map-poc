@@ -36,6 +36,13 @@ namespace IntensityProfileViewer
       Common.DebugHelpers.WriteDebugLines(
           $"UI thread is #{System.Environment.CurrentManagedThreadId}"
       ) ;
+
+      this.SizeChanged += (s,e) => {
+        Common.DebugHelpers.WriteDebugLines(
+          $"MainPage size is {this.ActualSize}"
+        ) ;
+      } ;
+
     }
 
   }

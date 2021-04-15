@@ -29,6 +29,7 @@
     -->
 
     <Border 
+      Visibility="Collapsed"
       Grid.Row="0"
       Background="{StaticResource LabelBackgroundBrush}" 
       Padding="6"
