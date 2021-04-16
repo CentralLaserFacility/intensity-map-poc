@@ -182,7 +182,11 @@ namespace IntensityProfileViewer
         }
       ) ;
 
-      global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory ;
+      // MATTEO - please review !!
+      #if HAS_UNO 
+        global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory ;
+      #endif
+
     }
 
   }

@@ -84,7 +84,7 @@ namespace IntensityProfileViewer
             // so reset the NormalisationValue to match the
             // maximum value in the current IntensityMap
             SetNormalisationValue(
-              Parent.CurrentSource.MostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 0
+              Parent.CurrentSource.MostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 255
             ) ;
           }
         }

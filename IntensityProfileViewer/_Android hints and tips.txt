@@ -94,11 +94,25 @@ Viewer App - stuff that doesn't work properly in Droid :
   - There seems to be no way to zoom back out via a mouse or touch gesture.
     The 'Reset Pan/Zoom' button works though.
 
-  - ### BUG ?? When you drag the cross hairs, the blue highlighted lines on the profile graphs
-    track the position ; but when you change the cross hair position via the sliders, 
-    the blue lines don't track. 
+==========================
 
-  - ### The 'Reset Pan/Zoom' button is partly obscured, need to tweak the layout.
+In Droid, we initially get (on screen)
+  NormalisationMode  : Automatic
+  NormalisationValue : 8  <=== THIS IS NOT CORRECT      
+Even though the NormalisationMode is Automatic, the NormalisationValue
+is somehow being evaluated as a very low value, which produces a washed-out image.
+Probably caused by an initialisation-order issue ; the NormalisationValue being
+computed from an image that doesn't contain valid data.
+
+==================
+
+On the emulated Tablet, screen size reported as 1280 x 728.
+
+On startup there are warning messages :
+  requestLayout() improperly called
+  BindableAttribute is missing and the type [IntensityProfileViewer.DisplayPanelViewModel] is not known by the MetadataProvider. Reflection was used instead of the binding engine and generated static metadata. Add the Bindable attribute to prevent this message and performance issues.
+  Same warning for many other ViewModel types.
+
 
 
 

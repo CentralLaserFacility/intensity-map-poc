@@ -33,7 +33,7 @@ namespace IntensityProfileViewer
         if ( imagePresentationSettings.NormalisationMode == NormalisationMode.Automatic )
         {
           imagePresentationSettings.SetNormalisationValue(
-            m_mostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 0
+            m_mostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 255
           ) ;
         }
         NewIntensityMapAcquired?.Invoke() ;

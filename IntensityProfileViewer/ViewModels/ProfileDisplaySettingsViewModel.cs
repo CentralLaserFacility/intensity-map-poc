@@ -2,11 +2,16 @@
 // ProfileDisplaySettingsViewModel.cs
 //
 
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Generic ;
+using System.Linq ;
+using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
 namespace IntensityProfileViewer
 {
+
+  public record ReferencePositionChangedMessage ( int ? X, int ? Y ) ;
+
+  public record PointerPositionChangedMessage ( int ? X, int ? Y ) ;
 
   public class ProfileDisplaySettingsViewModel 
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
@@ -29,6 +34,12 @@ namespace IntensityProfileViewer
           ProfileGraphsReferencePositionChanged?.Invoke() ;
           OnPropertyChanged(nameof(VerticalProfileIntensityValues)) ;
           OnPropertyChanged(nameof(HorizontalProfileIntensityValues)) ;
+          Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
+            new ReferencePositionChangedMessage(
+              m_profileGraphsReferencePosition?.X,
+              m_profileGraphsReferencePosition?.Y
+            )
+          ) ;
         }
       }
     }

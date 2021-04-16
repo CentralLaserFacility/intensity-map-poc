@@ -132,6 +132,7 @@ namespace IntensityProfileViewer
           YPositionViewModel.CurrentValue = newViewModel.ProfileGraphsReferencePosition.Value.Y ;
         }
       }
+
     }
 
   }

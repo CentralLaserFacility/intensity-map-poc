@@ -19,14 +19,10 @@ using System.Diagnostics.CodeAnalysis;
 using Common.ExtensionMethods;
 using IntensityProfileViewer.ExtensionMethods ;
 
-using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
+// using static Microsoft.Toolkit.Mvvm.Messaging.IMessengerExtensions ;
 
 namespace IntensityProfileViewer
 {
-
-  public record ReferencePositionChangedMessage ( int ? X, int ? Y ) ;
-
-  public record PointerPositionChangedMessage ( int ? X, int ? Y ) ;
 
   public sealed partial class IntensityMapImage_UserControl : UserControl
   {
@@ -121,15 +117,15 @@ namespace IntensityProfileViewer
       ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
         PerformRepaint() ;
       } ;
-      if ( newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
-      {
-        Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
-          new ReferencePositionChangedMessage(
-            newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X,
-            newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
-          )
-        ) ;
-      }
+      // if ( newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
+      // {
+      //   Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
+      //     new ReferencePositionChangedMessage(
+      //       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X,
+      //       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
+      //     )
+      //   ) ;
+      // }
     }
 
     private void PerformRepaint ( )
@@ -250,12 +246,12 @@ namespace IntensityProfileViewer
             $"Adjusting ProfileGraphsReferencePosition by [{deltaRight},{deltaDown}] => [{updatedReferencePosition.X},{updatedReferencePosition.Y}]"
           ) ;
           ViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition = updatedReferencePosition ;
-          Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
-            new ReferencePositionChangedMessage(
-              updatedReferencePosition.X,
-              updatedReferencePosition.Y
-            )
-          ) ;
+          // Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
+          //   new ReferencePositionChangedMessage(
+          //     updatedReferencePosition.X,
+          //     updatedReferencePosition.Y
+          //   )
+          // ) ;
         }
         break ;
       case TouchTracking.TouchActionType.Released:
