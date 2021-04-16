@@ -29,9 +29,9 @@ namespace IntensityProfileViewer
 
     public static int SequenceType = 1 ;
 
-    public static int g_nIntensityMapsInSequence = (
-      2
-      // 50 
+    public static int g_nIntensityMapsInEachSequence = (
+      // 2
+      50 
     ) ;
 
     // private Common.CyclicSelector<IntensityProfileViewer.IIntensityMap> m_dynamicIntensityMapsSelector = new(
@@ -61,42 +61,42 @@ namespace IntensityProfileViewer
       string,
       Common.CyclicSelector<IntensityProfileViewer.IIntensityMap>
     > m_dynamicIntensityMapSequencesDictionary = new() {
-      // {
-      //   "Rotating ripple",
-      //   new(
-      //     IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
-      //       g_nIntensityMapsInSequence,
-      //       sincFactor                       : 10.0,
-      //       fractionalRadialOffsetFromCentre : 0.2
-      //     ).IntensityMaps
-      //   )
-      // },
-      // {
-      //   "Rotating blob",
-      //   new(
-      //     IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
-      //       g_nIntensityMapsInSequence
-      //     ).IntensityMaps
-      //   )
-      // },
-      // {
-      //   "Contracting ripple",
-      //   new(
-      //     IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
-      //       g_nIntensityMapsInSequence
-      //     ).IntensityMaps
-      //   )
-      // },
       {
         "Noisy ripple",
         new(
           IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithNoiseAdded(
-            g_nIntensityMapsInSequence,
+            g_nIntensityMapsInEachSequence,
             sincFactor     : 10.0,
             noiseAmplitude : 30
           ).IntensityMaps
         )
-      }
+      },
+      {
+        "Rotating ripple",
+        new(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_RippleRotatingAroundCircle(
+            g_nIntensityMapsInEachSequence,
+            sincFactor                       : 10.0,
+            fractionalRadialOffsetFromCentre : 0.2
+          ).IntensityMaps
+        )
+      },
+      {
+        "Rotating blob",
+        new(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_BlobRotatingAroundCircle(
+            g_nIntensityMapsInEachSequence
+          ).IntensityMaps
+        )
+      },
+      {
+        "Contracting ripple",
+        new(
+          IntensityProfileViewer.IntensityMapSequence.CreateInstance_WithProgressivelyIncreasingSincFactor(
+            g_nIntensityMapsInEachSequence
+          ).IntensityMaps
+        )
+      },
     } ;
 
     public IEnumerable<string> SourceOptions => m_dynamicIntensityMapSequencesDictionary.Keys ;

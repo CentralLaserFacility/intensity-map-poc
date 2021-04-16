@@ -117,15 +117,6 @@ namespace IntensityProfileViewer
       ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
         PerformRepaint() ;
       } ;
-      // if ( newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
-      // {
-      //   Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
-      //     new ReferencePositionChangedMessage(
-      //       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.X,
-      //       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.Value.Y
-      //     )
-      //   ) ;
-      // }
     }
 
     private void PerformRepaint ( )

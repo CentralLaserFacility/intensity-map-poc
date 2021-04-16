@@ -34,6 +34,8 @@
 
       <!-- #### TextBlock with a background -->
 
+      <!-- MATTEO : How best to bind 'Visibility' to a property defined in a static 'Settings' instance ?? -->
+
       <Border 
         Visibility="Collapsed"
         Grid.Row="0"

@@ -62,5 +62,4 @@ On startup there are warning messages :
 On phone :
 
 Colour map drop-down has painting glitches.
-Changing Normalisation Value (in Manual mode) doesn't update the profile graph.
-That feature works fine in UWP, and in Droid with the tablet emulation.
+
