@@ -2,6 +2,10 @@
 // PanAndZoomGesturesHandler.cs
 //
 
+#if __ANDROID__ || NETFX_CORE
+#define HANDLES_TOUCH_EVENTS 
+#endif
+
 namespace UwpSkiaUtilities
 {
 
@@ -18,6 +22,7 @@ namespace UwpSkiaUtilities
       private TouchTracking.Droid.TouchHandler m_touchHandler = new() ;
     #elif NETFX_CORE
       private TouchTracking.UWP.TouchHandler m_touchHandler = new() ;
+    #elif HAS_UNO_WASM
     #endif
       
     private SkiaSharp.Views.UWP.SKXamlCanvas m_skiaXamlCanvas ;
@@ -55,8 +60,10 @@ namespace UwpSkiaUtilities
       m_skiaXamlCanvas.PointerWheelChanged += OnPointerWheelChanged ;
       m_scene = scene ;
       // m_touchHandler = new TouchTracking.UWP.TouchHandler() ;
-      m_touchHandler.RegisterEvents(m_skiaXamlCanvas) ;
-      m_touchHandler.TouchAction += HandleTouchEvent ;
+      #if HANDLES_TOUCH_EVENTS
+        m_touchHandler.RegisterEvents(m_skiaXamlCanvas) ;
+        m_touchHandler.TouchAction += HandleTouchEvent ;
+      #endif
       OnWindowSizeChanged() ;
       m_touchGestureRecognizer = new SkiaScene.TouchManipulation.TouchGestureRecognizer() ;
       // m_touchGestureRecognizer.OnPan += (s,e) => {

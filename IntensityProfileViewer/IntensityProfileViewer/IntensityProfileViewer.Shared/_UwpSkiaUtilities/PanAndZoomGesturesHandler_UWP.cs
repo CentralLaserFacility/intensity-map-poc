@@ -38,8 +38,10 @@ namespace UwpSkiaUtilities
       Canvas canvas
     ) {
       m_canvas = canvas ;
-      m_touchHandler.RegisterEvents(canvas) ;
-      m_touchHandler.TouchAction += HandleTouchEvent ;
+      #if NETFX_CORE || __ANDROID__
+        m_touchHandler.RegisterEvents(canvas) ;
+        m_touchHandler.TouchAction += HandleTouchEvent ;
+      #endif
       OnWindowSizeChanged() ;
     }
 

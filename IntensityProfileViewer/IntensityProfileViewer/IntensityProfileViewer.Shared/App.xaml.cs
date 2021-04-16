@@ -127,6 +127,11 @@ namespace IntensityProfileViewer
 
     private static void InitializeLogging ( )
     {
+      #if __WASM__
+        // STEVE'S HACK TO REMOVE LOGGING IN WASM ...
+        // MATTEO WILL KNOW HOW TO SORT THIS OUT :)
+      #else
+
       var factory = LoggerFactory.Create(
         builder => {
           #if __WASM__
@@ -185,6 +190,8 @@ namespace IntensityProfileViewer
       // MATTEO - please review !!
       #if HAS_UNO 
         global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory ;
+      #endif
+
       #endif
 
     }

@@ -365,7 +365,7 @@ namespace IntensityProfileViewer
         // We'll want to preserve the aspect ratio
         float expansionFactorX = deviceClipBounds.Width  / (float) intensityMap.Dimensions.Width ;
         float expansionFactorY = deviceClipBounds.Height / (float) intensityMap.Dimensions.Height ;
-        float expansionFactor = System.MathF.Min(
+        float expansionFactor = (float) System.Math.Min(
           expansionFactorX,
           expansionFactorY
         ) ;
