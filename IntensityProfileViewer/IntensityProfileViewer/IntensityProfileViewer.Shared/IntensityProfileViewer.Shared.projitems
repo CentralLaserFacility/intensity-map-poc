@@ -55,9 +55,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl_old_01.xaml.cs">
+    <None Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl_old_01.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl_old_01.xaml</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Settings_UserControl.xaml.cs">
       <DependentUpon>Settings_UserControl.xaml</DependentUpon>
     </Compile>
@@ -85,7 +85,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\BitmapHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\BitmapHelpers_ForTesting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\DrawingHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)_UwpUtilities\EnumToStringConverter.cs" />
+    <None Include="$(MSBuildThisFileDirectory)_UwpUtilities\EnumToStringConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\IntensityMapImage_XAML_UserControl.xaml">
@@ -136,10 +136,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl_old_01.xaml">
+    <None Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl_old_01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </None>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Settings_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

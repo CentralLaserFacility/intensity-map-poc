@@ -1,0 +1,32 @@
+//
+// Uno issues ...
+//
+
+Long filenames are a problem ; even with the magic flag set in the registry,
+to enable Long Filenames support :
+  Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled => 1
+... have to check out the repo into a folder with a very short path such as C:\tmp\uno. 
+Otherwise, weird build errors.
+
+Often get spurious red squigglies when building anything but a UWP project.
+
+Should the 'Shared' project contain Assets for splash screen and icon etc ???
+Seems that these are actually specific to UWP.
+
+
+XAML syntax doesn't allow whitespace in the same places that are permitted in UWP ...
+
+  XXX = {            <== THIS PROVOKES LOTS OF OBSCURE ERRORS !!!
+    x:Bind ...
+  }
+
+That style is useful when you have a complex x:Bind expression with 'BindBack' etc ...
+
+===============
+
+Hey, that's a *remarkably* short list !!!
+
+
+
+
+

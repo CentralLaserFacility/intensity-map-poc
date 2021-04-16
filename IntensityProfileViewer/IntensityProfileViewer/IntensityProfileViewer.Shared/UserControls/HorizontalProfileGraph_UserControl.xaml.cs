@@ -41,6 +41,8 @@ namespace IntensityProfileViewer
       )
     ) ;
 
+    // MATTEO : Should use a cast here ??
+
     public IntensityProfileViewer.ISourceViewModel ViewModel
     {
       get => GetValue(ViewModelProperty) as IntensityProfileViewer.ISourceViewModel ;

@@ -38,6 +38,8 @@ Viewer App - stuff that doesn't work properly in Droid :
   - There seems to be no way to zoom back out via a mouse or touch gesture.
     The 'Reset Pan/Zoom' button works though.
 
+  - Splash screen doesn't appear in Droid (fair enough).
+
 ==========================
 
 In Droid, we initially get (on screen)
