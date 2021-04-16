@@ -1,0 +1,66 @@
+//
+// Android issues ...
+//
+
+Viewer App - stuff that doesn't work properly in Droid :
+
+  [ in the emulator, tablet_m-dpi_10_1_in_q_10_0_0_-api_29:5554 ]
+
+  - When the Normalisation Mode is Automatic, the slider that adjusts
+    the Normalisation value should be greyed-out. It doesn't respond
+    to drags on the slider, but there's no visual indication.
+
+  - When you enter an inappropriate value into a text field such as 'X position',
+    the background should change colour to indicate the error.
+
+  - If the virtual keyboard comes up, there's no way of dismissing it
+    apart from disabling it from the 'keyboard' button
+
+  - There are no tooltips (fair enough ?)
+
+  - Dragging the cross hairs works fine.
+
+  - Panning works fine.
+
+  - Dragging and panning work fine with touch input as well as with the mouse.
+  
+  - Zooming with the mouse wheel is broken.
+    Stepping the scroll wheel slowly, eg with a whole second between notches,
+    has the effect of scrolling up or down. If you step the scroll wheel rapidly,
+    quickly forward-and-back, you zoom in by a factor of 2x. You can repeat this
+    a further two times to get a total magnification of 8x. 
+
+  - To zoom in, another method is to double-click (or double-tap on a touch screen)
+    which zooms you in by 2x centred on the touch point.
+
+  - A two-finger 'pinch' gesture has no effect (you'd expect this to zoom in ?)
+
+  - There seems to be no way to zoom back out via a mouse or touch gesture.
+    The 'Reset Pan/Zoom' button works though.
+
+==========================
+
+In Droid, we initially get (on screen)
+  NormalisationMode  : Automatic
+  NormalisationValue : 8  <=== THIS IS NOT CORRECT      
+Even though the NormalisationMode is Automatic, the NormalisationValue
+is somehow being evaluated as a very low value, which produces a washed-out image.
+Probably caused by an initialisation-order issue ; the NormalisationValue being
+computed from an image that doesn't contain valid data.
+
+==================
+
+On the emulated Tablet, screen size reported as 1280 x 728.
+
+On startup there are warning messages :
+  requestLayout() improperly called
+  BindableAttribute is missing and the type [IntensityProfileViewer.DisplayPanelViewModel] is not known by the MetadataProvider. Reflection was used instead of the binding engine and generated static metadata. Add the Bindable attribute to prevent this message and performance issues.
+  Same warning for many other ViewModel types.
+
+================
+
+On phone :
+
+Colour map drop-down has painting glitches.
+Changing Normalisation Value (in Manual mode) doesn't update the profile graph.
+That feature works fine in UWP, and in Droid with the tablet emulation.

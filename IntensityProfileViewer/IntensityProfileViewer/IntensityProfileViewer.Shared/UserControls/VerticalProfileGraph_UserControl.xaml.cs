@@ -79,6 +79,9 @@ namespace IntensityProfileViewer
         ) ;
       } ;
       newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
+      newViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s, e) => {
+        PerformRepaint() ;
+      } ;
       newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => PerformRepaint() ;
       newViewModel.Parent.IntensityMapVisualisationHasChanged += () => PerformRepaint() ;
     }
