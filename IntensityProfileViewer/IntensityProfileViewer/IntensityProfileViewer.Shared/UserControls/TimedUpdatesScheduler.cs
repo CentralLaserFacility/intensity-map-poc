@@ -175,8 +175,8 @@ namespace IntensityProfileViewer
     public Microsoft.Toolkit.Mvvm.Input.IRelayCommand PerformUpdate { get ; }
 
     // It can be interesting to log the times taken
-    // to perform the operation we're invoking, and 
-    // the actual times between 'wakeups'.
+    // to (A) perform the operation we're invoking, 
+    // and (B) the actual times between 'wakeups'.
 
     private static bool MeasureTimerTickTimings = false ;
 

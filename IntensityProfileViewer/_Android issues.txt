@@ -65,3 +65,12 @@ On phone :
 
 Colour map drop-down has painting glitches.
 
+====================
+
+Sometimes get 'file not found' build errors, StoreLogo.png etc (all of them are 'Asset' files)
+All fine with a Rebuild.
+
+
+
+
+
