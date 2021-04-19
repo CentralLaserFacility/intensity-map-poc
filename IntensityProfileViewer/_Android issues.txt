@@ -43,10 +43,9 @@ Viewer App - stuff that doesn't work properly in Droid :
 ==========================
 
 In Droid, we initially get (on screen)
-  NormalisationMode  : Automatic
   NormalisationValue : 8  <=== THIS IS NOT CORRECT      
-Even though the NormalisationMode is Automatic, the NormalisationValue
-is somehow being evaluated as a very low value, which produces a washed-out image.
+Applies with either NormalisationMode, Automatic or Manual
+The NormalisationValue is somehow being evaluated as a very low value, which produces a washed-out image.
 Probably caused by an initialisation-order issue ; the NormalisationValue being
 computed from an image that doesn't contain valid data.
 

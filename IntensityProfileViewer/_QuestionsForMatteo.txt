@@ -239,7 +239,16 @@ at least twice, even in a very simple test app. Is there some other lifecycle ev
 thay we can hook into to initialise things ? Not advisable to do initialisation in the constructor
 of the main window, because one shouldn't call async methods in a constructor ...
 
+MVVM Toolkit - useful to set breakpoints when a 'SetProperty' publishes a change ; can do this if we
+include the source code as part of the solution, is there a way to single-step into the Nuget package ?
+Aha, 'SourceLink' ...
+https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/sourcelink
+https://aaronstannard.com/visual-studio-sourcelink-setup/
+HMM, HAVE DONE ALL THIS BUT STILL CAN'T SINGLE STEP INTO MVVM TOOLKIT METHODS ???
+
 ====================================
+
+
 
 
 
