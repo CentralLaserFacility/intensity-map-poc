@@ -52,13 +52,16 @@ namespace IntensityProfileViewer
     public ColourMapOption ColourMapOption {
       get => m_colourMapOption ;
       set {
-        base.SetProperty(
-          ref m_colourMapOption,
-          value
-        ) ;
-        // OnPropertyChanged(
-        //   nameof(ColourMapOptionName)
-        // ) ;
+        if (
+          base.SetProperty(
+            ref m_colourMapOption,
+            value
+          ) 
+        ) {
+          // OnPropertyChanged(
+          //   nameof(ColourMapOptionName)
+          // ) ;
+        } ;
       }
     }
 
@@ -100,7 +103,7 @@ namespace IntensityProfileViewer
     {
       // Yikes, this is getting called RECURSIVELY  !!!
       // But only in a UWP build. In Uno-UWP there's one
-      // recusrive call on startup, in plain UWP the recursive
+      // recursive call on startup, in plain UWP the recursive
       // call happens repeatedly ...
       m_recursionLevel++ ;
       if ( m_recursionLevel > 1 )
@@ -109,6 +112,9 @@ namespace IntensityProfileViewer
           $"Recursive call (#{m_recursionLevel}) of SetNormalisationValue({value})"
         ) ;
       }
+      // Note that a recursive call that sets the same value
+      // will *not* result in 'PropertyChanged' being raised,
+      // so no damage wil be done ...
       base.SetProperty(
         ref m_normalisationValue,
         value,
