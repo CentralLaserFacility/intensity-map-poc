@@ -83,7 +83,7 @@ namespace IntensityProfileViewer
             // so reset the NormalisationValue to match the
             // maximum value in the current IntensityMap
             SetNormalisationValue(
-              Parent.CurrentSource.MostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 255
+              Parent.CurrentSource.MostRecentlyAcquiredIntensityMap?.MaximumIntensityValue ?? 254
             ) ;
           }
         }
@@ -94,13 +94,27 @@ namespace IntensityProfileViewer
 
     public byte NormalisationValue => m_normalisationValue ;
 
+    private int m_recursionLevel = 0 ;
+
     public void SetNormalisationValue ( byte value )
     {
+      // Yikes, this is getting called RECURSIVELY  !!!
+      // But only in a UWP build. In Uno-UWP there's one
+      // recusrive call on startup, in plain UWP the recursive
+      // call happens repeatedly ...
+      m_recursionLevel++ ;
+      if ( m_recursionLevel > 1 )
+      {
+        Common.DebugHelpers.WriteDebugLines(
+          $"Recursive call (#{m_recursionLevel}) of SetNormalisationValue({value})"
+        ) ;
+      }
       base.SetProperty(
         ref m_normalisationValue,
         value,
         nameof(NormalisationValue)
       ) ;
+      m_recursionLevel-- ;
     }
 
     public bool CanSetNormalisationValue => (

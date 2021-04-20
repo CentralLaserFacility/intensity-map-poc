@@ -62,3 +62,6 @@ VS2019 preview - best avoided ??
 C++/WinRT project template issues !!!
 Also WPF project template, see above
 
+Rebuild in VS 2019 non-preview, weird errors that went away after
+deleting .vs and obj and bin files, and a reboot.
+
