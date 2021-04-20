@@ -46,18 +46,24 @@ namespace IntensityProfileViewer
       NormalisationValueBindingHelper = new(
         getActualValueAsDouble   : (byteValue) => byteValue,
         setActualValueFromDouble : (doubleValue) => {
-          // In normal operation, the slider will be disabled if we're
-          // in Automatic mode, so this action will never be triggered.
-          // However, during the initialisation of the Slider control,
-          // in a 'Droid' build, this action *does* get invoked, with 
-          // a value corresponsing to the slider 'Minimum'. So we need
-          // to protect against the value being propagated to the ViewModel
+          // In normal operation, the slider will be only be enabled if we're
+          // in Manual mode, so this action will not be triggered when 
+          // we're in Automatic mode. However, during the initialisation of
+          // the Slider control, in a 'Droid' build, this action *does* get invoked, 
+          // with a value corresponding to the slider 'Minimum'. So we need to
+          // explicitly protect against the value being propagated to the ViewModel
           // in this particular case.
-          if ( ViewModel.NormalisationMode == NormalisationMode.Manual )
+          switch ( ViewModel.NormalisationMode ) 
           {
+          case NormalisationMode.Automatic:
+            // When we're in Automatic mode, any values that come
+            // from the 'Manual-Mode' slider must be ignored !
+            break ;
+          case NormalisationMode.Manual:
             ViewModel.SetNormalisationValue(
               (byte) doubleValue
             ) ;
+            break ;
           }
         }
       ) {
