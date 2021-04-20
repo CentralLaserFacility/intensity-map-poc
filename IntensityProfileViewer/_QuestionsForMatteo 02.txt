@@ -61,3 +61,4 @@ HMM, HAVE DONE ALL THIS BUT STILL CAN'T SINGLE STEP INTO MVVM TOOLKIT METHODS ??
 VS2019 preview - best avoided ??
 C++/WinRT project template issues !!!
 Also WPF project template, see above
+

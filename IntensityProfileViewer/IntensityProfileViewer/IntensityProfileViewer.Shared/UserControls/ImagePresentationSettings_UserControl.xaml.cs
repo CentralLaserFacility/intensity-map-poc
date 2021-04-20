@@ -44,10 +44,22 @@ namespace IntensityProfileViewer
         (value) => ViewModel.NormalisationMode = value
       ) ;
       NormalisationValueBindingHelper = new(
-        (byteValue) => byteValue,
-        (doubleValue) => ViewModel.SetNormalisationValue(
-          (byte) doubleValue
-        ) 
+        getActualValueAsDouble   : (byteValue) => byteValue,
+        setActualValueFromDouble : (doubleValue) => {
+          // In normal operation, the slider will be disabled if we're
+          // in Automatic mode, so this action will never be triggered.
+          // However, during the initialisation of the Slider control,
+          // in a 'Droid' build, this action *does* get invoked, with 
+          // a value corresponsing to the slider 'Minimum'. So we need
+          // to protect against the value being propagated to the ViewModel
+          // in this particular case.
+          if ( ViewModel.NormalisationMode == NormalisationMode.Manual )
+          {
+            ViewModel.SetNormalisationValue(
+              (byte) doubleValue
+            ) ;
+          }
+        }
       ) {
         Minimum = 8.0,
         Maximum = 255.0
@@ -63,21 +75,21 @@ namespace IntensityProfileViewer
     public string GetNormalisationValueHeaderText ( byte value )
     => $"Normalisation value ({value})" ;
 
-    public double GetNormalisationValue ( byte value ) => value ;
+    // public double GetNormalisationValue ( byte value ) => value ;
     
-    public void SetNormalisationValue ( double value )
-    {
-      ViewModel.SetNormalisationValue(
-        (byte) value 
-      ) ;
-    }
+    // public void SetNormalisationValue ( double value )
+    // {
+    //   ViewModel.SetNormalisationValue(
+    //     (byte) value 
+    //   ) ;
+    // }
 
-    private void NormalisationValueSlider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )
-    {
-      ViewModel.SetNormalisationValue(
-        (byte) e.NewValue 
-      ) ;
-    }
+    // private void NormalisationValueSlider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )
+    // {
+    //   ViewModel.SetNormalisationValue(
+    //     (byte) e.NewValue 
+    //   ) ;
+    // }
 
   }
 

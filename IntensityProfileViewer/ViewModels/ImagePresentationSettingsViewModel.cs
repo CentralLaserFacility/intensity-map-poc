@@ -63,10 +63,9 @@ namespace IntensityProfileViewer
     }
 
     private NormalisationMode m_normalisationMode = (
-      // NormalisationMode.Automatic
-      NormalisationMode.Manual
+      NormalisationMode.Automatic
+      // NormalisationMode.Manual
     ) ; 
-
 
     public NormalisationMode NormalisationMode {
       get => m_normalisationMode ;
