@@ -1,9 +1,22 @@
 ﻿<linker>
   <assembly fullname="IntensityProfileViewer.Wasm" />
   <assembly fullname="Uno.UI" />
-
+  <assembly fullname="Uno.Foundation" />
+  <assembly fullname="SkiaSharp" />
+  <assembly fullname="SkiaSharp.Views.UWP" />
+  <assembly fullname="SkiaScene" />
+  <assembly fullname="SkiaScene.TouchManipulation" />
+  <assembly fullname="TouchTracking" />
+  <assembly fullname="Common" />
+  <assembly fullname="DomainDefinitions" />
+  <assembly fullname="ModelClasses" />
+  <assembly fullname="ViewModels" />
+  <assembly fullname="Microsoft.Toolkit.Mvvm" />
+  <assembly fullname="CommonServiceLocator" />
+  <assembly fullname="Microsoft.Extensions.Options" />
+  
   <assembly fullname="System.Core">
-	<!-- This is required by JSon.NET and any expression.Compile caller -->
-	<type fullname="System.Linq.Expressions*" />
+    <!-- This is required by JSon.NET and any expression.Compile caller -->
+    <type fullname="System.Linq.Expressions*" />
   </assembly>
 </linker>
