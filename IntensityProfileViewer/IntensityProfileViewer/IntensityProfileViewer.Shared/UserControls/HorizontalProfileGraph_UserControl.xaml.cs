@@ -42,6 +42,7 @@ namespace IntensityProfileViewer
     ) ;
 
     // MATTEO : Should use a cast here ??
+    // ViewModel could be null, so declare return type as might-be-null ???
 
     public IntensityProfileViewer.ISourceViewModel ViewModel
     {
@@ -132,6 +133,14 @@ namespace IntensityProfileViewer
     //     VisualTreeHelper.GetParent() ; ... etc
     //   }
     // }
+
+    //
+    // MATTEO :
+    //   Raising events between ViewModels ...
+    //   - INotifyPropertyChanged
+    //   - Actions
+    //   - Mediator ?
+    //
 
     private void DrawHorizontalProfileGraph_IndividualLines (
       SkiaSharp.SKCanvas skiaCanvas

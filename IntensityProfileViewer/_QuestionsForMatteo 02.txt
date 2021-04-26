@@ -2,17 +2,6 @@
 // _QuestionsForMatteo 02
 //
 
-Events to Commands, in XAML, with Community Toolkit ?
-Does it work in Uno ?
-
-Not Uno-related, but ...
-  What's the cleanest way to call a Javascript function from C# ?
-  Microsoft.JSInterop.JSRuntime ... from ASP.Net.Core 5.0
-  Can call from a Blazor app, of course ...
-  But from a WinUI app ? 
-  In order to use a graphical layout package called 'Dagre'.
-  And can JSRuntime invoke a WebAssembly module ?
-
 WinUI question ...
   We use TCP/IP and UDP for network comms, and it'll be useful to be able
   to run a Server and a Client on the same machine, for development and testing.
@@ -25,6 +14,21 @@ WinUI question ...
   THAT UDP IS NOT SUPPORTED !!!
   IN WINUI, IS THE SYSTEM TAKING NOTICE OF THE PERMISSIONS DECLARED IN THE MANIFEST ??
   MY COMMS EXPERIMENT WORKS EVEN WHEN I REMOVE THE NETWORKING PERMISSIONS ...
+
+=================
+
+Events to Commands, in XAML, with Community Toolkit ?
+Does it work in Uno ?
+- yes, available for WinUI
+
+Not Uno-related, but ...
+  What's the cleanest way to call a Javascript function from C# ?
+  Microsoft.JSInterop.JSRuntime ... from ASP.Net.Core 5.0
+  Can call from a Blazor app, of course ...
+  But from a WinUI app ? 
+  In order to use a graphical layout package called 'Dagre'.
+  And can JSRuntime invoke a WebAssembly module ?
+  --- Use WebView2 control ...
 
 By the way, nice post about the WVVM Toolkit, from the XamlBrewer people ...
 https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
@@ -65,3 +69,6 @@ Also WPF project template, see above
 Rebuild in VS 2019 non-preview, weird errors that went away after
 deleting .vs and obj and bin files, and a reboot.
 
+===================
+
+Books on WinUI-3 ???

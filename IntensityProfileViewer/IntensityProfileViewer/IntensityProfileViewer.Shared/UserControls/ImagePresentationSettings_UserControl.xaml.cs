@@ -58,19 +58,20 @@ namespace IntensityProfileViewer
           case NormalisationMode.Automatic:
             #if __ANDROID__
               // When we're in Automatic mode, any values that come
-              // from the 'Manual-Mode' slider must be ignored !
+              // from the 'Manual-Mode' slider MUST be ignored !
               // Demonstrate this by removing the comments here ...
               // ViewModel.SetNormalisationValue(
               //   (byte) doubleValue
               // ) ;
             #else
-              // In a UWP project, it's not a problem, but only because
+              // In a UWP project, setting the value not a problem, but only because
               // the value is getting set to the slider's MAXIMUM value
               // rather than the minimum value !!! And that happens to be
               // the value that it's already been set to.
-              ViewModel.SetNormalisationValue(
-                (byte) doubleValue
-              ) ;
+              // THIS 'SET' IS NOT NECESSARY, BUT IT DOESN'T CAUSE A PROBLEM EITHER ...
+              // ViewModel.SetNormalisationValue(
+              //   (byte) doubleValue
+              // ) ;
             #endif
             break ;
           case NormalisationMode.Manual:

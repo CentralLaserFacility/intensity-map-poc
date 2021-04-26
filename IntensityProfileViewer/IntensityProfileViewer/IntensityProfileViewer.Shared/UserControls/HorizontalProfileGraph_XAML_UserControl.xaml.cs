@@ -223,7 +223,7 @@ namespace IntensityProfileViewer
 
       System.TimeSpan timeBeforePathDataBuildStarted = m_executionTimingStopwatch.Elapsed ;
 
-      // MATTEO - fasest way to build Path data
+      // MATTEO - fastest way to build Path data ?
       // It's expensive to build the tree of 'Path.Data' elements,
       // so we create it once, and then 'draw' the lines by updating
       // the start and/or end points on subsequent calls.

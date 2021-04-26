@@ -15,7 +15,7 @@
   <!-- MATTEO : How come the Height turns out OK at runtime ?? -->
   <!-- MATTEO : What determines the Width at runtime ?? -->
 
-  <Grid>
+  <Grid> <!-- GRID NOT NEEDED HERE -->
 
     <StackPanel 
       Orientation="Vertical" 
@@ -35,9 +35,9 @@
       <!-- #### TextBlock with a background -->
 
       <!-- MATTEO : How best to bind 'Visibility' to a property defined in a static 'Settings' instance ?? -->
+      <!-- Inject a reference to a singleton 'Settings' property ?? -->
 
       <Border 
-        Visibility="Collapsed"
         Grid.Row="0"
         Grid.Column="0"
         Background="{StaticResource LabelBackgroundBrush}" 

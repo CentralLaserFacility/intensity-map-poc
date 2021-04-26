@@ -12,7 +12,7 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <!-- MATTEO : Is it worthwhile to have a 'Grid' here as the parent ?? -->
+  <!-- MATTEO : Is it worthwhile to have a 'Grid' here as the parent ?? ### NO -->
 
   <Grid>
 

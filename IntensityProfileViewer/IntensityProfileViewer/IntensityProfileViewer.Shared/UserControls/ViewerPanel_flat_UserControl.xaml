@@ -26,6 +26,7 @@
         <!-- MATTEO : Is there a better way to do this, eg binding the column value -->
         <!-- to the value that's defined in the Row ?? -->
         <!-- WOULD BE NICE TO USE A GRIDSPLITTER TO LET THE USER RESIZE THE GRAPHS -->
+        <!-- Windows Community Toolkit has a GridSplitter, can we use that ?? -->
         <GridLength x:Key="GraphSize">150</GridLength>
       </ResourceDictionary>
     </Grid.Resources>
