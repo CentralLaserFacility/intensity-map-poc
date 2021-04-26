@@ -11,11 +11,13 @@
     x:DefaultBindMode="OneWay"
   >
 
-  <!-- MATTEO : is it recommended to *always* have a grid at the root ?? -->
   <!-- MATTEO : How come the Height turns out OK at runtime ?? -->
   <!-- MATTEO : What determines the Width at runtime ?? -->
 
-  <Grid> <!-- GRID NOT NEEDED HERE -->
+  <!-- 
+  GRID NOT NEEDED HERE 
+  <Grid> 
+  -->
 
     <StackPanel 
       Orientation="Vertical" 
@@ -125,6 +127,8 @@
 
     </StackPanel>
 
+  <!-- 
   </Grid>
+  -->
 
 </UserControl>

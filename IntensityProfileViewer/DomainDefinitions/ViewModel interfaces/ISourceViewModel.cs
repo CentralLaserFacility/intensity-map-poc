@@ -28,7 +28,7 @@ namespace IntensityProfileViewer
 
     // Events ??? Better to raise events in a centralised 'hub' ???
     // Or just rely on the PropertyChanged mechanism ???
-
+    // Use Mediator instead ?
     event System.Action? NewIntensityMapAcquired ;
 
   }

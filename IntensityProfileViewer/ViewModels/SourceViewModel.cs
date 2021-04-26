@@ -40,6 +40,7 @@ namespace IntensityProfileViewer
       }
     }
 
+    // Use Mediator instead ?
     public event System.Action? NewIntensityMapAcquired ;
 
     public IProfileDisplaySettingsViewModel ProfileDisplaySettings { get ; }

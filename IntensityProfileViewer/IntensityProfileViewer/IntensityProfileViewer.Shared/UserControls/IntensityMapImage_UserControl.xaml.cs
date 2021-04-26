@@ -69,6 +69,8 @@ namespace IntensityProfileViewer
       // From a DataContext that would be specified via a DataTemplate ??
       // this.DataContextChanged += (s,e) => {
       //   ViewModel = e.NewValue as IntensityProfileViewer.ISourceViewModel ;
+      // - or -
+      //   SetValue(ViewModelProperty,DataContext) ;
       // } ;
     }
 

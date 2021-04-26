@@ -18,6 +18,7 @@ namespace IntensityProfileViewer
   , IProfileDisplaySettingsViewModel
   {
 
+    // Use Mediator instead ?
     public event System.Action? ProfileGraphsReferencePositionChanged ;
 
     private System.Drawing.Point? m_profileGraphsReferencePosition = new System.Drawing.Point(10,10) ;

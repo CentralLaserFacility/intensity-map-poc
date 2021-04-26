@@ -22,8 +22,8 @@ namespace IntensityProfileViewer
 
     PanAndZoomParameters PanAndZoomParameters { get ; } 
 
+    // Use Mediator instead ?
     event System.Action? IntensityMapVisualisationHasChanged ;
-
     void RaiseIntensityMapVisualisationHasChangedEvent ( ) ;
 
     //

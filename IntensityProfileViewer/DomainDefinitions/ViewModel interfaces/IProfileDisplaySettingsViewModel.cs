@@ -12,6 +12,7 @@ namespace IntensityProfileViewer
 
     System.Drawing.Point? ProfileGraphsReferencePosition { get ; set ; }
 
+    // Use Mediator instead ?
     event System.Action? ProfileGraphsReferencePositionChanged ;
 
     System.Collections.Generic.IReadOnlyList<byte> VerticalProfileIntensityValues   { get ; }

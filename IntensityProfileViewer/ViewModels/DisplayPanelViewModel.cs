@@ -23,6 +23,15 @@ namespace IntensityProfileViewer
 
     public PanAndZoomParameters PanAndZoomParameters { get ; } = new PanAndZoomParameters() ;
 
+    //
+    // MATTEO : this is an example of a place where it'd be better to use Mediator.
+    // Instead of raising this event (to which another ViewModel would have subscribed)
+    // we'll raise an event on the singleton 'Mediator' at the root level, and any
+    // interested ViewModel could subscribe to the message. That has the advantage of
+    // using the WeakEvent pattern, so we needn't rely on unsubscription.
+    //
+
+    // Use Mediator instead ?
     public event System.Action? IntensityMapVisualisationHasChanged ;
 
     public void RaiseIntensityMapVisualisationHasChangedEvent ( )

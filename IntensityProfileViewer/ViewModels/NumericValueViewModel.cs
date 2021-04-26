@@ -144,6 +144,7 @@ namespace IntensityProfileViewer
       }
     }
 
+    // Use Mediator instead ?
     public System.Action<double>? ValueChanged { get ; set ; }
 
   }

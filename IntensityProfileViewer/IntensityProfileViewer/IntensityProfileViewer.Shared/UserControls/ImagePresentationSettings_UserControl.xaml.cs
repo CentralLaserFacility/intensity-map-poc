@@ -56,6 +56,9 @@ namespace IntensityProfileViewer
           switch ( ViewModel.NormalisationMode ) 
           {
           case NormalisationMode.Automatic:
+            // Hmm, even though we don't expect this action to be activated
+            // when we're in Manual mode (because the control should then be
+            // in a disabled state) we shouldn't rely on that ...
             #if __ANDROID__
               // When we're in Automatic mode, any values that come
               // from the 'Manual-Mode' slider MUST be ignored !
