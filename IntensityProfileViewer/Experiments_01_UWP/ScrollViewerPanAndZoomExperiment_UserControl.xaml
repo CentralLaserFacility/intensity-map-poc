@@ -31,7 +31,7 @@
     </Grid.ColumnDefinitions>
 
     <!-- Matteo : 'Name' vs 'x:Name' ??? -->
-    <!-- Should we use x:Name everywhere, or is Name still relevant ??? -->
+    <!-- Should we use x:Name everywhere, or is Name still relevant ??? NO LONGER RELEVANT -->
 
     <!-- 
       Hmm, Tine reckons this pan/zoom behaviour is 'good enough' ... 

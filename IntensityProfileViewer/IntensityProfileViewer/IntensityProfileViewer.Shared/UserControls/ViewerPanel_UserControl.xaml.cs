@@ -59,6 +59,7 @@ namespace IntensityProfileViewer
       this.Loaded += (s,e) => {
 
       } ;
+      
 
     }
 

@@ -11,6 +11,8 @@
     x:DefaultBindMode="OneWay"
 >
 
+  <!-- USE A GRID !!! -->
+
   <StackPanel 
     Orientation="Horizontal" 
     Padding="10" Spacing="10" 
@@ -36,7 +38,7 @@
 
     <!-- Matteo : What determines the width ?? It seems to have a minimum value of 120 ??? -->
 
-    <CheckBox Content="Free-run" Width="65" IsChecked="{x:Bind TimedUpdatesScheduler.EnableTimedUpdates, Mode=TwoWay}"/>
+    <CheckBox Content="Free-run" Width="40" IsChecked="{x:Bind TimedUpdatesScheduler.EnableTimedUpdates, Mode=TwoWay}"/>
 
     <!-- 
     <local:NumericValueEditor_UserControl x:Name="m_updateRateEditor" />

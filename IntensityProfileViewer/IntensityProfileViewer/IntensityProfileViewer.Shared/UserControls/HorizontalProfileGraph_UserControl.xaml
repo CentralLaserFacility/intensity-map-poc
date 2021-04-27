@@ -19,6 +19,8 @@
 
     <!-- #### With Auto width, default is 'Stretch' ?? -->
 
+    <!-- ###Aha, Width=Auto is usually used for a Container !!! -->
+
     <skia:SKXamlCanvas 
       x:Name="m_skiaCanvas"
       Width="Auto"  HorizontalAlignment="Stretch"

@@ -52,11 +52,11 @@ namespace IntensityProfileViewer
       error
       // ? new SolidColorBrush(Windows.UI.Colors.Pink)
       // : new SolidColorBrush(Windows.UI.Colors.LightGreen)
-      // Matteo : this fails to find the resources !!!
+      // Matteo : this fails to find the resources !!! THESE ARE LOCAL RESOURCES !!!!
       // ? this.Resources["Brush_Pink"] as Brush
       // : this.Resources["Brush_LightGreen"] as Brush
       // THIS WORKS ...
-      ? Application.Current.Resources["NumericEditorInvalidValueBrush"] as Brush
+      ? Application.Current.Resources["NumericEditorInvalidValueBrush"] as Brush // GLOBAL RESOURCE !!!
       : Application.Current.Resources["NumericEditorValidValueBrush"] as Brush
     ) ;
 

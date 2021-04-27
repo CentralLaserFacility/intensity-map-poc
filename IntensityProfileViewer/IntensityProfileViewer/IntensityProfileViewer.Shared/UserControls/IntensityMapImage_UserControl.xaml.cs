@@ -72,6 +72,7 @@ namespace IntensityProfileViewer
       // - or -
       //   SetValue(ViewModelProperty,DataContext) ;
       // } ;
+      // AHA - Use DataType !!!
     }
 
     // private SkiaSharp.SKCanvas? m_skiaCanvas ; // No no no ...

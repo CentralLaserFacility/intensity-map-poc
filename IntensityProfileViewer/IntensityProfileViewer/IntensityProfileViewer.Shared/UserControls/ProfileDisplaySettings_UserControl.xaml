@@ -35,7 +35,8 @@
       Padding="6"
     >
       <!-- Matteo : is 'Auto' the default here ? Is that always the case ?? -->
-      <!-- Which is better - a Margin here, vs a Padding in the Border ??? -->
+      <!-- Which is better - a Margin here, vs a Padding in the Border ??? NO PREFERENCE !! -->
+      <!-- AVOID AUTO !!!! -->
       <TextBlock 
         Text="Profile graph display settings" 
         Height="Auto" 

@@ -27,11 +27,12 @@
         <!-- to the value that's defined in the Row ?? -->
         <!-- WOULD BE NICE TO USE A GRIDSPLITTER TO LET THE USER RESIZE THE GRAPHS -->
         <!-- Windows Community Toolkit has a GridSplitter, can we use that ?? -->
+        <!-- Need to use specific Uno version of toolkit -->
         <GridLength x:Key="GraphSize">150</GridLength>
       </ResourceDictionary>
     </Grid.Resources>
 
-    <!-- Matteo - is this Height necessary ?? -->
+    <!-- Matteo - is this Height necessary ?? YES, OTHERWISE WOULD DEFAULT TO '1' -->
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
       <RowDefinition Height="{StaticResource GraphSize}"/>
@@ -107,6 +108,7 @@
         <Button Content="Reset Pan/Zoom" Click="ResetPanZoomButton_Click"/>
         <!-- MATTEO : best way to create a 'Settings' page ?? -->
         <!-- Modal dialog ?? Flyout ??? Modeless ?? -->
+        <!-- Uno, modeless not a good idea ; XAML Flyout handles *all* of these !! -->
         <Button Content="Settings" IsEnabled="False"/>
         <!-- 
         <Button Content="Reset" />

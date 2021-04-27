@@ -12,7 +12,7 @@
   >
 
   <!-- MATTEO : How come the Height turns out OK at runtime ?? -->
-  <!-- MATTEO : What determines the Width at runtime ?? -->
+  <!-- MATTEO : What determines the Width at runtime ?? ###ALWAYS THE CONTAINER !!! -->
 
   <!-- 
   GRID NOT NEEDED HERE 
