@@ -72,3 +72,9 @@ deleting .vs and obj and bin files, and a reboot.
 ===================
 
 Books on WinUI-3 ???
+
+=============================
+
+Where we specify in XAML, Width="Auto", for a FrameworkElement ; this is of type 'double',
+presumably this results in a 'NaN' value ?
+

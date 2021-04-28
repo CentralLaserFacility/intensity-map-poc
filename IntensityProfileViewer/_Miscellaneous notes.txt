@@ -1,0 +1,28 @@
+//
+// Miscellaneous notes
+//
+
+Useful types in the Windows Community Toolkit :
+
+ EnumValuesExtensions type
+
+Flyout class
+https://docs.microsoft.com/en-gb/uwp/api/windows.ui.xaml.controls.flyout?view=winrt-19041
+
+DispatcherQueueExtensions Class
+https://docs.microsoft.com/en-gb/dotnet/api/microsoft.toolkit.uwp.DispatcherQueueExtensions?view=win-comm-toolkit-dotnet-7.0
+
+How to use Windows Community Toolkit
+https://platform.uno/docs/articles/uno-community-toolkit.html?tabs=tabid-vswin
+
+Nuget package :
+Microsoft.Toolkit.Uwp.UI.Controls
+This package provides no actual code and is only an aggregate of its dependencies.
+See the 'readme.txt' :
+This package also depends on the WinUI library, so you'll need to set XamlControlsResources as your Application resources in App.xaml:
+    <Application>
+        <Application.Resources>
+            <XamlControlsResource xmlns="using:Microsoft.UI.Xaml.Controls" />
+        </Application.Resources>
+    </Application>
+
