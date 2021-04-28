@@ -168,7 +168,9 @@ namespace IntensityProfileViewer
                 // builder.AddFilter("Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug );
             });
 
-            global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+#if HAS_UNO 
+      global::Uno.Extensions.LogExtensionPoint.AmbientLoggerFactory = factory;
+#endif
         }
 
     }
