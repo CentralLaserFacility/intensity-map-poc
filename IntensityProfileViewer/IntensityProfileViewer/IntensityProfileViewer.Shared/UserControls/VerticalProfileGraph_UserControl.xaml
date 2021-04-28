@@ -12,17 +12,11 @@
     x:DefaultBindMode="OneWay"
  >
 
-  <Grid>
-
-    <skia:SKXamlCanvas 
-          x:Name="m_skiaCanvas"
-          Width="Auto"
-          Height="Auto" 
-          Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-        />
-
-  </Grid>
+  <skia:SKXamlCanvas 
+    x:Name="m_skiaCanvas"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
+  />
 
 </UserControl>

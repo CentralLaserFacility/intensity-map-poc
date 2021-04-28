@@ -12,12 +12,7 @@
   >
 
   <!-- MATTEO : How come the Height turns out OK at runtime ?? -->
-  <!-- MATTEO : What determines the Width at runtime ?? ###ALWAYS THE CONTAINER !!! -->
-
-  <!-- 
-  GRID NOT NEEDED HERE 
-  <Grid> 
-  -->
+  <!-- MATTEO : What determines the Width at runtime ?? ### ALWAYS THE CONTAINER !!! -->
 
     <StackPanel 
       Orientation="Vertical" 
@@ -40,6 +35,7 @@
       <!-- Inject a reference to a singleton 'Settings' property ?? -->
 
       <Border 
+        Visibility="Collapsed"
         Grid.Row="0"
         Grid.Column="0"
         Background="{StaticResource LabelBackgroundBrush}" 

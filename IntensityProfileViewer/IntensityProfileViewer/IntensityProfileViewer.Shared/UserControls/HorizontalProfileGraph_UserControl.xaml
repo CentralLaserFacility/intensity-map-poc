@@ -12,22 +12,15 @@
     x:DefaultBindMode="OneWay"
 >
 
-  <!-- MATTEO : Is it worthwhile to have a 'Grid' here as the parent ?? ### NO -->
+  <!-- Not necessary to have a 'Grid' here as the parent -->
 
-  <Grid>
+  <!-- Width=Auto not necessary here ; Width=Auto is usually used for a Container, not for a contained element ... -->
 
-
-    <!-- #### With Auto width, default is 'Stretch' ?? -->
-
-    <!-- ###Aha, Width=Auto is usually used for a Container !!! -->
-
-    <skia:SKXamlCanvas 
-      x:Name="m_skiaCanvas"
-      Width="Auto"  HorizontalAlignment="Stretch"
-      Height="Auto" VerticalAlignment="Stretch"
-      Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
-    />
-
-  </Grid>
+  <skia:SKXamlCanvas 
+    x:Name="m_skiaCanvas"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Background="{StaticResource Brush_SHOULD_NOT_BE_VISIBLE}"
+  />
 
 </UserControl>
