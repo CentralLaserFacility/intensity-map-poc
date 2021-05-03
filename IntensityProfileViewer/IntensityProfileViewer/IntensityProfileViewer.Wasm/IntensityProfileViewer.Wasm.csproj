@@ -44,8 +44,8 @@
     <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
     <PackageReference Include="SkiaScene" Version="1.0.0" />
     <PackageReference Include="SkiaScene.TouchManipulation" Version="2.2.1" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2" />
-    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.2" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3-preview.40" />
+    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.3-preview.40" />
     <PackageReference Include="TouchTracking" Version="1.2.0" />
     <PackageReference Include="Uno.UI.WebAssembly" Version="3.7.3" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.7.3" Condition="'$(Configuration)'=='Debug'" />
