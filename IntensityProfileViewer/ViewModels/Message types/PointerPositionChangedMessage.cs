@@ -1,0 +1,7 @@
+﻿//
+// .cs
+//
+
+namespace IntensityProfileViewer
+{
+}
