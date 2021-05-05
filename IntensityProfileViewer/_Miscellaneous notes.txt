@@ -34,7 +34,7 @@ SourceLink and the MVVM toolkit
 - You will find a list with all the modules loaded by the application. Scroll it until you find Microsoft.Toolkit.Mvvm.dll.
 - Right click on it and choose Load symbols
 - Find the Microsoft.Toolkit.Mvvm.pdb file in the %userprofile%\.nuget\packages\microsoft.toolkit.mvvm\7.0.1\lib\netstandard2.0 folder and press Ok.
-- That’s it. Now the Modules window should display “Symbols loaded” in the “Symbols Status” column. And if you press F11, you should see the Visual Studio prompt that will warn you that, to continue the operation, it will download some source code from Internet.
+- That's it. Now the Modules window should display 'Symbols loaded' in the 'Symbols Status' column. And if you press F11, you should see the Visual Studio prompt that will warn you that, to continue the operation, it will download some source code from Internet.
  
 After that, you should see the debugger stepping into the source code of the toolkit.
 
