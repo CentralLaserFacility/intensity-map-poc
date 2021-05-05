@@ -26,3 +26,20 @@ This package also depends on the WinUI library, so you'll need to set XamlContro
         </Application.Resources>
     </Application>
 
+  =======================
+
+SourceLink and the MVVM toolkit
+- Run the application and put a breakpoint before stepping into the code you would like to debug (for example, on the SetProperty() method from the toolkit).
+- When Visual Studio breaks, open the Modules windows by going to Debug -> Windows -> Modules
+- You will find a list with all the modules loaded by the application. Scroll it until you find Microsoft.Toolkit.Mvvm.dll.
+- Right click on it and choose Load symbols
+- Find the Microsoft.Toolkit.Mvvm.pdb file in the %userprofile%\.nuget\packages\microsoft.toolkit.mvvm\7.0.1\lib\netstandard2.0 folder and press Ok.
+- That’s it. Now the Modules window should display “Symbols loaded” in the “Symbols Status” column. And if you press F11, you should see the Visual Studio prompt that will warn you that, to continue the operation, it will download some source code from Internet.
+ 
+After that, you should see the debugger stepping into the source code of the toolkit.
+
+=======================
+
+Required configuration for AOT, Mixed Mode or external bitcode support compilation on Windows 10
+https://github.com/unoplatform/uno.wasm.bootstrap#required-configuration-for-aot-mixed-mode-or-external-bitcode-support-compilation-on-windows-10
+
