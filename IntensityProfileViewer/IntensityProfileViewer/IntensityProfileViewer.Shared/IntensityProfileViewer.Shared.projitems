@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)_UwpSkiaUtilities\ColourConversion_ExtensionMethods.cs" />
     <None Include="$(MSBuildThisFileDirectory)UserControls\ProfileDisplaySettings_UserControl_old_01.xaml.cs">
       <DependentUpon>ProfileDisplaySettings_UserControl_old_01.xaml</DependentUpon>
     </None>

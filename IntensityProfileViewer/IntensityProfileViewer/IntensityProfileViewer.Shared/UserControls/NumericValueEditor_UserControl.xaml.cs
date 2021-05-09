@@ -2,32 +2,17 @@
 // NumericValueEditor_UserControl.cs
 //
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
 namespace IntensityProfileViewer
 {
 
-  public sealed partial class NumericValueEditor_UserControl : UserControl
+  public sealed partial class NumericValueEditor_UserControl : Windows.UI.Xaml.Controls.UserControl
   {
 
-    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+    public static readonly Windows.UI.Xaml.DependencyProperty ViewModelProperty = Windows.UI.Xaml.DependencyProperty.Register(
       "ViewModel", 
       typeof(IntensityProfileViewer.NumericValueViewModel), 
       typeof(NumericValueEditor_UserControl), 
-      new PropertyMetadata(0)
+      new Windows.UI.Xaml.PropertyMetadata(0)
     ) ;
 
     public IntensityProfileViewer.NumericValueViewModel ViewModel
@@ -47,7 +32,7 @@ namespace IntensityProfileViewer
 
     public string GetStringValue ( string value ) => value ;
 
-    public Brush GetErrorIndicationBrush ( bool error )
+    public Windows.UI.Xaml.Media.Brush GetErrorIndicationBrush ( bool error )
     => (
       error
       // ? new SolidColorBrush(Windows.UI.Colors.Pink)
@@ -56,8 +41,8 @@ namespace IntensityProfileViewer
       // ? this.Resources["Brush_Pink"] as Brush
       // : this.Resources["Brush_LightGreen"] as Brush
       // THIS WORKS ...
-      ? Application.Current.Resources["NumericEditorInvalidValueBrush"] as Brush // GLOBAL RESOURCE !!!
-      : Application.Current.Resources["NumericEditorValidValueBrush"] as Brush
+      ? Windows.UI.Xaml.Application.Current.Resources["NumericEditorInvalidValueBrush"] as Windows.UI.Xaml.Media.Brush // GLOBAL RESOURCE !!!
+      : Windows.UI.Xaml.Application.Current.Resources["NumericEditorValidValueBrush"]   as Windows.UI.Xaml.Media.Brush
     ) ;
 
   }
