@@ -8,8 +8,8 @@
 
   <Identity
     Name="f176df9d-f00c-41a1-8451-8aa3818cd277"
-    Publisher="CN=steve"
-    Version="1.0.0.0" />
+    Publisher="CN=Matteo Pagani, O=Matteo Pagani, L=Como, S=Como, C=IT"
+    Version="1.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="aab7a30c-b819-4a06-b21a-236e3934d081" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
