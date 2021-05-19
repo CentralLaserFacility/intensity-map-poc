@@ -7,25 +7,26 @@
   xmlns:local="using:IntensityProfileViewer"
 >
 
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
-            </ResourceDictionary.MergedDictionaries>
+  <Application.Resources>
 
-            <!-- Usage :
-        Background="{StaticResource XXX}"
-        Fill="{StaticResource XXX}"
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <!-- Other merged dictionaries here -->
+      </ResourceDictionary.MergedDictionaries>
+
+      <!-- Usage :
+      Background="{StaticResource XXX}"
+      Fill="{StaticResource XXX}"
       -->
 
-            <!-- 
-        When experimenting with colours, best to define a colour in XAML here 
-        and reference as a {StaticResource Brush_XXX} - as that makes it easier
-        to search for occurrences in the code.
+      <!-- 
+      When experimenting with colours, best to define a colour in XAML here 
+      and reference as a {StaticResource Brush_XXX} - as that makes it easier
+      to search for occurrences in the code.
       -->
 
-            <!-- 
+      <!-- 
       <SolidColorBrush x:Key="Brush_AliceBlue">     AliceBlue     </SolidColorBrush>
       <SolidColorBrush x:Key="Brush_LightYellow">   AliceBlue     </SolidColorBrush>
       <SolidColorBrush x:Key="Brush_Beige">         AliceBlue     </SolidColorBrush>
@@ -42,37 +43,44 @@
       <SolidColorBrush x:Key="Brush_Blue">          Blue          </SolidColorBrush>
       -->
 
-            <!-- This lurid colour can be used in places where we expect that -->
-            <!-- a background is not going to be visible, or will be overridden -->
-            <SolidColorBrush x:Key="Brush_SHOULD_NOT_BE_VISIBLE">DeepPink</SolidColorBrush>
+      <!-- This lurid colour can be used in places where we expect that -->
+      <!-- a background is not going to be visible, or will be overridden -->
+      <SolidColorBrush x:Key="Brush_SHOULD_NOT_BE_VISIBLE">DeepPink</SolidColorBrush>
 
-            <!-- 
+      <!-- 
         FEEL FREE TO EXPERIMENT WITH THESE DEFINITIONS !!
         https://docs.microsoft.com/en-us/dotnet/api/system.windows.media.colors?view=net-5.0
       -->
 
-            <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
-            <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
-            <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
-            <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
-            <SolidColorBrush x:Key="ProfileGraphBackgroundColour">LightYellow</SolidColorBrush>
-            <SolidColorBrush x:Key="NumericEditorValidValueBrush">Bisque</SolidColorBrush>
-            <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
-            <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
-
-            <!-- THESE ARE 'DEFAULT' PASTEL COLOURS THAT SEEM TO WORK -->
-            <!-- 
       <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
       <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
       <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
-      <SolidColorBrush x:Key="NumericEditorValidValueBrush">LightGreen</SolidColorBrush>
+      <SolidColorBrush x:Key="ProfileGraphBackgroundColour">LightYellow</SolidColorBrush>
+      <SolidColorBrush x:Key="NumericEditorValidValueBrush">Bisque</SolidColorBrush>
       <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
       <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
+
+      <!-- Skia specific colours -->
+
+      <Color x:Key="ProfileGraphLineColour">Red</Color>
+      <Color x:Key="ProfileGraphHighlightedLineColour">Blue</Color>
+      <Color x:Key="ImageDragMarkerColour">Red</Color>
+      <Color x:Key="ImageReferenceLineColour">Red</Color>
+      <Color x:Key="ReferencePositionTextColour">White</Color>
+
+      <!-- THESE ARE 'DEFAULT' PASTEL COLOURS THAT SEEM TO WORK -->
+      <!-- 
+        <SolidColorBrush x:Key="ViewerPanelBackgroundBrush">LightBlue</SolidColorBrush>
+        <SolidColorBrush x:Key="SettingsPanelBackgroundBrush">AliceBlue</SolidColorBrush>
+        <SolidColorBrush x:Key="LabelBackgroundBrush">Bisque</SolidColorBrush>
+        <SolidColorBrush x:Key="NumericEditorBackgroundBrush">LightYellow</SolidColorBrush>
+        <SolidColorBrush x:Key="NumericEditorValidValueBrush">LightGreen</SolidColorBrush>
+        <SolidColorBrush x:Key="NumericEditorInvalidValueBrush">Pink</SolidColorBrush>
+        <SolidColorBrush x:Key="ImageSourcePanelBackgroundBrush">LightBlue</SolidColorBrush>
       -->
 
-
-        </ResourceDictionary>
-    </Application.Resources>
+    </ResourceDictionary>
+  </Application.Resources>
 
 </Application>

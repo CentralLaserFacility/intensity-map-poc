@@ -39,7 +39,9 @@
 
     public System.Action<SkiaSharp.SKCanvas> RenderHookAction = null ;
 
-    public bool ShowTransformMatrixInfo { get ; set ; }
+    public bool ShowTransformMatrixInfo { get ; set ; } = true ;
+
+    private int m_renderSequenceNumber = 0 ;
 
     public void Render (
       SkiaSharp.SKCanvas skiaCanvas,
@@ -86,7 +88,12 @@
         // |    [6]     [7]      [8]    |
         // |     0       0        1     |
         //
+        m_renderSequenceNumber++ ;
+        Common.DebugHelpers.WriteDebugLines(
+          $"Render sequence number {m_renderSequenceNumber}"
+        ) ;
         DrawDebugTextLines(
+          $"Render sequence number {m_renderSequenceNumber}",
           $"Scale {skiaCanvas.TotalMatrix.ScaleX:F2} {skiaCanvas.TotalMatrix.ScaleY:F2}",
           $"Translate {skiaCanvas.TotalMatrix.TransX:F2} {skiaCanvas.TotalMatrix.TransY:F2}",
           $"Transform matrix : ",

@@ -86,7 +86,7 @@ namespace IntensityProfileViewer
         m_panAndZoomGesturesHandler = new(
           m_skiaXamlCanvas,
           new SkiaSceneRenderer(DrawIntensityMap){
-            ShowTransformMatrixInfo = false,
+            ShowTransformMatrixInfo = true,
             RenderHookAction = (skiaCanvas) => {
               // Hmm, this seems to be the *only* way we can
               // get access to the Skia Canvas associated with
