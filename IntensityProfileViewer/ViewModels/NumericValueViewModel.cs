@@ -8,12 +8,18 @@ namespace IntensityProfileViewer
 {
 
   //
-  // Hmm, need an integer version of this ...
+  // Hmm, need an integer version of this.
+  //
+  // As a useful general-purpose component it needs to go into a shared assembly.
   //
 
   public class NumericValueViewModel
-  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   {
+
+    // Use Mediator instead ?
+    // Publish a 'NumericValueChangedMessage'
+    public System.Action<double>? ValueChanged { get ; set ; }
 
     private string m_displayName = "Value" ;
     public string DisplayName
@@ -143,9 +149,6 @@ namespace IntensityProfileViewer
         MostRecentSetAttemptFailed = true ;
       }
     }
-
-    // Use Mediator instead ?
-    public System.Action<double>? ValueChanged { get ; set ; }
 
   }
 

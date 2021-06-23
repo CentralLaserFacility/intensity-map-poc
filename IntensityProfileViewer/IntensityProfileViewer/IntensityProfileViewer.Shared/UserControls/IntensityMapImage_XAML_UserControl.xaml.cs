@@ -86,16 +86,6 @@ namespace IntensityProfileViewer
       //   TouchActionDetected = TouchActionDetected
       // } ;
 
-      newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
-      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => {
-        Common.DebugHelpers.WriteDebugLines(
-          $"ProfileGraphsReferencePositionChanged => {newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition}"
-        ) ;
-        PerformRepaint() ;
-      } ;
-      ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
-        PerformRepaint() ;
-      } ;
       if ( newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition.HasValue )
       {
         Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(
@@ -105,6 +95,26 @@ namespace IntensityProfileViewer
           )
         ) ;
       }
+
+      // Hook into relevant events published by the current ViewModel
+
+      newViewModel.NewIntensityMapAcquired += () => PerformRepaint() ;
+
+      newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePositionChanged += () => {
+        Common.DebugHelpers.WriteDebugLines(
+          $"ProfileGraphsReferencePositionChanged => {newViewModel.ProfileDisplaySettings.ProfileGraphsReferencePosition}"
+        ) ;
+        PerformRepaint() ;
+      } ;
+
+      // Hook into events published by other ViewModels ...
+
+      // Hmm, the Messenger property is protected ...
+      // (ViewModel as DisplayPanelViewModel)?.Messenger.
+
+      ViewModel.Parent.ImagePresentationSettings.PropertyChanged += (s,e) => {
+        PerformRepaint() ;
+      } ;
     }
 
     private void PerformRepaint ( )

@@ -10,7 +10,7 @@ namespace IntensityProfileViewer
 {
 
   public class ProfileDisplaySettingsViewModel 
-  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   , IProfileDisplaySettingsViewModel
   {
 

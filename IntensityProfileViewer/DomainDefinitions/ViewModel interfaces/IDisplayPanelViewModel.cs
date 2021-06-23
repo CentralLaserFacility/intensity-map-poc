@@ -6,7 +6,7 @@ namespace IntensityProfileViewer
 {
 
   //
-  // This is the 'main' view model for the Viewer.
+  // This is the 'main' or 'root' view model for the Viewer.
   //
 
   public interface IDisplayPanelViewModel : IViewModel

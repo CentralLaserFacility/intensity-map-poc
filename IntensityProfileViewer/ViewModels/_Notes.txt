@@ -8,7 +8,52 @@ These implementations are as simple as we can get away with for the purposes of 
 
 The view models are structured as a tree. A parent knows about its children, and a child also knows about its parent. This lets a child access properties and methods anywhere in the tree, which is convenient although it does mean that the classes are strongly coupled. Perhaps better to use Messenger instead ? But although that's fine for raising events, you can't easily query a property value in a different view model.
 
+Notes on the MVVM Toolkit
+=========================
 
+See https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
 
+AsyncRelayCommand extends the ICommand behavior with support for asynchronous operations. 
+Here's an example of an asynchronous data provider switch:
+
+  private async Task SwitchDataProviderAsync ( )
+  {
+    await Task.Delay(1000) ;
+    SwitchDataProvider() ;
+  }
+
+The corresponding property is defined as IAsyncRelayCommand:
+
+  public IAsyncRelayCommand SwitchDataProviderAsyncCommand { get ; }
+
+And assigned to an AsyncRelayCommand instance:
+
+  SwitchDataProviderAsyncCommand = new AsyncRelayCommand(SwitchDataProviderAsync) ;
+
+IAsyncRelayCommand inherits from ICommand, so you can bind it to a Button’s Command:
+
+  <Button Command="{x:Bind ViewModel.SwitchDataProviderAsyncCommand}" />
+
+The ExecutionTask property gives you access to the underlying Task, so you can monitor it. There's also a convenient IsRunning property that indicates when the task is running. You can use this to display a busy indicator, such as a ProgressRing. Here's how such binding looks like:
+
+  <winui:ProgressRing
+   IsActive="{x:Bind 
+    ViewModel.SwitchDataProviderAsyncCommand.IsRunning, 
+    FallbackValue=False, 
+    Mode=OneWay}" 
+  />
+
+----------------------
+
+Microsoft MVVM Toolkit's messaging API allows independent modules to exchange information via messages through a publish/subscribe mechanism.
+
+ObservableRecipient is a base class for observable objects that also acts as recipients for messages. This class is an extension of ObservableObject which also provides built-in support to use the IMessenger type.
+
+- It has both a parameterless constructor and one that takes an IMessenger instance, to be used with dependency injection. It also exposes a Messenger property that can be used to send and receive messages in the viewmodel. If the parameterless constructor is used, the WeakReferenceMessenger.Default instance will be assigned to the Messenger property.
+
+- It exposes an IsActive property to activate/deactivate the viewmodel. In this context, to 'activate' means that a given viewmodel is marked as being in use, such that eg it will start listening for registered messages, perform other setup operations, etc. There are two related methods, OnActivated and OnDeactivated, that are invoked when the property changes value. By default, OnDeactivated automatically unregisters the current instance from all registered messages. 
+  For best results and to avoid memory leaks, it's recommended to use OnActivated to register to messages, and to use OnDeactivated to do cleanup operations. This pattern allows a viewmodel to be enabled/disabled multiple times, while being safe to collect without the risk of memory leaks every time it's deactivated. By default, OnActived will automatically register all the message handlers defined through the IRecipient<TMessage> interface.
+
+- It exposes a Broadcast<T>(T,T,string) method which sends a PropertyChangedMessage<T> message through the IMessenger instance available from the Messenger property. This can be used to easily broadcast changes in the properties of a viewmodel without having to manually retrieve a Messenger instance to use. This method is used by the overload of the various SetProperty methods, which have an additional bool broadcast property to indicate whether or not to also send a message.
 
 

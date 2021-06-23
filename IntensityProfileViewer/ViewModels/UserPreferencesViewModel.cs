@@ -12,7 +12,7 @@ namespace IntensityProfileViewer
   //
 
   public class UserPreferencesViewModel
-  // : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  // : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   : IUserPreferencesViewModel
   {
 

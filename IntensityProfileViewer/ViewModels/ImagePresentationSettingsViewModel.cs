@@ -11,7 +11,7 @@ namespace IntensityProfileViewer
   //
 
   public class ImagePresentationSettingsViewModel 
-  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   , IImagePresentationSettingsViewModel
   {
 

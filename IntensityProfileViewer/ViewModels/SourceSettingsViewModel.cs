@@ -6,7 +6,7 @@ namespace IntensityProfileViewer
 {
 
   public class SourceSettingsViewModel 
-  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   , ISourceSettingsViewModel
   {
 

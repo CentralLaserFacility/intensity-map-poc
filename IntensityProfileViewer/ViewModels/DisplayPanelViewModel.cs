@@ -12,8 +12,11 @@ namespace IntensityProfileViewer
   // packaged as a component in its own DLL.
   //
 
+  // Hmm, rename to IntensityProfileViewerRootViewModel ??
+  // or just 'RootViewModel' as we're in the IntensityProfileViewer namesapce.
+
   public class DisplayPanelViewModel 
-  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   , IDisplayPanelViewModel
   {
 
@@ -43,9 +46,10 @@ namespace IntensityProfileViewer
 
     public bool EnableRealTimeUpdates {
       get => m_enableRealTimeUpdates ;
-      set => base.SetProperty(
+      set => SetProperty(
         ref m_enableRealTimeUpdates,
-        value
+        value,
+        broadcast : true // Broadcasts a PropertyChangedMessage<T> ie providing (oldValue,newValue,propertyName)
       ) ;
     }
 
@@ -54,8 +58,20 @@ namespace IntensityProfileViewer
     // ViewModels, and those in turn create their own children.
     //
 
-    public DisplayPanelViewModel ( )
-    {
+    // public Microsoft.Toolkit.Mvvm.Messaging.IMessenger Messenger => base.Messenger ;
+
+    //
+    // In order to support multiple instances of the Viewer, each with independent message handling,
+    // we'll want to pass in a specific instance of an IMessenger that will be used by all nested ViewModels.
+    // For the time being we can live with just the single default instance ...
+    //
+
+    public DisplayPanelViewModel (
+      Microsoft.Toolkit.Mvvm.Messaging.IMessenger? messenger = null
+    ) : 
+    base(
+      messenger ?? Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.Default
+    ) {
       // Hmm, should use Dependency Injection here !
       // But this hard-wired approach seems appropriate for the POC.
       CurrentSource             = new SourceViewModel(this) ;
