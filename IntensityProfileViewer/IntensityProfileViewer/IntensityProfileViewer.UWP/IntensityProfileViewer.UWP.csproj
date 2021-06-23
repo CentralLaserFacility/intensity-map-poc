@@ -3,10 +3,10 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging">
-      <Version>5.0.0</Version>
+      <Version>6.0.0-preview.5.21301.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug">
-      <Version>5.0.0</Version>
+      <Version>6.0.0-preview.5.21301.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <!--
@@ -17,7 +17,7 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.5.0</Version>
+      <Version>2.6.0-prerelease.210430001</Version>
     </PackageReference>
     <PackageReference Include="SkiaScene">
       <Version>1.0.0</Version>
@@ -26,16 +26,16 @@
       <Version>2.2.1</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp">
-      <Version>2.80.3-preview.40</Version>
+      <Version>2.80.3-preview.93</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Uno">
-      <Version>2.80.3-preview.40</Version>
+      <Version>2.80.3-preview.93</Version>
     </PackageReference>
     <PackageReference Include="TouchTracking">
       <Version>1.2.0</Version>
     </PackageReference>
-    <PackageReference Include="Uno.Core" Version="2.3.0" />
-    <PackageReference Include="Uno.UI" Version="3.7.3" />
+    <PackageReference Include="Uno.Core" Version="2.4.0" />
+    <PackageReference Include="Uno.UI" Version="3.9.0-dev.83" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
