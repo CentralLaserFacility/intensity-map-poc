@@ -35,6 +35,8 @@ namespace IntensityProfileViewer
 
     public ISourceViewModel? Parent { get ; } 
     
+    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{} ;
+
     public SourceDescriptorViewModel ( ISourceViewModel? parent = null )
     {
       Parent = parent ;

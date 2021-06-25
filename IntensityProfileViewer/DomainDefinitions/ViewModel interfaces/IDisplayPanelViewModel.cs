@@ -22,7 +22,7 @@ namespace IntensityProfileViewer
 
     PanAndZoomParameters PanAndZoomParameters { get ; } 
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     event System.Action? IntensityMapVisualisationHasChanged ;
     void RaiseIntensityMapVisualisationHasChangedEvent ( ) ;
 

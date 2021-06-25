@@ -24,7 +24,7 @@ namespace Experiments_01_UWP
       this.InitializeComponent() ;
     }
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public System.Action<double,double,double>? Changed ;
 
     private void Slider_ValueChanged ( object sender, RangeBaseValueChangedEventArgs e )

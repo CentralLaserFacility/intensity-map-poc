@@ -12,8 +12,8 @@ namespace IntensityProfileViewer
   //
 
   public class UserPreferencesViewModel
-  // : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
-  : IUserPreferencesViewModel
+  : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
+  , IUserPreferencesViewModel
   {
 
     public System.Drawing.Color CrossSectionLineColour {
@@ -47,6 +47,8 @@ namespace IntensityProfileViewer
     }
 
     public IDisplayPanelViewModel Parent { get ; }
+
+    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{} ;
 
     public UserPreferencesViewModel ( IDisplayPanelViewModel parent )
     { 

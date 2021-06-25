@@ -40,12 +40,18 @@ namespace IntensityProfileViewer
       }
     }
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public event System.Action? NewIntensityMapAcquired ;
 
     public IProfileDisplaySettingsViewModel ProfileDisplaySettings { get ; }
 
     public IDisplayPanelViewModel Parent { get ; }
+
+    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{
+      SourceDescriptor,
+      SourceSettings,
+      ProfileDisplaySettings,
+    } ;
 
     public SourceViewModel ( IDisplayPanelViewModel parent )
     {

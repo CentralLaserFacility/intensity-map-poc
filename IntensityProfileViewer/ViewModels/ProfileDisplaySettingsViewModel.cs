@@ -14,7 +14,7 @@ namespace IntensityProfileViewer
   , IProfileDisplaySettingsViewModel
   {
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public event System.Action? ProfileGraphsReferencePositionChanged ;
 
     private System.Drawing.Point? m_profileGraphsReferencePosition = new System.Drawing.Point(10,10) ;
@@ -84,6 +84,8 @@ namespace IntensityProfileViewer
     ) ;
 
     public ISourceViewModel Parent { get ; }
+
+    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{} ;
 
     public ProfileDisplaySettingsViewModel ( ISourceViewModel parent )
     {

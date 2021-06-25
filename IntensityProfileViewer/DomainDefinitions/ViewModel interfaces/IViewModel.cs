@@ -2,18 +2,10 @@
 // IViewModel.cs
 //
 
+using System.Collections.Generic ;
+
 namespace IntensityProfileViewer
 {
-
-  //
-  // A 'message hub' is an object that can
-  //  - (A) accept 'registrations-of-interest'
-
-  public interface IMessageHub
-  {
-    void AcceptMessageForPublication<TMessage> ( TMessage message ) where TMessage : class ;
-    void RegisterInterestInPublishedMessagesOfType<TMessage> ( System.Action<TMessage> onMessage ) where TMessage : class ;
-  }
 
   //
   // This 'IViewModel' interface acts as a 'tag' to indicate
@@ -26,8 +18,27 @@ namespace IntensityProfileViewer
   // and the appropriate elements in the View should respond by repainting themselves.
   //
 
+  //
+  // A ViewModel has access to a Message Hub that it can use to
+  //  - (A) publish messages that may be of interest to other elements in the tree,
+  //  - (B) register its interest in handling certain messages
+  //
+
   public interface IViewModel : System.ComponentModel.INotifyPropertyChanged
   { 
+    // IRootViewModel GetRootViewModel<T> ( ) where T : IRootViewModel ;
+    // IViewModel? GetParent<T> ( ) where T : IViewModel ;
+    // IMessageHub MessageHub { get ; }
+    IEnumerable<IViewModel> ChildViewModels { get ; }
+  }
+
+  //
+  // A 'child' ViewModel has a reference to its Parent.
+  //
+
+  public interface IChildViewModel<TParent> : IViewModel where TParent : IViewModel
+  { 
+    TParent Parent { get ; }
     // IRootViewModel GetRootViewModel<T> ( ) where T : IRootViewModel ;
     // IViewModel? GetParent<T> ( ) where T : IViewModel ;
     // IMessageHub MessageHub { get ; }

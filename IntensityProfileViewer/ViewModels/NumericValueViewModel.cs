@@ -17,7 +17,7 @@ namespace IntensityProfileViewer
   : Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient
   {
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     // Publish a 'NumericValueChangedMessage'
     public System.Action<double>? ValueChanged { get ; set ; }
 

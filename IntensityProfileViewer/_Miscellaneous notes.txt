@@ -43,3 +43,12 @@ After that, you should see the debugger stepping into the source code of the too
 Required configuration for AOT, Mixed Mode or external bitcode support compilation on Windows 10
 https://github.com/unoplatform/uno.wasm.bootstrap#required-configuration-for-aot-mixed-mode-or-external-bitcode-support-compilation-on-windows-10
 
+=========================
+
+Git issues -
+
+  Hmm, can only open in VS2019 Preview even when checked out into a new repo !
+
+  In VS2019 'normal' build, Git/Open-Folder doesn't work ...
+  
+  https://docs.microsoft.com/en-gb/visualstudio/version-control/git-with-visual-studio?view=vs-2019#open-an-existing-local-repository

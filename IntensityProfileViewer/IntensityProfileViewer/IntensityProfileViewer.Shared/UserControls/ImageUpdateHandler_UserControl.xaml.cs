@@ -115,7 +115,7 @@ namespace IntensityProfileViewer
 
     public IIntensityMap CurrentIntensityMap { get ; private set ; }
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public System.Action? CurrentIntensityMapChanged ;
 
     public int HowManyUpdatesPerformed { get ; private set ; } = 0 ;

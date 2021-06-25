@@ -7,7 +7,7 @@ namespace IntensityProfileViewer
 
   //
   // These messages are published by ViewModels and may be acted on
-  // by other ViewModels via the 'Mediator' mechanism provided by the MVVM Toolkit.
+  // by other ViewModels via the 'Messenger' mechanism provided by the MVVM Toolkit.
   //
 
   public record IntensityVisualisationChangedMessage ( ) ;

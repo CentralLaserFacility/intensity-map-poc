@@ -146,10 +146,10 @@ namespace Experiments_01_UWP
       }
     }
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     private readonly System.Action<MouseGesture> m_gestureRecognisedAction ;
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public System.Action<IncomingMouseEventDescriptor>? IncomingMouseEventReceived = null ;
 
     public MouseStateDescriptor CurrentMouseState ;

@@ -47,7 +47,16 @@ The ExecutionTask property gives you access to the underlying Task, so you can m
 
 Microsoft MVVM Toolkit's messaging API allows independent modules to exchange information via messages through a publish/subscribe mechanism.
 
+A lap around the Microsoft MVVM Toolkit
+https://xamlbrewer.wordpress.com/2020/11/16/a-lap-around-the-microsoft-mvvm-toolkit/
+https://github.com/XamlBrewer/UWP-MVVM-Toolkit-Sample
+
+Docs
+https://github.com/windows-toolkit/MVVM-Samples/tree/master/docs/mvvm
+
 ObservableRecipient is a base class for observable objects that also acts as recipients for messages. This class is an extension of ObservableObject which also provides built-in support to use the IMessenger type.
+
+https://docs.microsoft.com/en-us/windows/communitytoolkit/mvvm/observablerecipient
 
 - It has both a parameterless constructor and one that takes an IMessenger instance, to be used with dependency injection. It also exposes a Messenger property that can be used to send and receive messages in the viewmodel. If the parameterless constructor is used, the WeakReferenceMessenger.Default instance will be assigned to the Messenger property.
 
@@ -56,4 +65,61 @@ ObservableRecipient is a base class for observable objects that also acts as rec
 
 - It exposes a Broadcast<T>(T,T,string) method which sends a PropertyChangedMessage<T> message through the IMessenger instance available from the Messenger property. This can be used to easily broadcast changes in the properties of a viewmodel without having to manually retrieve a Messenger instance to use. This method is used by the overload of the various SetProperty methods, which have an additional bool broadcast property to indicate whether or not to also send a message.
 
+------------------------------
 
+Messenger docs
+https://docs.microsoft.com/en-us/windows/communitytoolkit/mvvm/messenger
+
+The IMessenger interface is a contract for types that can be used to exchange messages between different objects.
+
+Types implementing IMessenger are responsible for maintaining links between recipients (receivers of messages) and their registered message types, with relative message handlers. Any object can be registered as a recipient for a given message type using a message handler, which will be invoked whenever the IMessenger instance is used to send a message of that type.
+
+It is also possible to send messages through specific communication channels (each identified by a unique token), so that multiple modules can exchange messages of the same type without causing conflicts. Messages sent without a token use the default shared channel.
+
+The MVVM Toolkit provides two implementations out of the box :
+1. WeakReferenceMessenger 
+   This uses weak references internally, offering automatic memory management for recipients.
+2. StrongReferenceMessenger
+   This uses strong references and requires developers to manually unsubscribe their recipients when they're no longer needed.
+The WeakReferenceMessenger type is simpler to use and is the default type used by the ObservableRecipient type in the MVVM Toolkit.
+
+There are two ways to perform message registration: 
+1. Through the IRecipient<TMessage> interface.
+   This lets you register all the handlers with a single call to the RegisterAll extension, which automatically registers the recipients of all the declared message handlers.
+2. Using a MessageHandler<TRecipient,TMessage> delegate acting as message handler. 
+   This is useful when you need more flexibility or when you want to use a simple lambda expression as a message handler.
+
+Example using #1, IRecipient<TMessage>:
+
+  public class MyRecipient : IRecipient<MyMessage>
+  {
+    public void Receive ( MyMessage message )
+    {
+      // Handle the message here...   
+    }
+  }
+
+  // Register that specific message...
+  WeakReferenceMessenger.Default.Register<MyMessage>(this) ;
+
+  // ...or alternatively, register all declared handlers
+  WeakReferenceMessenger.Default.RegisterAll(this) ;
+
+Example using #2, a MessageHandler<TRecipient,TMessage> delegate :
+
+  WeakReferenceMessenger.Default.Register<MyMessage>(
+    this, 
+    (r,m) => {
+      // Handle the message here, with r being the recipient and m being the
+      // input messenger. Using the recipient passed as input makes it so that
+      // the lambda expression doesn't capture 'this', improving performance.
+    }
+  ) ;
+
+Here's how to send a message from some other module :
+
+  WeakReferenceMessenger.Default.Send(
+    new LoggedInUserChangedMessage(user)
+  ) ;
+
+  

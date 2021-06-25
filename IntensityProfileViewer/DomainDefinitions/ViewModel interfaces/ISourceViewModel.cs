@@ -7,10 +7,13 @@ using System.Collections.Generic;
 namespace IntensityProfileViewer
 {
 
-  public interface ISourceViewModel : IViewModel
+  public interface ISourceViewModel 
+  : IViewModel
+  , IChildViewModel<IDisplayPanelViewModel>
+
   {
 
-    IDisplayPanelViewModel Parent { get ; }
+    // IDisplayPanelViewModel Parent { get ; }
 
     ISourceDescriptorViewModel SourceDescriptor { get ; }
 
@@ -28,7 +31,7 @@ namespace IntensityProfileViewer
 
     // Events ??? Better to raise events in a centralised 'hub' ???
     // Or just rely on the PropertyChanged mechanism ???
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     event System.Action? NewIntensityMapAcquired ;
 
   }

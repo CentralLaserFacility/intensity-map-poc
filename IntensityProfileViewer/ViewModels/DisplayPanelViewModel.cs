@@ -34,7 +34,7 @@ namespace IntensityProfileViewer
     // using the WeakEvent pattern, so we needn't rely on unsubscription.
     //
 
-    // Use Mediator instead ?
+    // Use Messenger instead ?
     public event System.Action? IntensityMapVisualisationHasChanged ;
 
     public void RaiseIntensityMapVisualisationHasChangedEvent ( )
@@ -65,6 +65,17 @@ namespace IntensityProfileViewer
     // we'll want to pass in a specific instance of an IMessenger that will be used by all nested ViewModels.
     // For the time being we can live with just the single default instance ...
     //
+
+    //
+    // Or actually, it'd be better to define a Token that will identify messages
+    // exchanged between the ViewModels in the 'tree' rooted in this ViewModel.
+    //
+
+    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{
+      CurrentSource,
+      ImagePresentationSettings,
+      UserPreferences
+    } ;
 
     public DisplayPanelViewModel (
       Microsoft.Toolkit.Mvvm.Messaging.IMessenger? messenger = null
