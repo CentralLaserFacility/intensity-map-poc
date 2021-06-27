@@ -71,11 +71,11 @@ namespace IntensityProfileViewer
     // exchanged between the ViewModels in the 'tree' rooted in this ViewModel.
     //
 
-    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{
-      CurrentSource,
-      ImagePresentationSettings,
-      UserPreferences
-    } ;
+    // public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{
+    //   CurrentSource,
+    //   ImagePresentationSettings,
+    //   UserPreferences
+    // } ;
 
     public DisplayPanelViewModel (
       Microsoft.Toolkit.Mvvm.Messaging.IMessenger? messenger = null

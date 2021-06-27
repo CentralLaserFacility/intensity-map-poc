@@ -129,7 +129,7 @@ namespace IntensityProfileViewer
 
     public IDisplayPanelViewModel Parent { get ; }
 
-    public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{} ;
+    // public System.Collections.Generic.IEnumerable<IViewModel> ChildViewModels => new IViewModel[]{} ;
 
     public ImagePresentationSettingsViewModel ( IDisplayPanelViewModel parent )
     {

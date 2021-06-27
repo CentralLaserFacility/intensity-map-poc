@@ -26,14 +26,28 @@ namespace IntensityProfileViewer
 
   public interface IViewModel : System.ComponentModel.INotifyPropertyChanged
   { 
+
+    // Hmm, maybe not ; the Root might not always be the same type,
+    // eg if we embed a DisplayPanel in a variety of different hosts ...
+
     // IRootViewModel GetRootViewModel<T> ( ) where T : IRootViewModel ;
     // IViewModel? GetParent<T> ( ) where T : IViewModel ;
     // IMessageHub MessageHub { get ; }
-    IEnumerable<IViewModel> ChildViewModels { get ; }
+
+    //
+    // Hmm, maybe not worthwhile ?
+    // After all, we can use reflection to discover
+    // properties of type 'IViewModel' ...
+    //
+    // IEnumerable<IViewModel> ChildViewModels { get ; }
+    //
+
   }
 
   //
-  // A 'child' ViewModel has a reference to its Parent.
+  // A 'child' ViewModel has a reference to its Parent, which is never null.
+  //
+  // The parent will typically expose all of its Child viewmodels as properties.
   //
 
   public interface IChildViewModel<TParent> : IViewModel where TParent : IViewModel
@@ -47,10 +61,14 @@ namespace IntensityProfileViewer
   //
   // This tag identifies the 'root' ViewModel in a tree.
   //
-  // The root ViewModel holds an instance of a Messenger that acts as a hub for
+  // The root ViewModel could hold an instance of a Messenger that acts as a hub for
   // message-based communication between the ViewModels in the tree.
   //
   // Any ViewModel can navigate to the Root.
+  //
+
+  //
+  // Alternatively, evey ViewModel could have an IMessageHub property ??
   //
 
   public interface IRootViewModel : IViewModel

@@ -22,8 +22,13 @@ namespace IntensityProfileViewer
   }
 
   //
-  // A message hub can keep a record of which instances have
-  // published messages, and who is registered to receive them.
+  // A message hub can maintain a record of which instances are
+  // publishing messages of various types, and who has registered
+  // their interest in receiving them.
+  //
+  // It can also maintain a record of the messages that have been sent.
+  //
+  // All this may be pretty useful for debugging.
   //
 
   public interface IMessageHub<TMessage> where TMessage : class
